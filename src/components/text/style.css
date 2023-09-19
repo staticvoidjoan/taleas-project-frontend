@@ -1,0 +1,76 @@
+/* --------------------------------Font Family--------------------- */
+
+.open-sans {
+  font-family: Open Sans;
+}
+
+/* --------------------------------Font Weight--------------------- */
+
+.bold {
+  font-weight: bold;
+}
+.regular {
+  font-weight: normal;
+}
+.medium {
+  font-weight: 600;
+}
+
+/* --------------------------------Font Size--------------------- */
+
+.s14 {
+  font-size: 14px;
+}
+.s16 {
+  font-size: 16px;
+}
+.s18 {
+  font-size: 18px;
+}
+.s20 {
+  font-size: 20px;
+}
+.s22 {
+  font-size: 22px;
+}
+.s24 {
+  font-size: 24px;
+}
+
+/* --------------------------------Font Line Height--------------------- */
+
+.l13 {
+  line-height: 13px;
+}
+.l19 {
+  line-height: 19px;
+}
+.l20 {
+  line-height: 20px;
+}
+.l22 {
+  line-height: 22px;
+}
+.l24 {
+  line-height: 24px;
+}
+.l27 {
+  line-height: 27px;
+}
+
+/* --------------------------------Font Color--------------------- */
+
+.white {
+  color: #fff;
+}
+
+.gray {
+  color: #6b6a6e;
+}
+.black {
+  color: #2c2c2c;
+}
+
+.lightgray {
+  color: #cccccc;
+}
