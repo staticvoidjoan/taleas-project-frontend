@@ -1,6 +1,6 @@
 import './App.css';
 import UserSignIn from "../src/service/authentication/user/UserSignIn"
-import Home from "./pages/home/index"
+import Home from "./pages/home/home"
 
 function App() {
   return (
