@@ -1,5 +1,5 @@
 import React from "react";
-import "./style.css";
+import "./text.css";
 const Text = ({ text, family, weight, size, color, lineheight }) => {
   return (
     <div className={`${family} ${weight} ${size} ${color} ${lineheight}`}>
