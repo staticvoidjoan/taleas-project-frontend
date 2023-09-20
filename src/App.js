@@ -1,12 +1,23 @@
 import './App.css';
-import UserSignIn from "../src/service/authentication/user/UserSignIn"
-import Home from "./pages/home/home"
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+} from 'react-router-dom'; // Importing Routes instead of Switch
+import UserSignIn from '../src/service/authentication/user/UserSignIn';
+import LoginPage from './service/authentication/user/LogIn';
 
 function App() {
   return (
     <div className="App">
-      {/* <UserSignIn/> */}
-      <Home /> 
+
+      <Router>
+        <Routes>
+          <Route exact path="/" element={<LoginPage />} />
+          <Route exact path="/signin" element={<UserSignIn />} />
+        </Routes>
+      </Router>
+
     </div>
   );
 }
