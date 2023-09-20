@@ -1,9 +1,9 @@
 import React from "react";
 import "./text.css";
-const Text = ({ text, family, weight, size, color, lineheight }) => {
+const Text = ({ label, family, weight, size, color, lineheight }) => {
   return (
     <div className={`${family} ${weight} ${size} ${color} ${lineheight}`}>
-      {text}
+      {label}
     </div>
   );
 };
