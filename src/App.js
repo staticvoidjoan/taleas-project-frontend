@@ -4,17 +4,18 @@ import {
   Route,
   Routes,
 } from 'react-router-dom'; // Importing Routes instead of Switch
-import UserSignIn from '../src/service/authentication/user/UserSignIn';
-import LoginPage from './service/authentication/user/LogIn';
-
+import UserSignUp from './service/authentication/user/userSignUp';
+import LoginPage from './service/authentication/user/userSignIn';
+import Home from "./pages/home/home"
 function App() {
   return (
     <div className="App">
 
       <Router>
         <Routes>
-          <Route exact path="/" element={<LoginPage />} />
-          <Route exact path="/signin" element={<UserSignIn />} />
+          <Route exact path="/" element={<Home />} />
+          <Route exact path="/signin" element={< LoginPage/>} />
+          <Route exact path="/signup" element={<UserSignUp />} />
         </Routes>
       </Router>
 

@@ -1,30 +1,35 @@
 import React from "react";
 import Text from "../../components/text/text";
+import {useNavigate} from "react-router-dom"
 import "./home.css"
 const Index = () => {
+  const navigate = useNavigate();
+
+  function gotToSignUp(){
+    navigate("/signup")
+  }
+
+
   return (
     <div className="home-container">
       <div className="home-bio">
         <Text
-          label={"Swipe your way to your dreem career"}
-          family={"open-sans"}
+          label={"Swipe your way to your dream career"}
           weight={"medium"}
           size={"s20"}
-          color={"white"}
+          color={"black"}
         />
         <div>
-          <button>
+          <button className="myButton">
             <Text
               label={"I'm an employer"}
-              family={"open-sans"}
               weight={"regular"}
               size={"s14"}
             />
           </button>
-          <button>
+          <button className="myButton" onClick={gotToSignUp}>
             <Text
               label={"I'm a talent"}
-              family={"open-sans"}
               weight={"regular"}
               size={"s14"}
             />

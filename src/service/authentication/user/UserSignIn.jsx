@@ -1,152 +1,119 @@
-import React, {useState} from 'react';
-import {Auth} from "aws-amplify"
-import {Amplify} from "aws-amplify"
-import awsExports from '../../../aws-exports';
+import React, { useState } from "react";
+import { Auth } from "aws-amplify";
+import "./tempSignIn.css";
+import { Amplify } from "aws-amplify";
 
+import awsExports from "../../../aws-exports";
 
+const LoginPage = () => {
+  Amplify.configure(awsExports);
 
-function RegistrationForm() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(false);
 
-    
-Amplify.configure(awsExports);
-    const [formData, setFormData] = useState({
-        name: '',
-        lastname: '',
-        birthday: '',
-        password: '',
-        email: "",
-      });
-
-    const [errors, setErrors] = useState({
-    name: '',
-    birthday: '',
-    email: '',
-    lastname: '',
-    password: '',
-    });
-
-    const {name, birthday, email, lastname, password} = formData;
-    const validateForm = async () => {
-      let formIsValid = true;
-      const newErrors = {...errors};
-      const nameRegEx = /^[a-zA-Z]{2,30}$/;
-      const lastnameRegEx = /^[a-zA-Z]{2,30}$/;
-      const birthdayValidation = /^\d{4}-\d{2}-\d{2}$/;
-      const emailRegEx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      const passwordRegex =/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
-
-      if(!name) {
-          formIsValid = false;
-          newErrors.name = "Full name is required";
-      } else if(!nameRegEx.test(name)){
-          formIsValid = false;
-          newErrors.name = 'Name expression is not correct';
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      console.log(username);
+      console.log(password);
+      const user = await Auth.signIn(username, password);
+      if (user.confirmedStatus === 'CONFIRMED') {
+        console.log('User is confirmed');
+      } else if (user.confirmedStatus === 'UNCONFIRMED') {
+        console.log('User is not confirmed');
       } else {
-          newErrors.name = "";
+        console.log('User status is unknown');
       }
 
-      if(!lastname) {
-        formIsValid = false;
-        newErrors.lastname = "Full name is required";
-    } else if(!lastnameRegEx.test(lastname)){
-        formIsValid = false;
-        newErrors.lastname = 'Name expression is not correct';
-    } else {
-        newErrors.lastname = "";
+      console.log("Logged in user:", user);
+      if (!user) {
+        throw new Error("Invalid user object or access token");
+      }
+
+      const idToken = user.signInUserSession.idToken.jwtToken;
+      const accessToken = user.signInUserSession.accessToken.jwtToken;
+
+      localStorage.setItem("idToken", idToken);
+      localStorage.setItem("accessToken", accessToken);
+      console.log(username);
+
+      setSuccess(true);
+      setError(null);
+      window.location.reload();
+    } catch (err) {
+      setError("An error occurred while logging in.");
+      setSuccess(false);
     }
-  
-      if(!birthday) {
-          formIsValid = false;
-          newErrors.birthday = 'Birthday is required';
-      } else if (!birthdayValidation.test(birthday)){
-          formIsValid = false;
-          newErrors.birthday = 'You must be more than 18 years to have a account';
-      } else {
-          newErrors.birthday = "";
-      }
-  
-      if(!email) {
-          formIsValid = false;
-          newErrors.email = 'Email is required';
-      } else if(!emailRegEx.test(email)){
-          formIsValid = false;
-          newErrors.email = 'Email provided is not correct expression';
-      } else {
-          newErrors.email = "";
-      }
-      
-      if (!password) {
-          formIsValid = false;
-          newErrors.password = 'Password is required';
-      } else if (!passwordRegex.test(password)){
-          formIsValid = false;
-          newErrors.password = "Invalid password format! Password must be at least 8 characters long and should contain at least one number, one letter and one symbol.";
-      } else {
-          newErrors.password = "";
-      }
-  
-      setErrors(newErrors);
-      return formIsValid;
+  };
+
+  const handleForgotPassword = async (event) => {
+    event.preventDefault();
+    try {
+      // Initiate forgot password flow
+      await Auth.forgotPassword(username);
+
+      // Prompt user for verification code and new password
+      const code = prompt("Enter verification code:");
+      const newPassword = prompt("Enter new password:");
+
+      // Reset password
+      await Auth.forgotPasswordSubmit(username, code, newPassword);
+
+      setSuccess(true);
+      setError(null);
+    } catch (err) {
+      setError("An error occurred while resetting password.");
+      setSuccess(false);
     }
+  };
 
-    const handleInputChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          [name]: '', 
-        }));
-      };
+  return (
+    <section>
+      <div className="formvalue">
+        <h2 className="h2">Login</h2>
+        <form onSubmit={handleSubmit} id="loginform">
+          <div className="loginform">
+            <label>Username:</label>
+            <input
+              id="username-field"
+              type="text"
+              value={username}
+              onChange={(event) => setUsername(event.target.value)}
+              required
+            />
+            <br />
+          </div>
+          <div className="loginform">
+            <label>Password:</label>
+            <input
+              id="password-field"
+              type="password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              required
+            />
+            <br />
+          </div>
+          <input
+            className="btn"
+            id="login-submit"
+            type="submit"
+            value="Login"
+          />
+          <button onClick={handleForgotPassword}>Forgot Password</button>
+          <div class="register">
+            <p>
+              Don't have a account <a href="/signin">Register now!</a>{" "}
+            </p>
+          </div>
+        </form>
+        {error && <p>{error}</p>}
+        {success && <p>Login successful!</p>}
+      </div>
+    </section>
+  );
+};
 
-    const  handleSubmit = async(e) => {
-        e.preventDefault(); 
-        if (validateForm()) {
-            try {
-                await Auth.signUp({
-                  username: formData.email, 
-                  password: formData.password,
-                  attributes: {
-                    email: formData.email,
-                    given_name: formData.name,
-                    family_name: formData.lastname,
-                    birthdate: formData.birthday
-                  },
-                });
-                console.log('Registration successful');
-              } catch (error) {
-                console.error('Error during signup:', error);
-              }
-        }
-      };
-
-    return (
-        <div className="form">
-            <div className="form-body">
-                <div className="username">
-                    <label className="form__label" for="firstName">First Name </label>
-                    <input className="form__input" name="name" type="text" value={formData.name} onChange = {handleInputChange} id="firstName" placeholder="First Name" required/>
-                </div>
-                <div className="lastname">
-                    <label className="form__label" for="lastName">Last Name </label>
-                    <input  type="text" name="lastname" id="lastName" value={formData.lastname}  className="form__input" onChange = { handleInputChange} placeholder="LastName" required/>
-                </div>
-                <div className="email">
-                    <label className="form__label" for="email">Email </label>
-                    <input  type="email" id="email" name="email" className="form__input" value={formData.email} onChange = {handleInputChange} placeholder="Email" required/>
-                </div>
-                <div className="birthday">
-                    <label className="form__label" for="birthday">Birthday </label>
-                    <input type="date" id="birthday" name="birthday" value={formData.birthday} onChange = {handleInputChange} placeholder="Birthday" required/>
-                </div>
-                <div className="password">
-                    <label className="form__label" for="password">Password </label>
-                    <input className="form__input" type="password" name="password" id="password" value={formData.password} onChange = {handleInputChange} placeholder="Password" required />
-                </div>
-            </div>
-            <div class="footer">
-                <button onClick={handleSubmit} type="submit" class="btn">Register</button>
-            </div>
-        </div>
-    )       
-}
-
-export default RegistrationForm
+export default LoginPage;
