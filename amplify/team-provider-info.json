@@ -1,0 +1,25 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-taleasprojectfronten-dev-130545-authRole",
+      "UnauthRoleArn": "arn:aws:iam::944511268761:role/amplify-taleasprojectfronten-dev-130545-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::944511268761:role/amplify-taleasprojectfronten-dev-130545-authRole",
+      "Region": "eu-west-3",
+      "DeploymentBucketName": "amplify-taleasprojectfronten-dev-130545-deployment",
+      "UnauthRoleName": "amplify-taleasprojectfronten-dev-130545-unauthRole",
+      "StackName": "amplify-taleasprojectfronten-dev-130545",
+      "StackId": "arn:aws:cloudformation:eu-west-3:944511268761:stack/amplify-taleasprojectfronten-dev-130545/a646eb30-57a5-11ee-a920-0ef2b0dc2fea",
+      "AmplifyAppId": "d3qxef401xa2ks"
+    },
+    "categories": {
+      "auth": {
+        "taleasprojectfronten909a82dd": {
+          "userPoolId": "eu-west-3_nUSLfpiBe",
+          "userPoolName": "taleasproject-employee-userpool",
+          "webClientId": "1n7hj7j32vgicqao0s68ndvji6",
+          "nativeClientId": "1n7hj7j32vgicqao0s68ndvji6"
+        }
+      }
+    }
+  }
+}

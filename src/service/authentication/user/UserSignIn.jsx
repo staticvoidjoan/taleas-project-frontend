@@ -1,7 +1,14 @@
 import React, {useState} from 'react';
+import {Auth} from "aws-amplify"
+import {Amplify} from "aws-amplify"
+import awsExports from '../../../aws-exports';
+
+
 
 function RegistrationForm() {
+
     
+Amplify.configure(awsExports);
     const [formData, setFormData] = useState({
         name: '',
         lastname: '',
@@ -90,14 +97,24 @@ function RegistrationForm() {
         }));
       };
 
-    const handleSubmit = (e) => {
+    const  handleSubmit = async(e) => {
         e.preventDefault(); 
         if (validateForm()) {
-          try {
-            console.log(formData);
-          } catch (error) {
-            console.error('Error during signup:', error);
-          }
+            try {
+                await Auth.signUp({
+                  username: formData.email, 
+                  password: formData.password,
+                  attributes: {
+                    email: formData.email,
+                    given_name: formData.name,
+                    family_name: formData.lastname,
+                    birthdate: formData.birthday
+                  },
+                });
+                console.log('Registration successful');
+              } catch (error) {
+                console.error('Error during signup:', error);
+              }
         }
       };
 
