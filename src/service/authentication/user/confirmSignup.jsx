@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import { Auth } from 'aws-amplify';
+import { useNavigate } from 'react-router-dom';
 import "./userSignUp.css"
 const ConfirmSignup = ({ username }) => {
   const [code, setCode] = useState('');
   const [confirmationError, setConfirmationError] = useState(null);
-
+  const navigate = useNavigate();
   async function confirmSignUp(e) {
+
     e.preventDefault();
     try {
       await Auth.confirmSignUp(username, code);
       console.log('Successfully confirmed sign up');
-      // You can redirect the user or perform any other action upon successful confirmation.
+      navigate("/")
     } catch (error) {
       console.error('Error confirming sign up', error);
       setConfirmationError('Error confirming sign up. Please check the code and try again.');
@@ -18,8 +20,8 @@ const ConfirmSignup = ({ username }) => {
   }
 
   return (
-    <div>
-      <form onSubmit={confirmSignUp}>
+    <div className='signUp-form-container'>
+      <form onSubmit={confirmSignUp} className='form-body'>
         <label className='form__label'>Enter the code sent to your email</label>
         <input
           className="form__input"
@@ -30,7 +32,7 @@ const ConfirmSignup = ({ username }) => {
           required
         />
         {confirmationError && <p className="error-message">{confirmationError}</p>}
-        <input className="form__input" type="submit" value="Confirm" />
+        <button type='submit' className='btn'>Submit</button>
       </form>
     </div>
   );
