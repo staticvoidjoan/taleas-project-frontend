@@ -4,8 +4,10 @@ import {
   Route,
   Routes,
 } from 'react-router-dom'; // Importing Routes instead of Switch
-import UserSignUp from './service/authentication/user/userSignUp';
+
+
 import LoginPage from './service/authentication/user/userSignIn';
+import UserSignUp from "./service/authentication/user/userSignUp";
 import Home from "./pages/home/home"
 function App() {
   return (
