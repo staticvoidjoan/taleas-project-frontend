@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Auth } from "aws-amplify";
+import { useNavigate } from "react-router-dom";
 import "./tempSignIn.css";
 import { Amplify } from "aws-amplify";
 
@@ -7,7 +8,7 @@ import awsExports from "../../../aws-exports";
 
 const LoginPage = () => {
   Amplify.configure(awsExports);
-
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -49,25 +50,15 @@ const LoginPage = () => {
   };
 
   const handleForgotPassword = async (event) => {
-    event.preventDefault();
-    try {
-      // Initiate forgot password flow
+    
+      event.preventDefault();
+      if (!username) {
+        setError("Please enter your username first.");
+        return;
+      }
       await Auth.forgotPassword(username);
-
-      // Prompt user for verification code and new password
-      const code = prompt("Enter verification code:");
-      const newPassword = prompt("Enter new password:");
-
-      // Reset password
-      await Auth.forgotPasswordSubmit(username, code, newPassword);
-
-      setSuccess(true);
-      setError(null);
-    } catch (err) {
-      setError("An error occurred while resetting password.");
-      setSuccess(false);
-    }
-  };
+      navigate(`/forgotPassword?username=${username}`);
+    };
 
   return (
     <section>
