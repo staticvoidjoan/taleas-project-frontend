@@ -2,15 +2,9 @@ import React, { useState } from "react";
 import { Auth } from "aws-amplify";
 import { Amplify } from "aws-amplify";
 import awsExports from "../../../aws-exports";
-<<<<<<< HEAD
-import "./userSignUp.css";
-import ConfirmSignup from "./confirmSignup";
-
-=======
 import ConfirmSignup from "./confirmSignup";
 import { Link } from "react-router-dom";
 import "./userSignIn.css";
->>>>>>> fd741f4abca449ec6fc325890ddc864fc33d40e1
 function RegistrationForm() {
   Amplify.configure(awsExports);
   const [formData, setFormData] = useState({
@@ -131,101 +125,6 @@ function RegistrationForm() {
 
   return (
     <>
-<<<<<<< HEAD
-      {!registrationSuccess ? (
-        <div className="signUp-page-container">
-          <div className="signUp-form-container">
-            <div className="form-body">
-              <div className="username">
-                <label className="form__label" for="firstName">
-                  First Name{" "}
-                </label>
-                <input
-                  className="form__input"
-                  name="name"
-                  type="text"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  id="firstName"
-                  placeholder="First Name"
-                  required
-                />
-              </div>
-              <div className="lastname">
-                <label className="form__label" for="lastName">
-                  Last Name{" "}
-                </label>
-                <input
-                  type="text"
-                  name="lastname"
-                  id="lastName"
-                  value={formData.lastname}
-                  className="form__input"
-                  onChange={handleInputChange}
-                  placeholder="LastName"
-                  required
-                />
-              </div>
-              <div className="email">
-                <label className="form__label" for="email">
-                  Email{" "}
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  className="form__input"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  placeholder="Email"
-                  required
-                />
-              </div>
-              <div className="birthday">
-                <label className="form__label" for="birthday">
-                  Birthday{" "}
-                </label>
-                <input
-                  type="date"
-                  id="birthday"
-                  name="birthday"
-                  value={formData.birthday}
-                  onChange={handleInputChange}
-                  placeholder="Birthday"
-                  required
-                />
-              </div>
-              <div className="password">
-                <label className="form__label" for="password">
-                  Password{" "}
-                </label>
-                <input
-                  className="form__input"
-                  type="password"
-                  name="password"
-                  id="password"
-                  value={formData.password}
-                  onChange={handleInputChange}
-                  placeholder="Password"
-                  required
-                />
-              </div>
-            </div>
-            <div class="footer">
-              <button onClick={handleSubmit} type="submit" class="btn">
-                Register
-              </button>
-            </div>
-          </div>
-        </div>
-      ) : (
-        <div className="signUp-page-container">
-          <ConfirmSignup username={formData.email} />
-        </div>
-      )}
-    </>
-  );
-=======
       <section>
         {!registrationSuccess ? (
           <div className="form-box-register">
@@ -303,9 +202,6 @@ function RegistrationForm() {
       </section>
     </>
   );
-}
-{
->>>>>>> fd741f4abca449ec6fc325890ddc864fc33d40e1
 }
 
 export default RegistrationForm;
