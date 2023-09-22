@@ -11,8 +11,8 @@ const ConfirmSignup = ({ username }) => {
     e.preventDefault();
     try {
       await Auth.confirmSignUp(username, code);
-      console.log("Successfully confirmed sign up");
-      // You can redirect the user or perform any other action upon successful confirmation.
+      console.log('Successfully confirmed sign up');
+      navigate("/completeprofile")
     } catch (error) {
       console.error("Error confirming sign up", error);
       setConfirmationError(
