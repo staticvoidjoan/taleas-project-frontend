@@ -12,7 +12,7 @@ const ConfirmSignup = ({ username }) => {
     try {
       await Auth.confirmSignUp(username, code);
       console.log('Successfully confirmed sign up');
-      navigate("/")
+      navigate("/completeprofile")
     } catch (error) {
       console.error('Error confirming sign up', error);
       setConfirmationError('Error confirming sign up. Please check the code and try again.');
