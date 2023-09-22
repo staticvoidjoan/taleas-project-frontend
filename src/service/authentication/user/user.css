@@ -127,3 +127,10 @@ button {
 .register p a:hover {
   text-decoration: underline;
 }
+
+
+
+.logout-btn{
+  width: 100px;
+  margin-top: 5px;
+}

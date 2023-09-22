@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Auth } from "aws-amplify";
 
-import "./userSignIn.css";
+import "./user.css";
 import { Amplify } from "aws-amplify";
 import { Link, useNavigate } from "react-router-dom";
 import awsExports from "../../../aws-exports";

@@ -9,7 +9,7 @@ function Navbar() {
   const [authenticated, setAuthenticated] = useState(false);
   const [givenName, setGivenName] = useState("");
   const [lastName, setLastName] = useState("");
-
+  
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
 
@@ -22,26 +22,28 @@ function Navbar() {
   };
 
   useEffect(() => {
-    // checkAuthenticated();
+    checkAuthenticated();
     showButton();
   }, []);
 
-  //   const checkAuthenticated = async () => {
-  //     try {
-  //       const user = await Auth.currentAuthenticatedUser();
-  //       if (user) {
-  //         setAuthenticated(true);
-  //       } else {
-  //         setAuthenticated(false);
-  //       }
+    const checkAuthenticated = async () => {
+      try {
+        const user = await Auth.currentAuthenticatedUser();
+        if (user) {
+          setAuthenticated(true);
+        } else {
+          setAuthenticated(false);
+        }
 
-  //       const userAttributes = user.attributes || {};
-  //       const userGivenName = userAttributes.given_name || "";
-  //       setGivenName(userGivenName);
-  //     } catch (error) {
-  //       setAuthenticated(false);
-  //     }
-  //   };
+        const userAttributes = user.attributes || {};
+        const userGivenName = userAttributes.given_name || "";
+        setGivenName(userGivenName);
+        const userLastName = userAttributes.family_name || "";
+        setLastName(userLastName);
+      } catch (error) {
+        setAuthenticated(false);
+      }
+    };
 
   window.addEventListener("resize", showButton);
 
@@ -50,7 +52,7 @@ function Navbar() {
       <nav className="navbar-main">
         <div className="navbar-container">
           <div className="navbar-logo">
-            <Link to="/" onClick={closeMobileMenu}>
+            <Link to="/" onClick={closeMobileMenu} style={{textDecoration:"none"}}>
               <Text
                 label={"CAREERCRUSH"}
                 weight={"medium"}
@@ -80,6 +82,14 @@ function Navbar() {
                 About Us
               </Link>
             </li>
+    
+            {authenticated ? (
+              <li className="nav-item">
+                   <Link className="nav-links" onClick={closeMobileMenu}>
+                {givenName} {lastName}
+              </Link>
+              </li>
+            ) : null}
           </ul>
         </div>
       </nav>

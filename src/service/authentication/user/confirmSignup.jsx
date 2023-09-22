@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Auth } from "aws-amplify";
-import "./userSignIn.css";
+import "./user.css";
 import { useNavigate } from "react-router-dom";
 const ConfirmSignup = ({ username }) => {
   const [code, setCode] = useState("");

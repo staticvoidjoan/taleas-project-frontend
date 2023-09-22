@@ -4,7 +4,7 @@ import { Amplify } from "aws-amplify";
 import awsExports from "../../../aws-exports";
 import ConfirmSignup from "./confirmSignup";
 import { Link } from "react-router-dom";
-import "./userSignIn.css";
+import "./user.css";
 function RegistrationForm() {
   Amplify.configure(awsExports);
   const [formData, setFormData] = useState({
