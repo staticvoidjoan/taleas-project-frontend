@@ -1,30 +1,30 @@
 import React, { useState } from "react";
 import { Auth } from "aws-amplify";
-import "./tempSignIn.css";
+import "./userSignIn.css";
 import { Amplify } from "aws-amplify";
-
+import { Link, useNavigate } from "react-router-dom";
 import awsExports from "../../../aws-exports";
 
 const LoginPage = () => {
   Amplify.configure(awsExports);
-
+  
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
-
+  const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       console.log(username);
       console.log(password);
       const user = await Auth.signIn(username, password);
-      if (user.confirmedStatus === 'CONFIRMED') {
-        console.log('User is confirmed');
-      } else if (user.confirmedStatus === 'UNCONFIRMED') {
-        console.log('User is not confirmed');
+      if (user.confirmedStatus === "CONFIRMED") {
+        console.log("User is confirmed");
+      } else if (user.confirmedStatus === "UNCONFIRMED") {
+        console.log("User is not confirmed");
       } else {
-        console.log('User status is unknown');
+        console.log("User status is unknown");
       }
 
       console.log("Logged in user:", user);
@@ -51,67 +51,54 @@ const LoginPage = () => {
   const handleForgotPassword = async (event) => {
     event.preventDefault();
     try {
-      // Initiate forgot password flow
-      await Auth.forgotPassword(username);
-
-      // Prompt user for verification code and new password
-      const code = prompt("Enter verification code:");
-      const newPassword = prompt("Enter new password:");
-
-      // Reset password
-      await Auth.forgotPasswordSubmit(username, code, newPassword);
-
-      setSuccess(true);
-      setError(null);
+    
+      navigate("/passwordreset")
     } catch (err) {
-      setError("An error occurred while resetting password.");
-      setSuccess(false);
+      console.log(err);
     }
   };
-
+  // <form onSubmit={handleSubmit} id="loginform">
   return (
     <section>
-      <div className="formvalue">
-        <h2 className="h2">Login</h2>
-        <form onSubmit={handleSubmit} id="loginform">
-          <div className="loginform">
-            <label>Username:</label>
-            <input
-              id="username-field"
-              type="text"
-              value={username}
-              onChange={(event) => setUsername(event.target.value)}
-              required
-            />
-            <br />
-          </div>
-          <div className="loginform">
-            <label>Password:</label>
-            <input
-              id="password-field"
-              type="password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              required
-            />
-            <br />
-          </div>
-          <input
-            className="btn"
-            id="login-submit"
-            type="submit"
-            value="Login"
-          />
-          <button onClick={handleForgotPassword}>Forgot Password</button>
-          <div class="register">
-            <p>
-              Don't have a account <a href="/signin">Register now!</a>{" "}
-            </p>
-          </div>
-        </form>
-        {error && <p>{error}</p>}
-        {success && <p>Login successful!</p>}
+      <div className="form-box">
+        <div className="form-value">
+          <form onSubmit={handleSubmit} id="loginform">
+            <h2>Login</h2>
+            <div className="inputbox">
+              <input
+                type="email"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+              />
+              <label for="">Email</label>
+            </div>
+            <div class="inputbox">
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <label for="">Password</label>
+            </div>
+            <div class="forget">
+              <label for="">
+                <Link onClick={handleForgotPassword}>Forgot Password?</Link>
+              </label>
+            </div>
+            <button>Log in</button>
+            <div class="register">
+              <p>
+                Don't have a account <Link>Register</Link>
+              </p>
+            </div>
+          </form>
+        </div>
       </div>
+
+      {error && <p>{error}</p>}
+      {success && <p>Login successful!</p>}
     </section>
   );
 };
