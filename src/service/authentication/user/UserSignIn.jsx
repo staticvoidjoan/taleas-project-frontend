@@ -1,22 +1,14 @@
 import React, { useState } from "react";
 import { Auth } from "aws-amplify";
-<<<<<<< HEAD
-import { useNavigate } from "react-router-dom";
-import "./tempSignIn.css";
-=======
+
 import "./userSignIn.css";
->>>>>>> fd741f4abca449ec6fc325890ddc864fc33d40e1
 import { Amplify } from "aws-amplify";
 import { Link, useNavigate } from "react-router-dom";
 import awsExports from "../../../aws-exports";
 
 const LoginPage = () => {
   Amplify.configure(awsExports);
-<<<<<<< HEAD
-  const navigate = useNavigate();
-=======
-  
->>>>>>> fd741f4abca449ec6fc325890ddc864fc33d40e1
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
@@ -58,28 +50,15 @@ const LoginPage = () => {
   };
 
   const handleForgotPassword = async (event) => {
-<<<<<<< HEAD
-    
-      event.preventDefault();
-      if (!username) {
-        setError("Please enter your username first.");
-        return;
-      }
-      await Auth.forgotPassword(username);
-      navigate(`/forgotPassword?username=${username}`);
-    };
-
-=======
     event.preventDefault();
     try {
-    
-      navigate("/passwordreset")
+      navigate("/passwordreset");
     } catch (err) {
       console.log(err);
     }
   };
   // <form onSubmit={handleSubmit} id="loginform">
->>>>>>> fd741f4abca449ec6fc325890ddc864fc33d40e1
+
   return (
     <section>
       <div className="form-box">
