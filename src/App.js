@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom"; // Im
 
 import LoginPage from "./service/authentication/user/userSignIn";
 import UserSignUp from "./service/authentication/user/userSignUp";
+import ProfileForm from "./service/authentication/user/completeUser";
 
 import Home from "./pages/home/home";
 function App() {
@@ -13,6 +14,7 @@ function App() {
           <Route exact path="/" element={<Home />} />
           <Route exact path="/signin" element={<LoginPage />} />
           <Route exact path="/signup" element={<UserSignUp />} />
+          <Route exact path="/completeprofile" element={<ProfileForm/>}></Route>
         </Routes>
       </Router>
     </div>

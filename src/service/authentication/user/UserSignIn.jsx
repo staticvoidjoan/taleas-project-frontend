@@ -57,7 +57,7 @@ const LoginPage = () => {
         return;
       }
       await Auth.forgotPassword(username);
-      navigate(`/forgotPassword?username=${username}`);
+      navigate(`/forgotPassword`);
     };
 
   return (
