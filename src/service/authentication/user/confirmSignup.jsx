@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import { Auth } from "aws-amplify";
 import "./userSignIn.css";
+import { useNavigate } from "react-router-dom";
 const ConfirmSignup = ({ username }) => {
   const [code, setCode] = useState("");
   const [confirmationError, setConfirmationError] = useState(null);
   const navigate = useNavigate();
   async function confirmSignUp(e) {
-
     e.preventDefault();
     try {
       await Auth.confirmSignUp(username, code);
-      console.log("Successfully confirmed sign up");
-      // You can redirect the user or perform any other action upon successful confirmation.
+      console.log('Successfully confirmed sign up');
+      navigate("/completeprofile")
     } catch (error) {
       console.error("Error confirming sign up", error);
       setConfirmationError(
@@ -22,17 +22,17 @@ const ConfirmSignup = ({ username }) => {
 
   return (
     <div className="form-box">
-    <div className="form-value">
-      <h2>Confirm your account</h2>
-      <form onSubmit={confirmSignUp}>
-        <div className="inputbox">
-          <input
-            className="form__input"
-            type="text"
-            value={code}
-            onChange={(e) => setCode(e.target.value)}
-            required
-          />
+      <div className="form-value">
+        <h2>Confirm your account</h2>
+        <form onSubmit={confirmSignUp}>
+          <div className="inputbox">
+            <input
+              className="form__input"
+              type="text"
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
+              required
+            />
           <label >Enter the code sent to your email</label>
         </div>
         {confirmationError && (
