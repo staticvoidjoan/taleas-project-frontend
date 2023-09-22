@@ -7,7 +7,6 @@ const ConfirmSignup = ({ username }) => {
   const [confirmationError, setConfirmationError] = useState(null);
   const navigate = useNavigate();
   async function confirmSignUp(e) {
-
     e.preventDefault();
     try {
       await Auth.confirmSignUp(username, code);
@@ -23,17 +22,17 @@ const ConfirmSignup = ({ username }) => {
 
   return (
     <div className="form-box">
-    <div className="form-value">
-      <h2>Confirm your account</h2>
-      <form onSubmit={confirmSignUp}>
-        <div className="inputbox">
-          <input
-            className="form__input"
-            type="text"
-            value={code}
-            onChange={(e) => setCode(e.target.value)}
-            required
-          />
+      <div className="form-value">
+        <h2>Confirm your account</h2>
+        <form onSubmit={confirmSignUp}>
+          <div className="inputbox">
+            <input
+              className="form__input"
+              type="text"
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
+              required
+            />
           <label >Enter the code sent to your email</label>
         </div>
         {confirmationError && (

@@ -1,10 +1,16 @@
 import React from "react";
+import "./buttton.css";
+import Text from "../text/text";
 
-const Button = ({ color, label }) => {
+const Button = ({ bgcolor, border, padding, decoration, cursor, label }) => {
   return (
     <>
       <div>
-        <button className={`${color}`}>{label}</button>
+        <button
+          className={`${bgcolor} ${border} ${padding} ${decoration} ${cursor}`}
+        >
+          <Text label={label} />
+        </button>
       </div>
     </>
   );
