@@ -2,9 +2,15 @@ import React, { useState } from "react";
 import { Auth } from "aws-amplify";
 import { Amplify } from "aws-amplify";
 import awsExports from "../../../aws-exports";
+<<<<<<< HEAD
 import "./userSignUp.css";
 import ConfirmSignup from "./confirmSignup";
 
+=======
+import ConfirmSignup from "./confirmSignup";
+import { Link } from "react-router-dom";
+import "./userSignIn.css";
+>>>>>>> fd741f4abca449ec6fc325890ddc864fc33d40e1
 function RegistrationForm() {
   Amplify.configure(awsExports);
   const [formData, setFormData] = useState({
@@ -125,6 +131,7 @@ function RegistrationForm() {
 
   return (
     <>
+<<<<<<< HEAD
       {!registrationSuccess ? (
         <div className="signUp-page-container">
           <div className="signUp-form-container">
@@ -218,6 +225,87 @@ function RegistrationForm() {
       )}
     </>
   );
+=======
+      <section>
+        {!registrationSuccess ? (
+          <div className="form-box-register">
+            <div className="form-value">
+              <form onSubmit={handleSubmit}>
+                <div className="register-title">
+                  <Link to={"/"}>
+                    <i
+                      class="fa-solid fa-angles-left fa-2xl back-arrow"
+                      style={{ marginRight: "30px" }}
+                    ></i>
+                  </Link>
+                  <h2 style={{ marginLeft: "30px" }}>Register</h2>{" "}
+                  {/*TODO CHANGE TO TEXT COMPONENT + CSS*/}
+                </div>
+                <div className="inputbox">
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    required
+                  />
+                  <label>First Name</label>
+                </div>
+                <div className="inputbox">
+                  <input
+                    type="text"
+                    name="lastname"
+                    value={formData.lastname}
+                    onChange={handleInputChange}
+                    required
+                  />
+                  <label>Last Name</label>
+                </div>
+                <div className="inputbox">
+                  <input
+                    type="text"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    required
+                  />
+                  <label>Email</label>
+                </div>
+                <div className="inputbox">
+                  <input
+                    type="date"
+                    id="birthday"
+                    name="birthday"
+                    value={formData.birthday}
+                    onChange={handleInputChange}
+                    placeholder="Birthday"
+                    required
+                  />
+                </div>
+                <div className="inputbox">
+                  <input
+                    type="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleInputChange}
+                    required
+                  />
+                  <label>Password</label>
+                </div>
+
+                <button className="">Register</button>
+              </form>
+            </div>
+          </div>
+        ) : (
+          <ConfirmSignup username={formData.email} />
+        )}
+      </section>
+    </>
+  );
+}
+{
+>>>>>>> fd741f4abca449ec6fc325890ddc864fc33d40e1
 }
 
 export default RegistrationForm;
