@@ -1,6 +1,6 @@
 {
   "auth": {
-    "taleasprojectfronten909a82dd": {
+    "taleasprojectfrontencbcd0516": {
       "customAuth": false,
       "dependsOn": [],
       "providerPlugin": "awscloudformation",
@@ -9,35 +9,35 @@
     }
   },
   "parameters": {
-    "AMPLIFY_auth_taleasprojectfronten909a82dd_nativeClientId": {
+    "AMPLIFY_auth_taleasprojectfrontencbcd0516_nativeClientId": {
       "usedBy": [
         {
           "category": "auth",
-          "resourceName": "taleasprojectfronten909a82dd"
+          "resourceName": "taleasprojectfrontencbcd0516"
         }
       ]
     },
-    "AMPLIFY_auth_taleasprojectfronten909a82dd_userPoolId": {
+    "AMPLIFY_auth_taleasprojectfrontencbcd0516_userPoolId": {
       "usedBy": [
         {
           "category": "auth",
-          "resourceName": "taleasprojectfronten909a82dd"
+          "resourceName": "taleasprojectfrontencbcd0516"
         }
       ]
     },
-    "AMPLIFY_auth_taleasprojectfronten909a82dd_userPoolName": {
+    "AMPLIFY_auth_taleasprojectfrontencbcd0516_userPoolName": {
       "usedBy": [
         {
           "category": "auth",
-          "resourceName": "taleasprojectfronten909a82dd"
+          "resourceName": "taleasprojectfrontencbcd0516"
         }
       ]
     },
-    "AMPLIFY_auth_taleasprojectfronten909a82dd_webClientId": {
+    "AMPLIFY_auth_taleasprojectfrontencbcd0516_webClientId": {
       "usedBy": [
         {
           "category": "auth",
-          "resourceName": "taleasprojectfronten909a82dd"
+          "resourceName": "taleasprojectfrontencbcd0516"
         }
       ]
     }
