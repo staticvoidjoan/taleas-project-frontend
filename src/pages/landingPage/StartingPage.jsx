@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "./startingPage.css";
+import "./StartingPage.css";
 import Text from "../../components/text/text";
 import Button from "../../components/button/button";
 import Navbar2 from "../../layout/navBar/Navbar2";
@@ -10,7 +10,6 @@ const StartingPage = (props) => {
   return (
     <>
       <div className="starting">
-        <Navbar2 />
         <div className="center-all">
           <div className="content">
             <div className="main-tittle">
