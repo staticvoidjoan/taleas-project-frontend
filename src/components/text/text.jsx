@@ -3,7 +3,7 @@ import "./text.css";
 const Text = ({ label, family, weight, size, color, lineheight }) => {
   return (
     <div className={`${family} ${weight} ${size} ${color} ${lineheight}`}>
-      {label}
+      <div dangerouslySetInnerHTML={{ __html: label }} />
     </div>
   );
 };
