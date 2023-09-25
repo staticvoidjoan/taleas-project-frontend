@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "./StartingPage.css";
+import "./startingPage.css";
 import Text from "../../components/text/text";
 import Button from "../../components/button/button";
 import Navbar2 from "../../layout/navBar/Navbar2";
