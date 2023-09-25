@@ -353,6 +353,7 @@ function RegistrationForm() {
                   name="agree-to-terms"
                   required
                   className="terms-button"
+                  style={{ appearance: "none", borderRadius: "0" }}
                 />
                 <div className="terms-text">
                   <div style={{ marginRight: "5px" }}>
