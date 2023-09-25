@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Auth } from "aws-amplify";
 
-import "./userSignIn.css";
+import "./user.css";
 import { Amplify } from "aws-amplify";
 import { Link, useNavigate } from "react-router-dom";
 import awsExports from "../../../aws-exports";
@@ -20,13 +20,6 @@ const LoginPage = () => {
       console.log(username);
       console.log(password);
       const user = await Auth.signIn(username, password);
-      if (user.confirmedStatus === "CONFIRMED") {
-        console.log("User is confirmed");
-      } else if (user.confirmedStatus === "UNCONFIRMED") {
-        console.log("User is not confirmed");
-      } else {
-        console.log("User status is unknown");
-      }
 
       console.log("Logged in user:", user);
       if (!user) {
@@ -57,7 +50,8 @@ const LoginPage = () => {
       console.log(err);
     }
   };
-  // <form onSubmit={handleSubmit} id="loginform">
+  
+  
 
   return (
     <section>
@@ -96,10 +90,13 @@ const LoginPage = () => {
             </div>
           </form>
         </div>
+          <div style={{color:"white", display:"flex", justifyContent:"center", textAlign:"center"}}>
+
+      {error && <p>Login credentials do not match, or your account is unverified. <Link to={"/resendSignUp"}>Click Here</Link> to verify your account</p>}
+      {success && <p>Login successful!</p>}
+          </div>
       </div>
 
-      {error && <p>{error}</p>}
-      {success && <p>Login successful!</p>}
     </section>
   );
 };

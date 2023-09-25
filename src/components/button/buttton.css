@@ -1,0 +1,45 @@
+/* ---------BACKROND COLOR--------- */
+
+.primary {
+  background-color: blue;
+}
+.secondary {
+  background-color: gray;
+}
+.success {
+  background-color: green;
+}
+.warning {
+  background-color: yellow;
+}
+.danger {
+  background-color: red;
+}
+.info {
+  background-color: lightblue;
+}
+.light {
+  background-color: white;
+}
+.dark {
+  background-color: black;
+}
+
+/* -----------Cursor -------- */
+
+.pointer {
+  cursor: pointer;
+}
+
+/* -----------------BORDER------------ */
+
+/* -----------------DECORATE------------ */
+
+button {
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 18px;
+  font-weight: 800;
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0 5px;
+}

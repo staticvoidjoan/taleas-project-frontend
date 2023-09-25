@@ -1,7 +1,7 @@
 /* Updated .home-bio styles */
 .home-bio {
-  width: 380px;
-  height: 140px;
+  width: 400px;
+  height: 190px;
  
   position: relative;
   background: transparent;
@@ -27,17 +27,17 @@
 
 .homt-btn-container{
   background:transparent;
-  margin-top: 20px;
+  margin-top: 4px;
   width: 100%;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
 }
   /* Updated .myButton styles */
 .myButton {
+  margin: 5px;
     width: 120px;
     height: 40px;
     border-radius: 40px;
-    background-color: #0056b3;
     background: #fff;
     border: none;
     outline: none;
@@ -47,7 +47,7 @@
 }
 
 .myButton:hover {
-  background-color: #0056b3;
+  background-color: #b4b5b6;
 }
 
 .myButton:active {
