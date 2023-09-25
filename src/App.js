@@ -10,12 +10,15 @@ import LoginPage from "./service/authentication/user/userSignIn";
 import UserSignUp from "./service/authentication/user/userSignUp";
 import ForgotPassword from "./service/authentication/user/forgotPassword";
 import ProfileForm from "./pages/User pages/completeUser";
-
+import ResendSignup from "./service/authentication/user/resendSignUp";
 import Home from "./pages/home/home";
 import NavBar from "./layout/navBar/navBar";
+import UserDashBoard from "./pages/User pages/userDashBoard";
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
+  const [givenName, setGivenName] = useState("");
+  const [lastName, setLastName] = useState("");
   Amplify.configure(awsExports);
   useEffect(() => {
     checkAuthenticated();
@@ -29,6 +32,12 @@ function App() {
       } else {
         setAuthenticated(false);
       }
+      const userAttributes = user.attributes || {};
+        const userGivenName = userAttributes.given_name || "";
+        setGivenName(userGivenName);
+        const userLastName = userAttributes.family_name || "";
+        setLastName(userLastName);
+
     } catch (error) {
       setAuthenticated(false);
     }
@@ -39,7 +48,7 @@ function App() {
       <Router>
         <NavBar />
         <Routes>
-          <Route exact path="/" element={<Home />} />
+          <Route exact path="/" element={authenticated ? (<UserDashBoard/>) :(<Home />)} />
 
           <Route
             exact
@@ -56,8 +65,10 @@ function App() {
             path={authenticated ? "/" : "/passwordreset"}
             element={<ForgotPassword />}
           />
+          <Route path={`/${givenName}${lastName}`} element={<UserDashBoard/>}/>
           <Route path="*" element={<Home />} />
           <Route exact path="/completeprofile" element={<ProfileForm />} />
+          <Route exact path="/resendSignUp" element={<ResendSignup />} />
         </Routes>
       </Router>
     </div>
