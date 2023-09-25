@@ -36,7 +36,6 @@ const UserHome = () => {
 
   return (
     <div>
-      <Navbar2/>
        <div className="button-row">
           {buttonsData.map((buttonName, index) => (
             <Tabs

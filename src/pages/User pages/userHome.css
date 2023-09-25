@@ -3,7 +3,7 @@ body{
     font-family: 'Open Sans', sans-serif;
 }
 .button-row {
-    
+    margin-top: 20px;
     margin-left: 20px;
     margin-bottom: 24px;
     display: flex; /* Change to flex display */
