@@ -14,6 +14,7 @@ import ResendSignup from "./service/authentication/user/resendSignUp";
 import Home from "./pages/home/home";
 import NavBar from "./layout/navBar/navBar";
 import UserDashBoard from "./pages/User pages/userDashBoard";
+import UserHome from "./pages/User pages/userHome";
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -69,6 +70,7 @@ function App() {
           <Route path="*" element={<Home />} />
           <Route exact path="/completeprofile" element={<ProfileForm />} />
           <Route exact path="/resendSignUp" element={<ResendSignup />} />
+          <Route exact path="/userHome" element={<UserHome/>}/>
         </Routes>
       </Router>
     </div>
