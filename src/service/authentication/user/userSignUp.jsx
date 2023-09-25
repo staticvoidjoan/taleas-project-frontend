@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import { Auth } from "aws-amplify";
 import { Amplify } from "aws-amplify";
 import awsExports from "../../../aws-exports";
@@ -141,106 +141,76 @@ function RegistrationForm() {
   };
 
   return (
-    <>
-      <ToastContainer />
-      <div className="user-register-page">
-        {!registrationSuccess ? (
-          <div className="form-box-register">
-            <div className="register-title">
-              <Link to={"/"}>
-                <i
-                  className="fa-solid fa-angles-left fa-2xl back-arrow"
-                  style={{ marginRight: "30px" }}
-                ></i>
-              </Link>
-              <Text
-                label={"Register"}
-                size={"s22"}
-                color={"white"}
-                weight={"bold"}
-              />
-              <div style={{ flex: "1,1,1" }}></div>
+    <div className="user-register-page">
+      {!registrationSuccess ? (
+        <div className="form-box-register">
+          <div className="form-category">
+            <div className="employer-category">
+              <Text label={"Employer"} />
             </div>
-            <div className="form-value" >
-              <form onSubmit={handleSubmit} autoComplete="off">
-                <div className="inputbox-register">
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    required
-                  />
-                  <label>First Name</label>
-                </div>
-                <div className="inputbox-register">
-                  <input
-                    type="text"
-                    name="lastname"
-                    value={formData.lastname}
-                    onChange={handleInputChange}
-                    required
-                  />
-                  <label>Last Name</label>
-                </div>
-                <div className="inputbox-register">
-                  <input
-                    type="text"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    required
-                  />
-                  <label>Email</label>
-                </div>
-                <div className="inputbox-register">
-                  <input
-                    type="date"
-                    id="birthday"
-                    name="birthday"
-                    value={formData.birthday}
-                    onChange={handleInputChange}
-                    placeholder="Birthday"
-                    required
-                  />
-                </div>
-                <div className="inputbox-register">
-                  <input
-                    type="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleInputChange}
-                    required
-                  />
-                  <label>Password</label>
-                </div>
-
-                <Text
-                  label={`
-    <ul>
-      <li>Your password must be at least 8 characters long.</li>
-      <li>Include at least one uppercase letter (A-Z).</li>
-      <li>Include at least one lowercase letter (a-z).</li>
-      <li>Include at least one number (0-9).</li>
-      <li>Include at least one special character (e.g., !, @, #, $, %, ^, &).</li>
-    </ul>`}
-                  color={"white"}
-                  size={"s14"}
-                />
-                <button className="register-btn">Register</button>
-              </form>
+            <div className="employee-category">
+              <Text label={"Employee"} />
             </div>
           </div>
-        ) : (
-          <ConfirmSignup
-            username={formData.email}
-            password={formData.password}
-            lastName={formData.lastname}
-            name={formData.name}
-          />
-        )}
-      </div>
-    </>
+          <div className="form-value">
+            <form onSubmit={handleSubmit} autoComplete="off">
+              <div className="inputbox-register">
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  required
+                  placeholder="Full Name"
+                />
+              </div>
+
+              <div className="inputbox-register">
+                <input
+                  type="text"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  placeholder="Email"
+                  required
+                />
+              </div>
+              <div className="inputbox-register">
+                <input
+                  type="date"
+                  id="birthday"
+                  name="birthday"
+                  value={formData.birthday}
+                  onChange={handleInputChange}
+                  placeholder="Birthday"
+                  required
+                />
+              </div>
+              <div className="inputbox-register">
+                <input
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  placeholder="Password"
+                  required
+                />
+              </div>
+
+              <button className="register-btn">Register</button>
+            </form>
+          </div>
+        </div>
+      ) : (
+        <ConfirmSignup
+          username={formData.email}
+          password={formData.password}
+          lastName={formData.lastname}
+          name={formData.name}
+        />
+      )}
+      <div className="user-register-title"></div>
+    </div>
   );
 }
 

@@ -46,7 +46,7 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <NavBar />
+        {/* <NavBar /> */}
         <Routes>
           <Route exact path="/" element={authenticated ? (<UserDashBoard/>) :(<Home />)} />
 
