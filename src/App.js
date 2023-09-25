@@ -14,6 +14,7 @@ import ResendSignup from "./service/authentication/user/resendSignUp";
 import Home from "./pages/home/home";
 import NavBar from "./layout/navBar/Navbar2";
 import UserDashBoard from "./pages/User pages/userDashBoard";
+import LandingPage from "./pages/landingPage/StartingPage";
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -55,7 +56,7 @@ function App() {
           : null
       }
         <Routes>
-          <Route exact path="/" element={authenticated ? (<UserDashBoard/>) :(<Home />)} />
+          <Route exact path="/" element={authenticated ? (<UserDashBoard/>) :(<LandingPage />)} />
 
           <Route
             exact
