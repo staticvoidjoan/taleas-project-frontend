@@ -199,6 +199,7 @@ button {
   display: flex;
   flex-direction: column-reverse;
   overflow: hidden;
+  background-color: #212121;
 }
 
 .form-box-register {
