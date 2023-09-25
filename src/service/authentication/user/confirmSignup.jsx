@@ -24,7 +24,7 @@ const ConfirmSignup = ({ username, password,name,lastName }) => {
   const saveToDatabase = async () => {
     
     try {
-      await axios.post(
+      const response = await axios.post(
         'https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/user',
         {
           name: name,
@@ -37,8 +37,12 @@ const ConfirmSignup = ({ username, password,name,lastName }) => {
           },
         }
       );
-      
+
+      const userMongoId = response.data._id;
+      localStorage.setItem("userMongoId", userMongoId);
       console.log("Axios POST request successful");
+     
+    
      logIn();
     } catch (error) {
       console.error("Error during POST request:", error);
@@ -64,7 +68,7 @@ const ConfirmSignup = ({ username, password,name,lastName }) => {
       localStorage.setItem("accessToken", accessToken);
       console.log(username);
 
-      navigate(`/${name}${lastName}`)
+      navigate(`/completeprofile`)
       window.location.reload();
     } catch (err) {
       console.log(err)
