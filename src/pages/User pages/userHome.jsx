@@ -5,6 +5,7 @@ import Tabs from '../../components/button/tabs';
 import unicorn from "../../assets/images/Unicorn.png";
 import "./userHome.css";
 import Footer from '../../layout/footer/footer';
+import Navbar2 from '../../layout/navBar/Navbar2';
 
 const cardData = [
   {
@@ -35,6 +36,7 @@ const UserHome = () => {
 
   return (
     <div>
+      <Navbar2/>
        <div className="button-row">
           {buttonsData.map((buttonName, index) => (
             <Tabs

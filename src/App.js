@@ -12,14 +12,17 @@ import ForgotPassword from "./service/authentication/user/forgotPassword";
 import ProfileForm from "./pages/User pages/completeUser";
 import ResendSignup from "./service/authentication/user/resendSignUp";
 import Home from "./pages/home/home";
-import NavBar from "./layout/navBar/navBar";
+import NavBar from "./layout/navBar/Navbar2";
 import UserDashBoard from "./pages/User pages/userDashBoard";
+import LandingPage from "./pages/landingPage/StartingPage";
 import UserHome from "./pages/User pages/userHome";
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
   const [givenName, setGivenName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [isEmployee, setIsEmployee] = useState(false);
+
   Amplify.configure(awsExports);
   useEffect(() => {
     checkAuthenticated();
@@ -38,6 +41,8 @@ function App() {
         setGivenName(userGivenName);
         const userLastName = userAttributes.family_name || "";
         setLastName(userLastName);
+        const isEmployee = userAttributes.isEmployee;
+
 
     } catch (error) {
       setAuthenticated(false);
@@ -47,9 +52,12 @@ function App() {
   return (
     <div className="App">
       <Router>
-        {/* <NavBar /> */}
+        {!authenticated ? 
+        <NavBar />
+          : null
+      }
         <Routes>
-          <Route exact path="/" element={authenticated ? (<UserDashBoard/>) :(<Home />)} />
+          <Route exact path="/" element={authenticated ? (<UserDashBoard/>) :(<LandingPage />)} />
 
           <Route
             exact
