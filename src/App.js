@@ -19,6 +19,7 @@ function App() {
   const [authenticated, setAuthenticated] = useState(false);
   const [givenName, setGivenName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [isEmployee, setIsEmployee] = useState(false);
   Amplify.configure(awsExports);
   useEffect(() => {
     checkAuthenticated();
@@ -37,6 +38,8 @@ function App() {
         setGivenName(userGivenName);
         const userLastName = userAttributes.family_name || "";
         setLastName(userLastName);
+        const isEmployee = userAttributes.isEmployee;
+
 
     } catch (error) {
       setAuthenticated(false);

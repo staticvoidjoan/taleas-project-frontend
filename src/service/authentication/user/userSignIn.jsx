@@ -5,10 +5,11 @@ import "./user.css";
 import { Amplify } from "aws-amplify";
 import { Link, useNavigate } from "react-router-dom";
 import awsExports from "../../../aws-exports";
-
+import Text from "../../../components/text/text";
 const LoginPage = () => {
   Amplify.configure(awsExports);
-
+  const [selectedCategory, setSelectedCategory] = useState("employer");
+  const [isEmployee, setisEmployee] = useState(true);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
@@ -50,54 +51,127 @@ const LoginPage = () => {
       console.log(err);
     }
   };
-  
-  
+
+  // <div className="inputbox">
+  //   <input
+  //     type="email"
+  //     value={username}
+  //     onChange={(e) => setUsername(e.target.value)}
+  //     required
+  //   />
 
   return (
-    <section>
-      <div className="form-box">
-        <div className="form-value">
-          <form onSubmit={handleSubmit} id="loginform">
-            <h2>Login</h2>
-            <div className="inputbox">
+    <div className="user-register-page">
+      <div className="form-box-register">
+        <div className="form-category">
+          <div
+            className={`employer-category ${
+              selectedCategory === "employee" ? "selected" : ""
+            }`}
+            onClick={() => setSelectedCategory("employee")}
+          >
+            <div style={{ marginBottom: "10px" }}>
+              <Text label={"Employee"} />
+            </div>
+          </div>
+          <div
+            className={`employee-category ${
+              selectedCategory === "employer" ? "selected" : ""
+            }`}
+            onClick={() => setSelectedCategory("employer")}
+          >
+            <div style={{ marginBottom: "10px" }}>
+              <Text label={"Employer"} />
+            </div>
+          </div>
+        </div>
+          <form
+            onSubmit={handleSubmit}
+            className="form-value"
+            autoComplete="off"
+          >
+            <div className="inputbox-register">
               <input
-                type="email"
+                type="text"
+                name="email"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
+                placeholder="Email"
                 required
+                className="register-input"
               />
-              <label for="">Email</label>
             </div>
-            <div class="inputbox">
+
+            <div className="inputbox-register">
               <input
                 type="password"
+                name="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                placeholder="Password"
+                className="register-input"
                 required
               />
-              <label for="">Password</label>
             </div>
-            <div class="forget">
-              <label for="">
-                <Link onClick={handleForgotPassword}>Forgot Password?</Link>
-              </label>
-            </div>
-            <button>Log in</button>
-            <div class="register">
-              <p>
-                Don't have a account <Link>Register</Link>
-              </p>
+            <button className="register-btn">
+              <Text
+                label={"Log In"}
+                weight={"regular"}
+                color={"white"}
+                size={"s16"}
+              />
+            </button>
+            <div className="goto-login">
+                <Text
+                  label={"Don't have an account yet?  &nbsp"}
+                  weight={"regular"}
+                  color={"black"}
+                  size={"s16"}
+                />
+                <Link style={{ textDecoration: "none" }} to={"/signup"}>
+                  <Text
+                    label={"Register"}
+                    weight={"medium700"}
+                    color={"purple"}
+                    size={"s16"}
+                  />
+                </Link>
+              </div>
+            {/* <Button bgcolor={"primary"} label={"register"}/> */}
+            <div className="forgot-password">
+              <Link style={{ textDecoration: "none" }}>
+                <Text
+                  label={"Forgot Password?"}
+                  weight={"medium700"}
+                  color={"purple"}
+                  size={"s16"}
+                />
+              </Link>
             </div>
           </form>
-        </div>
-          <div style={{color:"white", display:"flex", justifyContent:"center", textAlign:"center"}}>
-
-      {error && <p>Login credentials do not match, or your account is unverified. <Link to={"/resendSignUp"}>Click Here</Link> to verify your account</p>}
-      {success && <p>Login successful!</p>}
-          </div>
+        
       </div>
-
-    </section>
+      <div className="user-register-title">
+        <div style={{ marginBottom: "16px" }}>
+          <Text
+            label={"Login"}
+            size={"s20"}
+            weight={"medium700"}
+            color={"white"}
+          />
+        </div>
+        <Text
+          label={
+            selectedCategory === "employee"
+              ? "Find your dream job?"
+              : "Find the employees for your company!"
+          }
+          size={"s16"}
+          weight={"regular"}
+          color={"white"}
+        />
+      </div>
+    </div>
   );
 };
 

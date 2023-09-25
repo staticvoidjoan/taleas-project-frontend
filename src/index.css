@@ -4,5 +4,10 @@ body, html, #root {
   width: 100%;
   height: 100%;
   background-color: #212121;
+  font-family: Roboto, Helvetica, sans-serif;
+  
 }
 
+*{
+  font-family: Roboto, Helvetica, sans-serif;
+}
