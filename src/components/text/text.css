@@ -12,6 +12,9 @@
 .regular {
   font-weight: normal;
 }
+.medium800 {
+  font-weight: 800;
+}
 .medium700 {
   font-weight: 700;
 }
@@ -77,6 +80,9 @@
 }
 .l44 {
   line-height: 44px;
+}
+.lnormal {
+  line-height: normal;
 }
 /* --------------------------------Font Color--------------------- */
 
