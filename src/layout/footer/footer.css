@@ -1,0 +1,10 @@
+.footer-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    size: 24px;
+    background: #FFF;
+    height: 78px;
+    margin-top: 27px;
+}

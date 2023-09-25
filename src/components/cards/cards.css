@@ -1,3 +1,71 @@
-.card-container{
+.card-container {
+    height: 539px;
+    position: relative;
+    margin-left: 20px;
+    margin-right: 20px;
     border-radius: 10px;
-}
+    font-family: Open Sans;
+    box-sizing: border-box;
+    width: calc(100% - 40px);
+  }
+  
+  .card-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  
+  .job-location {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 87px;
+    height: 27px;
+    flex-shrink: 0;
+    border-radius: 24px;
+    border: 1px solid #FFF;
+    background: rgba(244, 244, 244, 0.30);
+  }
+  
+  .card-content {
+    z-index: 1;
+    position: absolute;
+    top: 341px;
+    left: 24px;
+  }
+  
+  .job-title{
+    margin-bottom: 8px;
+  }
+  .job-info{
+    margin-bottom: 12px;
+  }
+
+  .cancel{
+    border-radius: 50px 50px 50px 50px;
+    height: 48px;
+    width: 48px;
+    background-color: red;
+  }
+  .like{
+    border-radius: 50px 50px 50px 50px;
+    height: 48px;
+    width: 48px;
+  }
+  .superlike{
+    border-radius: 50px 50px 50px 50px;
+    height: 43px;
+    width: 43px;
+  }
+
+  .card-buttons{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    margin-left: 57px;
+    margin-right: 72px;
+    margin-top: 32px;
+    width: 198px;
+  }
