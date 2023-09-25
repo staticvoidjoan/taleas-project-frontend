@@ -12,7 +12,7 @@ import ForgotPassword from "./service/authentication/user/forgotPassword";
 import ProfileForm from "./pages/User pages/completeUser";
 import ResendSignup from "./service/authentication/user/resendSignUp";
 import Home from "./pages/home/home";
-import NavBar from "./layout/navBar/navBar";
+import NavBar from "./layout/navBar/Navbar2";
 import UserDashBoard from "./pages/User pages/userDashBoard";
 
 function App() {
@@ -20,6 +20,7 @@ function App() {
   const [givenName, setGivenName] = useState("");
   const [lastName, setLastName] = useState("");
   const [isEmployee, setIsEmployee] = useState(false);
+
   Amplify.configure(awsExports);
   useEffect(() => {
     checkAuthenticated();
@@ -49,7 +50,10 @@ function App() {
   return (
     <div className="App">
       <Router>
-        {/* <NavBar /> */}
+        {!authenticated ? 
+        <NavBar />
+          : null
+      }
         <Routes>
           <Route exact path="/" element={authenticated ? (<UserDashBoard/>) :(<Home />)} />
 

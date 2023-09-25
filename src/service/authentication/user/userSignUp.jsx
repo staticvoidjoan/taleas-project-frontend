@@ -275,7 +275,7 @@ function RegistrationForm() {
                   color={"black"}
                   size={"s16"}
                 />
-                <Link style={{ textDecoration: "none" }}>
+                <Link style={{ textDecoration: "none" }} to={"/signin"}>
                   <Text
                     label={"Login"}
                     weight={"medium700"}
