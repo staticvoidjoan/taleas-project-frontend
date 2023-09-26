@@ -57,7 +57,9 @@ const UserHome = () => {
             />
           ))}
         </div>
+        <div className='footer'>
         <Footer />
+        </div>
     </div>
   );
 };
