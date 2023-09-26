@@ -295,7 +295,7 @@ function RegistrationForm() {
                 <input
                   type="text"
                   name="companyName"
-                  value={formData.companyName}
+                  value={formData.name}
                   onChange={handleInputChange}
                   placeholder="Company Name"
                   className="register-input"
@@ -397,7 +397,6 @@ function RegistrationForm() {
           lastName={formData.lastname}
           name={formData.name}
           isEmployee={isEmployee}
-          companyName={formData.companyName}
           industry={formData.industry}
           address={formData.address}
         />

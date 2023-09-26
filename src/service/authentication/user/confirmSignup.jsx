@@ -4,7 +4,7 @@ import "./user.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Text from "../../../components/text/text";
-const ConfirmSignup = ({ username, password, name, lastName, companyName, industry, address, isEmployee }) => {
+const ConfirmSignup = ({ username, password, name, lastName, industry, address, isEmployee }) => {
   const [code, setCode] = useState("");
   const [confirmationError, setConfirmationError] = useState(null);
   
@@ -55,7 +55,7 @@ const ConfirmSignup = ({ username, password, name, lastName, companyName, indust
         const response = await axios.post(
           "https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/employer",
           {
-            companyName: companyName,
+            companyName: name,
             industry: industry,
             email: username,
             address: address,
