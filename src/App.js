@@ -17,7 +17,7 @@ import UserDashBoard from "./pages/User pages/userDashBoard";
 import LandingPage from "./pages/landingPage/StartingPage";
 import UserHome from "./pages/User pages/userHome";
 import JobProfile from "./pages/Jobs/jobProfile";
-import UserInfo from "./pages/User pages/userInfo"
+import UserInfo from "./pages/User pages/userInfo";
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
   const [givenName, setGivenName] = useState("");
@@ -29,6 +29,8 @@ function App() {
     checkAuthenticated();
   }, []);
 
+
+  //Check to see if a auser is authenticated and get the name and last name (only name if company)
   const checkAuthenticated = async () => {
     try {
       const user = await Auth.currentAuthenticatedUser();
@@ -52,13 +54,17 @@ function App() {
     <div className="App">
       <Router>
         <NavBar />
-
+        {/* ----------------------------------  Home routes ------------------------------------------------------- */}
         <Routes>
           <Route
             exact
             path="/"
             element={authenticated ? <UserDashBoard /> : <LandingPage />}
           />
+          <Route exact path="/userHome" element={<UserHome />} />
+          {/* ----------------------------------------------------------------------------------------------------------------- */}
+          
+          {/* ----------------------------------  Auhentication routes ------------------------------------------------------- */}
           <Route
             exact
             path={authenticated ? "/" : "/signin"}
@@ -80,10 +86,17 @@ function App() {
             path={`/${givenName}${lastName}`}
             element={<UserDashBoard />}
           />
+          {/* ------------------------------------------------------------------------------------------------------------------ */}
+
+          {/* ----------------------------------  Employeee routes ------------------------------------------------------- */}
           <Route exact path="/completeprofile" element={<ProfileForm />} />
-          <Route exact path="/userHome" element={<UserHome />} />
-          <Route exact path="/jobProfile/:id" element={<JobProfile />} />
           <Route exact path="/userInfo/:id" element={<UserInfo />} />
+          {/* --------------------------------------------------------------------------------------------------------------- */}
+
+          {/* ----------------------------------  Employer routes ------------------------------------------------------- */}
+          <Route exact path="/jobProfile/:id" element={<JobProfile />} />
+          {/* ---------------------------------------------------------------------------------------------------- */}
+          {/* ----------------------------------  Other routes ------------------------------------------------------- */}
           <Route path="*" element={<LandingPage />} />
         </Routes>
       </Router>

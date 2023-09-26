@@ -53,14 +53,15 @@ const JobProfile = () => {
             label={post.position ?? "Loading..."}
             weight={"bold"}
             color={"black"}
+            size={"s18"}
           />
-          <Text label={company.companyName} weight={"regular"} color={"black"} />
-          <Text label={company.industry} weight={"regular"} color={"black"} />
+          <Text label={company.companyName} weight={"medium"} color={"black"}  size={"s16"}/>
+          <Text label={company.industry} weight={"regular"} color={"black"}  size={"s16"}/>
           <div className="job-title-info">
             <div className="info-bubble">
               <img src={locationico} className="location-icon" />
               <div style={{ marginRight: "10px" }}>
-                <Text label={company.address} weight={"regular"} color={"lightgray"} />
+                <Text label={company.address} weight={"regular"} color={"lightgray"} size={"s14"} />
               </div>
             </div>
            
@@ -68,25 +69,27 @@ const JobProfile = () => {
         </div>
         <div className="job-describtion">
           <div style={{ marginBottom: "12px" }}>
-            <Text label={"Job Description"} weight={"bold"} color={"black"} />
+            <Text label={"Job Description"} weight={"bold"} color={"black"}  size={"s16"}/>
           </div>
-          <Text label={category.name} weight={"regular"} color={"black"} />
+          <Text label={category.name} weight={"regular"} color={"black"} size={"s16"}/>
           <Text
             label={post.description}
             weight={"regular"}
             color={"lightgray"}
+            size={"s14"}
           />
           <div style={{ marginTop: "16px" }}>
             <Text
               label={`Posted on ${postDate}`}
               weight={"regular"}
               color={"lightgray"}
+              size={"s14"}
             />
           </div>
         </div>
         <div className="job-requirements">
           <div style={{ marginBottom: "12px" }}>
-            <Text label={"Requirements"} weight={"bold"} />
+            <Text label={"Requirements"} weight={"bold"} size={"s16"}/>
           </div>
           <ul>
     {post.requirements && post.requirements.map((requirement, index) => (

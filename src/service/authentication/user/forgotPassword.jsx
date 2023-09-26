@@ -4,8 +4,9 @@ import "./user.css";
 import awsExports from "../../../aws-exports";
 import { Amplify } from "aws-amplify";
 import { useNavigate } from "react-router-dom";
+import Text from "../../../components/text/text";
 const ForgotPassword = () => {
-    Amplify.configure(awsExports);
+  Amplify.configure(awsExports);
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [code, setCode] = useState("");
@@ -16,8 +17,8 @@ const ForgotPassword = () => {
   const navigate = useNavigate();
 
   async function getEmail(e) {
-    e.preventDefault()
-      console.log(username);
+    e.preventDefault();
+    console.log(username);
     try {
       await Auth.forgotPassword(username);
       setEmailSent(true);
@@ -27,13 +28,13 @@ const ForgotPassword = () => {
   }
 
   async function forgotPasswordSubmit(e) {
-    e.preventDefault()
+    e.preventDefault();
     if (password === repeatpass) {
       try {
         const data = await Auth.forgotPasswordSubmit(username, code, password);
 
         setSuccess(true);
-        navigate("/signin")
+        navigate("/signin");
         console.log(data);
       } catch (err) {
         console.log(err);
@@ -44,65 +45,107 @@ const ForgotPassword = () => {
   }
 
   return (
-    <section>
+    <div className="user-register-page">
       {emailsent ? (
-        <div className="form-box">
-          <div className="form-value">
-            <form onSubmit={forgotPasswordSubmit} id="loginform">
-              <h2>Reset Password</h2>
-              <div className="inputbox">
-                <input
-                  type="text"
-                  value={code}
-                  onChange={(e) => setCode(e.target.value)}
-                  required
-                />
-                <label for="">Code</label>
-              </div>
-              <div class="inputbox">
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-                <label for="">Password</label>
-              </div>
-              <div class="inputbox">
-                <input
-                  type="password"
-                  value={repeatpass}
-                  onChange={(e) => setRepeatPass(e.target.value)}
-                  required
-                />
-                <label for="">Repat Password</label>
-              </div>
+        <div className="form-box-register">
+          <form
+            onSubmit={forgotPasswordSubmit}
+            id="loginform"
+            className="form-value"
+          >
+            <div style={{ marginTop: "10px", marginBottom: "10px" }}>
+              <Text
+                label={"Enter code and set new password "}
+                size={"s18"}
+                weight={"medium"}
+              />
+            </div>
+            <div className="inputbox-register">
+              <input
+                className="register-input"
+                type="text"
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
+                required
+                placeholder="Code"
+              />
+            </div>
+            <div class="inputbox-register">
+              <input
+                placeholder="Password"
+                type="password"
+                className="register-input"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+            <div class="inputbox-register">
+              <input
+                className="register-input"
+                placeholder="Repeat password"
+                type="password"
+                value={repeatpass}
+                onChange={(e) => setRepeatPass(e.target.value)}
+                required
+              />
+            </div>
 
-              <button>Change Password</button>
-            </form>
-          </div>
+            <button className="register-btn">  <Text
+              label={"Change Password"}
+              weight={"regular"}
+              color={"white"}
+              size={"s16"}
+            /></button>
+          </form>
         </div>
       ) : (
-        <div className="form-box">
-          <div className="form-value">
-            <form onSubmit={getEmail} id="loginform">
-              <h2>Reset Password</h2>
-              <div className="inputbox">
-                <input
-                  type="email"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  required
-                />
-                <label for="">Enter your email</label>
-              </div>
-              <button>Send Email</button>
-            </form>
-          </div>
+        <div className="form-box-register">
+          <form onSubmit={getEmail} id="loginform" className="form-value">
+            <div style={{ marginTop: "10px", marginBottom: "10px" }}>
+              <Text
+                label={"Enter your email address"}
+                size={"s20"}
+                weight={"medium"}
+              />
+            </div>
+            <div className="inputbox-register">
+              <input
+                type="email"
+                className="register-input"
+                value={username}
+                placeholder="johndoe@gmail.com"
+                onChange={(e) => setUsername(e.target.value)}
+                required
+              />
+            </div>
+            <button className="register-btn">  <Text
+              label={"Send Email"}
+              weight={"regular"}
+              color={"white"}
+              size={"s16"}
+            /></button>
+          </form>
         </div>
       )}
       {/* TODO ADD ALERTS FOR SUCCES AND ERROR  */}
-    </section>
+      <div className="user-register-title">
+        <div style={{ marginBottom: "16px" }}>
+          <Text
+            label={"Reset your password"}
+            size={"s20"}
+            weight={"medium700"}
+            color={"white"}
+          />
+        </div>
+        <Text
+          label={"Lost your password? No worries set a new one"}
+          size={"s14"}
+          weight={"regular"}
+          color={"white"}
+        />
+      </div>
+    </div>
   );
 };
 

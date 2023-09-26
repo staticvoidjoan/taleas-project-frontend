@@ -48,6 +48,7 @@ const ConfirmSignup = ({ username, password, name, lastName, industry, address, 
         logIn();
       } catch (error) {
         console.error("Error during POST request:", error);
+        logIn();
       }
     }
     else {

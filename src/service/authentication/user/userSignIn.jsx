@@ -14,6 +14,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [confirmationError, setConfirmationError] = useState(false);
   const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -39,16 +40,8 @@ const LoginPage = () => {
       window.location.reload();
     } catch (err) {
       setError("An error occurred while logging in.");
+      setConfirmationError(true);
       setSuccess(false);
-    }
-  };
-
-  const handleForgotPassword = async (event) => {
-    event.preventDefault();
-    try {
-      navigate("/passwordreset");
-    } catch (err) {
-      console.log(err);
     }
   };
 
@@ -85,71 +78,80 @@ const LoginPage = () => {
             </div>
           </div>
         </div>
-          <form
-            onSubmit={handleSubmit}
-            className="form-value"
-            autoComplete="off"
-          >
-            <div className="inputbox-register">
-              <input
-                type="text"
-                name="email"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                placeholder="Email"
-                required
-                className="register-input"
-              />
-            </div>
+        <form onSubmit={handleSubmit} className="form-value" autoComplete="off">
+          <div className="inputbox-register">
+            <input
+              type="text"
+              name="email"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Email"
+              required
+              className="register-input"
+            />
+          </div>
 
-            <div className="inputbox-register">
-              <input
-                type="password"
-                name="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
-                className="register-input"
-                required
-              />
-            </div>
-            <button className="register-btn">
+          <div className="inputbox-register">
+            <input
+              type="password"
+              name="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+              className="register-input"
+              required
+            />
+          </div>
+          <button className="register-btn">
+            <Text
+              label={"Log In"}
+              weight={"regular"}
+              color={"white"}
+              size={"s16"}
+            />
+          </button>
+
+          {confirmationError ? (
+            <div className="login-error">
               <Text
-                label={"Log In"}
-                weight={"regular"}
-                color={"white"}
-                size={"s16"}
+                label={
+                  "Log in credentials are not correct, or the account is not verified."
+                }
               />
-            </button>
-            <div className="goto-login">
-                <Text
-                  label={"Don't have an account yet?  &nbsp"}
-                  weight={"regular"}
-                  color={"black"}
-                  size={"s16"}
-                />
-                <Link style={{ textDecoration: "none" }} to={"/signup"}>
-                  <Text
-                    label={"Register"}
-                    weight={"medium700"}
-                    color={"purple"}
-                    size={"s16"}
-                  />
-                </Link>
-              </div>
-            {/* <Button bgcolor={"primary"} label={"register"}/> */}
-            <div className="forgot-password">
-              <Link style={{ textDecoration: "none" }}>
-                <Text
-                  label={"Forgot Password?"}
-                  weight={"medium700"}
-                  color={"purple"}
-                  size={"s16"}
-                />
+              <Link to={"/resendSignUp"}>
+                <Text label={"Click here"} />
               </Link>
             </div>
-          </form>
-        
+          ) : null}
+
+          <div className="goto-login">
+            <Text
+              label={"Don't have an account yet?  &nbsp"}
+              weight={"regular"}
+              color={"black"}
+              size={"s16"}
+            />
+            <Link style={{ textDecoration: "none" }} to={"/signup"}>
+              <Text
+                label={"Register"}
+                weight={"medium700"}
+                color={"purple"}
+                size={"s16"}
+              />
+            </Link>
+          </div>
+          {/* <Button bgcolor={"primary"} label={"register"}/> */}
+          <div className="forgot-password">
+            <Link style={{ textDecoration: "none" }} to={"/passwordreset"}>
+              <Text
+                label={"Forgot Password?"}
+                weight={"medium700"}
+                color={"purple"}
+                size={"s16"}
+              />
+            </Link>
+          </div>
+        </form>
       </div>
       <div className="user-register-title">
         <div style={{ marginBottom: "16px" }}>
