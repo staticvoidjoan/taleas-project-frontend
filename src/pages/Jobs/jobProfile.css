@@ -74,9 +74,9 @@
 .job-describtion{
     display: flex;
     flex-direction: column;
-    height: 20vh;
     justify-content: space-evenly;
     margin-bottom: 24px;
+
 }
 
 .job-requirements{

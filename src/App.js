@@ -82,7 +82,7 @@ function App() {
           />
           <Route exact path="/completeprofile" element={<ProfileForm />} />
           <Route exact path="/userHome" element={<UserHome />} />
-          <Route exact path="/jobProfile" element={<JobProfile />} />
+          <Route exact path="/jobProfile/:id" element={<JobProfile />} />
           {/* <Route path="*" element={<Home />} /> */}
         </Routes>
       </Router>
