@@ -38,13 +38,11 @@ function App() {
         setAuthenticated(false);
       }
       const userAttributes = user.attributes || {};
-        const userGivenName = userAttributes.given_name || "";
-        setGivenName(userGivenName);
-        const userLastName = userAttributes.family_name || "";
-        setLastName(userLastName);
-        const isEmployee = userAttributes.isEmployee;
-
-
+      const userGivenName = userAttributes.given_name || "";
+      setGivenName(userGivenName);
+      const userLastName = userAttributes.family_name || "";
+      setLastName(userLastName);
+      const isEmployee = userAttributes.isEmployee;
     } catch (error) {
       setAuthenticated(false);
     }
@@ -53,12 +51,14 @@ function App() {
   return (
     <div className="App">
       <Router>
-        {authenticated ? 
         <NavBar />
-          : null
-      }
+
         <Routes>
-          <Route exact path="/" element={authenticated ? (<UserDashBoard/>) :(<LandingPage />)} />
+          <Route
+            exact
+            path="/"
+            element={authenticated ? <UserDashBoard /> : <LandingPage />}
+          />
           <Route
             exact
             path={authenticated ? "/" : "/signin"}
@@ -76,10 +76,13 @@ function App() {
           />
           <Route exact path="/resendSignUp" element={<ResendSignup />} />
 
-          <Route path={`/${givenName}${lastName}`} element={<UserDashBoard/>}/>
+          <Route
+            path={`/${givenName}${lastName}`}
+            element={<UserDashBoard />}
+          />
           <Route exact path="/completeprofile" element={<ProfileForm />} />
-          <Route exact path="/userHome" element={<UserHome/>}/>
-          <Route exact path="/jobProfile" element={<JobProfile/>}/>
+          <Route exact path="/userHome" element={<UserHome />} />
+          <Route exact path="/jobProfile" element={<JobProfile />} />
           {/* <Route path="*" element={<Home />} /> */}
         </Routes>
       </Router>
