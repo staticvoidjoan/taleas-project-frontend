@@ -1,9 +1,18 @@
+.navbar-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #222222;
+}
+
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-top: 24px;
-  margin: 24px 20px 0 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  width: 100%;
 }
 
 .app-name {
