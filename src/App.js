@@ -17,7 +17,7 @@ import UserDashBoard from "./pages/User pages/userDashBoard";
 import LandingPage from "./pages/landingPage/StartingPage";
 import UserHome from "./pages/User pages/userHome";
 import JobProfile from "./pages/Jobs/jobProfile";
-
+import UserInfo from "./pages/User pages/userInfo"
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
   const [givenName, setGivenName] = useState("");
@@ -82,8 +82,9 @@ function App() {
           />
           <Route exact path="/completeprofile" element={<ProfileForm />} />
           <Route exact path="/userHome" element={<UserHome />} />
-          <Route exact path="/jobProfile" element={<JobProfile />} />
-          {/* <Route path="*" element={<Home />} /> */}
+          <Route exact path="/jobProfile/:id" element={<JobProfile />} />
+          <Route exact path="/userInfo/:id" element={<UserInfo />} />
+          <Route path="*" element={<LandingPage />} />
         </Routes>
       </Router>
     </div>
