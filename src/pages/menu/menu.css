@@ -1,0 +1,33 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+/* .menu {
+  margin-left: ;
+} */
+
+.menu-list ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+}
+
+.menu-list ul li {
+  margin-bottom: 35px; /* Adjust the margin to control the space between items */
+}
+
+/* Media query for mobile devices */
+@media (max-width: 768px) {
+  .menu-list ul li {
+    margin-bottom: 35px; /* Reduce margin for mobile devices */
+  }
+}
+
+.line-menu {
+  flex-grow: 1;
+  height: 1px;
+  border-top: 1px solid #dedede;
+  margin: 24px 20px;
+}
