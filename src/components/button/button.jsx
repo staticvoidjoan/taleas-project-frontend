@@ -5,13 +5,11 @@ import Text from "../text/text";
 const Button = ({ bgcolor, border, padding, decoration, cursor, label }) => {
   return (
     <>
-      <div>
-        <button
-          className={`${bgcolor} ${border} ${padding} ${decoration} ${cursor}`}
-        >
-          <Text label={label} />
-        </button>
-      </div>
+      <button
+        className={`${bgcolor} ${border} ${padding} ${decoration} ${cursor}`}
+      >
+        <Text label={label} />
+      </button>
     </>
   );
 };

@@ -12,14 +12,18 @@ import ForgotPassword from "./service/authentication/user/forgotPassword";
 import ProfileForm from "./pages/User pages/completeUser";
 import ResendSignup from "./service/authentication/user/resendSignUp";
 import Home from "./pages/home/home";
-import NavBar from "./layout/navBar/navBar";
+import NavBar from "./layout/navBar/Navbar2";
 import UserDashBoard from "./pages/User pages/userDashBoard";
+import LandingPage from "./pages/landingPage/StartingPage";
+import UserHome from "./pages/User pages/userHome";
+import JobProfile from "./pages/Jobs/jobProfile";
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
   const [givenName, setGivenName] = useState("");
   const [lastName, setLastName] = useState("");
   const [isEmployee, setIsEmployee] = useState(false);
+
   Amplify.configure(awsExports);
   useEffect(() => {
     checkAuthenticated();
@@ -49,10 +53,12 @@ function App() {
   return (
     <div className="App">
       <Router>
-        {/* <NavBar /> */}
+        {!authenticated ? 
+        <NavBar />
+          : null
+      }
         <Routes>
-          <Route exact path="/" element={authenticated ? (<UserDashBoard/>) :(<Home />)} />
-
+          <Route exact path="/" element={authenticated ? (<UserDashBoard/>) :(<LandingPage />)} />
           <Route
             exact
             path={authenticated ? "/" : "/signin"}
@@ -68,10 +74,13 @@ function App() {
             path={authenticated ? "/" : "/passwordreset"}
             element={<ForgotPassword />}
           />
-          <Route path={`/${givenName}${lastName}`} element={<UserDashBoard/>}/>
-          <Route path="*" element={<Home />} />
-          <Route exact path="/completeprofile" element={<ProfileForm />} />
           <Route exact path="/resendSignUp" element={<ResendSignup />} />
+
+          <Route path={`/${givenName}${lastName}`} element={<UserDashBoard/>}/>
+          <Route exact path="/completeprofile" element={<ProfileForm />} />
+          <Route exact path="/userHome" element={<UserHome/>}/>
+          <Route exact path="/jobProfile" element={<JobProfile/>}/>
+          {/* <Route path="*" element={<Home />} /> */}
         </Routes>
       </Router>
     </div>

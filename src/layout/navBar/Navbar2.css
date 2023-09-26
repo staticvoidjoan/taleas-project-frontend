@@ -1,0 +1,11 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 24px;
+  margin: 24px 20px 0 20px;
+}
+
+.app-name {
+  display: flex;
+}

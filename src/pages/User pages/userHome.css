@@ -1,0 +1,13 @@
+body{
+    background: #F4F4F4;
+    font-family: 'Open Sans', sans-serif;
+}
+.button-row {
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-bottom: 24px;
+    display: flex; /* Change to flex display */
+    gap: 8px;
+    overflow-x: auto;
+  
+  }

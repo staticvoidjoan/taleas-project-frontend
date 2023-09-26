@@ -275,7 +275,7 @@ function RegistrationForm() {
                   color={"black"}
                   size={"s16"}
                 />
-                <Link style={{ textDecoration: "none" }}>
+                <Link style={{ textDecoration: "none" }} to={"/signin"}>
                   <Text
                     label={"Login"}
                     weight={"medium700"}
@@ -295,7 +295,7 @@ function RegistrationForm() {
                 <input
                   type="text"
                   name="companyName"
-                  value={formData.companyName}
+                  value={formData.name}
                   onChange={handleInputChange}
                   placeholder="Company Name"
                   className="register-input"
@@ -353,6 +353,7 @@ function RegistrationForm() {
                   name="agree-to-terms"
                   required
                   className="terms-button"
+                  style={{ appearance: "none", borderRadius: "0" }}
                 />
                 <div className="terms-text">
                   <div style={{ marginRight: "5px" }}>
@@ -396,7 +397,6 @@ function RegistrationForm() {
           lastName={formData.lastname}
           name={formData.name}
           isEmployee={isEmployee}
-          companyName={formData.companyName}
           industry={formData.industry}
           address={formData.address}
         />

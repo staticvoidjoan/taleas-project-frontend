@@ -199,6 +199,7 @@ button {
   display: flex;
   flex-direction: column-reverse;
   overflow: hidden;
+  background-color: #212121;
 }
 
 .form-box-register {
@@ -209,7 +210,6 @@ button {
   display: flex;
   flex-direction: column;
   flex: 1 1 0;
-
 }
 
 .form-value {
@@ -238,7 +238,7 @@ button {
   border: none;
 }
 
-.register-input:focus{
+.register-input:focus {
   outline: none;
 }
 
@@ -251,29 +251,32 @@ button {
   margin-top: 16px;
   align-items: center;
   margin-bottom: 24px;
-  
+  color: #999;
 }
-
 
 .employer-category.selected,
 .employee-category.selected {
-  border-bottom: 2px solid #6e46f5; 
- 
+  border-bottom: 2px solid #6e46f5;
+  color: #6E46F5;
+  font-weight: bold;
 }
 
+.employer-category.selected .form-category,
+.employee-category.selected .form-category {
+  color: #6E46F5;
+}
 
 .employer-category,
 .employee-category {
   width: 100px;
   display: flex;
   justify-content: center;
- 
 }
 
 .user-register-title {
   width: 100%;
   height: 100%;
-  
+
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -287,10 +290,10 @@ button {
   width: 100%;
   align-items: center;
   justify-content: flex-start;
-  margin-left: 25px;
+  margin-left: 40px;
 }
 
-.terms-text{
+.terms-text {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -298,16 +301,15 @@ button {
   align-content: center;
   margin-left: 12px;
 }
-.terms-button{
+.terms-button {
   border: 2px solid #222;
   padding: 0.5em;
 }
 
 .terms-button:checked {
   background-color: #222;
-  color: #fff
-  ;
-  background-size:5px 5px;
+  color: #fff;
+  background-size: 5px 5px;
 }
 .terms-button:focus {
   outline-color: transparent;
@@ -321,15 +323,14 @@ button {
   margin-top: 32px;
 }
 
-
-.goto-login{
+.goto-login {
   display: flex;
   flex-direction: row;
   margin-top: 40px;
   margin-bottom: 24px;
 }
 
-.forgot-password{
+.forgot-password {
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -338,4 +339,3 @@ button {
   margin-bottom: 24px;
   margin-right: 40px;
 }
-
