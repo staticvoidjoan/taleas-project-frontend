@@ -53,7 +53,7 @@ function App() {
   return (
     <div className="App">
       <Router>
-        {!authenticated ? 
+        {authenticated ? 
         <NavBar />
           : null
       }
