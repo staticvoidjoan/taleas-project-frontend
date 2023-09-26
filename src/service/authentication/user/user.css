@@ -231,6 +231,16 @@ button {
   justify-content: center;
 }
 
+.inputbox-register-box{
+  width: calc(100% - 40px);
+  height: 90px;
+  flex-shrink: 0;
+  margin-bottom: 16px;
+  border: 1px solid #ddd;
+  display: flex;
+  justify-content: center;
+}
+
 .register-input {
   margin: 0px;
   padding: 0px;

@@ -1,6 +1,6 @@
 import "./App.css";
 
-import { Link, BrowserRouter as Router, Route, Routes } from "react-router-dom"; // Importing Routes instead of Switch
+import { Link, BrowserRouter as Router, Route, Routes , useLocation} from "react-router-dom"; // Importing Routes instead of Switch
 import { Auth } from "aws-amplify";
 import { Amplify } from "aws-amplify";
 import awsExports from "./aws-exports";
@@ -18,11 +18,13 @@ import LandingPage from "./pages/landingPage/StartingPage";
 import UserHome from "./pages/User pages/userHome";
 import JobProfile from "./pages/Jobs/jobProfile";
 import UserInfo from "./pages/User pages/userInfo";
+import PostJob from "./pages/Jobs/postJob";
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
   const [givenName, setGivenName] = useState("");
   const [lastName, setLastName] = useState("");
   const [isEmployee, setIsEmployee] = useState(false);
+  const location = useLocation();
 
   Amplify.configure(awsExports);
   useEffect(() => {
@@ -50,10 +52,13 @@ function App() {
     }
   };
 
+  const hideNav = location.pathname.startsWith("/postJob/");
+
   return (
     <div className="App">
-      <Router>
-        <NavBar />
+     
+        {!hideNav &&  <NavBar /> }
+       
         {/* ----------------------------------  Home routes ------------------------------------------------------- */}
         <Routes>
           <Route
@@ -95,11 +100,12 @@ function App() {
 
           {/* ----------------------------------  Employer routes ------------------------------------------------------- */}
           <Route exact path="/jobProfile/:id" element={<JobProfile />} />
+          <Route exact path="/postJob/:id" element={<PostJob />} />
           {/* ---------------------------------------------------------------------------------------------------- */}
           {/* ----------------------------------  Other routes ------------------------------------------------------- */}
           <Route path="*" element={<LandingPage />} />
         </Routes>
-      </Router>
+
     </div>
   );
 }
