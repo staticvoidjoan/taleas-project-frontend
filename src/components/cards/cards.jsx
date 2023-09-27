@@ -6,7 +6,7 @@ import heart from "../../assets/icons/heart.svg"
 import x from "../../assets/icons/x.svg"
 import star from "../../assets/icons/star.svg"
 
-const Card = ({ title, info, location, background }) => {
+const Card = ({ title, info, category, background }) => {
     const cardStyle = {
         backgroundImage: `linear-gradient(0deg, #222 0.07%, rgba(34, 34, 34, 0.65) 52.9%, rgba(34, 34, 34, 0.00) 99.93%), url('${background}')`,
         backgroundRepeat: 'no-repeat',
@@ -23,7 +23,7 @@ const Card = ({ title, info, location, background }) => {
           <div className='job-info'><Text label={info} color={"white"} family={"open-sans"} size={"s16"} weight={"thin"}/></div>
           <div className='job-location'>
             <img src={locationImg} alt="Location" />
-            <Text label={location} color={"white"} family={"open-sans"} size={"s14"}  />
+            <Text label={category} color={"white"} family={"open-sans"} size={"s14"}  />
           </div>
         </div>
         <div className='card-buttons'>

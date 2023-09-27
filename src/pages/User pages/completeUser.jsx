@@ -20,27 +20,15 @@ const ProfileForm = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+  });
 
-    setFormData((prevData) => {
-      const [section, field] = name.split('.');
-
-      if (section === 'languages') {
-        const newLanguages = [...prevData.languages];
-        newLanguages.push(value);
-        return { ...prevData, languages: newLanguages };
-      } else {
-        return {
-          ...prevData,
-          [section]: {
-            ...prevData[section],
-            [field]: value,
-          },
-        };
-      }
-    });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault()
     try {
       // Make the API call with formData
       console.log('Form data to be sent:', formData);
@@ -64,7 +52,7 @@ const ProfileForm = () => {
             <input
               type='text'
               id='degree'
-              name='education.degree'
+              name='degree'
               value={formData.education.degree}
               onChange={handleInputChange}
             />
