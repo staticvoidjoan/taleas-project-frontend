@@ -52,3 +52,27 @@
   height: 48px;
   margin-top: 32px;
 }
+
+
+/* Add this CSS to style the "Add" button */
+.add-button {
+  background-color: #6e46f5; /* Purple color */
+  color: #fff; /* White text color */
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-left: 10px;
+}
+
+/* Style the requirement list */
+.requirements-list {
+  margin-top: 10px;
+}
+
+.requirement-item {
+  font-size: 14px;
+  margin: 4px 0;
+  color: #333; /* Text color for requirements */
+}

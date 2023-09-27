@@ -4,17 +4,25 @@ import "./user.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Text from "../../../components/text/text";
-const ConfirmSignup = ({ username, password, name, lastName, industry, address, isEmployee }) => {
+const ConfirmSignup = ({
+  username,
+  password,
+  name,
+  lastName,
+  industry,
+  address,
+  isEmployee,
+}) => {
   const [code, setCode] = useState("");
   const [confirmationError, setConfirmationError] = useState(null);
-  
+
   const navigate = useNavigate();
   async function confirmSignUp(e) {
     e.preventDefault();
     try {
       await Auth.confirmSignUp(username, code);
       console.log("Successfully confirmed sign up");
-      saveToDatabase();
+      logIn();
     } catch (error) {
       console.error("Error confirming sign up", error);
       setConfirmationError(
@@ -24,9 +32,10 @@ const ConfirmSignup = ({ username, password, name, lastName, industry, address, 
   }
 
   const saveToDatabase = async () => {
-    if (isEmployee){
-
+    console.log(isEmployee);
+    if (isEmployee) {
       try {
+        console.log("registering employee");
         const response = await axios.post(
           "https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/user",
           {
@@ -40,19 +49,18 @@ const ConfirmSignup = ({ username, password, name, lastName, industry, address, 
             },
           }
         );
-  
+
         const userMongoId = response.data._id;
         localStorage.setItem("userMongoId", userMongoId);
         console.log("Axios POST request successful");
-  
-        logIn();
+        navigate(`/completeprofile`);
+        window.location.reload();
       } catch (error) {
         console.error("Error during POST request:", error);
-        logIn();
       }
-    }
-    else {
+    } else {
       try {
+        console.log("registering emploryer");
         const response = await axios.post(
           "https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/employer",
           {
@@ -66,11 +74,12 @@ const ConfirmSignup = ({ username, password, name, lastName, industry, address, 
               "Content-Type": "application/json", // Add this line
             },
           }
-          
-          );
-          const userMongoId = response.data._id;
-          localStorage.setItem("userMongoId", userMongoId);
-          console.log("Axios POST request successful");
+        );
+        const userMongoId = response.data._id;
+        localStorage.setItem("userMongoId", userMongoId);
+        console.log("Axios POST request successful");
+        navigate(`/completeprofile`);
+        window.location.reload();
       } catch (error) {
         console.error("Error during POST request:", error);
       }
@@ -93,9 +102,7 @@ const ConfirmSignup = ({ username, password, name, lastName, industry, address, 
       localStorage.setItem("idToken", idToken);
       localStorage.setItem("accessToken", accessToken);
       console.log(username);
-
-      navigate(`/completeprofile`);
-      window.location.reload();
+      saveToDatabase();
     } catch (err) {
       console.log(err);
     }
@@ -109,7 +116,7 @@ const ConfirmSignup = ({ username, password, name, lastName, industry, address, 
           className="form-value"
           style={{ marginTop: "20px" }}
         >
-          <div style={{ marginBottom: "20px" }}>
+          <div style={{ marginBottom: "20px", marginTop: "20px" }}>
             <Text label={"Confirm Account"} size={"s20"} weight={"bold"} />
           </div>
           <div className="inputbox-register">
@@ -125,7 +132,10 @@ const ConfirmSignup = ({ username, password, name, lastName, industry, address, 
           {confirmationError && (
             <p className="error-message">{confirmationError}</p>
           )}
-          <button className="register-btn"> <Text label={"Confirm"} size={"s16"} weight={"medium17"} /></button>
+          <button className="register-btn">
+            {" "}
+            <Text label={"Confirm"} size={"s16"} weight={"medium17"} />
+          </button>
         </form>
       </div>
     </div>

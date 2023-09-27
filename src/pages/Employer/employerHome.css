@@ -1,0 +1,13 @@
+.job-card-column{
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+}
+
+.add-job-btn-container{
+   width: 100%;
+   display: flex;
+   justify-content: center;
+   margin-bottom: 16px;
+}

@@ -20,16 +20,20 @@ import JobProfile from "./pages/Jobs/jobProfile";
 import UserInfo from "./pages/User pages/userInfo";
 import PostJob from "./pages/Jobs/postJob";
 import Footer from "./layout/footer/footer";
+import axios from "axios";
+import EmployerHome from "./pages/Employer/EmployerHome";
+import JobView from "./pages/Employer/jobView";
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
   const [givenName, setGivenName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [isEmployee, setIsEmployee] = useState(false);
+  const [employer, setEmployer] = useState({});
+  const [employee, setEmployee] = useState({});
   const location = useLocation();
-
   Amplify.configure(awsExports);
   useEffect(() => {
     checkAuthenticated();
+    
   }, []);
 
 
@@ -47,11 +51,41 @@ function App() {
       setGivenName(userGivenName);
       const userLastName = userAttributes.family_name || "";
       setLastName(userLastName);
-      const isEmployee = userAttributes.isEmployee;
+      const isEmployee = userAttributes['custom:isEmployee'];
+      console.log('Is Employee:', isEmployee);
+      const useremail = userAttributes.email || "";
+      saveIdtoStorage(useremail, isEmployee);
     } catch (error) {
       setAuthenticated(false);
     }
   };
+
+  const saveIdtoStorage = async (email, isEmployee) => {
+    console.log(isEmployee);
+    console.log(email);
+    if (isEmployee) {
+      console.log("Trying to get employer with", email);
+      try {
+        const response = await axios.get(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/employer-email/${email}`);
+        setEmployer(response.data.employer);
+        localStorage.setItem("employerId", response.data.employer._id);
+        console.log("This is the id i need on local storage", localStorage.getItem("employerId"));
+      } catch (error) {
+        // Handle errors here
+        console.error("Error fetching employer data:", error);
+      }
+    } else{
+      try {
+        console.log("Trying to get employee with ", email);
+        const response = await axios.get(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/userByEmail/${email}`)
+        setEmployee(response.data.user);
+        localStorage.setItem("employeeId", response.data.user._id)
+        console.log(localStorage.getItem("employeeId"));
+      } catch (error) {
+        
+      }
+    }
+  }
 
   const hideNav = location.pathname.startsWith("/postJob/");
   const pathsToHideFooter = ["/","/signup","/signin","/userInfo", "/passwordreset", "/completeprofile", "/resendSignUp"]
@@ -91,7 +125,7 @@ function App() {
           <Route exact path="/resendSignUp" element={<ResendSignup />} />
 
           <Route
-            path={`/${givenName}${lastName}`}
+            path={`/${givenName}-${lastName}`}
             element={<UserDashBoard />}
           />
           {/* ------------------------------------------------------------------------------------------------------------------ */}
@@ -99,11 +133,13 @@ function App() {
           {/* ----------------------------------  Employeee routes ------------------------------------------------------- */}
           <Route exact path="/completeprofile" element={<ProfileForm />} />
           <Route exact path="/userInfo/:id" element={<UserInfo />} />
+          <Route exact path="/jobProfile/:id" element={<JobProfile />} />
           {/* --------------------------------------------------------------------------------------------------------------- */}
 
           {/* ----------------------------------  Employer routes ------------------------------------------------------- */}
-          <Route exact path="/jobProfile/:id" element={<JobProfile />} />
           <Route exact path="/postJob/:id" element={<PostJob />} />
+          <Route exact path="/jobview/:id" element={<JobView />} />
+          <Route exact path={`/${givenName}`} element={<EmployerHome/>} />
           {/* ---------------------------------------------------------------------------------------------------- */}
           {/* ----------------------------------  Other routes ------------------------------------------------------- */}
           <Route path="*" element={<LandingPage />} />

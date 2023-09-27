@@ -4,62 +4,75 @@ import "./postJob.css";
 import X from "../../assets/icons/closeX.svg";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+
 const PostJob = () => {
-  const {id} = useParams();
+  const { id } = useParams();
 
   const [jobPost, setJobPost] = useState({
     category: "",
-    creatorId: id,
     position: "",
     requirements: [],
     description: "",
+  });
 
-  })
-  
-  const [categories, setCategories] = useState({
-    name: "",
-  })
-  const {category,creatorId,position,requirements,description} = jobPost;
+  const [categories, setCategories] = useState({});
+  const { category, position, requirements, description } = jobPost;
+  const [newRequirement, setNewRequirement] = useState([]);
 
-
-  useEffect(()=>{
+  useEffect(() => {
     getCategoryNames();
-  },[])
+  }, []);
 
-  const onInputChange = (e) => {
-    setJobPost({
-      ...jobPost,[e.target.name]: e.target.value
-    });
+
+  const onAddRequirement = () => {
+    if (newRequirement.trim() !== "") {
+      // Check if the new requirement is not empty
+      setJobPost((prevJobPost) => ({
+        ...prevJobPost,
+        requirements: [...prevJobPost.requirements, newRequirement],
+      }));
+      setNewRequirement(""); // Clear the input field after adding
+    }
   }
 
+ 
+  const onInputChange = (e) => {
+    setJobPost({
+      ...jobPost,
+      [e.target.name]: e.target.value,
+    });
+  };
 
-
-  const getCategoryNames = async(e) => {
+  const getCategoryNames = async (e) => {
     try {
-      const response  = await axios.get("https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/category")
-      setCategories(response.data)
+      const response = await axios.get(
+        "https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/category"
+      );
+      setCategories(response.data.categories);
+    } catch (error) {}
+  };
 
-    } catch (error) {
-      
-    }
-  } 
-
-  const onSubmit = async (e) => {{
+  const onSubmit = async (e) => {
     e.preventDefault();
-    const requirementsArray = requirements.split('\n').map(requirement => requirement.trim());
-    if (!category || !position || requirementsArray.length === 0 || !description) {
+    if (!category || !position || !description) {
       alert("Please fill in all required fields.");
       return;
     }
     console.log("Submitting the form...");
     try {
-      console.log("Adding new job post...")
-      await axios.post("https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts", jobPost)
-      console.log("Job Succesfullt posted")
-    } catch (error) {
+      console.log("Adding new job post...");
+      console.log( category, id, position, requirements, description)
+      console.log(jobPost)
+      await axios.post(
+        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/creator/${id}`,
+        jobPost
       
+      );
+      console.log("Job Successfully posted");
+    } catch (error) {
+      console.log(error)
     }
-  }
+  };
 
   return (
     <div className="post-job-container">
@@ -73,20 +86,26 @@ const PostJob = () => {
       <div className="post-job-body">
         <form className="job-form" onSubmit={onSubmit}>
           <div className="inputbox-register">
-          <select
-              name="category"
-              value={jobPost.category}
-              onChange={onInputChange}
-              className="register-input"
-              required
-            >
-              <option value="" disabled>Select a category</option>
-              {categories.map((category) => (
-                <option key={category.id} value={category.id}>
-                  {category.name}
+            {categories.length > 0 ? (
+              <select
+                name="category"
+                value={jobPost.category}
+                onChange={onInputChange}
+                className="register-input"
+                required
+              >
+                <option value="" disabled>
+                  Select a category
                 </option>
-              ))}
-            </select>
+                {categories.map((category) => (
+                  <option key={category._id} value={category._id}> 
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              <p>Loading categories...</p>
+            )}
           </div>
           <div className="inputbox-register">
             <input
@@ -110,23 +129,43 @@ const PostJob = () => {
               required
             />
           </div>
-          <div className="inputbox-register">
+          {/* <div className="inputbox-register">
             <input
               name="requirements"
               placeholder="Requirements (One requirement per line)"
               className="register-input"
               value={requirements}
               onChange={onInputChange}
-              required
             />
+          </div> */}
+           <div className="inputbox-register">
+            {/* Input for new requirements */}
+            <input
+              type="text"
+              placeholder="Add Requirement"
+              className="register-input"
+              value={newRequirement}
+              onChange={(e) => setNewRequirement(e.target.value)}
+            />
+            <button type="button" className="add-button" onClick={onAddRequirement}>
+            <Text label={"Add"} size={"s14"} weight={"regular"} />
+            </button>
           </div>
-        <button className="job-btn"><Text label={"Save"} size={"s16"} weight={"regular"}/></button>
+          {/* Display the list of requirements */}
+          <div className="requirements-list">
+            <ul>
+              {requirements.map((requirement, index) => (
+                <li key={index}>{requirement}</li>
+              ))}
+            </ul>
+          </div>
+          <button className="job-btn">
+            <Text label={"Save"} size={"s16"} weight={"regular"} />
+          </button>
         </form>
-        
       </div>
     </div>
   );
 };
-}
 
 export default PostJob;
