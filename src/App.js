@@ -19,6 +19,7 @@ import UserHome from "./pages/User pages/userHome";
 import JobProfile from "./pages/Jobs/jobProfile";
 import UserInfo from "./pages/User pages/userInfo";
 import PostJob from "./pages/Jobs/postJob";
+import Footer from "./layout/footer/footer";
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
   const [givenName, setGivenName] = useState("");
@@ -53,6 +54,8 @@ function App() {
   };
 
   const hideNav = location.pathname.startsWith("/postJob/");
+  const pathsToHideFooter = ["/","/signup","/signin","/userInfo", "/passwordreset", "/completeprofile", "/resendSignUp"]
+  const hideFooter = pathsToHideFooter.includes(location.pathname);
 
   return (
     <div className="App">
@@ -105,6 +108,7 @@ function App() {
           {/* ----------------------------------  Other routes ------------------------------------------------------- */}
           <Route path="*" element={<LandingPage />} />
         </Routes>
+        {hideFooter ? null : <Footer />}
 
     </div>
   );
