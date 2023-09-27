@@ -60,7 +60,7 @@ const ConfirmSignup = ({
       }
     } else {
       try {
-        console.log("registering emploryer");
+        console.log("registering employer");
         const response = await axios.post(
           "https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/employer",
           {
@@ -78,7 +78,7 @@ const ConfirmSignup = ({
         const userMongoId = response.data._id;
         localStorage.setItem("userMongoId", userMongoId);
         console.log("Axios POST request successful");
-        navigate(`/completeprofile`);
+        navigate(`/${name}`);
         window.location.reload();
       } catch (error) {
         console.error("Error during POST request:", error);

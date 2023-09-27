@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Auth } from "aws-amplify";
-
 import "./user.css";
 import { Amplify } from "aws-amplify";
 import { Link, useNavigate } from "react-router-dom";
@@ -9,13 +8,13 @@ import Text from "../../../components/text/text";
 const LoginPage = () => {
   Amplify.configure(awsExports);
   const [selectedCategory, setSelectedCategory] = useState("employer");
-  const [isEmployee, setisEmployee] = useState(true);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [confirmationError, setConfirmationError] = useState(false);
   const navigate = useNavigate();
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -38,6 +37,7 @@ const LoginPage = () => {
       setSuccess(true);
       setError(null);
       window.location.reload();
+      goToHome();
     } catch (err) {
       setError("An error occurred while logging in.");
       setConfirmationError(true);
@@ -45,13 +45,16 @@ const LoginPage = () => {
     }
   };
 
-  // <div className="inputbox">
-  //   <input
-  //     type="email"
-  //     value={username}
-  //     onChange={(e) => setUsername(e.target.value)}
-  //     required
-  //   />
+  const goToHome = async () => {
+    try {
+      const user = await Auth.currentAuthenticatedUser();
+      const userAttributes = user.attributes || {};
+      const userGivenName = userAttributes.given_name || "";
+      navigate(`/${userGivenName}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="user-register-page">

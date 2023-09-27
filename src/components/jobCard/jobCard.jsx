@@ -19,10 +19,12 @@ const JobCard = ({ id, index }) => {
     loadPost();
   }, []);
 
-  const navigateToView= () =>{
-    navigate(`/jobview/${postId}`);
+  const navigateToView = () => {
+   
+    setTimeout(() => {
+      navigate(`/jobview/${postId}`);
+    }, 150); 
   }
-
 
   const loadPost = async () => {
     try {

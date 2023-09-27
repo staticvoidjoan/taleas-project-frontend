@@ -6,15 +6,18 @@ import locationico from "../../assets/icons/location.svg";
 import DateButtons from "../../components/button/dateButtons";
 import unicorn from "../../assets/images/Unicorn.png"
 import axios from "axios";
+import Applicants from "../../components/applicants/applicants";
 import { format } from 'date-fns';
 const JobView = () => {
   const [post, setPost] = useState({});
   const [company,setCompany] = useState({});
   const [category,setCategory] = useState({});
   const [postDate,setPostDate] = useState("");
+  const [likes,setLikes] = useState([]);
   const { id } = useParams();
   useEffect(() => {
     loadPost();
+    
   }, []);
 
   const loadPost = async () => {
@@ -26,6 +29,8 @@ const JobView = () => {
       setPost(response.data.post);
       setCompany(response.data.post.creatorId);
       setCategory(response.data.post.category);
+      setLikes(response.data.post.likedBy);
+      // console.log("THE LIKES", likes);
       const dateString = response.data.post.createdAt;
       const formatedDate = format(new Date (dateString), 'MMMM d, yyyy')
       setPostDate(formatedDate);
@@ -98,8 +103,10 @@ const JobView = () => {
   </ul>
         </div>
         
-        <DateButtons />
       </div>
+      {likes.map((like, index) => (
+  <Applicants key={like._id} id={like._id} data={like} />
+))}
     </div>
   );
 };
