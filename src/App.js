@@ -17,7 +17,7 @@ import UserDashBoard from "./pages/User pages/userDashBoard";
 import LandingPage from "./pages/landingPage/StartingPage";
 import UserHome from "./pages/User pages/userHome";
 import JobProfile from "./pages/Jobs/jobProfile";
-import UserInfo from "./pages/User pages/userInfo"
+import UserInfo from "./pages/User pages/userInfo";
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
   const [givenName, setGivenName] = useState("");
@@ -52,8 +52,8 @@ function App() {
     <div className="App">
       <Router>
         <NavBar />
-
         <Routes>
+          <Route path="/home" element={<Home />} />
           <Route
             exact
             path="/"
