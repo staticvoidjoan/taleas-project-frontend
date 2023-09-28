@@ -3,7 +3,7 @@ import Text from '../text/text';
 import "./cards.css"
 import locationImg from '../../assets/icons/location.svg';
 import unicorn from "../../assets/images/Unicorn.png"
-import DateButtons from '../button/dateButtons';
+
 
 const Card = ({title, info, category, background }) => {
     const cardStyle = {
