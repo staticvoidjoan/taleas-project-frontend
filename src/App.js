@@ -36,17 +36,21 @@ function App() {
   const [lastName, setLastName] = useState("");
   const [checkEmployee, setCheckEmployee] = useState(false);
   const location = useLocation();
-  
+
   Amplify.configure(awsExports);
   useEffect(() => {
     checkAuthenticated();
   }, []);
 
+  useEffect(() => {
+    checkEmployee
+  })
+
   //Check to see if a auser is authenticated and get the name and last name (only name if company)
   const checkAuthenticated = async () => {
     try {
       const user = await Auth.currentAuthenticatedUser();
-      
+
       if (user) {
         setAuthenticated(true);
       } else {
@@ -62,10 +66,15 @@ function App() {
       const useremail = userAttributes.email || "";
       localStorage.setItem("companyname", userGivenName);
       setCheckEmployee(isEmployee);
-      if (checkEmployee === false) {
+      if (isEmployee === false) {
+        console.log(checkEmployee);
+        console.log("I AM HERE ON FALSE ")
         saveEmployerToStorage(useremail);
       }
-      if (checkEmployee === true) {
+      if (isEmployee === true) {
+        
+        console.log("I AM HERE ON TRUE ")
+        console.log(checkEmployee);
         saveEmployeeToStorage(useremail);
       }
     } catch (error) {
@@ -125,7 +134,13 @@ function App() {
           path="/"
           element={authenticated ? <UserDashBoard /> : <LandingPage />}
         />
-        <Route exact path="/userHome" element={<UserHome />} />
+
+        {/* -------------------------------------- HOME PAGE ------------------------- */}
+        <Route
+          exact
+          path={`/${givenName}`}
+          element={checkEmployee ? <UserHome /> : <EmployerHome />}
+        />
         {/* ----------------------------------------------------------------------------------------------------------------- */}
 
         {/* ----------------------------------  Auhentication routes ------------------------------------------------------- */}
@@ -158,8 +173,12 @@ function App() {
         {/* ----------------------------------  Employer routes ------------------------------------------------------- */}
         <Route exact path="/postJob/:id" element={<PostJob />} />
         <Route exact path="/jobview/:id" element={<JobView />} />
-        <Route exact path={`/${givenName}`} element={<EmployerHome />} />
-        <Route exact path={`/${givenName}-profile`} element={<EmployerProfile/>} />
+        {/* <Route exact path={`/${givenName}`} element={<EmployerHome />} /> */}
+        <Route
+          exact
+          path={`/${givenName}-profile`}
+          element={<EmployerProfile />}
+        />
         {/* ---------------------------------------------------------------------------------------------------- */}
         {/* ----------------------------------  Other routes ------------------------------------------------------- */}
         <Route path="*" element={<LandingPage />} />
