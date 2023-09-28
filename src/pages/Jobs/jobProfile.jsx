@@ -16,24 +16,35 @@ const JobProfile = () => {
     loadPost();
   }, []);
 
-  const loadPost = async () => {
-    try {
-      const response = await axios.get(
-        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/${id}`
-      );
-      // console.log(response.data); // Log the entire response data
-      setPost(response.data.post);
-      setCompany(response.data.post.creatorId);
-      setCategory(response.data.post.category);
-      const dateString = response.data.post.createdAt;
-      const formatedDate = format(new Date (dateString), 'MMMM d, yyyy')
-      setPostDate(formatedDate);
-      
+  useEffect(() => {
+    // This code will run whenever 'post' changes.
+    console.log("Updated post state:", post);
+  }, [post]);
 
-    } catch (error) {
-      console.log(error);
+ const loadPost = async () => {
+  try {
+    const response = await axios.get(
+      `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/${id}`
+    );
+    
+    console.log("API response data:", response.data);
+    
+    setPost(response.data.post);
+    
+    console.log("Updated post state:", post);
+    if(response.data.post.creatorId){
+      setCompany(response.data.post.creatorId);
     }
-  };
+
+    setCategory(response.data.post.category);
+    const dateString = response.data.post.createdAt;
+    const formattedDate = format(new Date(dateString), 'MMMM d, yyyy');
+    setPostDate(formattedDate);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 
   const cardStyle = {
     backgroundImage: `url(${company.profilePhoto ?? unicorn} )`,

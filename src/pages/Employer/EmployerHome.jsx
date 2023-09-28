@@ -18,7 +18,7 @@ const EmployerHome = () => {
     try {
       console.log(creatorId);
       const response = await axios.get(
-        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/creator/${creatorId}?page=1&limit=2`
+        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/creator/${creatorId}?page=1&limit=5`
       );
       setuserPosts(response.data.posts);
       setPostCount(response.data.count);

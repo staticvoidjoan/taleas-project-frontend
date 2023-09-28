@@ -29,12 +29,14 @@ import Footer from "./layout/footer/footer";
 import axios from "axios";
 import EmployerHome from "./pages/Employer/EmployerHome";
 import JobView from "./pages/Employer/jobView";
+import EmployerProfile from "./pages/Employer/employerProfile";
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
   const [givenName, setGivenName] = useState("");
   const [lastName, setLastName] = useState("");
   const [checkEmployee, setCheckEmployee] = useState(false);
   const location = useLocation();
+  
   Amplify.configure(awsExports);
   useEffect(() => {
     checkAuthenticated();
@@ -44,6 +46,7 @@ function App() {
   const checkAuthenticated = async () => {
     try {
       const user = await Auth.currentAuthenticatedUser();
+      
       if (user) {
         setAuthenticated(true);
       } else {
@@ -59,18 +62,18 @@ function App() {
       const useremail = userAttributes.email || "";
       localStorage.setItem("companyname", userGivenName);
       setCheckEmployee(isEmployee);
-      if (!checkEmployee) {
-        saveEmployeeToStorage(useremail);
+      if (checkEmployee === false) {
+        saveEmployerToStorage(useremail);
       }
       if (checkEmployee === true) {
-        saveEmployerToStorage(useremail);
+        saveEmployeeToStorage(useremail);
       }
     } catch (error) {
       setAuthenticated(false);
     }
   };
 
-  const saveEmployerToStorage = async (email) => {
+  const saveEmployeeToStorage = async (email) => {
     try {
       console.log("Trying to get employee with ", email);
       const response = await axios.get(
@@ -81,7 +84,7 @@ function App() {
     } catch (error) {}
   };
 
-  const saveEmployeeToStorage = async (email) => {
+  const saveEmployerToStorage = async (email) => {
     try {
       console.log("Trying to get employer with", email);
       const response = await axios.get(
@@ -156,6 +159,7 @@ function App() {
         <Route exact path="/postJob/:id" element={<PostJob />} />
         <Route exact path="/jobview/:id" element={<JobView />} />
         <Route exact path={`/${givenName}`} element={<EmployerHome />} />
+        <Route exact path={`/${givenName}-profile`} element={<EmployerProfile/>} />
         {/* ---------------------------------------------------------------------------------------------------- */}
         {/* ----------------------------------  Other routes ------------------------------------------------------- */}
         <Route path="*" element={<LandingPage />} />
