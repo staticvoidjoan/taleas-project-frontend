@@ -71,7 +71,7 @@ const Navbar2 = (props) => {
         <div>
           {authenticated ? (
             <>
-              <Link>
+              <Link to={`${givenName}-profile`}>
                 {givenName} {lastName}
               </Link>
             </>

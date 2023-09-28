@@ -2,12 +2,11 @@ import React, { useEffect, useState } from "react";
 import Text from "../../components/text/text";
 import "./postJob.css";
 import X from "../../assets/icons/closeX.svg";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-
 const PostJob = () => {
   const { id } = useParams();
-
+  const navigate = useNavigate();
   const [jobPost, setJobPost] = useState({
     category: "",
     position: "",
@@ -23,7 +22,6 @@ const PostJob = () => {
     getCategoryNames();
   }, []);
 
-
   const onAddRequirement = () => {
     if (newRequirement.trim() !== "") {
       // Check if the new requirement is not empty
@@ -33,9 +31,8 @@ const PostJob = () => {
       }));
       setNewRequirement(""); // Clear the input field after adding
     }
-  }
+  };
 
- 
   const onInputChange = (e) => {
     setJobPost({
       ...jobPost,
@@ -61,16 +58,16 @@ const PostJob = () => {
     console.log("Submitting the form...");
     try {
       console.log("Adding new job post...");
-      console.log( category, id, position, requirements, description)
-      console.log(jobPost)
+      console.log(category, id, position, requirements, description);
+      console.log(jobPost);
       await axios.post(
         `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/creator/${id}`,
         jobPost
-      
       );
       console.log("Job Successfully posted");
+      navigate(-1);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
 
@@ -98,7 +95,7 @@ const PostJob = () => {
                   Select a category
                 </option>
                 {categories.map((category) => (
-                  <option key={category._id} value={category._id}> 
+                  <option key={category._id} value={category._id}>
                     {category.name}
                   </option>
                 ))}
@@ -138,7 +135,7 @@ const PostJob = () => {
               onChange={onInputChange}
             />
           </div> */}
-           <div className="inputbox-register">
+          <div className="inputbox-register">
             {/* Input for new requirements */}
             <input
               type="text"
@@ -147,8 +144,12 @@ const PostJob = () => {
               value={newRequirement}
               onChange={(e) => setNewRequirement(e.target.value)}
             />
-            <button type="button" className="add-button" onClick={onAddRequirement}>
-            <Text label={"Add"} size={"s14"} weight={"regular"} />
+            <button
+              type="button"
+              className="add-button"
+              onClick={onAddRequirement}
+            >
+              <Text label={"Add"} size={"s14"} weight={"regular"} />
             </button>
           </div>
           {/* Display the list of requirements */}
