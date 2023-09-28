@@ -6,40 +6,21 @@ import locationico from "../../assets/icons/whitelocation.svg";
 import "./jobCard.css";
 import heart from "../../assets/icons/redHeart.svg";
 import { useNavigate } from "react-router-dom";
-const JobCard = ({ id }) => {
-  const [post, setPost] = useState({});
-  const [category, setCategory] = useState({});
-  const [company, setCompany] = useState({});
-  const [likes, setLikes] = useState("");
-  const [postId, setPostId] = useState("");
+const JobCard = ({postId, profilePhoto, position,category, likes, address }) => {
+
   const navigate = useNavigate();
-  useEffect(() => {
-    loadPost();
-  }, [post]);
+
 
   const navigateToView = () => {
+    console.log(postId)
     setTimeout(() => {
       navigate(`/jobview/${postId}`);
     }, 150);
   };
 
-  const loadPost = async () => {
-    try {
-      const response = await axios.get(
-        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/${id}`
-      );
-      setPost(response.data.post);
-      setCategory(response.data.post.category);
-      setCompany(response.data.post.creatorId);
-      setLikes(response.data.post.likedBy.length);
-      setPostId(response.data.post._id);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const cardStyle = {
-    backgroundImage: `url(${company.profilePhoto ?? unicorn} )`,
+    backgroundImage: `url(${profilePhoto ?? unicorn} )`,
     position: "relative",
   };
 
@@ -52,13 +33,13 @@ const JobCard = ({ id }) => {
       </div>
       <div className="post-card-info">
         <Text
-          label={post.position ?? "Loading..."}
+          label={position ?? "Loading..."}
           color={"white"}
           size={"s18"}
           weight={"medium"}
         />
         <Text
-          label={category.name}
+          label={category}
           color={"white"}
           size={"s16"}
           weight={"regular"}
@@ -67,7 +48,7 @@ const JobCard = ({ id }) => {
           <img src={locationico} className="location-icon" />
           <div style={{ marginRight: "10px" }}>
             <Text
-              label={company.address ?? "Loading..."}
+              label={address ?? "Loading..."}
               weight={"regular"}
               color={"white"}
               size={"s14"}
@@ -78,7 +59,7 @@ const JobCard = ({ id }) => {
           <img src={heart} alt="" />
           <div style={{ marginLeft: "10px" }}>
             <Text
-              label={likes ?? "Loading..."}
+              label={likes.length ?? "Loading..."}
               weight={"regular"}
               color={"white"}
               size={"s16"}
