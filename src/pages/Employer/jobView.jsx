@@ -17,11 +17,11 @@ const JobView = () => {
   const { id } = useParams();
   useEffect(() => {
     loadPost();
-    
   }, []);
 
   const loadPost = async () => {
     try {
+      console.log("I AM LOADING")
       const response = await axios.get(
         `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/${id}`
       );
@@ -41,6 +41,7 @@ const JobView = () => {
 
   const deletePost = async () => {
     try {
+     
       await axios.delete(
         `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/${id}`
       );
@@ -148,7 +149,7 @@ const JobView = () => {
       </div>
       <div style={{ marginBottom: "40px" }} className="applicant-column">
         {likes.map((like, index) => (
-          <Applicants key={like._id} id={like._id} postId={post._id} companyId={company} data={like} />
+          <Applicants key={like._id} id={like._id} postId={post._id} companyId={company} data={like} loadPost={loadPost} />
         ))}
       </div>
       <div className="delete-btn-container">

@@ -33,10 +33,6 @@ const LoginPage = () => {
       localStorage.setItem("idToken", idToken);
       localStorage.setItem("accessToken", accessToken);
       console.log(username);
-
-      setSuccess(true);
-      setError(null);
-      window.location.reload();
       goToHome();
     } catch (err) {
       setError("An error occurred while logging in.");
