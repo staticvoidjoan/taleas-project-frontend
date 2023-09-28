@@ -9,16 +9,16 @@ import "./userHome.css";
 
 const UserHome = () => {
   const [posts, setPosts] = useState([])
+  const [currentPost, setCurrentPost] = useState({});
   const [selectedButton, setSelectedButton] = useState('All');
   const [categories, setCategories] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0)
   const [postlength, setPostLength] = useState(0);
-  const [currentPostId, setCurrentPostId] = useState([])
   const userId = localStorage.getItem('employeeId')
   console.log(userId)
   const navigate = useNavigate();
   useEffect(() => {
-    loadPosts() ;
+    loadPosts();
     loadTabs();
     // console.log("selectedButton:", selectedButton);
     console.log("THESE ARE THE POSTS",posts)
@@ -36,9 +36,9 @@ const UserHome = () => {
     };
 };
 
-const handleLikeClick = async () => {
+const handleLikeClick = async (postId) => {
   try{
-    await axios.put(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/like/${userId}?id=${posts[0].id}`)
+    await axios.put(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/like/${userId}?id=${postId}`)
      console.log('Cancel API Response:');
    }
    catch {
@@ -57,81 +57,80 @@ const handleLikeClick = async () => {
     }
   }
   const loadPosts = async () => {
-    console.log("start again")
     try {
-      console.log("start")
       const response = await axios.get(
         `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/user/${userId}`
       );
-      setPosts(response.data[currentIndex]);
+      setPosts(response.data);
+      console.log(response.data)
+      setCurrentPost(response.data[currentIndex])
       setPostLength(response.data.length)
     } catch (error) {
       console.error(error);
     }
   };
   
-  const fetchNextEntry = () => {
-    if(currentIndex < postlength - 1){
-      setCurrentIndex(currentIndex + 1)
-      console.log(currentIndex)
-      loadPosts()
-    }else{
-      setCurrentIndex(0)
+  const fetchNextEntry = async () => {
+    await handleLikeClick(currentPost._id);
+    console.log("We just LIKED this POST> ", currentPost._id);
+    if (currentIndex < postlength - 1) {
+      const nextIndex = currentIndex + 1;
+      const nextPost = posts[nextIndex];
+      setCurrentIndex(nextIndex);
+      setCurrentPost(nextPost)
+      console.log(nextIndex);
+      console.log("next post is", nextPost);
+     
+    } else {
+      setPostLength(0);
     }
-  }
+  };
+  
 
 
   return (
     <div>
-       <div className="button-row">
-          {categories.map((buttonName, index) => (
-            <Tabs
-              buttonName={buttonName.name}
-              key={index}
-              selected={selectedButton === buttonName}
-              onClick={() => setSelectedButton(buttonName)}
-              
-            />
-          ))}
-        </div> 
-        {/* {posts.map((us, index) => (
-        <div onClick={() => handleJobCardClick(us._id)}>
-            <Card
-              key={index}
-              id={us._id}
-              category={us.category.name}
-              title={us.position}
-              // info={us.creatorId.companyName ?? "Company name"}
-              // background={us.creatorId.profilePhoto}
-            />
-        </div>))}  */}
-        <div onClick={() => {
-          console.log("navigate to this id ", posts._id)
-          handleJobCardClick(posts._id)}}>
-        <Card 
-        id={posts._id}
-        //category={posts.category.name}
-        title={posts.position}
-        // info={posts.creatorId.companyName}
-        // background={posts.creatorId.profilePhoto}
-        />
-        </div>
-        
-        <div className='card-buttons'>
-        <div>
-          <button className="cancel" onClick={handleCancelClick}>
-            {" "}
-            <img src={x} alt="x" />
-          </button>
-        </div>
-        <div>
-          <button className="like" onClick={fetchNextEntry}>
-            <img src={heart} alt="heart" />
-          </button>
-        </div>
+      <div className="button-row">
+        {categories.map((buttonName, index) => (
+          <Tabs
+            buttonName={buttonName.name}
+            key={index}
+            selected={selectedButton === buttonName}
+            onClick={() => setSelectedButton(buttonName)}
+          />
+        ))}
       </div>
+      {postlength === 0 ? (
+        <div>No more posts</div>
+      ) : (
+        <div>
+          <div onClick={() => handleJobCardClick(currentPost.id)}>
+            <Card
+              id={currentPost.id}
+              category={currentPost.category.name}
+              title={currentPost.position}
+              info={currentPost.creatorId.companyName}
+              background={currentPost.creatorId.profilePhoto}
+            />
+          </div>
+          <div className='card-buttons'>
+            <div>
+              <button className="cancel" onClick={handleCancelClick}>
+                {" "}
+                <img src={x} alt="x" />
+              </button>
+            </div>
+            <div>
+              <button className="like" onClick={fetchNextEntry}>
+                <img src={heart} alt="heart" />
+              </button>
+            </div>
+          </div>
         </div>
+      )}
+    </div>
   );
+  
 };
 
 export default UserHome;

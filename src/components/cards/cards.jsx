@@ -18,11 +18,11 @@ const Card = ({title, info, category, background }) => {
     <div className='card-container' style={cardStyle}>
       <div className='card-content'>
         <div className='card-info'>
-          <div className='job-title'><Text label={title} weight={"medium700"} color={"white"} family={"open-sans"} size={"s18"} /></div>
-          <div className='job-info'><Text label={info} color={"white"} family={"open-sans"} size={"s16"} weight={"thin"}/></div>
+          <div className='job-title'><Text label={title ?? "No more posts"} weight={"medium700"} color={"white"} family={"open-sans"} size={"s18"} /></div>
+          <div className='job-info'><Text label={info ?? "--"} color={"white"} family={"open-sans"} size={"s16"} weight={"thin"}/></div>
           <div className='job-location'>
             <img src={locationImg} alt="Location" />
-            <Text label={category} color={"white"} family={"open-sans"} size={"s14"}  />
+            <Text label={category ?? "--"} color={"white"} family={"open-sans"} size={"s14"}  />
           </div>
         </div>
       </div>
