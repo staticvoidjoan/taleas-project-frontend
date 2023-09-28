@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth, getUserId } from "../../firebase";
+import { auth } from "../../firebase";
 import { useNavigate, Link } from "react-router-dom";
 
 const SignInFirebase = () => {
@@ -17,8 +17,6 @@ const SignInFirebase = () => {
     try {
       // Sign in user
       await signInWithEmailAndPassword(auth, email, password);
-      let q = await getUserId(email)
-      console.log(q)
 
       // Redirect to the main chat page after successful sign-in
       navigate("/chat");
@@ -32,7 +30,6 @@ const SignInFirebase = () => {
   return (
     <div className="formContainer">
       <div className="formWrapper">
-        <span className="logo">Lama Chat</span>
         <span className="title">Sign In</span>
         <form onSubmit={handleSubmit}>
           <input required type="email" placeholder="email" />
@@ -50,4 +47,3 @@ const SignInFirebase = () => {
 };
 
 export default SignInFirebase;
-
