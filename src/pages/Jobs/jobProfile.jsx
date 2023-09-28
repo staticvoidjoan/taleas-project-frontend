@@ -98,7 +98,6 @@ const JobProfile = () => {
   </ul>
         </div>
         
-        <DateButtons />
       </div>
     </div>
   );
