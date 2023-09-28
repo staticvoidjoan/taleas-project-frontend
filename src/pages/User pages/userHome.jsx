@@ -11,16 +11,24 @@ const UserHome = () => {
   const [posts, setPosts] = useState([])
   const [selectedButton, setSelectedButton] = useState('All');
   const [categories, setCategories] = useState([]);
-  const [currentIndex, setCurrentIndex] = useState([])
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [postlength, setPostLength] = useState(0);
   const [currentPostId, setCurrentPostId] = useState([])
   const userId = localStorage.getItem('employeeId')
+  console.log(userId)
   const navigate = useNavigate();
+  useEffect(() => {
+    loadPosts() ;
+    loadTabs();
+    // console.log("selectedButton:", selectedButton);
+    console.log("THESE ARE THE POSTS",posts)
+  }, []);
   const handleJobCardClick = (id) => {
-        navigate(`/jobProfile/${id}`);
+    navigate(`/jobProfile/${id}`);
   };
   const handleCancelClick = async () => {
     try{
-     await axios.put(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/dislike/${userId}?id=${posts[0].id}`)
+      await axios.put(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/dislike/${userId}?id=${posts[0].id}`)
       console.log('Cancel API Response:');
     }
     catch {
@@ -37,6 +45,7 @@ const handleLikeClick = async () => {
      console.error('Cancel API Error:');
    };
 }
+
   const loadTabs = async () => {
     try {
       const response = await axios.get("https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/category")
@@ -44,30 +53,33 @@ const handleLikeClick = async () => {
       setCategories(response.data.categories)
       console.log(response)
     } catch (error) {
-      console.error("Error fetching categories.")
+      console.error(error)
     }
   }
   const loadPosts = async () => {
+    console.log("start again")
     try {
+      console.log("start")
       const response = await axios.get(
-        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts`
+        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/user/${userId}`
       );
-      setPosts(response.data.posts);
-      console.log(response.data.posts)
-      console.log(response.data.posts.profilePhoto);
+      setPosts(response.data[currentIndex]);
+      setPostLength(response.data.length)
     } catch (error) {
-      console.error("something went wrong");
+      console.error(error);
     }
   };
   
+  const fetchNextEntry = () => {
+    if(currentIndex < postlength - 1){
+      setCurrentIndex(currentIndex + 1)
+      console.log(currentIndex)
+      loadPosts()
+    }else{
+      setCurrentIndex(0)
+    }
+  }
 
-  useEffect(() => {
-    loadTabs()
-    loadPosts();
-    console.log("selectedButton:", selectedButton);
-    console.log(posts)
-  }, [posts],[selectedButton]);
-  
 
   return (
     <div>
@@ -82,25 +94,29 @@ const handleLikeClick = async () => {
             />
           ))}
         </div> 
-        {posts.map((us, index) => (
+        {/* {posts.map((us, index) => (
         <div onClick={() => handleJobCardClick(us._id)}>
             <Card
               key={index}
               id={us._id}
               category={us.category.name}
               title={us.position}
-              // info={us.creatorId.companyName}
-              background={us.creatorId.profilePhoto}
+              // info={us.creatorId.companyName ?? "Company name"}
+              // background={us.creatorId.profilePhoto}
             />
-        </div>))}
-{/* 
-        <Card onClick={() => handleJobCardClick(posts[0].id)}
-        id={posts[0].id}
-        category={posts[0].category.name}
-        title={posts[0].position}
-        // info={posts[0].creatorId.companyName}
-        background={posts[0].creatorId.profilePhoto}
-        /> */}
+        </div>))}  */}
+        <div onClick={() => {
+          console.log("navigate to this id ", posts._id)
+          handleJobCardClick(posts._id)}}>
+        <Card 
+        id={posts._id}
+        //category={posts.category.name}
+        title={posts.position}
+        // info={posts.creatorId.companyName}
+        // background={posts.creatorId.profilePhoto}
+        />
+        </div>
+        
         <div className='card-buttons'>
         <div>
           <button className="cancel" onClick={handleCancelClick}>
@@ -109,7 +125,7 @@ const handleLikeClick = async () => {
           </button>
         </div>
         <div>
-          <button className="like" onClick={handleLikeClick}>
+          <button className="like" onClick={fetchNextEntry}>
             <img src={heart} alt="heart" />
           </button>
         </div>
