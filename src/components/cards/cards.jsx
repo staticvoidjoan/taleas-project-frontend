@@ -7,13 +7,14 @@ import unicorn from "../../assets/images/Unicorn.png"
 
 const Card = ({title, info, category, background }) => {
     const cardStyle = {
-        backgroundImage: `linear-gradient(0deg, #222 0.07%, rgba(34, 34, 34, 0.65) 52.9%, rgba(34, 34, 34, 0.00) 99.93%), url('${background ?? unicorn}')`,
-        backgroundRepeat: 'no-repeat',
-        boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
-        flexShrink: 0,
-      };
-      
-
+      backgroundImage: `linear-gradient(0deg, #222 0.07%, rgba(34, 34, 34, 0.65) 52.9%, rgba(34, 34, 34, 0.00) 99.93%), url(${background ?? unicorn})`,
+      backgroundSize: 'cover',
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'center', // Center the background image
+      boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
+      flexShrink: 0,
+    };
+  
   return (
     <div className='card-container' style={cardStyle}>
       <div className='card-content'>
