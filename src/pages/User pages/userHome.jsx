@@ -70,7 +70,7 @@ const handleLikeClick = async (postId) => {
     }
   };
   
-  const fetchNextEntry = async () => {
+  const like = async () => {
     await handleLikeClick(currentPost._id);
     console.log("We just LIKED this POST> ", currentPost._id);
     if (currentIndex < postlength - 1) {
@@ -85,7 +85,18 @@ const handleLikeClick = async (postId) => {
       setPostLength(0);
     }
   };
-  
+  const dislike = async () => {
+    if (currentIndex < postlength - 1) {
+      const nextIndex = currentIndex + 1;
+      const nextPost = posts[nextIndex];
+      setCurrentIndex(nextIndex);
+      setCurrentPost(nextPost)
+      console.log(nextIndex);
+      console.log("next post is", nextPost);
+    } else {
+      setPostLength(0);
+    }
+  };
 
 
   return (
@@ -104,9 +115,9 @@ const handleLikeClick = async (postId) => {
         <div>No more posts</div>
       ) : (
         <div>
-          <div onClick={() => handleJobCardClick(currentPost.id)}>
+          <div className='card-component' onClick={() => handleJobCardClick(currentPost._id)}>
             <Card
-              id={currentPost.id}
+              id={currentPost._id}
               category={currentPost.category.name}
               title={currentPost.position}
               info={currentPost.creatorId.companyName}
@@ -115,13 +126,13 @@ const handleLikeClick = async (postId) => {
           </div>
           <div className='card-buttons'>
             <div>
-              <button className="cancel" onClick={handleCancelClick}>
+              <button className="cancel" onClick={dislike}>
                 {" "}
                 <img src={x} alt="x" />
               </button>
             </div>
             <div>
-              <button className="like" onClick={fetchNextEntry}>
+              <button className="like" onClick={like}>
                 <img src={heart} alt="heart" />
               </button>
             </div>
