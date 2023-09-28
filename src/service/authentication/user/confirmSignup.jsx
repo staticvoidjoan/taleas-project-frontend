@@ -53,7 +53,7 @@ const ConfirmSignup = ({
         const userMongoId = response.data._id;
         localStorage.setItem("userMongoId", userMongoId);
         console.log("Axios POST request successful");
-        navigate(`/completeprofile`);
+        navigate(`/${name}`);
         window.location.reload();
       } catch (error) {
         console.error("Error during POST request:", error);
@@ -78,7 +78,7 @@ const ConfirmSignup = ({
         const userMongoId = response.data._id;
         localStorage.setItem("userMongoId", userMongoId);
         console.log("Axios POST request successful");
-        navigate(`/${name}`);
+        navigate(`/${name}-profile`);
         window.location.reload();
       } catch (error) {
         console.error("Error during POST request:", error);

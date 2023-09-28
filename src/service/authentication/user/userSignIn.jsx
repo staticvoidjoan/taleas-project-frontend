@@ -19,7 +19,7 @@ const LoginPage = () => {
     event.preventDefault();
     try {
       console.log(username);
-      console.log(password);
+
       const user = await Auth.signIn(username, password);
 
       console.log("Logged in user:", user);
@@ -47,6 +47,7 @@ const LoginPage = () => {
       const userAttributes = user.attributes || {};
       const userGivenName = userAttributes.given_name || "";
       navigate(`/${userGivenName}`);
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }
