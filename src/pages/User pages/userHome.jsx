@@ -3,19 +3,40 @@ import React, { useState, useEffect} from 'react';
 import { useNavigate } from "react-router-dom";
 import Card from '../../components/cards/cards';
 import Tabs from '../../components/button/tabs';
-import DateButtons from '../../components/button/dateButtons';
+import heart from "../../assets/icons/heart.svg";
+import x from "../../assets/icons/x.svg"
 import "./userHome.css";
 
 const UserHome = () => {
   const [posts, setPosts] = useState([])
   const [selectedButton, setSelectedButton] = useState('All');
   const [categories, setCategories] = useState([]);
-
+  const [currentIndex, setCurrentIndex] = useState([])
+  const [currentPostId, setCurrentPostId] = useState([])
+  const userId = localStorage.getItem('employeeIId')
   const navigate = useNavigate();
   const handleJobCardClick = (id) => {
         navigate(`/jobProfile/${id}`);
   };
+  const handleCancelClick = async () => {
+    try{
+     await axios.put(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/dislike/${userId}?id=${posts[0]._id}`)
+      console.log('Cancel API Response:');
+    }
+    catch {
+      console.error('Cancel API Error:');
+    };
+};
 
+const handleLikeClick = async () => {
+  try{
+    await axios.put(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/like/${userId}?id=${posts[0]._id}`)
+     console.log('Cancel API Response:');
+   }
+   catch {
+     console.error('Cancel API Error:');
+   };
+}
   const loadTabs = async () => {
     try {
       const response = await axios.get("https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/category")
@@ -36,6 +57,7 @@ const UserHome = () => {
       console.error("something went wrong");
     }
   };
+  
 
   useEffect(() => {
     loadPosts();
@@ -57,7 +79,7 @@ const UserHome = () => {
             />
           ))}
         </div> 
-        {posts.map((us, index) => (
+        {/* {posts.map((us, index) => (
         <div onClick={() => handleJobCardClick(us._id)}>
             <Card
               key={index}
@@ -67,11 +89,28 @@ const UserHome = () => {
               // info={us.creatorId.companyName}
               background={us.creatorId.profilePhoto}
             />
-        </div>))}
+        </div>))} */}
+        <Card onClick={() => handleJobCardClick(posts[0]._id)}
+        id={posts[0]._id}
+        category={posts[0].category.name}
+        title={posts[0].position}
+        // info={posts[0].creatorId.companyName}
+        background={posts[0].creatorId.profilePhoto}
+        />
         <div className='card-buttons'>
-         <DateButtons/>
+        <div>
+          <button className="cancel" onClick={handleCancelClick}>
+            {" "}
+            <img src={x} alt="x" />
+          </button>
         </div>
-    </div>
+        <div>
+          <button className="like" onClick={handleLikeClick}>
+            <img src={heart} alt="heart" />
+          </button>
+        </div>
+      </div>
+        </div>
   );
 };
 
