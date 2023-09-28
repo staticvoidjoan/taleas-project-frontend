@@ -96,6 +96,7 @@
       background-color: transparent;
       height: 100%;
       border: 1px solid #B6013C;
+      transition: transform 0.3s ease;
     }
 
     .delete-btn-container{
@@ -104,6 +105,10 @@
       height: 48px;
       display: flex;
       justify-content: center;
+    }
+
+    .delete-job-btn:hover{
+      transform: scale(1.05); 
     }
 
 
