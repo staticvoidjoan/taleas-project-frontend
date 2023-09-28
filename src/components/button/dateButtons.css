@@ -1,6 +1,5 @@
 /* CSS */.cancel,
-.like,
-.superlike {
+.like {
   border-radius: 50px;
   height: 48px;
   width: 48px;
@@ -13,11 +12,6 @@
   background: linear-gradient(220deg, #F1487F 14.09%, #B6013C 86.94%);
 }
 
-.superlike{
-  background: linear-gradient(220deg, #F5CF46 14.09%, #d4a90d 86.94%);
-  width: 55px;
-  height: 55px;
-}
 
 .like{
   background: linear-gradient(220deg, #6E46F5 14.09%, hsl(254, 91%, 54%) 86.94%);
@@ -28,17 +22,11 @@
   transform: scale(1.1);
 }
 
-.superlike:hover {
-  background-color: rgba(251, 245, 126, 0.527);
-  transform: scale(1.1); 
-}
 
 .like:hover {
   background-color: rgb(204, 151, 253);
   transform: scale(1.1); 
 }
-
-
 
   .card-buttons{
     display: flex;

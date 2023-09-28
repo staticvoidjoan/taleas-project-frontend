@@ -1,22 +1,26 @@
 import axios from 'axios';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect} from 'react';
+import { useNavigate } from "react-router-dom";
 import Card from '../../components/cards/cards';
 import Tabs from '../../components/button/tabs';
-import unicorn from "../../assets/images/Unicorn.png";
+import DateButtons from '../../components/button/dateButtons';
 import "./userHome.css";
-import Footer from '../../layout/footer/footer';
-import Navbar2 from '../../layout/navBar/Navbar2';
 
 const UserHome = () => {
-  const [posts, setPosts] = useState({})
+  const [posts, setPosts] = useState([])
   const [selectedButton, setSelectedButton] = useState('All');
-  const [buttonsData, setButtonsData] = useState([]);
+  const [categories, setCategories] = useState([]);
+
+  const navigate = useNavigate();
+  const handleJobCardClick = (id) => {
+        navigate(`/jobProfile/${id}`);
+  };
 
   const loadTabs = async () => {
     try {
       const response = await axios.get("https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/category")
       console.log(response)
-      setButtonsData(response.data)
+      setCategories(response.data.categories)
     } catch (error) {
       console.error("Error fetching categories.")
     }
@@ -43,28 +47,29 @@ const UserHome = () => {
   return (
     <div>
        <div className="button-row">
-          {buttonsData.map((buttonName, index) => (
+          {categories.map((buttonName, index) => (
             <Tabs
               buttonName={buttonName.name}
               key={index}
               selected={selectedButton === buttonName}
               onClick={() => setSelectedButton(buttonName)}
+              
             />
           ))}
-        </div>
-        <div className="event-component">
-          {posts.map((us, index) => (
+        </div> 
+        {posts.map((us, index) => (
+        <div onClick={() => handleJobCardClick(us._id)}>
             <Card
               key={index}
+              id={us._id}
               category={us.category.name}
               title={us.position}
-              info={us.creatorId.companyName}
+              // info={us.creatorId.companyName}
               background={us.creatorId.profilePhoto}
             />
-          ))}
-        </div>
-        <div className='footer'>
-        <Footer />
+        </div>))}
+        <div className='card-buttons'>
+         <DateButtons/>
         </div>
     </div>
   );

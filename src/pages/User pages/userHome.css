@@ -11,3 +11,14 @@ body{
     overflow-x: auto;
   
   }
+
+.card-buttons{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    margin-left: 57px;
+    margin-right: 72px;
+    margin-top: 32px;
+    width: 198px;
+  }
