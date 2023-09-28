@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Text from "../../components/text/text";
 import "./jobView.css";
 import locationico from "../../assets/icons/location.svg";
@@ -8,6 +8,7 @@ import axios from "axios";
 import Applicants from "../../components/applicants/applicants";
 import { format } from "date-fns";
 const JobView = () => {
+  const navigate = useNavigate();
   const [post, setPost] = useState({});
   const [company, setCompany] = useState({});
   const [category, setCategory] = useState({});
@@ -16,6 +17,7 @@ const JobView = () => {
   const { id } = useParams();
   useEffect(() => {
     loadPost();
+    
   }, []);
 
   const loadPost = async () => {
@@ -32,6 +34,21 @@ const JobView = () => {
       const dateString = response.data.post.createdAt;
       const formatedDate = format(new Date(dateString), "MMMM d, yyyy");
       setPostDate(formatedDate);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const deletePost = async () => {
+    try {
+      await axios.delete(
+        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/${id}`
+      );
+      const companyName = localStorage.getItem("companyname");
+
+      setTimeout(() => {
+        navigate(`/${companyName}`);
+      }, 150);
     } catch (error) {
       console.log(error);
     }
@@ -129,13 +146,13 @@ const JobView = () => {
           </ul>
         </div>
       </div>
-      <div style={{marginBottom:"40px"}} className="applicant-column">
+      <div style={{ marginBottom: "40px" }} className="applicant-column">
         {likes.map((like, index) => (
-          <Applicants key={like._id} id={like._id} data={like} />
+          <Applicants key={like._id} id={like._id} postId={post._id} companyId={company} data={like} />
         ))}
       </div>
       <div className="delete-btn-container">
-        <button className="delete-job-btn">
+        <button className="delete-job-btn" onClick={deletePost}>
           <Text size={"s16"} label={"Delete Job"} />
         </button>
       </div>

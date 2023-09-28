@@ -1,6 +1,12 @@
 import "./App.css";
 
-import { Link, BrowserRouter as Router, Route, Routes , useLocation} from "react-router-dom"; // Importing Routes instead of Switch
+import {
+  Link,
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useLocation,
+} from "react-router-dom"; // Importing Routes instead of Switch
 import { Auth } from "aws-amplify";
 import { Amplify } from "aws-amplify";
 import awsExports from "./aws-exports";
@@ -27,15 +33,12 @@ function App() {
   const [authenticated, setAuthenticated] = useState(false);
   const [givenName, setGivenName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [employer, setEmployer] = useState({});
-  const [employee, setEmployee] = useState({});
+  const [checkEmployee, setCheckEmployee] = useState(false);
   const location = useLocation();
   Amplify.configure(awsExports);
   useEffect(() => {
     checkAuthenticated();
-    
   }, []);
-
 
   //Check to see if a auser is authenticated and get the name and last name (only name if company)
   const checkAuthenticated = async () => {
@@ -51,101 +54,113 @@ function App() {
       setGivenName(userGivenName);
       const userLastName = userAttributes.family_name || "";
       setLastName(userLastName);
-      const isEmployee = userAttributes['custom:isEmployee'];
-      console.log('Is Employee:', isEmployee);
+      const isEmployee = userAttributes["custom:isEmployee"];
+
       const useremail = userAttributes.email || "";
-      saveIdtoStorage(useremail, isEmployee);
+      localStorage.setItem("companyname", userGivenName);
+      setCheckEmployee(isEmployee);
+      if (!checkEmployee) {
+        saveEmployeeToStorage(useremail);
+      }
+      if (checkEmployee === true) {
+        saveEmployerToStorage(useremail);
+      }
     } catch (error) {
       setAuthenticated(false);
     }
   };
 
-  const saveIdtoStorage = async (email, isEmployee) => {
-    console.log(isEmployee);
-    console.log(email);
-    if (isEmployee) {
+  const saveEmployerToStorage = async (email) => {
+    try {
+      console.log("Trying to get employee with ", email);
+      const response = await axios.get(
+        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/userByEmail/${email}`
+      );
+      localStorage.setItem("employeeId", response.data.user._id);
+      console.log(localStorage.getItem("employeeId"));
+    } catch (error) {}
+  };
+
+  const saveEmployeeToStorage = async (email) => {
+    try {
       console.log("Trying to get employer with", email);
-      try {
-        const response = await axios.get(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/employer-email/${email}`);
-        setEmployer(response.data.employer);
-        localStorage.setItem("employerId", response.data.employer._id);
-        console.log("This is the id i need on local storage", localStorage.getItem("employerId"));
-      } catch (error) {
-        // Handle errors here
-        console.error("Error fetching employer data:", error);
-      }
-    } else{
-      try {
-        console.log("Trying to get employee with ", email);
-        const response = await axios.get(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/userByEmail/${email}`)
-        setEmployee(response.data.user);
-        localStorage.setItem("employeeId", response.data.user._id)
-        console.log(localStorage.getItem("employeeId"));
-      } catch (error) {
-        
-      }
+      const response = await axios.get(
+        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/employer-email/${email}`
+      );
+      localStorage.setItem("employerId", response.data.employer._id);
+      console.log(
+        "This is the id i need on local storage",
+        localStorage.getItem("employerId")
+      );
+    } catch (error) {
+      // Handle errors here
+      console.error("Error fetching employer data:", error);
     }
-  }
+    console.log("The employer id is", localStorage.getItem("employerId"));
+  };
 
   const hideNav = location.pathname.startsWith("/postJob/");
-  const pathsToHideFooter = ["/","/signup","/signin","/userInfo", "/passwordreset", "/completeprofile", "/resendSignUp"]
+  const pathsToHideFooter = [
+    "/",
+    "/signup",
+    "/signin",
+    "/userInfo",
+    "/passwordreset",
+    "/completeprofile",
+    "/resendSignUp",
+  ];
   const hideFooter = pathsToHideFooter.includes(location.pathname);
 
   return (
     <div className="App">
-     
-        {!hideNav &&  <NavBar /> }
-       
-        {/* ----------------------------------  Home routes ------------------------------------------------------- */}
-        <Routes>
-          <Route
-            exact
-            path="/"
-            element={authenticated ? <UserDashBoard /> : <LandingPage />}
-          />
-          <Route exact path="/userHome" element={<UserHome />} />
-          {/* ----------------------------------------------------------------------------------------------------------------- */}
-          
-          {/* ----------------------------------  Auhentication routes ------------------------------------------------------- */}
-          <Route
-            exact
-            path={authenticated ? "/" : "/signin"}
-            element={<LoginPage />}
-          />
-          <Route
-            exact
-            path={authenticated ? "/" : "/signup"}
-            element={<UserSignUp />}
-          />
-          <Route
-            exact
-            path={authenticated ? "/" : "/passwordreset"}
-            element={<ForgotPassword />}
-          />
-          <Route exact path="/resendSignUp" element={<ResendSignup />} />
+      {!hideNav && <NavBar />}
 
-          <Route
-            path={`/${givenName}-${lastName}`}
-            element={<UserDashBoard />}
-          />
-          {/* ------------------------------------------------------------------------------------------------------------------ */}
+      {/* ----------------------------------  Home routes ------------------------------------------------------- */}
+      <Routes>
+        <Route
+          exact
+          path="/"
+          element={authenticated ? <UserDashBoard /> : <LandingPage />}
+        />
+        <Route exact path="/userHome" element={<UserHome />} />
+        {/* ----------------------------------------------------------------------------------------------------------------- */}
 
-          {/* ----------------------------------  Employeee routes ------------------------------------------------------- */}
-          <Route exact path="/completeprofile" element={<ProfileForm />} />
-          <Route exact path="/userInfo/:id" element={<UserInfo />} />
-          <Route exact path="/jobProfile/:id" element={<JobProfile />} />
-          {/* --------------------------------------------------------------------------------------------------------------- */}
+        {/* ----------------------------------  Auhentication routes ------------------------------------------------------- */}
+        <Route
+          exact
+          path={authenticated ? "/" : "/signin"}
+          element={<LoginPage />}
+        />
+        <Route
+          exact
+          path={authenticated ? "/" : "/signup"}
+          element={<UserSignUp />}
+        />
+        <Route
+          exact
+          path={authenticated ? "/" : "/passwordreset"}
+          element={<ForgotPassword />}
+        />
+        <Route exact path="/resendSignUp" element={<ResendSignup />} />
 
-          {/* ----------------------------------  Employer routes ------------------------------------------------------- */}
-          <Route exact path="/postJob/:id" element={<PostJob />} />
-          <Route exact path="/jobview/:id" element={<JobView />} />
-          <Route exact path={`/${givenName}`} element={<EmployerHome/>} />
-          {/* ---------------------------------------------------------------------------------------------------- */}
-          {/* ----------------------------------  Other routes ------------------------------------------------------- */}
-          <Route path="*" element={<LandingPage />} />
-        </Routes>
-        {hideFooter ? null : <Footer />}
+        <Route path={`/${givenName}-${lastName}`} element={<UserDashBoard />} />
+        {/* ------------------------------------------------------------------------------------------------------------------ */}
 
+        {/* ----------------------------------  Employeee routes ------------------------------------------------------- */}
+        <Route exact path="/completeprofile" element={<ProfileForm />} />
+        <Route exact path="/userInfo/:id" element={<UserInfo />} />
+        <Route exact path="/jobProfile/:id" element={<JobProfile />} />
+        {/* --------------------------------------------------------------------------------------------------------------- */}
+
+        {/* ----------------------------------  Employer routes ------------------------------------------------------- */}
+        <Route exact path="/postJob/:id" element={<PostJob />} />
+        <Route exact path="/jobview/:id" element={<JobView />} />
+        <Route exact path={`/${givenName}`} element={<EmployerHome />} />
+        {/* ---------------------------------------------------------------------------------------------------- */}
+        {/* ----------------------------------  Other routes ------------------------------------------------------- */}
+        <Route path="*" element={<LandingPage />} />
+      </Routes>
+      {hideFooter ? null : <Footer />}
     </div>
   );
 }

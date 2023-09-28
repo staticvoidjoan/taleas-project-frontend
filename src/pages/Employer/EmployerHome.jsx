@@ -6,19 +6,22 @@ import "./employerHome.css";
 import { useNavigate } from "react-router-dom";
 const EmployerHome = () => {
   const navigate = useNavigate();
-  const [posts, setPosts] = useState([]);
+  const [userposts, setuserPosts] = useState([]);
+  const [postCount, setPostCount] = useState("");
   const creatorId = localStorage.getItem("employerId");
   useEffect(() => {
     getAllPosts();
+    console.log("HELLOOO",userposts[0])
   }, []);
 
   const getAllPosts = async () => {
     try {
       console.log(creatorId);
       const response = await axios.get(
-        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/creator/${creatorId}`
+        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/creator/${creatorId}?page=1&limit=2`
       );
-      setPosts(response.data.posts);
+      setuserPosts(response.data.posts);
+      setPostCount(response.data.count);
       console.log(response.data);
     } catch (error) {}
   };
@@ -38,14 +41,14 @@ const EmployerHome = () => {
       <div>
         <div style={{ marginLeft: "20px" }}>
           <Text
-            label={`My Jobs: (${posts.length})`}
+            label={`My Jobs: (${postCount})`}
             size={"s16"}
             weight={"medium"}
           />
         </div>
         <div className="job-card-column">
-          {posts.map((post, index) => (
-            <JobCard id={localStorage.getItem("employerId")} index={index} />
+          {userposts.map((post) => (
+            <JobCard id={post._id} key={post._id} />
           ))}
         </div>
       </div>
