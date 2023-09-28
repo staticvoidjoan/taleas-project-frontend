@@ -324,7 +324,7 @@ function RegistrationForm() {
               <div className="inputbox-register">
                 <input
                   type="text"
-                  name="companyName"
+                  name="name"
                   value={formData.name}
                   onChange={handleInputChange}
                   placeholder="Company Name"

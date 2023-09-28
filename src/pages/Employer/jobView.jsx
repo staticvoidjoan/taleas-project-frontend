@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Text from "../../components/text/text";
-import "./jobProfile.css";
+import "./jobView.css";
 import locationico from "../../assets/icons/location.svg";
 import DateButtons from "../../components/button/dateButtons";
 import unicorn from "../../assets/images/Unicorn.png"
 import axios from "axios";
 import { format } from 'date-fns';
-const JobProfile = () => {
+const JobView = () => {
   const [post, setPost] = useState({});
   const [company,setCompany] = useState({});
   const [category,setCategory] = useState({});
@@ -104,4 +104,4 @@ const JobProfile = () => {
   );
 };
 
-export default JobProfile;
+export default JobView;

@@ -7,16 +7,8 @@ import "./userHome.css";
 import Footer from '../../layout/footer/footer';
 import Navbar2 from '../../layout/navBar/Navbar2';
 
-const cardData = [
-  {
-    title: "Job title",
-    info: "Front-end developer",
-    location: "Tirana",
-    background: unicorn
-  },
-];
-
 const UserHome = () => {
+  const [posts, setPosts] = useState({})
   const [selectedButton, setSelectedButton] = useState('All');
   const [buttonsData, setButtonsData] = useState([]);
 
@@ -29,10 +21,24 @@ const UserHome = () => {
       console.error("Error fetching categories.")
     }
   }
+  const loadPosts = async () => {
+    try {
+      const response = await axios.get(
+        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts`
+      );
+      setPosts(response.data.posts);
+      console.log(response.data.posts.profilePhoto);
+    } catch (error) {
+      console.error("something went wrong");
+    }
+  };
+
   useEffect(() => {
+    loadPosts();
     loadTabs()
     console.log("selectedButton:", selectedButton);
-  }, [selectedButton]);
+  }, [],[selectedButton]);
+  
 
   return (
     <div>
@@ -47,13 +53,13 @@ const UserHome = () => {
           ))}
         </div>
         <div className="event-component">
-          {cardData.map((card, index) => (
+          {posts.map((us, index) => (
             <Card
               key={index}
-              location={card.location}
-              title={card.title}
-              info={card.info}
-              background={card.background}
+              category={us.category.name}
+              title={us.position}
+              info={us.creatorId.companyName}
+              background={us.creatorId.profilePhoto}
             />
           ))}
         </div>

@@ -32,6 +32,7 @@
   );
   border-radius: 10px;
   overflow: hidden;
+  z-index: 0;
 }
 .job-info{
     width: calc(100% - 40px);
