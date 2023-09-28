@@ -89,3 +89,29 @@
     .about-company{
       margin-bottom: 32px;
     }
+
+    .delete-job-btn{
+      color: #B6013C;
+      width: calc(100% - 40px);
+      background-color: transparent;
+      height: 100%;
+      border: 1px solid #B6013C;
+      transition: transform 0.3s ease;
+    }
+
+    .delete-btn-container{
+      margin-top: 40px;
+      width: 100%;
+      height: 48px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .delete-job-btn:hover{
+      transform: scale(1.05); 
+    }
+
+
+    .applicant-column{
+      width: 100%;
+    }

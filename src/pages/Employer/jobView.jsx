@@ -1,20 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Text from "../../components/text/text";
 import "./jobView.css";
 import locationico from "../../assets/icons/location.svg";
-import DateButtons from "../../components/button/dateButtons";
-import unicorn from "../../assets/images/Unicorn.png"
+import unicorn from "../../assets/images/Unicorn.png";
 import axios from "axios";
-import { format } from 'date-fns';
+import Applicants from "../../components/applicants/applicants";
+import { format } from "date-fns";
 const JobView = () => {
+  const navigate = useNavigate();
   const [post, setPost] = useState({});
-  const [company,setCompany] = useState({});
-  const [category,setCategory] = useState({});
-  const [postDate,setPostDate] = useState("");
+  const [company, setCompany] = useState({});
+  const [category, setCategory] = useState({});
+  const [postDate, setPostDate] = useState("");
+  const [likes, setLikes] = useState([]);
   const { id } = useParams();
   useEffect(() => {
     loadPost();
+    
   }, []);
 
   const loadPost = async () => {
@@ -26,11 +29,26 @@ const JobView = () => {
       setPost(response.data.post);
       setCompany(response.data.post.creatorId);
       setCategory(response.data.post.category);
+      setLikes(response.data.post.likedBy);
+      // console.log("THE LIKES", likes);
       const dateString = response.data.post.createdAt;
-      const formatedDate = format(new Date (dateString), 'MMMM d, yyyy')
+      const formatedDate = format(new Date(dateString), "MMMM d, yyyy");
       setPostDate(formatedDate);
-      
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
+  const deletePost = async () => {
+    try {
+      await axios.delete(
+        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/${id}`
+      );
+      const companyName = localStorage.getItem("companyname");
+
+      setTimeout(() => {
+        navigate(`/${companyName}`);
+      }, 150);
     } catch (error) {
       console.log(error);
     }
@@ -55,23 +73,47 @@ const JobView = () => {
             color={"black"}
             size={"s18"}
           />
-          <Text label={company.companyName} weight={"medium"} color={"black"}  size={"s16"}/>
-          <Text label={company.industry} weight={"regular"} color={"black"}  size={"s16"}/>
+          <Text
+            label={company.companyName}
+            weight={"medium"}
+            color={"black"}
+            size={"s16"}
+          />
+          <Text
+            label={company.industry}
+            weight={"regular"}
+            color={"black"}
+            size={"s16"}
+          />
           <div className="job-title-info">
             <div className="info-bubble">
               <img src={locationico} className="location-icon" />
               <div style={{ marginRight: "10px" }}>
-                <Text label={company.address} weight={"regular"} color={"lightgray"} size={"s14"} />
+                <Text
+                  label={company.address}
+                  weight={"regular"}
+                  color={"lightgray"}
+                  size={"s14"}
+                />
               </div>
             </div>
-           
           </div>
         </div>
         <div className="job-describtion">
           <div style={{ marginBottom: "12px" }}>
-            <Text label={"Job Description"} weight={"bold"} color={"black"}  size={"s16"}/>
+            <Text
+              label={"Job Description"}
+              weight={"bold"}
+              color={"black"}
+              size={"s16"}
+            />
           </div>
-          <Text label={category.name} weight={"regular"} color={"black"} size={"s16"}/>
+          <Text
+            label={category.name}
+            weight={"regular"}
+            color={"black"}
+            size={"s16"}
+          />
           <Text
             label={post.description}
             weight={"regular"}
@@ -89,16 +131,30 @@ const JobView = () => {
         </div>
         <div className="job-requirements">
           <div style={{ marginBottom: "12px" }}>
-            <Text label={"Requirements"} weight={"bold"} size={"s16"}/>
+            <Text label={"Requirements"} weight={"bold"} size={"s16"} />
           </div>
           <ul>
-    {post.requirements && post.requirements.map((requirement, index) => (
-      <li key={index} style={{marginLeft:"15px", marginBottom:"5px"}}><Text label={requirement} weight={"regular"} size={"s16"} /></li>
-    ))}
-  </ul>
+            {post.requirements &&
+              post.requirements.map((requirement, index) => (
+                <li
+                  key={index}
+                  style={{ marginLeft: "15px", marginBottom: "5px" }}
+                >
+                  <Text label={requirement} weight={"regular"} size={"s16"} />
+                </li>
+              ))}
+          </ul>
         </div>
-        
-        <DateButtons />
+      </div>
+      <div style={{ marginBottom: "40px" }} className="applicant-column">
+        {likes.map((like, index) => (
+          <Applicants key={like._id} id={like._id} postId={post._id} companyId={company} data={like} />
+        ))}
+      </div>
+      <div className="delete-btn-container">
+        <button className="delete-job-btn" onClick={deletePost}>
+          <Text size={"s16"} label={"Delete Job"} />
+        </button>
       </div>
     </div>
   );

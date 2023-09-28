@@ -11,15 +11,14 @@ import link from "../../assets/icons/link.svg";
 import "./userInfo.css";
 import axios from "axios";
 
-const expNames = ["Company", "4 years", "Albania"];
 
 const UserInfo = ({ id }) => {
   const [user, setUser] = useState({});
-  const [experiences, setExperience] = useState({});
-  const [education, setEducation] = useState({});
-  const [links, setLinks] = useState({});
-  const [certifications, setCertifications] = useState({});
-  const [generalSkills, setGeneralSkills] = useState({});
+  const [experiences, setExperience] = useState([]);
+  const [education, setEducation] = useState([]);
+  const [links, setLinks] = useState([]);
+  const [certifications, setCertifications] = useState([]);
+  const [generalSkills, setGeneralSkills] = useState([]);
 
   const loadUser = async () => {
     try {
@@ -45,7 +44,7 @@ const UserInfo = ({ id }) => {
   }, []);
 
   const cardStyle = {
-    backgroundImage: `url(${user.profilePhoto})`,
+    backgroundImage: `url(${user.profilePhoto ?? unicorn})`,
     position: "relative",
   };
   return (

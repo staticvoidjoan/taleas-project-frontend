@@ -1,22 +1,47 @@
 import axios from 'axios';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect} from 'react';
+import { useNavigate } from "react-router-dom";
 import Card from '../../components/cards/cards';
 import Tabs from '../../components/button/tabs';
-import unicorn from "../../assets/images/Unicorn.png";
+import heart from "../../assets/icons/heart.svg";
+import x from "../../assets/icons/x.svg"
 import "./userHome.css";
-import Footer from '../../layout/footer/footer';
-import Navbar2 from '../../layout/navBar/Navbar2';
 
 const UserHome = () => {
-  const [posts, setPosts] = useState({})
+  const [posts, setPosts] = useState([])
   const [selectedButton, setSelectedButton] = useState('All');
-  const [buttonsData, setButtonsData] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState([])
+  const [currentPostId, setCurrentPostId] = useState([])
+  const userId = localStorage.getItem('employeeIId')
+  const navigate = useNavigate();
+  const handleJobCardClick = (id) => {
+        navigate(`/jobProfile/${id}`);
+  };
+  const handleCancelClick = async () => {
+    try{
+     await axios.put(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/dislike/${userId}?id=${posts[0]._id}`)
+      console.log('Cancel API Response:');
+    }
+    catch {
+      console.error('Cancel API Error:');
+    };
+};
 
+const handleLikeClick = async () => {
+  try{
+    await axios.put(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/like/${userId}?id=${posts[0]._id}`)
+     console.log('Cancel API Response:');
+   }
+   catch {
+     console.error('Cancel API Error:');
+   };
+}
   const loadTabs = async () => {
     try {
       const response = await axios.get("https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/category")
       console.log(response)
-      setButtonsData(response.data)
+      setCategories(response.data.categories)
     } catch (error) {
       console.error("Error fetching categories.")
     }
@@ -32,6 +57,7 @@ const UserHome = () => {
       console.error("something went wrong");
     }
   };
+  
 
   useEffect(() => {
     loadPosts();
@@ -43,30 +69,48 @@ const UserHome = () => {
   return (
     <div>
        <div className="button-row">
-          {buttonsData.map((buttonName, index) => (
+          {categories.map((buttonName, index) => (
             <Tabs
               buttonName={buttonName.name}
               key={index}
               selected={selectedButton === buttonName}
               onClick={() => setSelectedButton(buttonName)}
+              
             />
           ))}
-        </div>
-        <div className="event-component">
-          {posts.map((us, index) => (
+        </div> 
+        {/* {posts.map((us, index) => (
+        <div onClick={() => handleJobCardClick(us._id)}>
             <Card
               key={index}
+              id={us._id}
               category={us.category.name}
               title={us.position}
-              info={us.creatorId.companyName}
+              // info={us.creatorId.companyName}
               background={us.creatorId.profilePhoto}
             />
-          ))}
+        </div>))} */}
+        <Card onClick={() => handleJobCardClick(posts[0]._id)}
+        id={posts[0]._id}
+        category={posts[0].category.name}
+        title={posts[0].position}
+        // info={posts[0].creatorId.companyName}
+        background={posts[0].creatorId.profilePhoto}
+        />
+        <div className='card-buttons'>
+        <div>
+          <button className="cancel" onClick={handleCancelClick}>
+            {" "}
+            <img src={x} alt="x" />
+          </button>
         </div>
-        <div className='footer'>
-        <Footer />
+        <div>
+          <button className="like" onClick={handleLikeClick}>
+            <img src={heart} alt="heart" />
+          </button>
         </div>
-    </div>
+      </div>
+        </div>
   );
 };
 
