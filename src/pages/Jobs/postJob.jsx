@@ -4,6 +4,7 @@ import "./postJob.css";
 import X from "../../assets/icons/closeX.svg";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import Swal from "sweetalert2";
 const PostJob = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -65,7 +66,29 @@ const PostJob = () => {
         jobPost
       );
       console.log("Job Successfully posted");
-      navigate(-1);
+      let timerInterval;
+      Swal.fire({
+        title: "Job Posted!",
+        icon: "success",
+        timer: 1000,
+        didOpen: () => {
+          const b = Swal.getHtmlContainer()?.querySelector("b"); // Check if it exists
+          if (b) {
+            timerInterval = setInterval(() => {
+              b.textContent = Swal.getTimerLeft();
+            }, 100);
+          }
+        },
+        willClose: () => {
+          clearInterval(timerInterval);
+        },
+      }).then((result) => {
+        if (result.dismiss === Swal.DismissReason.timer) {
+          console.log("I was closed by the timer");
+        }
+        // Handle other actions as needed
+        navigate(-1);
+      });
     } catch (error) {
       console.log(error);
     }
@@ -137,20 +160,22 @@ const PostJob = () => {
           </div> */}
           <div className="inputbox-register">
             {/* Input for new requirements */}
-            <input
-              type="text"
-              placeholder="Add Requirement"
-              className="register-input"
-              value={newRequirement}
-              onChange={(e) => setNewRequirement(e.target.value)}
-            />
-            <button
-              type="button"
-              className="add-button"
-              onClick={onAddRequirement}
-            >
-              <Text label={"Add"} size={"s14"} weight={"regular"} />
-            </button>
+            <div className="requirement-input">
+              <input
+                type="text"
+                placeholder="Add Requirement"
+                className="register-input"
+                value={newRequirement}
+                onChange={(e) => setNewRequirement(e.target.value)}
+              />
+              <button
+                type="button"
+                className="add-button"
+                onClick={onAddRequirement}
+              >
+                <Text label={"Add"} size={"s14"} weight={"regular"} />
+              </button>
+            </div>
           </div>
           {/* Display the list of requirements */}
           <div className="requirements-list">

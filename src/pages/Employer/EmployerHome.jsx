@@ -25,6 +25,7 @@ const EmployerHome = ({ creatorId }) => {
         `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/creator/${creatorId}?page=${page}&limit=3`
       );
       setuserPosts(response.data.posts);
+      console.log(response.data.posts);
       setPostCount(response.data.count);
       setTotalPages(response.data.pageCount);
     } catch (error) {

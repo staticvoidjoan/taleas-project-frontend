@@ -7,6 +7,8 @@ import unicorn from "../../assets/images/Unicorn.png";
 import axios from "axios";
 import Applicants from "../../components/applicants/applicants";
 import { format } from "date-fns";
+import Swal from "sweetalert2";
+import TrashCan from "../../assets/icons/TrashCan.svg"
 const JobView = () => {
   const navigate = useNavigate();
   const [post, setPost] = useState({});
@@ -15,13 +17,14 @@ const JobView = () => {
   const [postDate, setPostDate] = useState("");
   const [likes, setLikes] = useState([]);
   const { id } = useParams();
+
   useEffect(() => {
     loadPost();
   }, []);
 
   const loadPost = async () => {
     try {
-      console.log("I AM LOADING")
+      console.log("I AM LOADING");
       const response = await axios.get(
         `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/${id}`
       );
@@ -41,18 +44,32 @@ const JobView = () => {
 
   const deletePost = async () => {
     try {
-     
       await axios.delete(
         `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/${id}`
       );
-      const companyName = localStorage.getItem("companyname");
-
+      Swal.fire("Deleted!", "Your job posting has been deleted.", "success");
       setTimeout(() => {
-        navigate(`/${companyName}`);
+        navigate(`/`);
       }, 150);
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const askBeforeDelete = () => {
+    Swal.fire({
+      title: "Are you sure you want to delete?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deletePost();
+      }
+    });
   };
 
   const cardStyle = {
@@ -159,7 +176,8 @@ const JobView = () => {
         ))}
       </div>
       <div className="delete-btn-container">
-        <button className="delete-job-btn" onClick={deletePost}>
+        <button className="delete-job-btn" onClick={askBeforeDelete}>
+          <img src={TrashCan} alt="" />
           <Text size={"s16"} label={"Delete Job"} />
         </button>
       </div>

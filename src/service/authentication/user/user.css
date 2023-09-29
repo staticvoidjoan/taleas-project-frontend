@@ -228,6 +228,7 @@ button {
   border: 1px solid #ddd;
   display: flex;
   justify-content: center;
+  background-color: #fff;
 }
 
 .inputbox-register-box {
@@ -238,6 +239,7 @@ button {
   border: 1px solid #ddd;
   display: flex;
   justify-content: center;
+  background-color: #fff;
 }
 
 .register-input {

@@ -59,11 +59,12 @@
   background-color: #6e46f5; /* Purple color */
   color: #fff; /* White text color */
   border: none;
-  padding: 10px 20px;
+
   font-size: 16px;
   cursor: pointer;
   border-radius: 5px;
-  margin-left: 10px;
+  margin: 0;
+  padding-top: 5px;
 }
 
 /* Style the requirement list */
@@ -75,4 +76,26 @@
   font-size: 14px;
   margin: 4px 0;
   color: #333; /* Text color for requirements */
+}
+
+
+.postjob-input {
+  
+  margin: 0px;
+  padding: 0px;
+  width: calc(100% - 12px);
+  height: 100%;
+  border: none;
+}
+
+.postjob-input:focus {
+  outline: none;
+}
+
+
+.requirement-input{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background-color: #fff;
 }
