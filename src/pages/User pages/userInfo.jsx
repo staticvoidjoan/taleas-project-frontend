@@ -8,12 +8,13 @@ import educationpic from "../../assets/images/educ.png";
 import certification from "../../assets/images/certf.png";
 import emailpic from "../../assets/icons/email.svg";
 import link from "../../assets/icons/link.svg";
+import { format } from 'date-fns';
 import "./userInfo.css";
 import axios from "axios";
 import UserSignOut from "../../service/authentication/user/userSignOut";
 
 
-const UserInfo = ({ id }) => {
+const UserInfo = ({userId}) => {
   const [user, setUser] = useState({});
   const [experiences, setExperience] = useState([]);
   const [education, setEducation] = useState([]);
@@ -24,7 +25,7 @@ const UserInfo = ({ id }) => {
   const loadUser = async () => {
     try {
       const response = await axios.get(
-        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/user/6510b71fb000416afaa63cc9`
+        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/user/${userId}`
       );
       setUser(response.data.user);
       setExperience(response.data.user.experience);
@@ -120,7 +121,7 @@ const UserInfo = ({ id }) => {
               </div>
               <div className="details">
                 <Text
-                  label={`${edu.startDate} - ${edu.endDate}`}
+                  label={`${edu.startDate = format(new Date(edu.startDate), 'MMMM d, yyyy')} - ${edu.endDate = format(new Date(edu.endDate), 'MMMM d, yyyy')}`}
                   size={"s14"}
                 />
               </div>
@@ -144,7 +145,7 @@ const UserInfo = ({ id }) => {
               </div>
               <div className="details">
                 <Text
-                  label={`${cert.issueDate} - ${cert.expirationDate}`}
+                  label={`${cert.issueDate = format(new Date(cert.issueDate), 'MMMM d, yyyy')} - ${cert.expirationDate = format(new Date(cert.expirationDate), 'MMMM d, yyyy')}`}
                   size={"s14"}
                 />
               </div>
@@ -161,7 +162,9 @@ const UserInfo = ({ id }) => {
           </div>
         ))}
       </div>
+      <div className="signout">
       <UserSignOut/>
+      </div>
     </div>
   );
 };

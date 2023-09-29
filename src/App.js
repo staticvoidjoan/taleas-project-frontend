@@ -152,7 +152,8 @@ function App() {
     }
   };
 
-  const hideNav = location.pathname.startsWith("/postJob/");
+  const hideNavPaths = ["/postJob", "/completeprofile"]
+  const hideNav = hideNavPaths.includes(location.pathname)
   const pathsToHideFooter = [
     "/signup",
     "/signin",
@@ -179,10 +180,15 @@ function App() {
           element={
             authenticated ? (
               userRole === "employee" ? (
-                <UserHome />
+                isLoading ? (
+                  <Loader />
+                ) : (
+                  <UserHome userId={employee._id} />
+                )
+              ) : isLoading ? (
+                <Loader />
               ) : (
-                isLoading ? <Loader/> :
-                <EmployerHome creatorId={employer._id}/>
+                <EmployerHome creatorId={employer._id} />
               )
             ) : (
               <Home />
@@ -196,15 +202,14 @@ function App() {
           element={
             isLoading ? (
               <Loader />
+            ) : userRole === "employer" ? (
+              <EmployerProfile
+                employeeData={employee}
+                employerData={employer}
+                employeeCheck={checkEmployee}
+              />
             ) : (
-              userRole === "employer" ?(
-                <EmployerProfile
-                  employeeData={employee}
-                  employerData={employer}
-                  employeeCheck={checkEmployee}
-                />
-
-              ) : <UserInfo/>
+              <UserInfo  userId={employee._id}/>
             )
           }
         />
@@ -232,7 +237,7 @@ function App() {
         {/* ------------------------------------------------------------------------------------------------------------------ */}
 
         {/* ----------------------------------  Employeee routes ------------------------------------------------------- */}
-        <Route exact path="/completeprofile" element={<ProfileForm />} />
+        <Route exact path="/completeprofile" element={<ProfileForm userId={employee._id} />} />
         <Route exact path="/userInfo/:id" element={<UserInfo />} />
         <Route exact path="/viewjobpost/:id" element={<EmployeeJobView />} />
         {/* --------------------------------------------------------------------------------------------------------------- */}
@@ -266,8 +271,29 @@ function App() {
         } />
         <Route path="*" element={<Home />} />
 
+        <Route
+          path="*"
+          element={
+            authenticated ? (
+              userRole === "employee" ? (
+                isLoading ? (
+                  <Loader />
+                ) : (
+                  <UserHome userId={employee._id} />
+                )
+              ) : isLoading ? (
+                <Loader />
+              ) : (
+                <EmployerHome creatorId={employer._id} />
+              )
+            ) : (
+              <Home />
+            )
+          }
+        />
       </Routes>
-      {hideFooter ? null : <Footer userRole={userRole} />}
+      
+      {authenticated ? hideFooter ? null : <Footer userRole={userRole} /> : null}
     </div>
   );
 }
