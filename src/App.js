@@ -178,11 +178,15 @@ function App() {
           element={
             authenticated ? (
               userRole === "employee" ? (
-                isLoading ? <Loader/> :
-                <UserHome userId={employee._id} />
+                isLoading ? (
+                  <Loader />
+                ) : (
+                  <UserHome userId={employee._id} />
+                )
+              ) : isLoading ? (
+                <Loader />
               ) : (
-                isLoading ? <Loader/> :
-                <EmployerHome creatorId={employer._id}/>
+                <EmployerHome creatorId={employer._id} />
               )
             ) : (
               <Home />
@@ -196,15 +200,14 @@ function App() {
           element={
             isLoading ? (
               <Loader />
+            ) : userRole === "employer" ? (
+              <EmployerProfile
+                employeeData={employee}
+                employerData={employer}
+                employeeCheck={checkEmployee}
+              />
             ) : (
-              userRole === "employer" ?(
-                <EmployerProfile
-                  employeeData={employee}
-                  employerData={employer}
-                  employeeCheck={checkEmployee}
-                />
-
-              ) : <UserInfo/>
+              <UserInfo  userId={employee._id}/>
             )
           }
         />
@@ -255,7 +258,26 @@ function App() {
           }
         />
         <Route path="/matches/:id" element={<ListOfApplicants />} />
-        <Route path="*" element={<Home />} />
+        <Route
+          path="*"
+          element={
+            authenticated ? (
+              userRole === "employee" ? (
+                isLoading ? (
+                  <Loader />
+                ) : (
+                  <UserHome userId={employee._id} />
+                )
+              ) : isLoading ? (
+                <Loader />
+              ) : (
+                <EmployerHome creatorId={employer._id} />
+              )
+            ) : (
+              <Home />
+            )
+          }
+        />
       </Routes>
       {hideFooter ? null : <Footer userRole={userRole} />}
     </div>
