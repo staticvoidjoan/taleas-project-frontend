@@ -10,6 +10,7 @@ import emailpic from "../../assets/icons/email.svg";
 import link from "../../assets/icons/link.svg";
 import "./userInfo.css";
 import axios from "axios";
+import UserSignOut from "../../service/authentication/user/userSignOut";
 
 
 const UserInfo = ({ id }) => {
@@ -160,6 +161,7 @@ const UserInfo = ({ id }) => {
           </div>
         ))}
       </div>
+      <UserSignOut/>
     </div>
   );
 };
