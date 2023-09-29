@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Text from "../../components/text/text";
-import "./jobProfile.css";
+import "./employeejobview.css";
 import locationico from "../../assets/icons/location.svg";
 import unicorn from "../../assets/images/Unicorn.png"
 import axios from "axios";

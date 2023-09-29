@@ -5,49 +5,38 @@ import accept from "../../assets/icons/accept.svg"
 import decline from "../../assets/icons/dislike.svg"
 import Text from "../text/text";
 import axios from "axios";
-const Applicants = ({id, companyId, postId,  loadPost}) => {
+const Applicants = ({userid, postId, name, lastname }) => {
   const [user,setUser] = useState({});
-  useEffect(()=>{
-    console.log("MY user ID IS " + id);
-    getUser();
-  },[]) 
-  const getUser = async() => {
-    try {
-      const response = await axios.get(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/user/${id}`);
-      setUser(response.data.user)
-      
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-    }
-  }
-  
+
   const likeUser = async() => {
+    console.log("Trying to like")
     try {
-      await axios.put(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/like-user/${postId}?id=${id}`)
-      console.log("I LIKED THE USER WITH ID", id)
+      await axios.put(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/like-user/${postId}?id=${userid}`)
+      console.log("error")
     } catch (error) {
-      
+      console.log(error)
     }
+    console.log("Like successfull")
   }
 
   const dislikeUser = async() => {
+    console.log("Trying to dislike")
     try {
-      await axios.put(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/employer-dislike/${postId}?id=${id}`)
-      console.log("I DISLIKED THE USER WITH ID", id)
-      loadPost();
-    } catch (error) {
-      
-    }
-  }
+      await axios.put(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/employer-dislike/${postId}?id=${userid}`)
 
+    } catch (error) {
+      console.log(error);
+    }
+    console.log("Successfully disliked")
+  }
   return (
     <div className="applicants-container">
       <div className="applicants-desc">
         <div className="applicant-photo" style={{ backgroundImage: `url(${unicorn})`, lightgray:"50%" }}>
         </div>
         <div className="applicant-info">
-          <Text label={`${user.name} ${user.lastname}`} size={"s16"} weight={"medium"} color={"black"}/>
-          <Text label={`${user.generalSkills}`} size={"s14"} weight={"regular"} color={"black"}/>
+          <Text label={`${name} ${lastname}`} size={"s16"} weight={"medium"} color={"black"}/>
+          <Text label={"Developer"} size={"s14"} weight={"regular"} color={"black"}/>
         </div>
       </div>
       <div className="applicant-buttons">

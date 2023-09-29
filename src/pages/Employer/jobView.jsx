@@ -149,7 +149,13 @@ const JobView = () => {
       </div>
       <div style={{ marginBottom: "40px" }} className="applicant-column">
         {likes.map((like, index) => (
-          <Applicants key={like._id} id={like._id} postId={post._id} companyId={company} data={like} loadPost={loadPost} />
+          <Applicants
+            key={`${like._id}-${index}`}
+            userid={like._id}
+            name={like.name}
+            lastname={like.lastname}
+            postId={id}
+          />
         ))}
       </div>
       <div className="delete-btn-container">

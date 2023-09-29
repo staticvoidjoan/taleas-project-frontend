@@ -1,6 +1,7 @@
 import React from 'react';
 import {Auth} from "aws-amplify"
 import { useNavigate } from 'react-router-dom';
+import Text from "../../../components/text/text"
 import "./user.css"
 const UserSignOut = () => {
     const navigate = useNavigate();
@@ -19,9 +20,7 @@ const UserSignOut = () => {
 
 
     return (
-        <div>
-        <button onClick={signOut} className='logout-btn'>Sign Out</button>    
-        </div>
+        <button onClick={signOut} className='logout-btn'><Text label={"Sign Out"} size={"s16"}/></button>    
     );
 }
 

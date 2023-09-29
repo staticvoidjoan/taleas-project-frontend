@@ -358,3 +358,15 @@ button {
   flex-direction: column;
   width: calc(100% - 40px);
 }
+
+
+.logout-btn{
+  width: calc(100% - 60px);
+  background-color: #6e46f5;
+  flex-shrink: 0;
+  border: none;
+  color: #fff;
+  height: 48px;
+  margin-top: 32px;
+  border-radius: 10px;
+}

@@ -11,24 +11,25 @@ const EmployerHome = () => {
   const creatorId = localStorage.getItem("employerId");
   useEffect(() => {
     getAllPosts();
-    console.log("HELLOOO",userposts[0])
+    console.log("HELLOOO", userposts[0]);
   }, []);
 
   const getAllPosts = async () => {
     try {
       console.log(creatorId);
       const response = await axios.get(
-        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/creator/${creatorId}?page=1&limit=5`
+        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/creator/${creatorId}?page=1&limit=6`
       );
       setuserPosts(response.data.posts);
+      console.log(response.data.posts);
       setPostCount(response.data.count);
-      console.log(response.data);
+      console.log("i think i am an id", response.data.posts[0]._id);
     } catch (error) {}
   };
 
-  const addNewPost = () =>{
-    navigate(`/postJob/${creatorId}`)
-  }
+  const addNewPost = () => {
+    navigate(`/postJob/${creatorId}`);
+  };
 
   return (
     <div>
@@ -47,8 +48,16 @@ const EmployerHome = () => {
           />
         </div>
         <div className="job-card-column">
-          {userposts.map((post) => (
-            <JobCard id={post._id} key={post._id} />
+          {userposts.map((post,index) => (
+            <JobCard
+              postId={userposts[index]._id}
+              profilePhoto={post.creatorId.profilePhoto}
+              position={post.position}
+              category={post.category.name}
+              address={post.creatorId.address}
+              likes={post.likedBy}
+              key={post._id}
+            />
           ))}
         </div>
       </div>
