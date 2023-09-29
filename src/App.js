@@ -279,7 +279,8 @@ function App() {
           }
         />
       </Routes>
-      {hideFooter ? null : <Footer userRole={userRole} />}
+      
+      {authenticated ? hideFooter ? null : <Footer userRole={userRole} /> : null}
     </div>
   );
 }

@@ -57,23 +57,13 @@ const LoginPage = () => {
       <div className="form-box-register">
         <div className="form-category">
           <div
-            className={`employer-category ${
-              selectedCategory === "employee" ? "selected" : ""
-            }`}
-            onClick={() => setSelectedCategory("employee")}
-          >
-            <div style={{ marginBottom: "10px" }}>
-              <Text label={"Employee"} />
-            </div>
-          </div>
-          <div
             className={`employee-category ${
               selectedCategory === "employer" ? "selected" : ""
             }`}
             onClick={() => setSelectedCategory("employer")}
           >
             <div style={{ marginBottom: "10px" }}>
-              <Text label={"Employer"} />
+              <Text label={"Log In"} />
             </div>
           </div>
         </div>
@@ -156,19 +146,17 @@ const LoginPage = () => {
       <div className="user-register-title">
         <div style={{ marginBottom: "16px" }}>
           <Text
-            label={"Login"}
-            size={"s20"}
+            label={"Connecting Dreams with Talent"}
+            size={"s18"}
             weight={"medium700"}
             color={"white"}
           />
         </div>
         <Text
           label={
-            selectedCategory === "employee"
-              ? "Find your dream job?"
-              : "Find the employees for your company!"
+          "Find Your Dream Job, Find Your Employees!"
           }
-          size={"s16"}
+          size={"s14"}
           weight={"regular"}
           color={"white"}
         />
