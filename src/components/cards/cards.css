@@ -13,12 +13,13 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    gap: 5px;
   }
   
   .job-location {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
     width: 87px;
     height: 27px;
@@ -31,31 +32,13 @@
   .card-content {
     z-index: 1;
     position: absolute;
-    top: 341px;
+    top: 387px;
     left: 24px;
   }
   
-  .job-title{
+  .job-position{
     margin-bottom: 8px;
   }
   .job-info{
     margin-bottom: 12px;
   }
-
-  .cancel{
-    border-radius: 50px 50px 50px 50px;
-    height: 48px;
-    width: 48px;
-    background-color: red;
-  }
-  .like{
-    border-radius: 50px 50px 50px 50px;
-    height: 48px;
-    width: 48px;
-  }
-  .superlike{
-    border-radius: 50px 50px 50px 50px;
-    height: 43px;
-    width: 43px;
-  }
-

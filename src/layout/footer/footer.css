@@ -1,18 +1,19 @@
-.footer-container{
+
+.footer-container {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
-    size: 24px;
-    background: #FFF;
-    height: 78px;
-}
-
-.footer-component{
-   position: absolute;
-   z-index: 999;
-   bottom: 0;
-   left: 0;
-   width: 100%;
-   height: 3.5rem;
-}
+    background: #fff;
+    height: 65px;
+  }
+  
+  .footer-component {
+    position: sticky;
+    z-index: 999;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 65px;
+    background: #fff;
+  }

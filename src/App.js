@@ -27,7 +27,7 @@ import UserInfo from "./pages/User pages/userInfo";
 import PostJob from "./pages/Jobs/postJob";
 import EmployerHome from "./pages/Employer/EmployerHome";
 import JobView from "./pages/Employer/jobView";
-
+import EmployerProfile from "./pages/Employer/employerProfile";
 //Layout
 import NavBar from "./layout/navBar/Navbar2";
 import Footer from "./layout/footer/footer";
@@ -35,7 +35,12 @@ import Footer from "./layout/footer/footer";
 //Mutual Pages
 import Home from "./pages/home/home";
 import LandingPage from "./pages/landingPage/StartingPage";
-import Profile from "./pages/Profile/profile";
+
+import ChatApp from "./ChatApp";
+import ListOfApplicants from "./components/applicants/acceptedApplicants";
+
+//Misc
+import Loader from "./components/Loader/Loader";
 
 function App() {
   // State variables
@@ -73,11 +78,9 @@ function App() {
       setLastName(userLastName);
 
       const isEmployee = userAttributes["custom:isEmployee"];
-      if(isEmployee === "true"){
+      if (isEmployee === "true") {
         setUserRole("employee");
-      } else(
-        setUserRole("employer")
-      )
+      } else setUserRole("employer");
       setCheckEmployee(isEmployee);
 
       localStorage.setItem("companyname", userGivenName);
@@ -97,17 +100,18 @@ function App() {
     const saveToStorage = async () => {
       console.log("Checking employee status:", checkEmployee);
       console.log("User email:", useremail);
-      console.log(" User status", userRole)
+      console.log(" User status", userRole);
 
-      if (userRole === 'employee') {
+      if (userRole === "employee") {
         console.log("Saving as employee");
         await saveEmployeeToStorage();
-      } 
-      else{
+      } else {
         console.log("Saving as employer");
         await saveEmployerToStorage();
       }
-      setIsLoading(false); // Data fetching is complete
+      setTimeout(() => {
+        setIsLoading(false); // Data fetching is complete
+      }, 1879);
     };
 
     if (useremail) {
@@ -149,7 +153,6 @@ function App() {
 
   const hideNav = location.pathname.startsWith("/postJob/");
   const pathsToHideFooter = [
-    "/",
     "/signup",
     "/signin",
     "/userInfo",
@@ -160,7 +163,7 @@ function App() {
   const hideFooter = pathsToHideFooter.includes(location.pathname);
 
   if (!isEmployeeLoaded) {
-    return <div>Loading...</div>; // TODO CHANGE TO SPINNER
+    return <Loader />; // TODO CHANGE TO SPINNER
   }
 
   return (
@@ -169,23 +172,46 @@ function App() {
 
       {/* ----------------------------------  Home routes ------------------------------------------------------- */}
       <Routes>
-        <Route exact path="/" element={<Home />} />
-        <Route exact path="/userHome" element={<UserHome />} />
         <Route
           exact
-          path={`${givenName}profile`}
+          path="/"
+          element={
+            authenticated ? (
+              userRole === "employee" ? (
+                isLoading ? (
+                  <Loader />
+                ) : (
+                  <UserHome userId={employee._id} />
+                )
+              ) : isLoading ? (
+                <Loader />
+              ) : (
+                <EmployerHome creatorId={employer._id} />
+              )
+            ) : (
+              <Home />
+            )
+          }
+        />
+
+        <Route
+          exact
+          path={`/profile`}
           element={
             isLoading ? (
-              <div>Loading...</div>
-            ) : (
-              <Profile
+              <Loader />
+            ) : userRole === "employer" ? (
+              <EmployerProfile
                 employeeData={employee}
                 employerData={employer}
                 employeeCheck={checkEmployee}
               />
+            ) : (
+              <UserInfo  userId={employee._id}/>
             )
           }
         />
+
         {/* ----------------------------------------------------------------------------------------------------------------- */}
 
         {/* ----------------------------------  Auhentication routes ------------------------------------------------------- */}
@@ -215,14 +241,45 @@ function App() {
         {/* --------------------------------------------------------------------------------------------------------------- */}
 
         {/* ----------------------------------  Employer routes ------------------------------------------------------- */}
-        <Route exact path="/postJob/:id" element={<PostJob />} />
+        <Route exact path="/postjob/:id" element={<PostJob />} />
         <Route exact path="/jobview/:id" element={<JobView />} />
-        {/* <Route exact path={`/${givenName}`} element={<EmployerHome />} /> */}
         {/* ---------------------------------------------------------------------------------------------------- */}
         {/* ----------------------------------  Other routes ------------------------------------------------------- */}
-        <Route path="*" element={<Home />} />
+        <Route
+          path="/chat/:chatId"
+          element={
+            isLoading ? (
+              <div>Loading...</div>
+            ) : (
+              <ChatApp
+                loggedInUser={userRole === "employee" ? employee : employer}
+              />
+            )
+          }
+        />
+        <Route path="/matches/:id" element={<ListOfApplicants />} />
+        <Route
+          path="*"
+          element={
+            authenticated ? (
+              userRole === "employee" ? (
+                isLoading ? (
+                  <Loader />
+                ) : (
+                  <UserHome userId={employee._id} />
+                )
+              ) : isLoading ? (
+                <Loader />
+              ) : (
+                <EmployerHome creatorId={employer._id} />
+              )
+            ) : (
+              <Home />
+            )
+          }
+        />
       </Routes>
-      {hideFooter ? null : <Footer />}
+      {hideFooter ? null : <Footer userRole={userRole} />}
     </div>
   );
 }

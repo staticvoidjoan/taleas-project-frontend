@@ -5,17 +5,19 @@ import Text from '../../components/text/text';
 import Card from '../../components/cards/cards';
 import Tabs from '../../components/button/tabs';
 import heart from "../../assets/icons/heart.svg";
+import back from "../../assets/icons/back.svg"
 import x from "../../assets/icons/x.svg"
 import "./userHome.css";
+import Animate from '../../animateTransition/Animate';
 
-const UserHome = () => {
+const UserHome = ({userId}) => {
   const [posts, setPosts] = useState([])
   const [currentPost, setCurrentPost] = useState({});
   const [selectedButton, setSelectedButton] = useState('All');
   const [categories, setCategories] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0)
   const [postlength, setPostLength] = useState(0);
-  const userId =  localStorage.getItem("employeeId")
+  const [postDate,setPostDate] = useState("");
   console.log(userId)
   const navigate = useNavigate();
   useEffect(() => {
@@ -25,12 +27,12 @@ const UserHome = () => {
     console.log("THESE ARE THE POSTS",posts)
   }, []);
   const handleJobCardClick = (id) => {
-    navigate(`/jobProfile/${id}`);
+    navigate(`/viewjobpost/${id}`);
   };
 
-  const handleDislikeClick = async () => {
+  const handleDislikeClick = async (postId) => {
     try{
-      await axios.put(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/dislike/${userId}?id=${posts}`)
+      await axios.put(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/dislike/${userId}?id=${postId}`)
       console.log('Cancel API Response:');
     }
     catch {
@@ -88,6 +90,19 @@ const handleLikeClick = async (postId) => {
       setPostLength(0);
     }
   };
+  const next = async () => {
+    if (currentIndex < postlength - 1) {
+      const nextIndex = currentIndex + 1;
+      const nextPost = posts[nextIndex];
+      setCurrentIndex(nextIndex);
+      setCurrentPost(nextPost)
+      console.log(nextIndex);
+      console.log("next post is", nextPost);
+     
+    } else {
+      setPostLength(0);
+    }
+  };
   const dislike = async () => {
     await handleDislikeClick(currentPost._id);
     console.log("We just DISLIKED this POST> ", currentPost._id);
@@ -105,7 +120,7 @@ const handleLikeClick = async (postId) => {
 
 
   return (
-    <div>
+    <div className='abc'>
       <div className="button-row">
         {categories.map((buttonName, index) => (
           <Tabs
@@ -120,6 +135,7 @@ const handleLikeClick = async (postId) => {
         <div className='post-alert'><Text label={"No more posts. Check back soon!"}/></div>
       ) : (
         <div>
+          <Animate>
           <div className='card-component' onClick={() => handleJobCardClick(currentPost._id)}>
             <Card
               id={currentPost._id}
@@ -129,18 +145,21 @@ const handleLikeClick = async (postId) => {
               background={currentPost.creatorId.profilePhoto}
             />
           </div>
+          </Animate>
           <div className='card-buttons'>
-            <div>
+            <button className='left-button' onClick={next}>
+              <img src={back}></img>
+            </button>
               <button className="cancel" onClick={dislike}>
                 {" "}
                 <img src={x} alt="x" />
               </button>
-            </div>
-            <div>
               <button className="like" onClick={like}>
                 <img src={heart} alt="heart" />
               </button>
-            </div>
+              <button className='right-button' onClick={next}>
+              <img src={back} className='right'></img>
+            </button>
           </div>
         </div>
       )}

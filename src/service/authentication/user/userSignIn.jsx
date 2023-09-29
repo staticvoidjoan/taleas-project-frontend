@@ -45,9 +45,8 @@ const LoginPage = () => {
     try {
       const user = await Auth.currentAuthenticatedUser();
       const userAttributes = user.attributes || {};
-      const userGivenName = userAttributes.given_name || "";
-      navigate(`/${userGivenName}`);
       window.location.reload();
+      window.location.href = '/';
     } catch (error) {
       console.log(error);
     }
