@@ -4,6 +4,7 @@ import axios from "axios";
 import JobCard from "../../components/jobCard/jobCard";
 import "./employerHome.css";
 import { useNavigate } from "react-router-dom";
+import Animate from "../../animateTransition/Animate";
 const EmployerHome = () => {
   const navigate = useNavigate();
   const [userposts, setuserPosts] = useState([]);
@@ -32,7 +33,7 @@ const EmployerHome = () => {
   };
 
   return (
-    <div>
+    <Animate>
       <div className="add-job-btn-container">
         <button className="register-btn" onClick={addNewPost}>
           {" "}
@@ -61,7 +62,7 @@ const EmployerHome = () => {
           ))}
         </div>
       </div>
-    </div>
+    </Animate>
   );
 };
 

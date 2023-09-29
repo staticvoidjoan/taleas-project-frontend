@@ -43,6 +43,7 @@ function App() {
   const [givenName, setGivenName] = useState("");
   const [lastName, setLastName] = useState("");
   const [checkEmployee, setCheckEmployee] = useState(true);
+  const [userRole, setUserRole] = useState("employer");
   const [employee, setEmployee] = useState({});
   const [employer, setEmployer] = useState({});
   const [useremail, setUserEmail] = useState("");
@@ -72,6 +73,11 @@ function App() {
       setLastName(userLastName);
 
       const isEmployee = userAttributes["custom:isEmployee"];
+      if(isEmployee === "true"){
+        setUserRole("employee");
+      } else(
+        setUserRole("employer")
+      )
       setCheckEmployee(isEmployee);
 
       localStorage.setItem("companyname", userGivenName);
@@ -91,11 +97,13 @@ function App() {
     const saveToStorage = async () => {
       console.log("Checking employee status:", checkEmployee);
       console.log("User email:", useremail);
+      console.log(" User status", userRole)
 
-      if (checkEmployee) {
+      if (userRole === 'employee') {
         console.log("Saving as employee");
         await saveEmployeeToStorage();
-      } else {
+      } 
+      else{
         console.log("Saving as employer");
         await saveEmployerToStorage();
       }

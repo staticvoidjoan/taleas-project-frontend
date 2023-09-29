@@ -6,11 +6,7 @@ import ConfirmSignup from "./confirmSignup";
 import { Link, useNavigate } from "react-router-dom";
 import Text from "../../../components/text/text";
 import Button from "../../../components/button/button";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { ref, set } from "firebase/database";
-import { doc, setDoc, addDoc, collection } from "firebase/firestore";
-import { app, auth, db } from "../../../firebase";
-import { initializeApp } from "firebase/app"; // Import initializeApp
+
 //Alerts
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -168,26 +164,6 @@ function RegistrationForm() {
         console.log("Registration successful");
         toast.success("Registration successful", { autoClose: 5000 });
         setRegistrationSuccess(true);
-        const auth = getAuth(app);
-        try {
-          let email = formData.email;
-          let password = formData.password;
-          let name = formData.name;
-          const res = await createUserWithEmailAndPassword(
-            auth,
-            email,
-            password
-          );
-          const user = res.user;
-          await addDoc(collection(db, "users"), {
-            uid: user.uid,
-            name,
-            email,
-          });
-        } catch (err) {
-          console.error(err);
-          alert(err.message);
-        }
       } catch (error) {
         alert(error);
         toast.error(error);
