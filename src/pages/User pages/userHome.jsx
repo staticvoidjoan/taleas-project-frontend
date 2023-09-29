@@ -8,6 +8,7 @@ import heart from "../../assets/icons/heart.svg";
 import back from "../../assets/icons/back.svg"
 import x from "../../assets/icons/x.svg"
 import "./userHome.css";
+import Animate from '../../animateTransition/Animate';
 
 const UserHome = () => {
   const [posts, setPosts] = useState([])
@@ -26,7 +27,7 @@ const UserHome = () => {
     console.log("THESE ARE THE POSTS",posts)
   }, []);
   const handleJobCardClick = (id) => {
-    navigate(`/jobProfile/${id}`);
+    navigate(`/viewjobpost/${id}`);
   };
 
   const handleDislikeClick = async (postId) => {
@@ -134,6 +135,7 @@ const handleLikeClick = async (postId) => {
         <div className='post-alert'><Text label={"No more posts. Check back soon!"}/></div>
       ) : (
         <div>
+          <Animate>
           <div className='card-component' onClick={() => handleJobCardClick(currentPost._id)}>
             <Card
               id={currentPost._id}
@@ -143,6 +145,7 @@ const handleLikeClick = async (postId) => {
               background={currentPost.creatorId.profilePhoto}
             />
           </div>
+          </Animate>
           <div className='card-buttons'>
             <button className='left-button' onClick={next}>
               <img src={back}></img>

@@ -7,19 +7,23 @@ import { useNavigate } from 'react-router-dom'
 
 const Footer = () => {
   const navigate = useNavigate()
-  const handleNavigate = () => {
-    navigate("/")
+
+  const handleHomeNavigate = () => {
+   navigate("/")
   }
+  const handleProfileNavigate = () => {
+  navigate("/profile")
+   }
   return (
     <div className='footer-component'>
     <div className='footer-container'>
-        <div className='home'>
+        <div className='home' onClick={handleHomeNavigate}>
             <img src={home}></img>
         </div>
         <div className='chat'>
         <img src={chat}></img>
         </div>
-        <div className='profile'>
+        <div className='profile'onClick={handleProfileNavigate}>
         <img src={profile}></img>
         </div>
     </div>
