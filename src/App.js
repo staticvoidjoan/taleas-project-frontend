@@ -153,7 +153,6 @@ function App() {
 
   const hideNav = location.pathname.startsWith("/postJob/");
   const pathsToHideFooter = [
-    "/",
     "/signup",
     "/signin",
     "/userInfo",
