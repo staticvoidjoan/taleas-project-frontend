@@ -29,7 +29,7 @@ const EmployerHome = () => {
   };
 
   const addNewPost = () => {
-    navigate(`/postJob/${creatorId}`);
+    navigate(`/postjob/${creatorId}`);
   };
 
   return (

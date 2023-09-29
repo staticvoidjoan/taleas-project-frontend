@@ -1,55 +1,41 @@
-import React, { useEffect, useState } from "react";
-import Text from "../../components/text/text";
-import axios from "axios";
-import "./employerProfile.css";
+import React from "react";
 import unicorn from "../../assets/images/Unicorn.png";
-import UserSignOut from "../../service/authentication/user/userSignOut";
-import { Link } from "react-router-dom";
-const EmployerProfile = () => {
-  const creatorId = localStorage.getItem("employerId");
-  const [employer, setEmployer] = useState({});
-  useEffect(() => {
-    getEmployer();
-  }, []);
-  const getEmployer = async () => {
-    try {
-      const response = await axios.get(
-        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/employer/${creatorId}`
-      );
+import SignOut from "../../service/authentication/user/userSignOut";
+import Text from "../../components/text/text";
+import "./employerProfile.css";
 
-      setEmployer(response.data.employer);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
+const EmployerProfile = ({ employerData, employeeCheck }) => {
   const cardStyle = {
-    backgroundImage: `url(${employer.profilePhoto ?? unicorn})`,
+    backgroundImage: `url(${employerData.profilePhoto ?? unicorn} )`,
     position: "relative",
   };
-
   return (
-    <div className="employer-profie-container">
+    <div className="profile-container">
       <div className="photo-container">
-        <div className="company-photo" style={cardStyle}></div>
-      </div>
-      <div
-        style={{ backgroundImage: `url(${employer.profilePhoto ?? unicorn})` }}
-      ></div>
-      <Text label={employer.companyName} weight={"bold"} color={"black"} />
-      <div style={{ marginTop: "20px" }}>
-        <div style={{ marginBottom: "20px" }}>
-          <Link to={`/${employer.companyName}`}>
-            <Text label={"Go Home"} weight={"bold"} color={"black"} />
-          </Link>
+        <div className="profile-profile-pic" style={cardStyle}>
+          <div className="gradient-overlay"></div>
         </div>
-        <Text
-          label={"Edit profile (TO BE DONE)"}
-          weight={"bold"}
-          color={"black"}
-        />
-        <UserSignOut />
       </div>
+      <div className="profile-info-box">
+        <Text
+          label={employerData.companyName}
+          size={"s22"}
+          color={"#333"}
+          weight={"bold"}
+        />
+        <Text label={employerData.email} size={"s18"} color={"#666"} />
+        <Text
+          label={`<strong>Total posts made:</strong> ${employerData.postsMade}`}
+          size={"s18"}
+          color={"#666"}
+        />
+        <Text
+          label={`<strong>Address:</strong> ${employerData.address}`}
+          size={"s18"}
+          color={"#666"}
+        />
+      </div>
+      <SignOut />
     </div>
   );
 };
