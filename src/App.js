@@ -41,6 +41,7 @@ import ListOfApplicants from "./components/applicants/acceptedApplicants";
 
 //Misc
 import Loader from "./components/Loader/Loader";
+import ListUserMessages from "./components/userMessages/userMessages";
 
 function App() {
   // State variables
@@ -151,7 +152,8 @@ function App() {
     }
   };
 
-  const hideNav = location.pathname.startsWith("/postJob/");
+  const hideNavPaths = ["/postJob", "/completeprofile"]
+  const hideNav = hideNavPaths.includes(location.pathname)
   const pathsToHideFooter = [
     "/signup",
     "/signin",
@@ -235,7 +237,7 @@ function App() {
         {/* ------------------------------------------------------------------------------------------------------------------ */}
 
         {/* ----------------------------------  Employeee routes ------------------------------------------------------- */}
-        <Route exact path="/completeprofile" element={<ProfileForm />} />
+        <Route exact path="/completeprofile" element={<ProfileForm userId={employee._id} />} />
         <Route exact path="/userInfo/:id" element={<UserInfo />} />
         <Route exact path="/viewjobpost/:id" element={<EmployeeJobView />} />
         {/* --------------------------------------------------------------------------------------------------------------- */}
@@ -258,6 +260,17 @@ function App() {
           }
         />
         <Route path="/matches/:id" element={<ListOfApplicants />} />
+        <Route 
+        path="/userMessages" 
+        element={
+          isLoading ? (
+            <div>Loading...</div>
+          ) : (
+            <ListUserMessages user = { userRole === "employee" ? employee : null }/>
+          )
+        } />
+        <Route path="*" element={<Home />} />
+
         <Route
           path="*"
           element={
@@ -279,7 +292,8 @@ function App() {
           }
         />
       </Routes>
-      {hideFooter ? null : <Footer userRole={userRole} />}
+      
+      {authenticated ? hideFooter ? null : <Footer userRole={userRole} /> : null}
     </div>
   );
 }

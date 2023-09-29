@@ -4,7 +4,8 @@ import "./complete.css"
 import Text from "../../components/text/text"
 import X from "../../assets/icons/closeX.svg";
 import ImageUploader from "../../components/Convert/convertImage";
-const EditProfile = () => {
+import { Link } from "react-router-dom";
+const ProfileForm = (userId) => {
   const [formData, setFormData] = useState({
     education: [
       {
@@ -39,7 +40,7 @@ const EditProfile = () => {
   const loadUser = async () => {
     try {
       const response = await axios.get(
-        "https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/user/6512959bf6a4626fcd191c4d"
+        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/user/${userId}`
       );
       setFormData(response.data.user);
     } catch (error) {
@@ -84,13 +85,7 @@ const EditProfile = () => {
     }));
   };
 
-  const handleRemoveLink = (index) => {
-    const list = [...formData.links];
-    list.splice(index, 1);
-    setFormData((prevState) => ({ ...prevState, links: list }));
-  };
-
-  const handleAddEducation = () => {
+  const handleAddEducation = (id) => {
     setFormData((prevState) => ({
       ...prevState,
       education: [
@@ -100,10 +95,16 @@ const EditProfile = () => {
     }));
   };
 
-  const handleRemoveEducation = (index) => {
+  const handleRemoveEducation = async (index, id) => {
+    console.log(id)
+    try{
+    const response = await axios.delete(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/education/${id}`)
     const list = [...formData.education];
     list.splice(index, 1);
     setFormData((prevState) => ({ ...prevState, education: list }));
+    } catch(error) {
+      console.log('Something went wrong');
+    }
   };
 
   const handleAddExperience = () => {
@@ -116,10 +117,15 @@ const EditProfile = () => {
     }));
   };
 
-  const handleRemoveExperience = (index) => {
-    const list = [...formData.experiences];
+  const handleRemoveExperience = async (index, id) => {
+    try{
+    await axios.delete(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/experience/${id}`)
+    const list = [...formData.experience];
     list.splice(index, 1);
-    setFormData((prevState) => ({ ...prevState, experiences: list }));
+    setFormData((prevState) => ({ ...prevState, experience: list }));
+    } catch (error){ 
+      console.log('Something went wrong')
+    }
   };
 
   const handleAddCertification = () => {
@@ -132,10 +138,15 @@ const EditProfile = () => {
     }));
   };
 
-  const handleRemoveCertification = (index) => {
+  const handleRemoveCertification = async(index, id) => {
+    try{
+    await axios.delete(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/certifications/${id}`)
     const list = [...formData.certifications];
     list.splice(index, 1);
     setFormData((prevState) => ({ ...prevState, certifications: list }));
+    } catch (error){
+      console.log('Something went wrong')
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -143,7 +154,7 @@ const EditProfile = () => {
     try {
       console.log(formData);
       const edit = await axios.put(
-        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/6512959bf6a4626fcd191c4d`,
+        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/${userId}`,
         formData
       );
       console.log("Form data to be sent:", formData);
@@ -157,7 +168,9 @@ const EditProfile = () => {
       <div className="complete-profile-bar">
         <div className="complete-profile-bar-nav">
         <Text label={"Edit Profile"} size={"s16"} weight={"medium"} />
+       <Link to='/profile'>
         <img src={X} alt="" />
+        </Link>
         </div>
         <hr className="complete-profile-bar-div"></hr>
       </div>
@@ -203,7 +216,7 @@ const EditProfile = () => {
               handleInputChange(e, index, "education", "endDate")
             }
           />
-          <button type="button" className="remove-button" onClick={() => handleRemoveEducation(index)}>
+          <button type="button" className="remove-button" onClick={() => handleRemoveEducation(index, edu._id)}>
             Remove
           </button>
         </div>
@@ -223,7 +236,7 @@ const EditProfile = () => {
             className="field-input"
             value={exp.position}
             onChange={(e) =>
-              handleInputChange(e, index, "experiences", "position")
+              handleInputChange(e, index, "experience", "position")
             }
           />
           <label> Employer </label>
@@ -232,7 +245,7 @@ const EditProfile = () => {
             className="field-input"
             value={exp.employer}
             onChange={(e) =>
-              handleInputChange(e, index, "experiences", "employer")
+              handleInputChange(e, index, "experience", "employer")
             }
           />
           <label> Start date </label>
@@ -242,7 +255,7 @@ const EditProfile = () => {
             type="date"
             value={exp.startDate}
             onChange={(e) =>
-              handleInputChange(e, index, "experiences", "startDate")
+              handleInputChange(e, index, "experience", "startDate")
             }
           />
           <label> End date </label>
@@ -252,10 +265,10 @@ const EditProfile = () => {
             type="date"
             value={exp.endDate}
             onChange={(e) =>
-              handleInputChange(e, index, "experiences", "endDate")
+              handleInputChange(e, index, "experience", "endDate")
             }
           />
-          <button type="button" className="remove-button" onClick={() => handleRemoveExperience(index)}>
+          <button type="button" className="remove-button" onClick={() => handleRemoveExperience(index, exp._id)}>
             Remove
           </button>
         </div>
@@ -309,7 +322,7 @@ const EditProfile = () => {
           <button
             type="button"
             className="remove-button"
-            onClick={() => handleRemoveCertification(index)}
+            onClick={() => handleRemoveCertification(index, cert._id)}
           >
             Remove
           </button>
@@ -409,4 +422,4 @@ const EditProfile = () => {
   );
 };
 
-export default EditProfile;
+export default ProfileForm;

@@ -44,5 +44,4 @@ function ListOfApplicants () {
         </div>
     )
 }
-
 export default ListOfApplicants

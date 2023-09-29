@@ -3,7 +3,7 @@ import {useState} from 'react';
 
 import {useParams} from 'react-router-dom';
 import Chat from './chat/Chat';
-
+import ChatNavBar from './chat/Navbar';
 
 
 function ChatApp({loggedInUser}) {
@@ -14,6 +14,7 @@ function ChatApp({loggedInUser}) {
 
     return (
         <div>
+       
             {user ? <Chat user={user}/> : <h1>loading</h1> }
         </div>
     )

@@ -11,3 +11,14 @@
    justify-content: center;
    margin-bottom: 16px;
 }
+
+
+
+.navigate-bubble-row{
+   display: flex;
+   width: 100%;
+   justify-content: center;
+   align-items: center;
+   gap: 35px;
+   margin-bottom: 30px;
+}
