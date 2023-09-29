@@ -41,6 +41,7 @@ import ListOfApplicants from "./components/applicants/acceptedApplicants";
 
 //Misc
 import Loader from "./components/Loader/Loader";
+import ListUserMessages from "./components/userMessages/userMessages";
 
 function App() {
   // State variables
@@ -254,7 +255,17 @@ function App() {
           }
         />
         <Route path="/matches/:id" element={<ListOfApplicants />} />
+        <Route 
+        path="/userMessages" 
+        element={
+          isLoading ? (
+            <div>Loading...</div>
+          ) : (
+            <ListUserMessages user = { userRole === "employee" ? employee : null }/>
+          )
+        } />
         <Route path="*" element={<Home />} />
+
       </Routes>
       {hideFooter ? null : <Footer userRole={userRole} />}
     </div>

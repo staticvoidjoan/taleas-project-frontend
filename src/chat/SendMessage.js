@@ -2,12 +2,8 @@ import React, { useState } from 'react';
 import { db } from '../firebase'
 import {addDoc, collection, serverTimestamp} from 'firebase/firestore'
 import { useParams } from 'react-router-dom';
+import "./sendMessage.css"
 
-const style = {
-  form: `h-12 w-full max-w-[100vW] flex text-xl fixed bottom-0`,
-  input: `w-full text-sm p-3 bg-white-900 text-black outline outline-black-500 outline-1`,
-  button: `w-[15%] text-white text-sm bg-[#118C94] outline outline-[#118C94] outline-1`,
-};
 
 const SendMessage = ({scroll , user }) => {
   const [input, setInput] = useState('');
@@ -19,7 +15,7 @@ const SendMessage = ({scroll , user }) => {
         return
     }
     
-    await addDoc(collection(db, 'messages'), {
+    await addDoc(collection(db, 'chats'), {
         text: input,
         name: user.name || user.companyName,
         uid: user._id,
@@ -32,15 +28,15 @@ const SendMessage = ({scroll , user }) => {
   }
 
   return (
-    <form onSubmit={sendMessage} className={style.form}>
+    <form onSubmit={sendMessage} className="form">
       <input
         value={input}
         onChange={(e) => setInput(e.target.value)}
-        className={style.input}
+        className="input"
         type='text'
         placeholder='Message'
       />
-      <button className={style.button} type='submit'>
+      <button className="button" type='submit'>
         Send
       </button>
     </form>
