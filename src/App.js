@@ -210,11 +210,6 @@ function App() {
         <Route exact path="/postJob/:id" element={<PostJob />} />
         <Route exact path="/jobview/:id" element={<JobView />} />
         {/* <Route exact path={`/${givenName}`} element={<EmployerHome />} /> */}
-        <Route
-          exact
-          path={`/${givenName}-profile`}
-          element={<EmployerProfile />}
-        />
         {/* ---------------------------------------------------------------------------------------------------- */}
         {/* ----------------------------------  Other routes ------------------------------------------------------- */}
         <Route path="*" element={<Home />} />
