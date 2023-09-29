@@ -17,6 +17,7 @@ const UserHome = () => {
   const [categories, setCategories] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0)
   const [postlength, setPostLength] = useState(0);
+  const [postDate,setPostDate] = useState("");
   const userId =  localStorage.getItem("employeeId")
   console.log(userId)
   const navigate = useNavigate();
