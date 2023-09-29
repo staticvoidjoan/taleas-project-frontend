@@ -1,75 +1,73 @@
-/* Updated .home-bio styles */
-.home-bio {
-  width: 400px;
-  height: 190px;
- 
-  position: relative;
-  background: transparent;
-  border: 2px solid rgba(255,255,255,0.5);
-  border-radius: 20px;
-  backdrop-filter: blur(15px);
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+.starting {
+  background-color: #ffffff;
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
-  flex-shrink: 0;
+  min-height: 100vh; /* Ensure a minimum height to fill the viewport */
 }
 
-
-/* Updated .home-container styles */
-.home-container {
-  width: 100%;
-  min-height: 100vh;
+/* .center-all {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  height: auto;
+  justify-content: space-around;
+  margin-top: 30px;
+} */
+
+.content {
+  display: flex;
+  flex-direction: column;
   align-items: center;
-}
-
-.homt-btn-container{
-  background:transparent;
-  margin-top: 4px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-  /* Updated .myButton styles */
-.myButton {
-  margin: 5px;
-    width: 120px;
-    height: 40px;
-    border-radius: 40px;
-    background: #fff;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    font-size: 1em;
-    font-weight: 600;
-}
-
-.myButton:hover {
-  background-color: #b4b5b6;
-}
-
-.myButton:active {
-  transform: translateY(1px);
-  background-color: #007bff;
-}
-
-.home-sub{
-  margin-top: 10px;
-  display: flex;
   justify-content: space-evenly;
-  width: 65%   ;
-  text-decoration: none;
+  flex-grow: 1; /* Allow content to grow and fill available space */
+}
+
+.main-tittle {
+  text-align: center;
+}
+
+.start-img {
+  width: calc(100% - 94px);
+  margin-left: 47px;
+  height: auto;
+  flex-grow: 1; /* Allow image to grow and fill available space */
+}
+
+.start-line {
+  display: flex;
   align-items: center;
 }
 
-.home-link{
-  text-decoration: none;
-  color: #fff;
- 
+.line {
+  flex-grow: 1;
+  height: 1px;
+  border-top: 1px solid #dedede;
+  margin: 0 20px;
 }
-.home-link:hover{
-  text-decoration: none;
-  color: #c6c6c6;
+
+.footer {
+  text-align: center;
+}
+.btn-register {
+  margin-top: 24px;
+  margin-bottom: 16px;
+  background-color: #6e46f5;
+  border-radius: 2px;
+  width: calc(100% - 40px);
+  height: 48px;
+  border: none;
+}
+
+.btn-login {
+  margin-top: 16px;
+  background-color: #ffffff;
+  height: 48px;
+  border-radius: 2px;
+  border: 1px solid #222;
+  width: calc(100% - 40px);
 }

@@ -9,14 +9,26 @@ const Applicants = ({userid, postId, name, lastname }) => {
   const [user,setUser] = useState({});
 
   const likeUser = async() => {
+    console.log("Trying to like")
     try {
       await axios.put(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/like-user/${postId}?id=${userid}`)
-
+      console.log("error")
     } catch (error) {
-      
+      console.log(error)
     }
+    console.log("Like successfull")
   }
 
+  const dislikeUser = async() => {
+    console.log("Trying to dislike")
+    try {
+      await axios.put(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/employer-dislike/${postId}?id=${userid}`)
+
+    } catch (error) {
+      console.log(error);
+    }
+    console.log("Successfully disliked")
+  }
   return (
     <div className="applicants-container">
       <div className="applicants-desc">
@@ -29,7 +41,7 @@ const Applicants = ({userid, postId, name, lastname }) => {
       </div>
       <div className="applicant-buttons">
         <div className="accept-btn" onClick={likeUser}><img src={accept} alt="" /></div>
-        <div className="decline-btn"><img src={decline} alt="" /></div>
+        <div className="decline-btn" onClick={dislikeUser}><img src={decline} alt="" /></div>
       </div>
     </div>
   );

@@ -17,7 +17,6 @@ const JobView = () => {
   const { id } = useParams();
   useEffect(() => {
     loadPost();
-    
   }, []);
 
   const loadPost = async () => {
@@ -147,8 +146,14 @@ const JobView = () => {
         </div>
       </div>
       <div style={{ marginBottom: "40px" }} className="applicant-column">
-        {likes.map((like) => (
-          <Applicants key={like._id} userid={like._id} name={like.name} lastname={like.lastname} />
+        {likes.map((like, index) => (
+          <Applicants
+            key={`${like._id}-${index}`}
+            userid={like._id}
+            name={like.name}
+            lastname={like.lastname}
+            postId={id}
+          />
         ))}
       </div>
       <div className="delete-btn-container">
