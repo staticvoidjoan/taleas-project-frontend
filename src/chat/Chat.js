@@ -1,13 +1,13 @@
 import React, { useRef } from 'react'
 import { db, } from '../firebase';
-import {query, collection, where, getDocs, getDoc, doc, setDoc, addDoc, updateDoc, deleteDoc, orderBy, onSnapshot} from 'firebase/firestore';
+import {query, collection, where, orderBy, onSnapshot} from 'firebase/firestore';
 import {useEffect} from 'react';
 import {useState} from 'react';
 import {useParams} from 'react-router-dom';
 import Message from './Message';
 import SendMessage from './SendMessage';
 const style = {
-    main: `flex flex-col p-[10px] overflow-auto mb-[40px]`,
+    main: `flex flex-col p-[10px] overflow-auto mb-[40px] margin-top-[200px] margin-bottom-[60px] `,
   };
 
 function Chat({user}) {
@@ -18,11 +18,14 @@ function Chat({user}) {
     useEffect(() => {
         const q = query(collection(db, "chats"), where("chatId", "==", chatId), orderBy("timestamp", "asc"));
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
-            const messages = [];
+            let messagess = [];
             querySnapshot.forEach((doc) => {
-                messages.push(...doc.data(), doc.id);
+                messagess.push({id: doc.id, 
+                  ...doc.data()});
+                console.log({...doc.data(),id: doc.id})
             });
-            setMessages(messages);
+            setMessages(messagess);
+            console.log(messagess)
         });
 
         return () => {

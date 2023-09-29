@@ -7,9 +7,8 @@ import Chat from './chat/Chat';
 
 
 function ChatApp({loggedInUser}) {
-    const [user, setUser] = useState()
+    const [user, setUser] = useState(loggedInUser)
     useEffect(() => {
-        setUser(loggedInUser)
         console.log("logged in user", user)
     }, [loggedInUser])
 
