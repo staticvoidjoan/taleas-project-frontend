@@ -4,15 +4,16 @@ import axios from "axios";
 import JobCard from "../../components/jobCard/jobCard";
 import "./employerHome.css";
 import { useNavigate } from "react-router-dom";
+import Loader from "../../components/Loader/Loader";
 import Animate from "../../animateTransition/Animate";
-const EmployerHome = () => {
+const EmployerHome = ({creatorId}) => {
   const navigate = useNavigate();
   const [userposts, setuserPosts] = useState([]);
   const [postCount, setPostCount] = useState("");
-  const creatorId = localStorage.getItem("employerId");
   useEffect(() => {
     getAllPosts();
     console.log("HELLOOO", userposts[0]);
+    console.log(creatorId);
   }, []);
 
   const getAllPosts = async () => {
@@ -31,7 +32,6 @@ const EmployerHome = () => {
   const addNewPost = () => {
     navigate(`/postjob/${creatorId}`);
   };
-
   return (
     <Animate>
       <div className="add-job-btn-container">
@@ -49,7 +49,7 @@ const EmployerHome = () => {
           />
         </div>
         <div className="job-card-column">
-          {userposts.map((post,index) => (
+          {userposts.map((post, index) => (
             <JobCard
               postId={userposts[index]._id}
               profilePhoto={post.creatorId.profilePhoto}

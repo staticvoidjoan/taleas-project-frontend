@@ -180,7 +180,8 @@ function App() {
               userRole === "employee" ? (
                 <UserHome />
               ) : (
-                <EmployerHome />
+                isLoading ? <Loader/> :
+                <EmployerHome creatorId={employer._id}/>
               )
             ) : (
               <Home />
