@@ -10,7 +10,7 @@ import x from "../../assets/icons/x.svg"
 import "./userHome.css";
 import Animate from '../../animateTransition/Animate';
 
-const UserHome = () => {
+const UserHome = ({userId}) => {
   const [posts, setPosts] = useState([])
   const [currentPost, setCurrentPost] = useState({});
   const [selectedButton, setSelectedButton] = useState('All');
@@ -18,7 +18,6 @@ const UserHome = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [postlength, setPostLength] = useState(0);
   const [postDate,setPostDate] = useState("");
-  const userId =  localStorage.getItem("employeeId")
   console.log(userId)
   const navigate = useNavigate();
   useEffect(() => {
@@ -121,7 +120,7 @@ const handleLikeClick = async (postId) => {
 
 
   return (
-    <div>
+    <div className='abc'>
       <div className="button-row">
         {categories.map((buttonName, index) => (
           <Tabs
