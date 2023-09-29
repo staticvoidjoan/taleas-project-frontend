@@ -14,7 +14,7 @@ import axios from "axios";
 import UserSignOut from "../../service/authentication/user/userSignOut";
 
 
-const UserInfo = ({ id }) => {
+const UserInfo = ({userId}) => {
   const [user, setUser] = useState({});
   const [experiences, setExperience] = useState([]);
   const [education, setEducation] = useState([]);
@@ -25,7 +25,7 @@ const UserInfo = ({ id }) => {
   const loadUser = async () => {
     try {
       const response = await axios.get(
-        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/user/6510b71fb000416afaa63cc9`
+        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/user/${userId}`
       );
       setUser(response.data.user);
       setExperience(response.data.user.experience);
