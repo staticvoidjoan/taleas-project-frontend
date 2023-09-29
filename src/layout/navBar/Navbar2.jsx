@@ -58,40 +58,37 @@ const Navbar2 = (props) => {
 
   return (
     <>
-      <div className="navbar-container" style={navbarStyle}>
-        <div className="navbar">
-          <div className="app-name" onClick={handleTurnBack}>
-            {" "}
-            <Text
-              label={"CAREER"}
-              weight={"medium800"}
-              lineheight={"l24"}
-              size={"s20"}
-              color={isWhiteText() ? "white" : "black"}
-            />
-            <Text
-              label={"CRUSH"}
-              weight={"medium800"}
-              lineheight={"l24"}
-              size={"s20"}
-              color={"purple"}
-            />
-          </div>
-          <div>
-            {authenticated ? (
-              <>
-                <Link to={"/userInfo"}>
-                  {givenName} {lastName} {}
-                </Link>
-              </>
-            ) : (
-              <img
-                src={isSignInSignUpRoute() ? MenuWhite : NavIcon}
-                alt="Menu"
-                onClick={handleMenu}
-              />
-            )}
-          </div>
+      <div className="navbar">
+        <div className="app-name" onClick={handleTurnBack}>
+          {" "}
+          <Text
+            label={"CAREER"}
+            weight={"medium800"}
+            lineheight={"l24"}
+            size={"s20"}
+            color={"black "}
+          />
+          <Text
+            label={"CRUSH"}
+            weight={"medium800"}
+            lineheight={"l24"}
+            size={"s20"}
+            color={"purple"}
+          />
+        </div>
+        {/* <div>
+          <img src={NavIcon} alt="Menu" onClick={handleMenu} />
+        </div> */}
+        <div>
+          {authenticated ? (
+            <>
+              <Link to={`${givenName}-profile`}>
+                {givenName} {lastName}
+              </Link>
+            </>
+          ) : (
+            <img src={NavIcon} alt="Menu" onClick={handleMenu} />
+          )}
         </div>
       </div>
     </>

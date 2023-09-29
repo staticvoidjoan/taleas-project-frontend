@@ -5,7 +5,7 @@ import accept from "../../assets/icons/accept.svg"
 import decline from "../../assets/icons/dislike.svg"
 import Text from "../text/text";
 import axios from "axios";
-const Applicants = ({id, companyId, postId}) => {
+const Applicants = ({id, companyId, postId,  loadPost}) => {
   const [user,setUser] = useState({});
   useEffect(()=>{
     console.log("MY user ID IS " + id);
@@ -30,6 +30,16 @@ const Applicants = ({id, companyId, postId}) => {
     }
   }
 
+  const dislikeUser = async() => {
+    try {
+      await axios.put(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/employer-dislike/${postId}?id=${id}`)
+      console.log("I DISLIKED THE USER WITH ID", id)
+      loadPost();
+    } catch (error) {
+      
+    }
+  }
+
   return (
     <div className="applicants-container">
       <div className="applicants-desc">
@@ -42,7 +52,7 @@ const Applicants = ({id, companyId, postId}) => {
       </div>
       <div className="applicant-buttons">
         <div className="accept-btn" onClick={likeUser}><img src={accept} alt="" /></div>
-        <div className="decline-btn"><img src={decline} alt="" /></div>
+        <div className="decline-btn" onClick={dislikeUser}><img src={decline} alt="" /></div>
       </div>
     </div>
   );

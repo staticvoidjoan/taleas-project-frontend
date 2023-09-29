@@ -29,21 +29,28 @@ import Footer from "./layout/footer/footer";
 import axios from "axios";
 import EmployerHome from "./pages/Employer/EmployerHome";
 import JobView from "./pages/Employer/jobView";
+import EmployerProfile from "./pages/Employer/employerProfile";
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
   const [givenName, setGivenName] = useState("");
   const [lastName, setLastName] = useState("");
   const [checkEmployee, setCheckEmployee] = useState(false);
   const location = useLocation();
+
   Amplify.configure(awsExports);
   useEffect(() => {
     checkAuthenticated();
   }, []);
 
+  useEffect(() => {
+    checkEmployee
+  })
+
   //Check to see if a auser is authenticated and get the name and last name (only name if company)
   const checkAuthenticated = async () => {
     try {
       const user = await Auth.currentAuthenticatedUser();
+
       if (user) {
         setAuthenticated(true);
       } else {
@@ -59,18 +66,23 @@ function App() {
       const useremail = userAttributes.email || "";
       localStorage.setItem("companyname", userGivenName);
       setCheckEmployee(isEmployee);
-      if (!checkEmployee) {
-        saveEmployeeToStorage(useremail);
-      }
-      if (checkEmployee === true) {
+      if (isEmployee === false) {
+        console.log(checkEmployee);
+        console.log("I AM HERE ON FALSE ")
         saveEmployerToStorage(useremail);
+      }
+      if (isEmployee === true) {
+        
+        console.log("I AM HERE ON TRUE ")
+        console.log(checkEmployee);
+        saveEmployeeToStorage(useremail);
       }
     } catch (error) {
       setAuthenticated(false);
     }
   };
 
-  const saveEmployerToStorage = async (email) => {
+  const saveEmployeeToStorage = async (email) => {
     try {
       console.log("Trying to get employee with ", email);
       const response = await axios.get(
@@ -81,7 +93,7 @@ function App() {
     } catch (error) {}
   };
 
-  const saveEmployeeToStorage = async (email) => {
+  const saveEmployerToStorage = async (email) => {
     try {
       console.log("Trying to get employer with", email);
       const response = await axios.get(
@@ -122,7 +134,13 @@ function App() {
           path="/"
           element={authenticated ? <UserDashBoard /> : <LandingPage />}
         />
-        <Route exact path="/userHome" element={<UserHome />} />
+
+        {/* -------------------------------------- HOME PAGE ------------------------- */}
+        <Route
+          exact
+          path={`/${givenName}`}
+          element={checkEmployee ? <UserHome /> : <EmployerHome />}
+        />
         {/* ----------------------------------------------------------------------------------------------------------------- */}
 
         {/* ----------------------------------  Auhentication routes ------------------------------------------------------- */}
@@ -155,7 +173,12 @@ function App() {
         {/* ----------------------------------  Employer routes ------------------------------------------------------- */}
         <Route exact path="/postJob/:id" element={<PostJob />} />
         <Route exact path="/jobview/:id" element={<JobView />} />
-        <Route exact path={`/${givenName}`} element={<EmployerHome />} />
+        {/* <Route exact path={`/${givenName}`} element={<EmployerHome />} /> */}
+        <Route
+          exact
+          path={`/${givenName}-profile`}
+          element={<EmployerProfile />}
+        />
         {/* ---------------------------------------------------------------------------------------------------- */}
         {/* ----------------------------------  Other routes ------------------------------------------------------- */}
         <Route path="*" element={<LandingPage />} />
