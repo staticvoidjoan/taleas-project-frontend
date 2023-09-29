@@ -11,6 +11,7 @@ const Footer = () => {
     navigate("/")
   }
   return (
+    <div className='footer-component'>
     <div className='footer-container'>
         <div className='home'>
             <img src={home}></img>
@@ -21,6 +22,7 @@ const Footer = () => {
         <div className='profile'>
         <img src={profile}></img>
         </div>
+    </div>
     </div>
   )
 }

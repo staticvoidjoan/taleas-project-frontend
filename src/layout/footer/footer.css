@@ -6,5 +6,13 @@
     size: 24px;
     background: #FFF;
     height: 78px;
-    margin-top: 27px;
+}
+
+.footer-component{
+   position: absolute;
+   z-index: 999;
+   bottom: 0;
+   left: 0;
+   width: 100%;
+   height: 3.5rem;
 }

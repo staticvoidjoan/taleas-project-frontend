@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState, useEffect} from 'react';
 import { useNavigate } from "react-router-dom";
+import Text from '../../components/text/text';
 import Card from '../../components/cards/cards';
 import Tabs from '../../components/button/tabs';
 import heart from "../../assets/icons/heart.svg";
@@ -14,7 +15,7 @@ const UserHome = () => {
   const [categories, setCategories] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0)
   const [postlength, setPostLength] = useState(0);
-  const userId = localStorage.getItem('employeeId')
+  const userId =  localStorage.getItem("employeeId")
   console.log(userId)
   const navigate = useNavigate();
   useEffect(() => {
@@ -26,9 +27,10 @@ const UserHome = () => {
   const handleJobCardClick = (id) => {
     navigate(`/jobProfile/${id}`);
   };
-  const handleCancelClick = async () => {
+
+  const handleDislikeClick = async () => {
     try{
-      await axios.put(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/dislike/${userId}?id=${posts[0].id}`)
+      await axios.put(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/dislike/${userId}?id=${posts}`)
       console.log('Cancel API Response:');
     }
     catch {
@@ -57,6 +59,7 @@ const handleLikeClick = async (postId) => {
     }
   }
   const loadPosts = async () => {
+    console.log(userId)
     try {
       const response = await axios.get(
         `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/user/${userId}`
@@ -86,6 +89,8 @@ const handleLikeClick = async (postId) => {
     }
   };
   const dislike = async () => {
+    await handleDislikeClick(currentPost._id);
+    console.log("We just DISLIKED this POST> ", currentPost._id);
     if (currentIndex < postlength - 1) {
       const nextIndex = currentIndex + 1;
       const nextPost = posts[nextIndex];
@@ -112,7 +117,7 @@ const handleLikeClick = async (postId) => {
         ))}
       </div>
       {postlength === 0 ? (
-        <div>No more posts</div>
+        <div className='post-alert'><Text label={"No more posts. Check back soon!"}/></div>
       ) : (
         <div>
           <div className='card-component' onClick={() => handleJobCardClick(currentPost._id)}>
