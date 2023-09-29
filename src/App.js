@@ -37,6 +37,8 @@ import Home from "./pages/home/home";
 import LandingPage from "./pages/landingPage/StartingPage";
 import Profile from "./pages/Profile/profile";
 
+import ChatApp from "./ChatApp";
+import ListOfApplicants from "./components/applicants/acceptedApplicants";
 function App() {
   // State variables
   const [authenticated, setAuthenticated] = useState(false);
@@ -220,6 +222,17 @@ function App() {
         {/* <Route exact path={`/${givenName}`} element={<EmployerHome />} /> */}
         {/* ---------------------------------------------------------------------------------------------------- */}
         {/* ----------------------------------  Other routes ------------------------------------------------------- */}
+        <Route
+            path="/chat/:chatId"
+            element={
+              isLoading ? (
+                <div>Loading...</div>
+              ) : (
+                <ChatApp loggedInUser={userRole === "employee"? employee : employer} />
+              )
+            } 
+        />
+        <Route path="/matches/:id" element={<ListOfApplicants/>}/>
         <Route path="*" element={<Home />} />
       </Routes>
       {hideFooter ? null : <Footer />}
