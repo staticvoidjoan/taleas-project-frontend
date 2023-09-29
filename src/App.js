@@ -178,7 +178,8 @@ function App() {
           element={
             authenticated ? (
               userRole === "employee" ? (
-                <UserHome />
+                isLoading ? <Loader/> :
+                <UserHome userId={employee._id} />
               ) : (
                 isLoading ? <Loader/> :
                 <EmployerHome creatorId={employer._id}/>
