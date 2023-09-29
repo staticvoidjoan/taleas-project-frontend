@@ -92,7 +92,7 @@ function App() {
       console.log("Checking employee status:", checkEmployee);
       console.log("User email:", useremail);
 
-      if (checkEmployee === true) {
+      if (checkEmployee) {
         console.log("Saving as employee");
         await saveEmployeeToStorage();
       } else {
