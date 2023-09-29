@@ -2,16 +2,16 @@ import React, { useState, useEffect } from "react";
 import Text from "../../components/text/text";
 import "./Navbar2.css";
 import NavIcon from "../../assets/images/Group 1.png";
-import { Link, useNavigate } from "react-router-dom";
+import MenuWhite from "../../assets/images/png menu white.png";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Auth } from "aws-amplify";
 
 const Navbar2 = (props) => {
   const [authenticated, setAuthenticated] = useState(false);
   const [givenName, setGivenName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [isEmployee, setIsEmployee] = useState(false);
-
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     checkAuthenticated();
@@ -25,15 +25,11 @@ const Navbar2 = (props) => {
       } else {
         setAuthenticated(false);
       }
-
       const userAttributes = user.attributes || {};
       const userGivenName = userAttributes.given_name || "";
       setGivenName(userGivenName);
       const userLastName = userAttributes.family_name || "";
       setLastName(userLastName);
-
-      // const userIsEmployee = userAttributes.isEmployee || false;
-      // setIsEmployee(userIsEmployee); // Set the isEmployee state
     } catch (error) {
       setAuthenticated(false);
     }
@@ -45,6 +41,21 @@ const Navbar2 = (props) => {
   const handleMenu = () => {
     navigate("/menu");
   };
+
+  const isWhiteText = () => {
+    const whiteTextRoutes = ["/signup", "/signin"];
+    return whiteTextRoutes.includes(location.pathname);
+  };
+
+  const isSignInSignUpRoute = () => {
+    return location.pathname === "/signup" || location.pathname === "/signin";
+  };
+
+  const navbarStyle = {
+    backgroundColor: isWhiteText() ? "#222 " : "white ",
+    color: isWhiteText() ? "white " : "black ",
+  };
+
   return (
     <>
       <div className="navbar">

@@ -1,10 +1,11 @@
 import React from "react";
 
-const Chat = (props) => {
+const Chats = (props) => {
   return (
     <>
       <div></div>
     </>
   );
 };
-export default Chat;
+
+export default Chats;

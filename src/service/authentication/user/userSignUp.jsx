@@ -6,6 +6,11 @@ import ConfirmSignup from "./confirmSignup";
 import { Link, useNavigate } from "react-router-dom";
 import Text from "../../../components/text/text";
 import Button from "../../../components/button/button";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { ref, set } from "firebase/database";
+import { doc, setDoc, addDoc, collection } from "firebase/firestore";
+import { app, auth, db } from "../../../firebase";
+import { initializeApp } from "firebase/app"; // Import initializeApp
 //Alerts
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -35,9 +40,17 @@ function RegistrationForm() {
     password: "",
   });
 
-
   const [registrationSuccess, setRegistrationSuccess] = useState(false);
-  const { name, birthday, email, lastname, password, companyName,industry,address } = formData;
+  const {
+    name,
+    birthday,
+    email,
+    lastname,
+    password,
+    companyName,
+    industry,
+    address,
+  } = formData;
 
   const validateForm = () => {
     let formIsValid = true;
@@ -68,21 +81,19 @@ function RegistrationForm() {
     //   newErrors.lastname = "";
     // }
 
+    const birthDate = new Date(birthday);
+    console.log(birthDate);
+    const today = new Date();
+    console.log(today);
+    const age = today.getFullYear() - birthDate.getFullYear();
+    console.log(age);
 
-      const birthDate = new Date(birthday);
-      console.log(birthDate);
-      const today = new Date();
-      console.log(today);
-      const age = today.getFullYear() - birthDate.getFullYear();
-      console.log(age);
-
-      if (age < 16) {
-        formIsValid = false;
-        newErrors.birthday = "You must be at least 16 years old to register";
-      } else {
-        newErrors.birthday = "";
-      }
-    
+    if (age < 16) {
+      formIsValid = false;
+      newErrors.birthday = "You must be at least 16 years old to register";
+    } else {
+      newErrors.birthday = "";
+    }
 
     if (!email) {
       formIsValid = false;
@@ -121,7 +132,6 @@ function RegistrationForm() {
     }));
   };
 
-
   const handleFullName = (event) => {
     const { value } = event.target;
     setFullName(value);
@@ -136,11 +146,10 @@ function RegistrationForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (1+1 ===2) {
+    if (1 + 1 === 2) {
       console.log("The form results in", validateForm());
       if (selectedCategory === "employer") {
-        setisEmployee(false)
-
+        setisEmployee(false);
       }
       try {
         await Auth.signUp({
@@ -151,13 +160,34 @@ function RegistrationForm() {
             given_name: formData.name,
             family_name: formData.lastname,
             birthdate: formData.birthday,
-            'custom:isEmployee': selectedCategory === "employee" ? 'true' : 'false',
+            "custom:isEmployee":
+              selectedCategory === "employee" ? "true" : "false",
           },
         });
 
         console.log("Registration successful");
         toast.success("Registration successful", { autoClose: 5000 });
         setRegistrationSuccess(true);
+        const auth = getAuth(app);
+        try {
+          let email = formData.email;
+          let password = formData.password;
+          let name = formData.name;
+          const res = await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password
+          );
+          const user = res.user;
+          await addDoc(collection(db, "users"), {
+            uid: user.uid,
+            name,
+            email,
+          });
+        } catch (err) {
+          console.error(err);
+          alert(err.message);
+        }
       } catch (error) {
         alert(error);
         toast.error(error);
