@@ -1,66 +1,82 @@
 /* complete.css */
-.form-container{
+.complete-profile-main {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.complete-profile-bar {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+}
+
+.complete-profile-bar-nav {
+  width: calc(100% - 40px);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.complete-profile-bar-nav img {
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.complete-profile-bar-div {
+  width: calc(100% - 40px);
+  margin-top: 25px;
+  margin-bottom: 25px;
+  border: none;
+  border-bottom: 2px solid #dedede;
+}
+
+.profile-form {
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 10px 20px;
+}
+
+.fields-form {
+  margin-bottom: 10px;
+}
+
+.field-input {
   width: 100%;
+  padding: 5px;
+  margin-top: 5px;
 }
-.form {
-    width: 400px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 5px solid #ddd;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    color: white;
-    
+
+.remove-button {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  margin-left: 5px;
+  cursor: pointer;
 }
-  .form-section {
-    display: block;
-    margin-bottom: 20px;
-  }
-  
-  .form-section label {
-    font-weight: normal;
-    margin-bottom: 5px;
-    display: block;
-  }
-  
-  .form-input {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border-bottom: 2px solid #fff;
-    border-radius: 3px;
-    font-size: 16px;
-    background: transparent;
-  }
-  
-  .form-section .next,
-  .form-section .previous,
-  .form-section .submit {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 3px;
-    padding: 10px 20px;
-    cursor: pointer;
-    margin-right: 10px;
-  }
-  
-  .form-section .next:hover,
-  .form-section .previous:hover,
-  .form-section .submit:hover {
-    background-color: #0056b3;
-  }
-  
-  .form-section .previous {
-    background-color: #ccc;
-    color: #333;
-  }
-  
-  .form-section .previous:hover {
-    background-color: #999;
-  }
-  
+
+.add-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.profilePhoto{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+
+/* Add more CSS styling as needed */

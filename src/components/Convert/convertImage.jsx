@@ -19,14 +19,12 @@ const ImageUploader = ({ currentImage, setImage }) => {
   };
 
   return (
-    <div className="form-group" style={{marginTop:"20px"}}>
       <input
         type="file"
         accept="image/*"
         onChange={convertToBase64}
         className="form-control form-control-lg"
       />
-    </div>
   );
 };
 
