@@ -5,8 +5,7 @@ import App from "./App";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Auth } from "aws-amplify";
 import axios from "axios";
-import { AuthContextProvider } from "./context/AuthContext";
-import { ChatContextProvider } from "./context/ChatContext";
+
 
 async function getToken() {
   const session = await Auth.currentSession();
@@ -28,13 +27,11 @@ axios.interceptors.response.use(async (response) => {
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
-  <AuthContextProvider>
-    <ChatContextProvider>
+
       <React.StrictMode>
         <Router>
           <App />
         </Router>
       </React.StrictMode>
-    </ChatContextProvider>
-  </AuthContextProvider>
+   
 );
