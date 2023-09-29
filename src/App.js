@@ -151,7 +151,8 @@ function App() {
     }
   };
 
-  const hideNav = location.pathname.startsWith("/postJob/");
+  const hideNavPaths = ["/postJob", "/completeprofile"]
+  const hideNav = hideNavPaths.includes(location.pathname)
   const pathsToHideFooter = [
     "/signup",
     "/signin",
