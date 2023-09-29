@@ -101,6 +101,16 @@ const LoginPage = () => {
               required
             />
           </div>
+          <div className="forgot-password">
+            <Link style={{ textDecoration: "none" }} to={"/passwordreset"}>
+              <Text
+                label={"Forgot Password?"}
+                weight={"medium700"}
+                color={"purple"}
+                size={"s16"}
+              />
+            </Link>
+          </div>
           <button className="register-btn">
             <Text
               label={"Log In"}
@@ -140,16 +150,7 @@ const LoginPage = () => {
             </Link>
           </div>
           {/* <Button bgcolor={"primary"} label={"register"}/> */}
-          <div className="forgot-password">
-            <Link style={{ textDecoration: "none" }} to={"/passwordreset"}>
-              <Text
-                label={"Forgot Password?"}
-                weight={"medium700"}
-                color={"purple"}
-                size={"s16"}
-              />
-            </Link>
-          </div>
+       
         </form>
       </div>
       <div className="user-register-title">

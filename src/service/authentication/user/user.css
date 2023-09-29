@@ -202,7 +202,6 @@ button {
   background-color: #212121;
 }
 
-
 .form-box-register {
   background-color: #fff;
   width: 100%;
@@ -231,7 +230,7 @@ button {
   justify-content: center;
 }
 
-.inputbox-register-box{
+.inputbox-register-box {
   width: calc(100% - 40px);
   height: 90px;
   flex-shrink: 0;
@@ -268,13 +267,13 @@ button {
 .employer-category.selected,
 .employee-category.selected {
   border-bottom: 2px solid #6e46f5;
-  color: #6E46F5;
+  color: #6e46f5;
   font-weight: bold;
 }
 
 .employer-category.selected .form-category,
 .employee-category.selected .form-category {
-  color: #6E46F5;
+  color: #6e46f5;
 }
 
 .employer-category,
@@ -351,22 +350,18 @@ button {
   margin-right: 40px;
 }
 
-
-.login-error{
+.login-error {
   margin-top: 10px;
   display: flex;
   flex-direction: column;
   width: calc(100% - 40px);
 }
 
-
-.logout-btn{
-  width: calc(100% - 60px);
-  background-color: #6e46f5;
-  flex-shrink: 0;
-  border: none;
-  color: #fff;
+.logout-btn {
+  color: #b6013c;
+  width: calc(100% - 40px);
+  background-color: transparent;
   height: 48px;
-  margin-top: 32px;
-  border-radius: 10px;
+  border: 1px solid #b6013c;
+  transition: transform 0.3s ease;
 }
