@@ -235,7 +235,7 @@ function App() {
         {/* ------------------------------------------------------------------------------------------------------------------ */}
 
         {/* ----------------------------------  Employeee routes ------------------------------------------------------- */}
-        <Route exact path="/completeprofile" element={<ProfileForm />} />
+        <Route exact path="/completeprofile" element={<ProfileForm userId={employee._id} />} />
         <Route exact path="/userInfo/:id" element={<UserInfo />} />
         <Route exact path="/viewjobpost/:id" element={<EmployeeJobView />} />
         {/* --------------------------------------------------------------------------------------------------------------- */}
