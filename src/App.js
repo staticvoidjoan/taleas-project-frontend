@@ -47,7 +47,7 @@ function App() {
   const [employer, setEmployer] = useState({});
   const [useremail, setUserEmail] = useState("");
   const [isEmployeeLoaded, setIsEmployeeLoaded] = useState(false);
-  const [isLoading, setIsLoading] = useState(true); 
+  const [isLoading, setIsLoading] = useState(true);
   const location = useLocation();
 
   // Configure Amplify
@@ -155,10 +155,6 @@ function App() {
     return <div>Loading...</div>; // TODO CHANGE TO SPINNER
   }
 
-  if (isLoading ){
-    return <div>Loading...</div>
-  }
-  
   return (
     <div className="App">
       {!hideNav && <NavBar />}
@@ -171,11 +167,15 @@ function App() {
           exact
           path={`${givenName}profile`}
           element={
-            <Profile
-              employeeData={employee}
-              employerData={employer}
-              employeeCheck={checkEmployee}
-            />
+            isLoading ? (
+              <div>Loading...</div>
+            ) : (
+              <Profile
+                employeeData={employee}
+                employerData={employer}
+                employeeCheck={checkEmployee}
+              />
+            )
           }
         />
         {/* ----------------------------------------------------------------------------------------------------------------- */}
