@@ -5,6 +5,7 @@ import Text from '../../components/text/text';
 import Card from '../../components/cards/cards';
 import Tabs from '../../components/button/tabs';
 import heart from "../../assets/icons/heart.svg";
+import back from "../../assets/icons/back.svg"
 import x from "../../assets/icons/x.svg"
 import "./userHome.css";
 
@@ -28,9 +29,9 @@ const UserHome = () => {
     navigate(`/jobProfile/${id}`);
   };
 
-  const handleDislikeClick = async () => {
+  const handleDislikeClick = async (postId) => {
     try{
-      await axios.put(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/dislike/${userId}?id=${posts}`)
+      await axios.put(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/dislike/${userId}?id=${postId}`)
       console.log('Cancel API Response:');
     }
     catch {
@@ -88,6 +89,19 @@ const handleLikeClick = async (postId) => {
       setPostLength(0);
     }
   };
+  const next = async () => {
+    if (currentIndex < postlength - 1) {
+      const nextIndex = currentIndex + 1;
+      const nextPost = posts[nextIndex];
+      setCurrentIndex(nextIndex);
+      setCurrentPost(nextPost)
+      console.log(nextIndex);
+      console.log("next post is", nextPost);
+     
+    } else {
+      setPostLength(0);
+    }
+  };
   const dislike = async () => {
     await handleDislikeClick(currentPost._id);
     console.log("We just DISLIKED this POST> ", currentPost._id);
@@ -130,17 +144,19 @@ const handleLikeClick = async (postId) => {
             />
           </div>
           <div className='card-buttons'>
-            <div>
+            <button className='left-button' onClick={next}>
+              <img src={back}></img>
+            </button>
               <button className="cancel" onClick={dislike}>
                 {" "}
                 <img src={x} alt="x" />
               </button>
-            </div>
-            <div>
               <button className="like" onClick={like}>
                 <img src={heart} alt="heart" />
               </button>
-            </div>
+              <button className='right-button' onClick={next}>
+              <img src={back} className='right'></img>
+            </button>
           </div>
         </div>
       )}
