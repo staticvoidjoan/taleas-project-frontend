@@ -46,7 +46,7 @@ const LoginPage = () => {
       const user = await Auth.currentAuthenticatedUser();
       const userAttributes = user.attributes || {};
       const userGivenName = userAttributes.given_name || "";
-      navigate(`/${userGivenName}`);
+      navigate("/");
       window.location.reload();
     } catch (error) {
       console.log(error);
