@@ -43,6 +43,9 @@ import ListOfApplicants from "./components/applicants/acceptedApplicants";
 import Loader from "./components/Loader/Loader";
 import ListUserMessages from "./components/userMessages/userMessages";
 
+//Error Handlers
+import NotFound from "./pages/Error/notFound";
+
 function App() {
   // State variables
   const [authenticated, setAuthenticated] = useState(false);
@@ -240,15 +243,15 @@ function App() {
         <Route
           exact
           path="/completeprofile"
-          element={<ProfileForm userId={employee._id} />}
+          element={userRole==="employee" ? <ProfileForm userId={employee._id} />: <NotFound/>}
         />
         <Route exact path="/userInfo/:id" element={<UserInfo />} />
         <Route exact path="/viewjobpost/:id" element={<EmployeeJobView />} />
         {/* --------------------------------------------------------------------------------------------------------------- */}
 
         {/* ----------------------------------  Employer routes ------------------------------------------------------- */}
-        <Route exact path="/postjob/:id" element={<PostJob />} />
-        <Route exact path="/jobview/:id" element={<JobView />} />
+        <Route exact path="/postjob/:id" element={userRole==="employer"? <PostJob />: <NotFound/>} />
+        <Route exact path="/jobview/:id" element={userRole==="employer"? <JobView /> : <NotFound/>} />
         {/* ---------------------------------------------------------------------------------------------------- */}
         {/* ----------------------------------  Other routes ------------------------------------------------------- */}
         <Route
@@ -276,7 +279,6 @@ function App() {
             )
           }
         />
-        <Route path="*" element={<Home />} />
 
         <Route
           path="*"
@@ -294,7 +296,7 @@ function App() {
                 <EmployerHome creatorId={employer._id} />
               )
             ) : (
-              <Home />
+              <NotFound />
             )
           }
         />
