@@ -154,6 +154,17 @@ function App() {
       console.error("Error fetching employer data:", error);
     }
   };
+  function MessageRoute({ userRole, employee, employer }) {
+    if (userRole === 'employee') {
+      return <ListUserMessages user={employee} />;
+    } else if (userRole === 'employer') {
+      return <ListOfMatches employer={employer} />;
+    } else {
+      // Handle other cases or provide a default component
+      return <div>Invalid user role</div>;
+    }
+  }
+  
 
   const hideNav =
     location.pathname.startsWith("/profile") ||
@@ -296,19 +307,19 @@ function App() {
             )
           }
         />
-        <Route path="/matches/:id" element={<ListOfMatches />} />
+        {/* <Route path="/matches/:id" element={<ListOfMatches />} /> */}
         <Route
-          path="/userMessages"
+          path="/messages"
           element={
             isLoading ? (
               <div>Loading...</div>
             ) : (
-              <ListUserMessages
-                user={userRole === "employee" ? employee : null}
-              />
+              <MessageRoute userRole={userRole} employee={employee} employer={employer} />
             )
           }
         />
+        <Route path="*" element={<Home />} />
+
         <Route
           path="*"
           element={
