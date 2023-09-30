@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router";
 import Text from "../text/text";
+
 function ListOfApplicants () {
     //MATCHES
     const postId = useParams().id
     const [acceptedApplicants, setAcceptedApplicants] = useState([])
+    const [creatorId, setCreatorId] = useState("")
     const navigate = useNavigate()
     useEffect(() =>{
         loadAcceptedApplicants()
@@ -15,10 +17,11 @@ function ListOfApplicants () {
 
         const response = await axios.get(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/${postId}`);
         setAcceptedApplicants(response.data.post.recLikes);
+        setCreatorId(response.data.post.creatorId._id); 
     }
 
     const chat = (applicantId) => {
-        const chatId = applicantId + "_" + postId
+        const chatId = applicantId + "_" + creatorId
         const link = "/chat/" + chatId
         navigate(link)
     }

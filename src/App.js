@@ -37,7 +37,7 @@ import Home from "./pages/home/home";
 import LandingPage from "./pages/landingPage/StartingPage";
 
 import ChatApp from "./ChatApp";
-import ListOfApplicants from "./components/applicants/acceptedApplicants";
+import ListOfMatches from "./components/applicants/ListOfMatches";
 
 //Misc
 import Loader from "./components/Loader/Loader";
@@ -266,19 +266,17 @@ function App() {
             )
           }
         />
-        <Route path="/matches/:id" element={<ListOfApplicants />} />
-        <Route
-          path="/userMessages"
-          element={
-            isLoading ? (
-              <div>Loading...</div>
-            ) : (
-              <ListUserMessages
-                user={userRole === "employee" ? employee : null}
-              />
-            )
-          }
-        />
+        <Route path="/matches/:id" element={<ListOfMatches />} />
+        <Route 
+        path="/userMessages" 
+        element={
+          isLoading ? (
+            <div>Loading...</div>
+          ) : (
+            <ListUserMessages user = { userRole === "employee" ? employee : null }/>
+          )
+        } />
+        <Route path="*" element={<Home />} />
 
         <Route
           path="*"
