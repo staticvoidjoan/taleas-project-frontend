@@ -2,10 +2,10 @@ import React from "react";
 import "./menu.css";
 import { Link, useNavigate } from "react-router-dom";
 import Text from "../../components/text/text";
-
+import Animate from "../../animateTransition/AnimateY";
 const Menu = (props) => {
   return (
-    <>
+    <Animate>
       <div className="menu">
         <hr className="line-menu" />
         <div className="menu-list">
@@ -92,7 +92,7 @@ const Menu = (props) => {
           </Link>
         </div>
       </div>
-    </>
+    </Animate>
   );
 };
 

@@ -35,7 +35,11 @@ const Navbar2 = ({
   };
 
   const handleMenu = () => {
-    navigate("/menu");
+    if (location.pathname.startsWith("/menu")) {
+      navigate("/");
+    } else {
+      navigate("/menu");
+    }
   };
 
   const whiteTextRoutes = ["/signup", "/signin"];
@@ -45,8 +49,8 @@ const Navbar2 = ({
     backgroundColor: isWhiteTextRoute ? "#222" : "white",
     color: isWhiteTextRoute ? "white" : "black",
   };
-  
-  if(location.pathname.startsWith("/postjob")){
+
+  if (location.pathname.startsWith("/postjob")) {
     return null;
   }
 

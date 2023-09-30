@@ -33,7 +33,7 @@ import ViewApplicant from "./pages/Employer/viewApplicant";
 import NavBar from "./layout/navBar/Navbar2";
 import Footer from "./layout/footer/footer";
 import CenterNavbar from "./components/centerNavbar/centerNavbar";
-
+import Menu from "./pages/menu/menu";
 
 //Mutual Pages
 import Home from "./pages/home/home";
@@ -178,7 +178,8 @@ function App() {
     location.pathname.startsWith("/chat") ||
     location.pathname.startsWith("/matches") ||
     location.pathname.startsWith("/userMessasges")||
-    location.pathname.startsWith("/applicant");
+    location.pathname.startsWith("/applicant")||
+    location.pathname.startsWith("/menu");
   const pathsToHideFooter = [
     "/signup",
     "/signin",
@@ -213,8 +214,10 @@ function App() {
         />
       )}
 
+
       {/* ----------------------------------  Home routes ------------------------------------------------------- */}
       <Routes>
+      <Route exact path="/menu" element={authenticated ? <NotFound/> : <Menu/>}/>
         <Route
           exact
           path="/"
