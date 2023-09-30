@@ -44,6 +44,7 @@ body{
     align-items: center;
     flex-direction: row;
     margin-top: 32px;
+    margin-bottom: 10px;
   }
 
 .card-component{
@@ -94,3 +95,4 @@ body{
 .card-component.exit {
   animation: slideOutLeft 0.5s ease-in-out forwards;
 }
+

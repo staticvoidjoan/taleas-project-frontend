@@ -14,6 +14,8 @@ import axios from "axios";
 import UserSignOut from "../../service/authentication/user/userSignOut";
 import Animate from "../../animateTransition/AnimateY";
 import CenterNavbar from "../../components/centerNavbar/centerNavbar";
+import ProfileLoader from "../../components/Loader/ProfileLoader";
+
 const UserInfo = ({ userId }) => {
   const [user, setUser] = useState({});
   const [experiences, setExperience] = useState([]);
@@ -21,9 +23,11 @@ const UserInfo = ({ userId }) => {
   const [links, setLinks] = useState([]);
   const [certifications, setCertifications] = useState([]);
   const [generalSkills, setGeneralSkills] = useState([]);
+  const [loading, setLoading] = useState()
 
   const loadUser = async () => {
     try {
+      setLoading(true)
       const response = await axios.get(
         `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/user/${userId}`
       );
@@ -33,6 +37,9 @@ const UserInfo = ({ userId }) => {
       setEducation(response.data.user.education);
       setLinks(response.data.user.links);
       setGeneralSkills(response.data.user.generalSkills);
+      setTimeout(() => {
+        setLoading(false); 
+      }, 1000);;
       console.log(response.data.user);
       console.log(response.data.user.experience);
       console.log(response.data.user.profilePhoto);
@@ -58,10 +65,15 @@ const UserInfo = ({ userId }) => {
           <div className="gradient-overlay"></div>
         </div>
       </div>
+      
       <div className="header">
-        <div className="fullname">
-          <Text label={user.name} size={"s18"} weight={"medium700"} />
+        {loading ? (
+          <div>
+          <ProfileLoader />
         </div>
+        ): ( <div className="fullname">
+          <Text label={user.name} size={"s18"} weight={"medium700"} />
+        </div>)}
         <div className="socials">
           <a href="https://www.facebook.com" target="_blank">
             <img alt="facebook" src={facebook} />
@@ -71,12 +83,17 @@ const UserInfo = ({ userId }) => {
           </a>
         </div>
       </div>
-      <div className="position-info">
-        <img alt="email" src={emailpic} />
+      {loading ? (
+        <div>
+        <ProfileLoader />
+      </div>
+      ) : (<div className="position-info"> 
+      <img alt="email" src={emailpic} />
         <div className="email-adress">
           <Text label={user.email} size={"s14"} />
         </div>
-      </div>
+      </div>)}
+        
       <div className="skills">
         <div className="skills-title">
           <Text label={"Skills"} size={"s18"} weight={"medium700"} />

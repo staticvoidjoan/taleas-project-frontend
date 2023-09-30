@@ -9,6 +9,7 @@ import back from "../../assets/icons/back.svg";
 import x from "../../assets/icons/x.svg";
 import "./userHome.css";
 import Animate from "../../animateTransition/Animate";
+import ContLoader from "../../components/Loader/ContentLoader";
 
 const UserHome = ({ userId }) => {
   const [posts, setPosts] = useState([]);
@@ -19,6 +20,7 @@ const UserHome = ({ userId }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [postlength, setPostLength] = useState(0);
   const [animate, setAnimate] = useState(false);
+  const [loading, setLoading] = useState()
   console.log(userId);
 
   const navigate = useNavigate();
@@ -27,6 +29,7 @@ const UserHome = ({ userId }) => {
   };
 
   useEffect(() => {
+
     loadTabs();
     // filter()
     loadPosts();
@@ -62,6 +65,7 @@ const UserHome = ({ userId }) => {
   };
   const loadPosts = async () => {
     try {
+      setLoading(true)
       const response = await axios.get(
         `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/user/${userId}`
       );
@@ -69,6 +73,9 @@ const UserHome = ({ userId }) => {
       console.log(response.data);
       setCurrentPost(response.data[currentIndex]);
       setPostLength(response.data.length);
+      setTimeout(() => {
+        setLoading(false); 
+      }, 1000);;
     } catch (error) {
       console.error(error);
     }
@@ -160,43 +167,48 @@ const UserHome = ({ userId }) => {
           />
         ))}
       </div>
-      {postlength === 0 ? (
-        <div className="post-alert">
-          <Text label={"No more posts. Check back soon!"} />
-        </div>
-      ) : (
-        <div>
-          <Animate>
-            <div
-              className={`card-component ${animate ? "animate" : ""}`}
-              onClick={() => handleJobCardClick(currentPost._id)}
-            >
-              <Card
-                id={currentPost._id}
-                category={currentPost.category.name}
-                title={currentPost.position}
-                info={currentPost.creatorId.companyName}
-                background={currentPost.creatorId.profilePhoto}
-              />
-            </div>
-          </Animate>
-          <div className="card-buttons">
-            <button className="left-button" onClick={previous}>
-              <img src={back}></img>
-            </button>
-            <button className="cancel" onClick={() => handleAction("dislike")}>
-              {" "}
-              <img src={x} alt="x" />
-            </button>
-            <button className="like" onClick={() => handleAction("like")}>
-              <img src={heart} alt="heart" />
-            </button>
-            <button className="right-button" onClick={next}>
-              <img src={back} className="right"></img>
-            </button>
-          </div>
-        </div>
-      )}
+      {loading ? (
+  <div>
+    <ContLoader />
+  </div>
+) : postlength === 0 ? (
+  <div className="post-alert">
+    <Text label={"No more posts. Check back soon!"} />
+  </div>
+) : (
+  <div>
+    <Animate>
+      <div
+        className={`card-component ${animate ? "animate" : ""}`}
+        onClick={() => handleJobCardClick(currentPost._id)}
+      >
+        <Card
+          id={currentPost._id}
+          category={currentPost.category.name}
+          title={currentPost.position}
+          info={currentPost.creatorId.companyName}
+          background={currentPost.creatorId.profilePhoto}
+        />
+      </div>
+    </Animate>
+    <div className="card-buttons">
+      <button className="left-button" onClick={previous}>
+        <img src={back} alt="back" />
+      </button>
+      <button className="cancel" onClick={() => handleAction("dislike")}>
+        <img src={x} alt="x" />
+      </button>
+      <button className="like" onClick={() => handleAction("like")}>
+        <img src={heart} alt="heart" />
+      </button>
+      <button className="right-button" onClick={next}>
+        <img src={back} className="right" alt="back" />
+      </button>
+    </div>
+  </div>
+)}
+
+      
     </div>
   );
 };
