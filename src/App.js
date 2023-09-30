@@ -155,8 +155,15 @@ function App() {
     }
   };
 
-  const hideNavPaths = ["/postJob", "/completeprofile"];
-  const hideNav = hideNavPaths.includes(location.pathname);
+  const hideNav =
+    location.pathname.startsWith("/profile") ||
+    location.pathname.startsWith("/userInfo") ||
+    location.pathname.startsWith("/viewjobpost") ||
+    location.pathname.startsWith("/postJob") ||
+    location.pathname.startsWith("/jobview") ||
+    location.pathname.startsWith("/chat") ||
+    location.pathname.startsWith("/matches") ||
+    location.pathname.startsWith("/userMessasges");
   const pathsToHideFooter = [
     "/signup",
     "/signin",
@@ -173,7 +180,16 @@ function App() {
 
   return (
     <div className="App">
-      {!hideNav && <NavBar givenName={givenName} lastName={lastName} authenticated={authenticated} employeeData={employee} employerData={employer} />}
+      {isLoading ? null : hideNav ? null : (
+        <NavBar
+          givenName={givenName}
+          lastName={lastName}
+          authenticated={authenticated}
+          employeeData={employee}
+          employerData={employer}
+          userRole={userRole}
+        />
+      )}
 
       {/* ----------------------------------  Home routes ------------------------------------------------------- */}
       <Routes>
@@ -243,15 +259,29 @@ function App() {
         <Route
           exact
           path="/completeprofile"
-          element={userRole==="employee" ? <ProfileForm userId={employee._id} />: <NotFound/>}
+          element={
+            userRole === "employee" ? (
+              <ProfileForm userId={employee._id} />
+            ) : (
+              <NotFound />
+            )
+          }
         />
         <Route exact path="/userInfo/:id" element={<UserInfo />} />
         <Route exact path="/viewjobpost/:id" element={<EmployeeJobView />} />
         {/* --------------------------------------------------------------------------------------------------------------- */}
 
         {/* ----------------------------------  Employer routes ------------------------------------------------------- */}
-        <Route exact path="/postjob/:id" element={userRole==="employer"? <PostJob />: <NotFound/>} />
-        <Route exact path="/jobview/:id" element={userRole==="employer"? <JobView /> : <NotFound/>} />
+        <Route
+          exact
+          path="/postjob/:id"
+          element={userRole === "employer" ? <PostJob /> : <NotFound />}
+        />
+        <Route
+          exact
+          path="/jobview/:id"
+          element={userRole === "employer" ? <JobView /> : <NotFound />}
+        />
         {/* ---------------------------------------------------------------------------------------------------- */}
         {/* ----------------------------------  Other routes ------------------------------------------------------- */}
         <Route
@@ -267,17 +297,18 @@ function App() {
           }
         />
         <Route path="/matches/:id" element={<ListOfMatches />} />
-        <Route 
-        path="/userMessages" 
-        element={
-          isLoading ? (
-            <div>Loading...</div>
-          ) : (
-            <ListUserMessages user = { userRole === "employee" ? employee : null }/>
-          )
-        } />
-        <Route path="*" element={<Home />} />
-
+        <Route
+          path="/userMessages"
+          element={
+            isLoading ? (
+              <div>Loading...</div>
+            ) : (
+              <ListUserMessages
+                user={userRole === "employee" ? employee : null}
+              />
+            )
+          }
+        />
         <Route
           path="*"
           element={

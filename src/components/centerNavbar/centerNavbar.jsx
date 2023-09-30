@@ -13,7 +13,7 @@ const CenterNavbar = (props) => {
   return (
     <div className="navbar-container-center">
       <div className="navbar-center">
-        <div>
+        <div className="turn-back">
           <img src={TurnBack} alt="" onClick={TurnBackOnePage} />
         </div>
         <div className="app-name-center">
