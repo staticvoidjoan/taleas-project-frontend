@@ -5,7 +5,6 @@ import {
   Route,
   Routes,
   useLocation,
-  Outlet
 } from "react-router-dom"; // Importing Routes instead of Switch
 import { Auth } from "aws-amplify";
 import { Amplify } from "aws-amplify";
