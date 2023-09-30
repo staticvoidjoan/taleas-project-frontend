@@ -1,19 +1,31 @@
 .navbar-container {
   display: flex;
   justify-content: center;
-  align-items: center;
-  background-color: #222222;
 }
 
 .navbar {
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 24px;
-  margin: 24px 20px 0 20px;
-  border-bottom: 1px #DDDDDD solid;
+  margin: 24px 20px 24px 20px;
+  /* border-bottom: 1px #dddddd solid; */
 }
 
 .app-name {
   display: flex;
+}
+
+.nav-profile-pic {
+  width: 32px;
+  height: 32px;
+  border-radius: 32px;
+  background-size: cover;
+}
+
+.nav-profile {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: 8px;
 }

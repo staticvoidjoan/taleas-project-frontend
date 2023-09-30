@@ -4,6 +4,8 @@ import "./postJob.css";
 import X from "../../assets/icons/closeX.svg";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import Swal from "sweetalert2";
+import Animate from "../../animateTransition/AnimateY";
 const PostJob = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -65,68 +67,95 @@ const PostJob = () => {
         jobPost
       );
       console.log("Job Successfully posted");
-      navigate(-1);
+      let timerInterval;
+      Swal.fire({
+        title: "Job Posted!",
+        icon: "success",
+        timer: 1000,
+        didOpen: () => {
+          const b = Swal.getHtmlContainer()?.querySelector("b"); // Check if it exists
+          if (b) {
+            timerInterval = setInterval(() => {
+              b.textContent = Swal.getTimerLeft();
+            }, 100);
+          }
+        },
+        willClose: () => {
+          clearInterval(timerInterval);
+        },
+      }).then((result) => {
+        if (result.dismiss === Swal.DismissReason.timer) {
+          console.log("I was closed by the timer");
+        }
+        // Handle other actions as needed
+        navigate(-1);
+      });
     } catch (error) {
       console.log(error);
     }
   };
 
+  const goBack = () => {
+    navigate(-1);
+  };
+
   return (
-    <div className="post-job-container">
-      <div className="post-job-bar">
-        <div className="post-job-bar-nav">
-          <Text label={"Add Job"} size={"s16"} weight={"medium"} />
-          <img src={X} alt="" />
+    <Animate>
+      <div className="post-job-container">
+        <div className="post-job-bar">
+          <div className="post-job-bar-nav">
+            <Text label={"Add Job"} size={"s16"} weight={"medium"} />
+            <img src={X} alt=""  onClick={goBack}/>
+          </div>
+          <hr className="post-job-bar-div"></hr>
         </div>
-        <hr className="post-job-bar-div"></hr>
-      </div>
-      <div className="post-job-body">
-        <form className="job-form" onSubmit={onSubmit}>
-          <div className="inputbox-register">
-            {categories.length > 0 ? (
-              <select
-                name="category"
-                value={jobPost.category}
-                onChange={onInputChange}
+        <div className="post-job-body">
+          <form className="job-form" onSubmit={onSubmit}>
+            <div className="inputbox-register">
+              {categories.length > 0 ? (
+                <select
+                  name="category"
+                  value={jobPost.category}
+                  onChange={onInputChange}
+                  className="register-input"
+                  required
+                >
+                  <option value="" disabled>
+                    Select a category
+                  </option>
+                  {categories.map((category) => (
+                    <option key={category._id} value={category._id}>
+                      {category.name}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <p>Loading categories...</p>
+              )}
+            </div>
+            <div className="inputbox-register">
+              <input
+                type="text"
+                name="position"
+                value={position}
+                onChange={(e) => onInputChange(e)}
+                placeholder="Position"
                 className="register-input"
                 required
-              >
-                <option value="" disabled>
-                  Select a category
-                </option>
-                {categories.map((category) => (
-                  <option key={category._id} value={category._id}>
-                    {category.name}
-                  </option>
-                ))}
-              </select>
-            ) : (
-              <p>Loading categories...</p>
-            )}
-          </div>
-          <div className="inputbox-register">
-            <input
-              type="text"
-              name="position"
-              value={position}
-              onChange={(e) => onInputChange(e)}
-              placeholder="Position"
-              className="register-input"
-              required
-            />
-          </div>
-          <div className="inputbox-register-box">
-            <input
-              type="text"
-              name="description"
-              value={description}
-              onChange={(e) => onInputChange(e)}
-              placeholder="Description..."
-              className="register-input"
-              required
-            />
-          </div>
-          {/* <div className="inputbox-register">
+              />
+            </div>
+            <div className="inputbox-register-box">
+              <input
+                type="text"
+                name="description"
+                value={description}
+                onChange={(e) => onInputChange(e)}
+                placeholder="Description..."
+                className="register-input"
+                required
+              />
+            </div>
+            {/* <div className="inputbox-register">
             <input
               name="requirements"
               placeholder="Requirements (One requirement per line)"
@@ -135,37 +164,40 @@ const PostJob = () => {
               onChange={onInputChange}
             />
           </div> */}
-          <div className="inputbox-register">
-            {/* Input for new requirements */}
-            <input
-              type="text"
-              placeholder="Add Requirement"
-              className="register-input"
-              value={newRequirement}
-              onChange={(e) => setNewRequirement(e.target.value)}
-            />
-            <button
-              type="button"
-              className="add-button"
-              onClick={onAddRequirement}
-            >
-              <Text label={"Add"} size={"s14"} weight={"regular"} />
+            <div className="inputbox-register">
+              {/* Input for new requirements */}
+              <div className="requirement-input">
+                <input
+                  type="text"
+                  placeholder="Add Requirement"
+                  className="register-input"
+                  value={newRequirement}
+                  onChange={(e) => setNewRequirement(e.target.value)}
+                />
+                <button
+                  type="button"
+                  className="add-button"
+                  onClick={onAddRequirement}
+                >
+                  <Text label={"Add"} size={"s14"} weight={"regular"} />
+                </button>
+              </div>
+            </div>
+            {/* Display the list of requirements */}
+            <div className="requirements-list">
+              <ul>
+                {requirements.map((requirement, index) => (
+                  <li key={index}>{requirement}</li>
+                ))}
+              </ul>
+            </div>
+            <button className="job-btn">
+              <Text label={"Save"} size={"s16"} weight={"regular"} />
             </button>
-          </div>
-          {/* Display the list of requirements */}
-          <div className="requirements-list">
-            <ul>
-              {requirements.map((requirement, index) => (
-                <li key={index}>{requirement}</li>
-              ))}
-            </ul>
-          </div>
-          <button className="job-btn">
-            <Text label={"Save"} size={"s16"} weight={"regular"} />
-          </button>
-        </form>
+          </form>
+        </div>
       </div>
-    </div>
+    </Animate>
   );
 };
 

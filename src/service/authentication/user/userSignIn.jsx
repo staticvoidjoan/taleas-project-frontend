@@ -5,6 +5,7 @@ import { Amplify } from "aws-amplify";
 import { Link, useNavigate } from "react-router-dom";
 import awsExports from "../../../aws-exports";
 import Text from "../../../components/text/text";
+import Swal from "sweetalert2";
 const LoginPage = () => {
   Amplify.configure(awsExports);
   const [selectedCategory, setSelectedCategory] = useState("employer");
@@ -45,8 +46,31 @@ const LoginPage = () => {
     try {
       const user = await Auth.currentAuthenticatedUser();
       const userAttributes = user.attributes || {};
-      window.location.reload();
-      window.location.href = '/';
+      let timerInterval;
+
+      Swal.fire({
+        title: "Sign in successful!",
+        icon: "success",
+        timer: 900,
+        didOpen: () => {
+          const b = Swal.getHtmlContainer()?.querySelector("b"); // Check if it exists
+          if (b) {
+            timerInterval = setInterval(() => {
+              b.textContent = Swal.getTimerLeft();
+            }, 100);
+          }
+        },
+        willClose: () => {
+          clearInterval(timerInterval);
+        },
+      }).then((result) => {
+        if (result.dismiss === Swal.DismissReason.timer) {
+          console.log("I was closed by the timer");
+        }
+        // Handle other actions as needed
+        window.location.reload();
+        window.location.href = "/";
+      });
     } catch (error) {
       console.log(error);
     }
@@ -140,7 +164,6 @@ const LoginPage = () => {
             </Link>
           </div>
           {/* <Button bgcolor={"primary"} label={"register"}/> */}
-       
         </form>
       </div>
       <div className="user-register-title">
@@ -153,9 +176,7 @@ const LoginPage = () => {
           />
         </div>
         <Text
-          label={
-          "Find Your Dream Job, Find Your Employees!"
-          }
+          label={"Find Your Dream Job, Find Your Employees!"}
           size={"s14"}
           weight={"regular"}
           color={"white"}

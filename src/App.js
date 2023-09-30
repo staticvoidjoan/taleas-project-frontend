@@ -11,6 +11,8 @@ import { Amplify } from "aws-amplify";
 import awsExports from "./aws-exports";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import { Hub } from "aws-amplify";
+
 //User Services
 import LoginPage from "./service/authentication/user/userSignIn";
 import UserSignUp from "./service/authentication/user/userSignUp";
@@ -28,23 +30,30 @@ import PostJob from "./pages/Jobs/postJob";
 import EmployerHome from "./pages/Employer/EmployerHome";
 import JobView from "./pages/Employer/jobView";
 import EmployerProfile from "./pages/Employer/employerProfile";
+import ViewApplicant from "./pages/Employer/viewApplicant";
 //Layout
 import NavBar from "./layout/navBar/Navbar2";
 import Footer from "./layout/footer/footer";
+import CenterNavbar from "./components/centerNavbar/centerNavbar";
+import Menu from "./pages/menu/menu";
 
 //Mutual Pages
 import Home from "./pages/home/home";
 import LandingPage from "./pages/landingPage/StartingPage";
 
 import ChatApp from "./ChatApp";
-import ListOfApplicants from "./components/applicants/acceptedApplicants";
+import ListOfMatches from "./components/applicants/ListOfMatches";
 
 //Misc
 import Loader from "./components/Loader/Loader";
 import ListUserMessages from "./components/userMessages/userMessages";
 
+//Error Handlers
+import NotFound from "./pages/Error/notFound";
+
 function App() {
   // State variables
+  const [signingOut, setSigningOut] = useState(false);
   const [authenticated, setAuthenticated] = useState(false);
   const [givenName, setGivenName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -120,6 +129,24 @@ function App() {
     }
   }, [checkEmployee, useremail]);
 
+  useEffect(() => {
+    // Listen for the sign-out event
+    Hub.listen("auth", ({ payload }) => {
+      if (payload.event === "signOut") {
+        // The user is signing out, set signingOut to true
+        setSigningOut(true);
+      }
+    });
+
+    // Check for the user's authenticated status on component mount
+    checkAuthenticated();
+
+    return () => {
+      // Clean up the event listener when the component unmounts
+      Hub.remove("auth");
+    };
+  }, []);
+
   // Save employee data to local storage
   const saveEmployeeToStorage = async () => {
     console.log("Trying to get employee with ", useremail);
@@ -151,9 +178,29 @@ function App() {
       console.error("Error fetching employer data:", error);
     }
   };
+  function MessageRoute({ userRole, employee, employer }) {
+    if (userRole === "employee") {
+      return <ListUserMessages user={employee} />;
+    } else if (userRole === "employer") {
+      return <ListOfMatches employer={employer} />;
+    } else {
+      // Handle other cases or provide a default component
+      return <div>Invalid user role</div>;
+    }
+  }
 
-  const hideNavPaths = ["/postJob", "/completeprofile"]
-  const hideNav = hideNavPaths.includes(location.pathname)
+  const hideNav =
+    location.pathname.startsWith("/profile") ||
+    location.pathname.startsWith("/userInfo") ||
+    location.pathname.startsWith("/viewjobpost") ||
+    location.pathname.startsWith("/postJob") ||
+    location.pathname.startsWith("/jobview") ||
+    location.pathname.startsWith("/chat") ||
+    location.pathname.startsWith("/matches") ||
+    location.pathname.startsWith("/userMessasges") ||
+    location.pathname.startsWith("/applicant") ||
+    location.pathname.startsWith("/completeprofile") ||
+    location.pathname.startsWith("/menu");
   const pathsToHideFooter = [
     "/signup",
     "/signin",
@@ -165,15 +212,45 @@ function App() {
   const hideFooter = pathsToHideFooter.includes(location.pathname);
 
   if (!isEmployeeLoaded) {
-    return <Loader />; // TODO CHANGE TO SPINNER
+    return <Loader />; 
   }
+
+  if (signingOut) {
+  return <Loader />;
+}
+
 
   return (
     <div className="App">
-      {!hideNav && <NavBar />}
+      {isLoading ? (
+        <NavBar
+          givenName={givenName}
+          lastName={lastName}
+          authenticated={authenticated}
+          employeeData={employee}
+          employerData={employer}
+          userRole={userRole}
+        />
+      ) : hideNav ? (
+        <CenterNavbar />
+      ) : (
+        <NavBar
+          givenName={givenName}
+          lastName={lastName}
+          authenticated={authenticated}
+          employeeData={employee}
+          employerData={employer}
+          userRole={userRole}
+        />
+      )}
 
       {/* ----------------------------------  Home routes ------------------------------------------------------- */}
       <Routes>
+        <Route
+          exact
+          path="/menu"
+          element={authenticated ? <NotFound /> : <Menu />}
+        />
         <Route
           exact
           path="/"
@@ -209,7 +286,7 @@ function App() {
                 employeeCheck={checkEmployee}
               />
             ) : (
-              <UserInfo  userId={employee._id}/>
+              <UserInfo userId={employee._id} />
             )
           }
         />
@@ -237,14 +314,57 @@ function App() {
         {/* ------------------------------------------------------------------------------------------------------------------ */}
 
         {/* ----------------------------------  Employeee routes ------------------------------------------------------- */}
-        <Route exact path="/completeprofile" element={<ProfileForm userId={employee._id} />} />
+        <Route
+          exact
+          path="/completeprofile"
+          element={
+            userRole === "employee" ? (
+              <ProfileForm userId={employee._id} />
+            ) : (
+              <NotFound />
+            )
+          }
+        />
         <Route exact path="/userInfo/:id" element={<UserInfo />} />
         <Route exact path="/viewjobpost/:id" element={<EmployeeJobView />} />
         {/* --------------------------------------------------------------------------------------------------------------- */}
 
         {/* ----------------------------------  Employer routes ------------------------------------------------------- */}
-        <Route exact path="/postjob/:id" element={<PostJob />} />
-        <Route exact path="/jobview/:id" element={<JobView />} />
+        <Route
+          exact
+          path="/postjob/:id"
+          element={
+            userRole === "employer" && authenticated ? (
+              <PostJob />
+            ) : (
+              <NotFound />
+            )
+          }
+        />
+        <Route
+          exact
+          path="/jobview/:id"
+          element={
+            userRole === "employer" && authenticated ? (
+              <JobView />
+            ) : (
+              <NotFound />
+            )
+          }
+        />
+
+        <Route
+          exact
+          path="/applicant/:id"
+          element={
+            userRole === "employer" && authenticated ? (
+              <ViewApplicant />
+            ) : (
+              <NotFound />
+            )
+          }
+        />
+
         {/* ---------------------------------------------------------------------------------------------------- */}
         {/* ----------------------------------  Other routes ------------------------------------------------------- */}
         <Route
@@ -259,16 +379,21 @@ function App() {
             )
           }
         />
-        <Route path="/matches/:id" element={<ListOfApplicants />} />
-        <Route 
-        path="/userMessages" 
-        element={
-          isLoading ? (
-            <div>Loading...</div>
-          ) : (
-            <ListUserMessages user = { userRole === "employee" ? employee : null }/>
-          )
-        } />
+        {/* <Route path="/matches/:id" element={<ListOfMatches />} /> */}
+        <Route
+          path="/messages"
+          element={
+            isLoading ? (
+              <div>Loading...</div>
+            ) : (
+              <MessageRoute
+                userRole={userRole}
+                employee={employee}
+                employer={employer}
+              />
+            )
+          }
+        />
         <Route path="*" element={<Home />} />
 
         <Route
@@ -287,13 +412,20 @@ function App() {
                 <EmployerHome creatorId={employer._id} />
               )
             ) : (
-              <Home />
+              <NotFound />
             )
           }
         />
       </Routes>
-      
-      {authenticated ? hideFooter ? null : <Footer userRole={userRole} /> : null}
+      {!authenticated ? null : (
+        <div style={{ clear: "both", height: "90px" }}></div>
+      )}
+
+      {authenticated ? (
+        hideFooter ? null : (
+          <Footer userRole={userRole} />
+        )
+      ) : null}
     </div>
   );
 }

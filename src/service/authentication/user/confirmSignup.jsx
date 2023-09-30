@@ -56,6 +56,7 @@ const ConfirmSignup = ({
         navigate("/");
         window.location.reload();
       } catch (error) {
+        navigate("/");
         console.error("Error during POST request:", error);
       }
     } else {

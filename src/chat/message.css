@@ -3,7 +3,7 @@
     display: flex;
     flex-direction: column;
     max-width: 80%; /* Adjust the maximum width as needed */
-    word-wrap: break-word; /* Enable text wrapping for long messages */
+    word-break: break-all; /* Enable text wrapping for long messages */
     margin: 5px;
     padding: 10px 30px;
     text-align: left;
@@ -28,3 +28,12 @@
     float: left;
   }
   
+.timestamp {
+    font-size: 12px;
+    font-weight: 300;
+    color: #393939;
+    text-align: right;
+    position : relative; 
+    bottom: 0;
+    right: 0;
+  }

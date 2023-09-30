@@ -68,3 +68,29 @@ body{
 .abc{
   height: 100%;
 }
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutLeft {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+.card-component.animate {
+  animation: slideInRight 0.5s ease-in-out forwards;
+}
+
+.card-component.exit {
+  animation: slideOutLeft 0.5s ease-in-out forwards;
+}

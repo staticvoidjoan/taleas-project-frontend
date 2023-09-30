@@ -1,171 +1,204 @@
-import axios from 'axios';
-import React, { useState, useEffect} from 'react';
+import axios from "axios";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Text from '../../components/text/text';
-import Card from '../../components/cards/cards';
-import Tabs from '../../components/button/tabs';
+import Text from "../../components/text/text";
+import Card from "../../components/cards/cards";
+import Tabs from "../../components/button/tabs";
 import heart from "../../assets/icons/heart.svg";
-import back from "../../assets/icons/back.svg"
-import x from "../../assets/icons/x.svg"
+import back from "../../assets/icons/back.svg";
+import x from "../../assets/icons/x.svg";
 import "./userHome.css";
-import Animate from '../../animateTransition/Animate';
+import Animate from "../../animateTransition/Animate";
 
-const UserHome = ({userId}) => {
-  const [posts, setPosts] = useState([])
+const UserHome = ({ userId }) => {
+  const [posts, setPosts] = useState([]);
   const [currentPost, setCurrentPost] = useState({});
-  const [selectedButton, setSelectedButton] = useState('All');
+  const [selectedButton, setSelectedButton] = useState("All");
   const [categories, setCategories] = useState([]);
-  const [currentIndex, setCurrentIndex] = useState(0)
+  const [categoryId, setCategoryId] = useState(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [postlength, setPostLength] = useState(0);
-  const [postDate,setPostDate] = useState("");
-  console.log(userId)
+  const [animate, setAnimate] = useState(false);
+  console.log(userId);
+
   const navigate = useNavigate();
-  useEffect(() => {
-    loadPosts();
-    loadTabs();
-    // console.log("selectedButton:", selectedButton);
-    console.log("THESE ARE THE POSTS",posts)
-  }, []);
   const handleJobCardClick = (id) => {
     navigate(`/viewjobpost/${id}`);
   };
 
-  const handleDislikeClick = async (postId) => {
-    try{
-      await axios.put(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/dislike/${userId}?id=${postId}`)
-      console.log('Cancel API Response:');
-    }
-    catch {
-      console.error('Cancel API Error:');
-    };
-};
-
-const handleLikeClick = async (postId) => {
-  try{
-    await axios.put(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/like/${userId}?id=${postId}`)
-     console.log('Cancel API Response:');
-   }
-   catch {
-     console.error('Cancel API Error:');
-   };
-}
+  useEffect(() => {
+    loadTabs();
+    // filter()
+    loadPosts();
+    // console.log("selectedButton:", selectedButton);
+    console.log("THESE ARE THE POSTS", posts);
+  }, []);
 
   const loadTabs = async () => {
     try {
-      const response = await axios.get("https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/category")
-      console.log(response)
-      setCategories(response.data.categories)
-      console.log(response)
+      const response = await axios.get(
+        "https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/category"
+      );
+      console.log(response.data.categories);
+      setCategories(response.data.categories);
+      setCategoryId(response.data.categories.id);
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }
+  };
+
+  const filter = async (categoryId) => {
+    try {
+      console.log(categoryId);
+      const response = await axios.get(
+        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/category/${categoryId}?id=${userId}`
+      );
+      setPosts(response.data.posts);
+      setCurrentPost(response.data.posts[currentIndex]);
+      setPostLength(response.data.posts.length);
+    } catch (error) {
+      console.error("Cancel API Error:");
+    }
+  };
   const loadPosts = async () => {
-    console.log(userId)
     try {
       const response = await axios.get(
         `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/user/${userId}`
       );
       setPosts(response.data);
-      console.log(response.data)
-      setCurrentPost(response.data[currentIndex])
-      setPostLength(response.data.length)
+      console.log(response.data);
+      setCurrentPost(response.data[currentIndex]);
+      setPostLength(response.data.length);
     } catch (error) {
       console.error(error);
     }
   };
-  
-  const like = async () => {
-    await handleLikeClick(currentPost._id);
-    console.log("We just LIKED this POST> ", currentPost._id);
-    if (currentIndex < postlength - 1) {
-      const nextIndex = currentIndex + 1;
-      const nextPost = posts[nextIndex];
-      setCurrentIndex(nextIndex);
-      setCurrentPost(nextPost)
-      console.log(nextIndex);
-      console.log("next post is", nextPost);
-     
-    } else {
-      setPostLength(0);
-    }
-  };
+
   const next = async () => {
+    setAnimate(true);
+    setTimeout(() => {
+      setAnimate(false);
+    }, 500);
     if (currentIndex < postlength - 1) {
       const nextIndex = currentIndex + 1;
       const nextPost = posts[nextIndex];
       setCurrentIndex(nextIndex);
-      setCurrentPost(nextPost)
+      setCurrentPost(nextPost);
       console.log(nextIndex);
       console.log("next post is", nextPost);
-     
     } else {
       setPostLength(0);
     }
   };
-  const dislike = async () => {
-    await handleDislikeClick(currentPost._id);
-    console.log("We just DISLIKED this POST> ", currentPost._id);
-    if (currentIndex < postlength - 1) {
-      const nextIndex = currentIndex + 1;
-      const nextPost = posts[nextIndex];
-      setCurrentIndex(nextIndex);
-      setCurrentPost(nextPost)
-      console.log(nextIndex);
-      console.log("next post is", nextPost);
+  const previous = () => {
+    setAnimate(true);
+    setTimeout(() => {
+      setAnimate(false);
+    }, 500);
+    if (currentIndex > 0) {
+      const previousIndex = currentIndex - 1;
+      const previousPost = posts[previousIndex];
+      setCurrentIndex(previousIndex);
+      setCurrentPost(previousPost);
+      console.log(previousIndex);
+      console.log("previous post is", previousPost);
     } else {
-      setPostLength(0);
+      // Optionally, you can loop back to the last card when reaching the first card.
+      const lastIndex = postlength - 1;
+      const lastPost = posts[lastIndex];
+      setCurrentIndex(lastIndex);
+      setCurrentPost(lastPost);
+      console.log(lastIndex);
+      console.log("last post is", lastPost);
     }
   };
 
+  const handleAction = async (action) => {
+    if (!currentPost._id) return; // No post to interact with
+    try {
+      switch (action) {
+        case "like":
+          await axios.put(
+            `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/like/${userId}?id=${currentPost._id}`
+          );
+          break;
+        case "dislike":
+          await axios.put(
+            `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/dislike/${userId}?id=${currentPost._id}`
+          );
+          break;
+        default:
+          break;
+      }
+
+      if (currentIndex < postlength - 1) {
+        const nextIndex = currentIndex + 1;
+        const nextPost = posts[nextIndex];
+        setCurrentIndex(nextIndex);
+        setCurrentPost(nextPost);
+        setAnimate(true);
+        setTimeout(() => {
+          setAnimate(false);
+        }, 500);
+      } else {
+        setPostLength(0);
+      }
+    } catch (error) {
+      console.error("API Error:", error);
+    }
+  };
 
   return (
-    <div className='abc'>
+    <div className="abc">
       <div className="button-row">
         {categories.map((buttonName, index) => (
           <Tabs
             buttonName={buttonName.name}
             key={index}
             selected={selectedButton === buttonName}
-            onClick={() => setSelectedButton(buttonName)}
+            onClick={() => filter(buttonName._id)}
           />
         ))}
       </div>
       {postlength === 0 ? (
-        <div className='post-alert'><Text label={"No more posts. Check back soon!"}/></div>
+        <div className="post-alert">
+          <Text label={"No more posts. Check back soon!"} />
+        </div>
       ) : (
         <div>
           <Animate>
-          <div className='card-component' onClick={() => handleJobCardClick(currentPost._id)}>
-            <Card
-              id={currentPost._id}
-              category={currentPost.category.name}
-              title={currentPost.position}
-              info={currentPost.creatorId.companyName}
-              background={currentPost.creatorId.profilePhoto}
-            />
-          </div>
+            <div
+              className={`card-component ${animate ? "animate" : ""}`}
+              onClick={() => handleJobCardClick(currentPost._id)}
+            >
+              <Card
+                id={currentPost._id}
+                category={currentPost.category.name}
+                title={currentPost.position}
+                info={currentPost.creatorId.companyName}
+                background={currentPost.creatorId.profilePhoto}
+              />
+            </div>
           </Animate>
-          <div className='card-buttons'>
-            <button className='left-button' onClick={next}>
+          <div className="card-buttons">
+            <button className="left-button" onClick={previous}>
               <img src={back}></img>
             </button>
-              <button className="cancel" onClick={dislike}>
-                {" "}
-                <img src={x} alt="x" />
-              </button>
-              <button className="like" onClick={like}>
-                <img src={heart} alt="heart" />
-              </button>
-              <button className='right-button' onClick={next}>
-              <img src={back} className='right'></img>
+            <button className="cancel" onClick={() => handleAction("dislike")}>
+              {" "}
+              <img src={x} alt="x" />
+            </button>
+            <button className="like" onClick={() => handleAction("like")}>
+              <img src={heart} alt="heart" />
+            </button>
+            <button className="right-button" onClick={next}>
+              <img src={back} className="right"></img>
             </button>
           </div>
         </div>
       )}
     </div>
   );
-  
 };
 
 export default UserHome;

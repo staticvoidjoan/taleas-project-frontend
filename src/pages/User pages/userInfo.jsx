@@ -3,18 +3,18 @@ import Text from "../../components/text/text";
 import unicorn from "../../assets/images/Unicorn.png";
 import facebook from "../../assets/icons/facebook.svg";
 import instagram from "../../assets/icons/ig.svg";
-import experience from "../../assets/images/exp.jpg";
+import experience from "../../assets/images/exp.png";
 import educationpic from "../../assets/images/educ.png";
 import certification from "../../assets/images/certf.png";
 import emailpic from "../../assets/icons/email.svg";
 import link from "../../assets/icons/link.svg";
-import { format } from 'date-fns';
+import { format } from "date-fns";
 import "./userInfo.css";
 import axios from "axios";
 import UserSignOut from "../../service/authentication/user/userSignOut";
-
-
-const UserInfo = ({userId}) => {
+import Animate from "../../animateTransition/AnimateY";
+import CenterNavbar from "../../components/centerNavbar/centerNavbar";
+const UserInfo = ({ userId }) => {
   const [user, setUser] = useState({});
   const [experiences, setExperience] = useState([]);
   const [education, setEducation] = useState([]);
@@ -50,6 +50,8 @@ const UserInfo = ({userId}) => {
     position: "relative",
   };
   return (
+    <>
+    <Animate>
     <div className="userInfo-container">
       <div className="user-image">
         <div className="user-photo" style={cardStyle}>
@@ -61,8 +63,12 @@ const UserInfo = ({userId}) => {
           <Text label={user.name} size={"s18"} weight={"medium700"} />
         </div>
         <div className="socials">
-          <img alt="facebook" src={facebook} />
-          <img alt="instagram" src={instagram} />
+          <a href="https://www.facebook.com" target="_blank">
+            <img alt="facebook" src={facebook} />
+          </a>
+          <a href="https://www.instagram.com" target="_blank">
+            <img alt="instagram" src={instagram} />
+          </a>
         </div>
       </div>
       <div className="position-info">
@@ -121,7 +127,13 @@ const UserInfo = ({userId}) => {
               </div>
               <div className="details">
                 <Text
-                  label={`${edu.startDate = format(new Date(edu.startDate), 'MMMM d, yyyy')} - ${edu.endDate = format(new Date(edu.endDate), 'MMMM d, yyyy')}`}
+                  label={`${(edu.startDate = format(
+                    new Date(edu.startDate),
+                    "MMMM d, yyyy"
+                  ))} - ${(edu.endDate = format(
+                    new Date(edu.endDate),
+                    "MMMM d, yyyy"
+                  ))}`}
                   size={"s14"}
                 />
               </div>
@@ -145,7 +157,13 @@ const UserInfo = ({userId}) => {
               </div>
               <div className="details">
                 <Text
-                  label={`${cert.issueDate = format(new Date(cert.issueDate), 'MMMM d, yyyy')} - ${cert.expirationDate = format(new Date(cert.expirationDate), 'MMMM d, yyyy')}`}
+                  label={`${(cert.issueDate = format(
+                    new Date(cert.issueDate),
+                    "MMMM d, yyyy"
+                  ))} - ${(cert.expirationDate = format(
+                    new Date(cert.expirationDate),
+                    "MMMM d, yyyy"
+                  ))}`}
                   size={"s14"}
                 />
               </div>
@@ -163,9 +181,11 @@ const UserInfo = ({userId}) => {
         ))}
       </div>
       <div className="signout">
-      <UserSignOut/>
+        <UserSignOut />
       </div>
     </div>
+    </Animate>
+    </>
   );
 };
 
