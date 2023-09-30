@@ -28,6 +28,7 @@ import PostJob from "./pages/Jobs/postJob";
 import EmployerHome from "./pages/Employer/EmployerHome";
 import JobView from "./pages/Employer/jobView";
 import EmployerProfile from "./pages/Employer/employerProfile";
+import ViewApplicant from "./pages/Employer/viewApplicant";
 //Layout
 import NavBar from "./layout/navBar/Navbar2";
 import Footer from "./layout/footer/footer";
@@ -175,7 +176,8 @@ function App() {
     location.pathname.startsWith("/jobview") ||
     location.pathname.startsWith("/chat") ||
     location.pathname.startsWith("/matches") ||
-    location.pathname.startsWith("/userMessasges");
+    location.pathname.startsWith("/userMessasges")||
+    location.pathname.startsWith("/applicant");
   const pathsToHideFooter = [
     "/signup",
     "/signin",
@@ -294,13 +296,16 @@ function App() {
         <Route
           exact
           path="/postjob/:id"
-          element={userRole === "employer" ? <PostJob /> : <NotFound />}
+          element={userRole === "employer" && authenticated ? <PostJob /> : <NotFound />}
         />
         <Route
           exact
           path="/jobview/:id"
-          element={userRole === "employer" ? <JobView /> : <NotFound />}
+          element={userRole === "employer" && authenticated ? <JobView /> : <NotFound />}
         />
+
+        <Route exact path="/applicant/:id" element={userRole === "employer" && authenticated ? <ViewApplicant/> : <NotFound/>}/>
+
         {/* ---------------------------------------------------------------------------------------------------- */}
         {/* ----------------------------------  Other routes ------------------------------------------------------- */}
         <Route
