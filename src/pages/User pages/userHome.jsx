@@ -89,6 +89,29 @@ const filter = async (categoryId) => {
       setPostLength(0);
     }
   };
+  const previous = () => {
+    setAnimate(true);
+    setTimeout(() => {
+      setAnimate(false);
+    }, 500);
+    if (currentIndex > 0) {
+      const previousIndex = currentIndex - 1;
+      const previousPost = posts[previousIndex];
+      setCurrentIndex(previousIndex);
+      setCurrentPost(previousPost);
+      console.log(previousIndex);
+      console.log("previous post is", previousPost);
+    } else {
+      // Optionally, you can loop back to the last card when reaching the first card.
+      const lastIndex = postlength - 1;
+      const lastPost = posts[lastIndex];
+      setCurrentIndex(lastIndex);
+      setCurrentPost(lastPost);
+      console.log(lastIndex);
+      console.log("last post is", lastPost);
+    }
+  };
+  
   const handleAction = async (action) => {
     if (!currentPost._id) return; // No post to interact with
     try {
@@ -149,7 +172,7 @@ const filter = async (categoryId) => {
           </div>
           </Animate>
           <div className='card-buttons'>
-            <button className='left-button' onClick={next}>
+            <button className='left-button' onClick={previous}>
               <img src={back}></img>
             </button>
               <button className="cancel" onClick={() => handleAction('dislike')}>
