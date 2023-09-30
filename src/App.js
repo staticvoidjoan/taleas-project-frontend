@@ -152,8 +152,8 @@ function App() {
     }
   };
 
-  const hideNavPaths = ["/postJob", "/completeprofile"]
-  const hideNav = hideNavPaths.includes(location.pathname)
+  const hideNavPaths = ["/postJob", "/completeprofile"];
+  const hideNav = hideNavPaths.includes(location.pathname);
   const pathsToHideFooter = [
     "/signup",
     "/signin",
@@ -209,7 +209,7 @@ function App() {
                 employeeCheck={checkEmployee}
               />
             ) : (
-              <UserInfo  userId={employee._id}/>
+              <UserInfo userId={employee._id} />
             )
           }
         />
@@ -237,7 +237,11 @@ function App() {
         {/* ------------------------------------------------------------------------------------------------------------------ */}
 
         {/* ----------------------------------  Employeee routes ------------------------------------------------------- */}
-        <Route exact path="/completeprofile" element={<ProfileForm userId={employee._id} />} />
+        <Route
+          exact
+          path="/completeprofile"
+          element={<ProfileForm userId={employee._id} />}
+        />
         <Route exact path="/userInfo/:id" element={<UserInfo />} />
         <Route exact path="/viewjobpost/:id" element={<EmployeeJobView />} />
         {/* --------------------------------------------------------------------------------------------------------------- */}
@@ -260,15 +264,18 @@ function App() {
           }
         />
         <Route path="/matches/:id" element={<ListOfApplicants />} />
-        <Route 
-        path="/userMessages" 
-        element={
-          isLoading ? (
-            <div>Loading...</div>
-          ) : (
-            <ListUserMessages user = { userRole === "employee" ? employee : null }/>
-          )
-        } />
+        <Route
+          path="/userMessages"
+          element={
+            isLoading ? (
+              <div>Loading...</div>
+            ) : (
+              <ListUserMessages
+                user={userRole === "employee" ? employee : null}
+              />
+            )
+          }
+        />
         <Route path="*" element={<Home />} />
 
         <Route
@@ -292,8 +299,15 @@ function App() {
           }
         />
       </Routes>
-      
-      {authenticated ? hideFooter ? null : <Footer userRole={userRole} /> : null}
+      {!authenticated ? null : (
+        <div style={{ clear: "both", height: "90px" }}></div>
+      )}
+
+      {authenticated ? (
+        hideFooter ? null : (
+          <Footer userRole={userRole} />
+        )
+      ) : null}
     </div>
   );
 }

@@ -5,6 +5,7 @@ import X from "../../assets/icons/closeX.svg";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
+import Animate from "../../animateTransition/AnimateY";
 const PostJob = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -95,7 +96,9 @@ const PostJob = () => {
   };
 
   return (
-    <div className="post-job-container">
+    <Animate>
+
+       <div className="post-job-container">
       <div className="post-job-bar">
         <div className="post-job-bar-nav">
           <Text label={"Add Job"} size={"s16"} weight={"medium"} />
@@ -191,6 +194,8 @@ const PostJob = () => {
         </form>
       </div>
     </div>
+    </Animate>
+
   );
 };
 

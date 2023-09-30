@@ -64,31 +64,34 @@ const EmployerHome = ({ creatorId }) => {
 
   return (
     <Animate>
+      <div>
+
       <div className="add-job-btn-container">
         <button className="register-btn" onClick={addNewPost}>
           <Text label={"Add Job"} size={"s16"} weight={"regular"} />
         </button>
       </div>
       <div>
-        <div style={{ marginLeft: "20px" }}>
+        <div style={{marginLeft:"20px"}}>
           <Text
             label={`My Jobs: (${postCount})`}
             size={"s16"}
             weight={"medium"}
-          />
+
+            />
         </div>
         <div className="job-card-column">
           {userposts.map((post, index) => (
             <JobCard
-              postId={userposts[index]._id}
-              profilePhoto={post.creatorId.profilePhoto}
-              position={post.position}
-              category={post.category.name}
-              address={post.creatorId.address}
+            postId={userposts[index]._id}
+            profilePhoto={post.creatorId.profilePhoto}
+            position={post.position}
+            category={post.category.name}
+            address={post.creatorId.address}
               likes={post.likedBy}
               key={post._id}
-            />
-          ))}
+              />
+              ))}
         </div>
         <div className="navigate-bubble-row">
           <button className="left-button" onClick={previousPage}>
@@ -101,6 +104,7 @@ const EmployerHome = ({ creatorId }) => {
         </div>
         {loading && <Loader />} {/* Show a loading indicator */}
       </div>
+              </div>
     </Animate>
   );
 };

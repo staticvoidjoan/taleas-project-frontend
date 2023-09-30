@@ -7,6 +7,7 @@ import ImageUploader from "../../components/Convert/convertImage";
 import axios from "axios";
 import emailpic from "../../assets/icons/email.svg";
 import locationico from "../../assets/icons/location.svg";
+import Animate from "../../animateTransition/Animate";
 const EmployerProfile = ({ employerData, employeeCheck }) => {
   const [newPhoto, setNewPhoto] = useState({
     profilePhoto: "",
@@ -60,6 +61,9 @@ const EmployerProfile = ({ employerData, employeeCheck }) => {
 
 
   return (
+    <Animate>
+
+   
     <div className="profile-container">
       <div className="photo-container">
         <div className="profile-profile-pic" style={cardStyle}>
@@ -110,6 +114,7 @@ const EmployerProfile = ({ employerData, employeeCheck }) => {
       </div>
       <SignOut />
     </div>
+    </Animate>
   );
 };
 
