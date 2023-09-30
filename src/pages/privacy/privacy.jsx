@@ -6,6 +6,8 @@ const Privacy = (props) => {
   return (
     <>
       <div className="terms-container">
+        {/* ----------------------------------------- terms-of-service"---------------------------------------- */}
+
         <div className="terms-of-service">
           <Text
             label={"Terms of Service"}
@@ -154,9 +156,6 @@ const Privacy = (props) => {
               Platform's features.
             </p>
           </div>
-
-          {/* ----------------------------------------- Security ---------------------------------------- */}
-
           <div>
             <Text
               label={"3. Security"}
@@ -172,6 +171,15 @@ const Privacy = (props) => {
             </p>
           </div>
         </div>
+        <Text
+          label={
+            "By using the Platform, you acknowledge that you have read, understood,and agreed to these Terms of Service and Privacy Policy."
+          }
+          weight={"bold"}
+          lineheight={"lnormal"}
+          size={"s14"}
+          color={"purple"}
+        />
       </div>
     </>
   );
