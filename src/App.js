@@ -11,6 +11,8 @@ import { Amplify } from "aws-amplify";
 import awsExports from "./aws-exports";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import { Hub } from "aws-amplify";
+
 //User Services
 import LoginPage from "./service/authentication/user/userSignIn";
 import UserSignUp from "./service/authentication/user/userSignUp";
@@ -51,6 +53,7 @@ import NotFound from "./pages/Error/notFound";
 
 function App() {
   // State variables
+  const [signingOut, setSigningOut] = useState(false);
   const [authenticated, setAuthenticated] = useState(false);
   const [givenName, setGivenName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -126,6 +129,24 @@ function App() {
     }
   }, [checkEmployee, useremail]);
 
+  useEffect(() => {
+    // Listen for the sign-out event
+    Hub.listen("auth", ({ payload }) => {
+      if (payload.event === "signOut") {
+        // The user is signing out, set signingOut to true
+        setSigningOut(true);
+      }
+    });
+
+    // Check for the user's authenticated status on component mount
+    checkAuthenticated();
+
+    return () => {
+      // Clean up the event listener when the component unmounts
+      Hub.remove("auth");
+    };
+  }, []);
+
   // Save employee data to local storage
   const saveEmployeeToStorage = async () => {
     console.log("Trying to get employee with ", useremail);
@@ -158,16 +179,15 @@ function App() {
     }
   };
   function MessageRoute({ userRole, employee, employer }) {
-    if (userRole === 'employee') {
+    if (userRole === "employee") {
       return <ListUserMessages user={employee} />;
-    } else if (userRole === 'employer') {
+    } else if (userRole === "employer") {
       return <ListOfMatches employer={employer} />;
     } else {
       // Handle other cases or provide a default component
       return <div>Invalid user role</div>;
     }
   }
-  
 
   const hideNav =
     location.pathname.startsWith("/profile") ||
@@ -177,8 +197,9 @@ function App() {
     location.pathname.startsWith("/jobview") ||
     location.pathname.startsWith("/chat") ||
     location.pathname.startsWith("/matches") ||
-    location.pathname.startsWith("/userMessasges")||
-    location.pathname.startsWith("/applicant")||
+    location.pathname.startsWith("/userMessasges") ||
+    location.pathname.startsWith("/applicant") ||
+    location.pathname.startsWith("/completeprofile") ||
     location.pathname.startsWith("/menu");
   const pathsToHideFooter = [
     "/signup",
@@ -191,19 +212,28 @@ function App() {
   const hideFooter = pathsToHideFooter.includes(location.pathname);
 
   if (!isEmployeeLoaded) {
-    return <Loader />; // TODO CHANGE TO SPINNER
+    return <Loader />; 
   }
+
+  if (signingOut) {
+  return <Loader />;
+}
+
 
   return (
     <div className="App">
-      {isLoading ?   <NavBar
+      {isLoading ? (
+        <NavBar
           givenName={givenName}
           lastName={lastName}
           authenticated={authenticated}
           employeeData={employee}
           employerData={employer}
           userRole={userRole}
-        /> : hideNav ? (<CenterNavbar/>) : (
+        />
+      ) : hideNav ? (
+        <CenterNavbar />
+      ) : (
         <NavBar
           givenName={givenName}
           lastName={lastName}
@@ -214,10 +244,13 @@ function App() {
         />
       )}
 
-
       {/* ----------------------------------  Home routes ------------------------------------------------------- */}
       <Routes>
-      <Route exact path="/menu" element={authenticated ? <NotFound/> : <Menu/>}/>
+        <Route
+          exact
+          path="/menu"
+          element={authenticated ? <NotFound /> : <Menu />}
+        />
         <Route
           exact
           path="/"
@@ -300,15 +333,37 @@ function App() {
         <Route
           exact
           path="/postjob/:id"
-          element={userRole === "employer" && authenticated ? <PostJob /> : <NotFound />}
+          element={
+            userRole === "employer" && authenticated ? (
+              <PostJob />
+            ) : (
+              <NotFound />
+            )
+          }
         />
         <Route
           exact
           path="/jobview/:id"
-          element={userRole === "employer" && authenticated ? <JobView /> : <NotFound />}
+          element={
+            userRole === "employer" && authenticated ? (
+              <JobView />
+            ) : (
+              <NotFound />
+            )
+          }
         />
 
-        <Route exact path="/applicant/:id" element={userRole === "employer" && authenticated ? <ViewApplicant/> : <NotFound/>}/>
+        <Route
+          exact
+          path="/applicant/:id"
+          element={
+            userRole === "employer" && authenticated ? (
+              <ViewApplicant />
+            ) : (
+              <NotFound />
+            )
+          }
+        />
 
         {/* ---------------------------------------------------------------------------------------------------- */}
         {/* ----------------------------------  Other routes ------------------------------------------------------- */}
@@ -331,7 +386,11 @@ function App() {
             isLoading ? (
               <div>Loading...</div>
             ) : (
-              <MessageRoute userRole={userRole} employee={employee} employer={employer} />
+              <MessageRoute
+                userRole={userRole}
+                employee={employee}
+                employer={employer}
+              />
             )
           }
         />

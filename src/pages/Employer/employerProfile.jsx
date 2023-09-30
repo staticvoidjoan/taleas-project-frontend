@@ -91,7 +91,7 @@ const EmployerProfile = ({ employerData, employeeCheck }) => {
               <div className="info-bubble">
                 <img alt="email" src={emailpic} style={{marginLeft:"8px", marginRight:"8px"}} />
 
-                <Text label={employerData.email} size={"s14"} color={"black"} />
+                <Text label={employerData.email} size={"s14"} color={"black"} style={{marginRight:"8px"}}/>
               </div>
             </div>
             <div className="job-title-info">
