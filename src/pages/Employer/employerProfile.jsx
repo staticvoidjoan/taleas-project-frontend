@@ -88,8 +88,8 @@ const EmployerProfile = ({ employerData, employeeCheck }) => {
               color={"black"}
             />
             <div className="job-title-info">
-              <div className="employer-info-bubble">
-                <img alt="email" src={emailpic} />
+              <div className="info-bubble">
+                <img alt="email" src={emailpic} style={{marginLeft:"8px", marginRight:"8px"}} />
 
                 <Text label={employerData.email} size={"s14"} color={"black"} />
               </div>
