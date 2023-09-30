@@ -1,0 +1,15 @@
+.navbar-container-center {
+  display: flex;
+  justify-content: center;
+}
+
+.navbar-center {
+  display: flex;
+  justify-content: space-between;
+  margin: 24px 20px 24px 20px;
+  width: 100%;
+}
+
+.app-name-center {
+  display: flex;
+}

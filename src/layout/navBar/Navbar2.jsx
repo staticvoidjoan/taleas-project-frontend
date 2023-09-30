@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Text from "../../components/text/text";
 import "./Navbar2.css";
-import NavIcon from "../../assets/images/Group 1.png";
+import MenuBlack from "../../assets/images/pngblack.png";
 import MenuWhite from "../../assets/images/png menu white.png";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Auth } from "aws-amplify";
@@ -35,50 +35,48 @@ const Navbar2 = (props) => {
     }
   };
 
-  const handleTurnBack = () => {
+  const goHome = () => {
     navigate("/");
   };
   const handleMenu = () => {
     navigate("/menu");
   };
 
-  const isWhiteText = () => {
-    const whiteTextRoutes = ["/signup", "/signin"];
-    return whiteTextRoutes.includes(location.pathname);
-  };
+  const whiteTextRoutes = ["/signup", "/signin"];
+  whiteTextRoutes.includes(location.pathname);
 
-  const isSignInSignUpRoute = () => {
-    return location.pathname === "/signup" || location.pathname === "/signin";
-  };
+  const isCenteredTextRoute =
+    location.pathname.startsWith("/viewjobpost") ||
+    location.pathname.startsWith("/viewuser");
 
   const navbarStyle = {
-    backgroundColor: isWhiteText() ? "#222 " : "white ",
-    color: isWhiteText() ? "white " : "black ",
+    backgroundColor: whiteTextRoutes.includes(location.pathname)
+      ? "#222"
+      : "white",
+    color: whiteTextRoutes.includes(location.pathname) ? "white" : "black",
   };
 
+  const isWhiteTextRoute = whiteTextRoutes.includes(location.pathname);
+
   return (
-    <>
+    <div className="navbar-container" style={navbarStyle}>
       <div className="navbar">
-        <div className="app-name" onClick={handleTurnBack}>
-          {" "}
+        <div className="app-name" onClick={goHome}>
           <Text
-            label={"CAREER"}
+            label={"Career"}
             weight={"medium800"}
             lineheight={"l24"}
             size={"s20"}
-            color={"black "}
+            color={isWhiteTextRoute ? "white" : "black"}
           />
           <Text
-            label={"CRUSH"}
+            label={"Crush"}
             weight={"medium800"}
             lineheight={"l24"}
             size={"s20"}
             color={"purple"}
           />
         </div>
-        {/* <div>
-          <img src={NavIcon} alt="Menu" onClick={handleMenu} />
-        </div> */}
         <div>
           {authenticated ? (
             <>
@@ -87,11 +85,15 @@ const Navbar2 = (props) => {
               </Link>
             </>
           ) : (
-            <img src={NavIcon} alt="Menu" onClick={handleMenu} />
+            <img
+              src={isWhiteTextRoute ? MenuWhite : MenuBlack}
+              alt="Menu"
+              onClick={handleMenu}
+            />
           )}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
