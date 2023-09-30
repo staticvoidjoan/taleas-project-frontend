@@ -10,6 +10,7 @@ import { format } from "date-fns";
 import Swal from "sweetalert2";
 import TrashCan from "../../assets/icons/TrashCan.svg";
 import Animate from "../../animateTransition/Animate";
+import CenterNavbar from "../../components/centerNavbar/centerNavbar"
 const JobView = () => {
   const navigate = useNavigate();
   const [post, setPost] = useState({});
@@ -78,6 +79,8 @@ const JobView = () => {
     position: "relative",
   };
   return (
+    <>
+    <CenterNavbar/>
     <Animate>
       <div className="job-post-container">
         <div className="photo-container" >
@@ -192,6 +195,7 @@ const JobView = () => {
       </div>
       <div style={{ clear: "both", height: "60px" }}></div>
     </Animate>
+    </>
   );
 };
 

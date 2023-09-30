@@ -173,7 +173,7 @@ function App() {
 
   return (
     <div className="App">
-      {!hideNav && <NavBar />}
+      {!hideNav && <NavBar givenName={givenName} lastName={lastName} authenticated={authenticated} employeeData={employee} employerData={employer} />}
 
       {/* ----------------------------------  Home routes ------------------------------------------------------- */}
       <Routes>

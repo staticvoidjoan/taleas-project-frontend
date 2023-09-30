@@ -1,40 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Text from "../../components/text/text";
 import "./Navbar2.css";
 import MenuBlack from "../../assets/images/pngblack.png";
 import MenuWhite from "../../assets/images/png menu white.png";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { Auth } from "aws-amplify";
-
-const Navbar2 = (props) => {
-  const [authenticated, setAuthenticated] = useState(false);
-  const [givenName, setGivenName] = useState("");
-  const [lastName, setLastName] = useState("");
+import unicorn from "../../assets/images/Unicorn.png";
+const Navbar2 = ({
+  givenName,
+  lastName,
+  authenticated,
+  employeeData,
+  employerData,
+}) => {
   const navigate = useNavigate();
   const location = useLocation();
-
-  useEffect(() => {
-    checkAuthenticated();
-  }, []);
-
-  const checkAuthenticated = async () => {
-    try {
-      const user = await Auth.currentAuthenticatedUser();
-      if (user) {
-        setAuthenticated(true);
-      } else {
-        setAuthenticated(false);
-      }
-      const userAttributes = user.attributes || {};
-      const userGivenName = userAttributes.given_name || "";
-      setGivenName(userGivenName);
-      const userLastName = userAttributes.family_name || "";
-      setLastName(userLastName);
-    } catch (error) {
-      setAuthenticated(false);
-    }
-  };
-
   const goHome = () => {
     navigate("/");
   };
@@ -79,11 +58,25 @@ const Navbar2 = (props) => {
         </div>
         <div>
           {authenticated ? (
-            <>
-              <Link to={`${givenName}-profile`}>
-                {givenName} {lastName}
+            <div className="nav-profile">
+              <Link to={`${givenName}-profile`} style={{textDecoration:"none"}}>
+  
+                <Text label={`${givenName} ${lastName}`} size={"s16"} color={"black"}/>
               </Link>
-            </>
+              <img
+                className="nav-profile-pic"
+                src={
+                  employeeData
+                    ? employeeData.profilePhoto
+                      ? employeeData.profilePhoto
+                      : unicorn
+                    : employerData.profilePhoto
+                    ? employerData.profilePhoto
+                    : unicorn
+                }
+                alt=""
+              />
+            </div>
           ) : (
             <img
               src={isWhiteTextRoute ? MenuWhite : MenuBlack}

@@ -2,7 +2,7 @@ import React from "react";
 import "./centerNavbar.css";
 import Text from "../text/text";
 import { Link, useNavigate, useLocation, Navigate } from "react-router-dom";
-import TurnBack from "../../assets/images/Group 61.svg";
+import TurnBack from "../../assets/icons/back.svg";
 
 const CenterNavbar = (props) => {
   const navigate = useNavigate();

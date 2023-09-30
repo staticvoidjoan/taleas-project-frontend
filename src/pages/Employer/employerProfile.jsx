@@ -8,6 +8,7 @@ import axios from "axios";
 import emailpic from "../../assets/icons/email.svg";
 import locationico from "../../assets/icons/location.svg";
 import Animate from "../../animateTransition/Animate";
+import CenterNavbar from "../../components/centerNavbar/centerNavbar";
 const EmployerProfile = ({ employerData, employeeCheck }) => {
   const [newPhoto, setNewPhoto] = useState({
     profilePhoto: "",
@@ -61,6 +62,8 @@ const EmployerProfile = ({ employerData, employeeCheck }) => {
 
 
   return (
+    <>
+    <CenterNavbar/>
     <Animate>
 
    
@@ -115,6 +118,7 @@ const EmployerProfile = ({ employerData, employeeCheck }) => {
       <SignOut />
     </div>
     </Animate>
+    </>
   );
 };
 

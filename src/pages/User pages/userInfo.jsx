@@ -12,7 +12,8 @@ import { format } from "date-fns";
 import "./userInfo.css";
 import axios from "axios";
 import UserSignOut from "../../service/authentication/user/userSignOut";
-
+import Animate from "../../animateTransition/AnimateY";
+import CenterNavbar from "../../components/centerNavbar/centerNavbar";
 const UserInfo = ({ userId }) => {
   const [user, setUser] = useState({});
   const [experiences, setExperience] = useState([]);
@@ -49,6 +50,9 @@ const UserInfo = ({ userId }) => {
     position: "relative",
   };
   return (
+    <>
+    <CenterNavbar/>
+    <Animate>
     <div className="userInfo-container">
       <div className="user-image">
         <div className="user-photo" style={cardStyle}>
@@ -181,6 +185,8 @@ const UserInfo = ({ userId }) => {
         <UserSignOut />
       </div>
     </div>
+    </Animate>
+    </>
   );
 };
 

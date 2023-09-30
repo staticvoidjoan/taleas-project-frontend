@@ -6,6 +6,8 @@ import locationico from "../../assets/icons/location.svg";
 import unicorn from "../../assets/images/Unicorn.png";
 import axios from "axios";
 import { format } from "date-fns";
+import CenterNavbar from "../../components/centerNavbar/centerNavbar";
+import Animate from "../../animateTransition/AnimateY";
 const JobProfile = () => {
   const [post, setPost] = useState({});
   const [company, setCompany] = useState({});
@@ -50,6 +52,9 @@ const JobProfile = () => {
     position: "relative",
   };
   return (
+    <>
+    <CenterNavbar/>
+    <Animate>
     <div className="job-post-container">
       <div className="photo-container">
         <div className="company-photo" style={cardStyle}>
@@ -138,6 +143,9 @@ const JobProfile = () => {
         </div>
       </div>
     </div>
+    </Animate>
+    </>
+    
   );
 };
 
