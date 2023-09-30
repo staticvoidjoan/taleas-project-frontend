@@ -80,7 +80,6 @@ const JobView = () => {
   };
   return (
     <>
-    <CenterNavbar/>
     <Animate>
       <div className="job-post-container">
         <div className="photo-container" >
