@@ -3,7 +3,7 @@ import Text from "../../components/text/text";
 import unicorn from "../../assets/images/Unicorn.png";
 import facebook from "../../assets/icons/facebook.svg";
 import instagram from "../../assets/icons/ig.svg";
-import experience from "../../assets/images/exp.jpg";
+import experience from "../../assets/images/exp.png";
 import educationpic from "../../assets/images/educ.png";
 import certification from "../../assets/images/certf.png";
 import emailpic from "../../assets/icons/email.svg";
@@ -61,8 +61,8 @@ const UserInfo = ({userId}) => {
           <Text label={user.name} size={"s18"} weight={"medium700"} />
         </div>
         <div className="socials">
-          <img alt="facebook" src={facebook} />
-          <img alt="instagram" src={instagram} />
+        <a href="https://www.facebook.com" target="_blank"><img alt="facebook" src={facebook} /></a>
+         <a href="https://www.instagram.com" target="_blank"><img alt="instagram" src={instagram} /></a>
         </div>
       </div>
       <div className="position-info">
@@ -91,7 +91,7 @@ const UserInfo = ({userId}) => {
         {experiences.map((exp, index) => (
           <div className="exp-info">
             <div className="exp-pic">
-              <img className="exp-pic" src={experience}></img>
+             <img className="exp-pic" src={experience}></img>
             </div>
             <div className="exp-content">
               <div className="exp-position">

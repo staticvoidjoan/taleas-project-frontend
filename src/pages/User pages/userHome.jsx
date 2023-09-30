@@ -15,53 +15,51 @@ const UserHome = ({userId}) => {
   const [currentPost, setCurrentPost] = useState({});
   const [selectedButton, setSelectedButton] = useState('All');
   const [categories, setCategories] = useState([]);
+  const [categoryId, setCategoryId] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0)
   const [postlength, setPostLength] = useState(0);
-  const [postDate,setPostDate] = useState("");
+  const [animate, setAnimate] = useState(false)
   console.log(userId)
+
   const navigate = useNavigate();
+  const handleJobCardClick = (id) => {
+      navigate(`/viewjobpost/${id}`);
+    };
+
   useEffect(() => {
-    loadPosts();
     loadTabs();
+    // filter()
+    loadPosts();
     // console.log("selectedButton:", selectedButton);
     console.log("THESE ARE THE POSTS",posts)
   }, []);
-  const handleJobCardClick = (id) => {
-    navigate(`/viewjobpost/${id}`);
-  };
 
-  const handleDislikeClick = async (postId) => {
-    try{
-      await axios.put(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/dislike/${userId}?id=${postId}`)
-      console.log('Cancel API Response:');
-    }
-    catch {
-      console.error('Cancel API Error:');
-    };
-};
 
-const handleLikeClick = async (postId) => {
-  try{
-    await axios.put(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/like/${userId}?id=${postId}`)
-     console.log('Cancel API Response:');
-   }
-   catch {
-     console.error('Cancel API Error:');
-   };
-}
-
-  const loadTabs = async () => {
+const loadTabs = async () => {
     try {
       const response = await axios.get("https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/category")
-      console.log(response)
+      console.log(response.data.categories)
       setCategories(response.data.categories)
-      console.log(response)
+      setCategoryId(response.data.categories.id)
+
     } catch (error) {
       console.error(error)
     }
   }
+
+const filter = async (categoryId) => {
+  try {
+    console.log(categoryId)
+    const response = await axios.get(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/category/${categoryId}?id=${userId}`)
+     setPosts(response.data.posts)
+    setCurrentPost(response.data.posts[currentIndex])
+    setPostLength(response.data.posts.length)
+     
+  } catch (error) {
+    console.error('Cancel API Error:');
+  }
+}
   const loadPosts = async () => {
-    console.log(userId)
     try {
       const response = await axios.get(
         `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/user/${userId}`
@@ -75,22 +73,11 @@ const handleLikeClick = async (postId) => {
     }
   };
   
-  const like = async () => {
-    await handleLikeClick(currentPost._id);
-    console.log("We just LIKED this POST> ", currentPost._id);
-    if (currentIndex < postlength - 1) {
-      const nextIndex = currentIndex + 1;
-      const nextPost = posts[nextIndex];
-      setCurrentIndex(nextIndex);
-      setCurrentPost(nextPost)
-      console.log(nextIndex);
-      console.log("next post is", nextPost);
-     
-    } else {
-      setPostLength(0);
-    }
-  };
   const next = async () => {
+    setAnimate(true)
+      setTimeout(() => {
+        setAnimate(false);
+      }, 500);
     if (currentIndex < postlength - 1) {
       const nextIndex = currentIndex + 1;
       const nextPost = posts[nextIndex];
@@ -98,23 +85,38 @@ const handleLikeClick = async (postId) => {
       setCurrentPost(nextPost)
       console.log(nextIndex);
       console.log("next post is", nextPost);
-     
     } else {
       setPostLength(0);
     }
   };
-  const dislike = async () => {
-    await handleDislikeClick(currentPost._id);
-    console.log("We just DISLIKED this POST> ", currentPost._id);
-    if (currentIndex < postlength - 1) {
-      const nextIndex = currentIndex + 1;
-      const nextPost = posts[nextIndex];
-      setCurrentIndex(nextIndex);
-      setCurrentPost(nextPost)
-      console.log(nextIndex);
-      console.log("next post is", nextPost);
-    } else {
-      setPostLength(0);
+  const handleAction = async (action) => {
+    if (!currentPost._id) return; // No post to interact with
+    try {
+      switch (action) {
+        case 'like':
+          await axios.put(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/like/${userId}?id=${currentPost._id}`);
+          break;
+        case 'dislike':
+          await axios.put(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/dislike/${userId}?id=${currentPost._id}`);
+          break;
+        default:
+          break;
+      }
+
+      if (currentIndex < postlength - 1) {
+        const nextIndex = currentIndex + 1;
+        const nextPost = posts[nextIndex];
+        setCurrentIndex(nextIndex);
+        setCurrentPost(nextPost);
+        setAnimate(true);
+        setTimeout(() => {
+          setAnimate(false);
+        }, 500);
+      } else {
+        setPostLength(0);
+      }
+    } catch (error) {
+      console.error('API Error:', error);
     }
   };
 
@@ -127,7 +129,7 @@ const handleLikeClick = async (postId) => {
             buttonName={buttonName.name}
             key={index}
             selected={selectedButton === buttonName}
-            onClick={() => setSelectedButton(buttonName)}
+            onClick={() => filter(buttonName._id)}
           />
         ))}
       </div>
@@ -136,7 +138,7 @@ const handleLikeClick = async (postId) => {
       ) : (
         <div>
           <Animate>
-          <div className='card-component' onClick={() => handleJobCardClick(currentPost._id)}>
+          <div className={`card-component ${animate ? 'animate' : ''}`} onClick={() => handleJobCardClick(currentPost._id)}>
             <Card
               id={currentPost._id}
               category={currentPost.category.name}
@@ -150,11 +152,11 @@ const handleLikeClick = async (postId) => {
             <button className='left-button' onClick={next}>
               <img src={back}></img>
             </button>
-              <button className="cancel" onClick={dislike}>
+              <button className="cancel" onClick={() => handleAction('dislike')}>
                 {" "}
                 <img src={x} alt="x" />
               </button>
-              <button className="like" onClick={like}>
+              <button className="like" onClick={() => handleAction('like')}>
                 <img src={heart} alt="heart" />
               </button>
               <button className='right-button' onClick={next}>
