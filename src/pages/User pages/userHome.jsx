@@ -1,88 +1,89 @@
-import axios from 'axios';
-import React, { useState, useEffect} from 'react';
+import axios from "axios";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Text from '../../components/text/text';
-import Card from '../../components/cards/cards';
-import Tabs from '../../components/button/tabs';
+import Text from "../../components/text/text";
+import Card from "../../components/cards/cards";
+import Tabs from "../../components/button/tabs";
 import heart from "../../assets/icons/heart.svg";
-import back from "../../assets/icons/back.svg"
-import x from "../../assets/icons/x.svg"
+import back from "../../assets/icons/back.svg";
+import x from "../../assets/icons/x.svg";
 import "./userHome.css";
-import Animate from '../../animateTransition/Animate';
+import Animate from "../../animateTransition/Animate";
 
-const UserHome = ({userId}) => {
-  const [posts, setPosts] = useState([])
+const UserHome = ({ userId }) => {
+  const [posts, setPosts] = useState([]);
   const [currentPost, setCurrentPost] = useState({});
-  const [selectedButton, setSelectedButton] = useState('All');
+  const [selectedButton, setSelectedButton] = useState("All");
   const [categories, setCategories] = useState([]);
   const [categoryId, setCategoryId] = useState(null);
-  const [currentIndex, setCurrentIndex] = useState(0)
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [postlength, setPostLength] = useState(0);
-  const [animate, setAnimate] = useState(false)
-  console.log(userId)
+  const [animate, setAnimate] = useState(false);
+  console.log(userId);
 
   const navigate = useNavigate();
   const handleJobCardClick = (id) => {
-      navigate(`/viewjobpost/${id}`);
-    };
+    navigate(`/viewjobpost/${id}`);
+  };
 
   useEffect(() => {
     loadTabs();
     // filter()
     loadPosts();
     // console.log("selectedButton:", selectedButton);
-    console.log("THESE ARE THE POSTS",posts)
+    console.log("THESE ARE THE POSTS", posts);
   }, []);
 
-
-const loadTabs = async () => {
+  const loadTabs = async () => {
     try {
-      const response = await axios.get("https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/category")
-      console.log(response.data.categories)
-      setCategories(response.data.categories)
-      setCategoryId(response.data.categories.id)
-
+      const response = await axios.get(
+        "https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/category"
+      );
+      console.log(response.data.categories);
+      setCategories(response.data.categories);
+      setCategoryId(response.data.categories.id);
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }
+  };
 
-const filter = async (categoryId) => {
-  try {
-    console.log(categoryId)
-    const response = await axios.get(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/category/${categoryId}?id=${userId}`)
-     setPosts(response.data.posts)
-    setCurrentPost(response.data.posts[currentIndex])
-    setPostLength(response.data.posts.length)
-     
-  } catch (error) {
-    console.error('Cancel API Error:');
-  }
-}
+  const filter = async (categoryId) => {
+    try {
+      console.log(categoryId);
+      const response = await axios.get(
+        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/category/${categoryId}?id=${userId}`
+      );
+      setPosts(response.data.posts);
+      setCurrentPost(response.data.posts[currentIndex]);
+      setPostLength(response.data.posts.length);
+    } catch (error) {
+      console.error("Cancel API Error:");
+    }
+  };
   const loadPosts = async () => {
     try {
       const response = await axios.get(
         `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/user/${userId}`
       );
       setPosts(response.data);
-      console.log(response.data)
-      setCurrentPost(response.data[currentIndex])
-      setPostLength(response.data.length)
+      console.log(response.data);
+      setCurrentPost(response.data[currentIndex]);
+      setPostLength(response.data.length);
     } catch (error) {
       console.error(error);
     }
   };
-  
+
   const next = async () => {
-    setAnimate(true)
-      setTimeout(() => {
-        setAnimate(false);
-      }, 500);
+    setAnimate(true);
+    setTimeout(() => {
+      setAnimate(false);
+    }, 500);
     if (currentIndex < postlength - 1) {
       const nextIndex = currentIndex + 1;
       const nextPost = posts[nextIndex];
       setCurrentIndex(nextIndex);
-      setCurrentPost(nextPost)
+      setCurrentPost(nextPost);
       console.log(nextIndex);
       console.log("next post is", nextPost);
     } else {
@@ -111,16 +112,20 @@ const filter = async (categoryId) => {
       console.log("last post is", lastPost);
     }
   };
-  
+
   const handleAction = async (action) => {
     if (!currentPost._id) return; // No post to interact with
     try {
       switch (action) {
-        case 'like':
-          await axios.put(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/like/${userId}?id=${currentPost._id}`);
+        case "like":
+          await axios.put(
+            `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/like/${userId}?id=${currentPost._id}`
+          );
           break;
-        case 'dislike':
-          await axios.put(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/dislike/${userId}?id=${currentPost._id}`);
+        case "dislike":
+          await axios.put(
+            `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/dislike/${userId}?id=${currentPost._id}`
+          );
           break;
         default:
           break;
@@ -139,13 +144,12 @@ const filter = async (categoryId) => {
         setPostLength(0);
       }
     } catch (error) {
-      console.error('API Error:', error);
+      console.error("API Error:", error);
     }
   };
 
-
   return (
-    <div className='abc'>
+    <div className="abc">
       <div className="button-row">
         {categories.map((buttonName, index) => (
           <Tabs
@@ -157,40 +161,44 @@ const filter = async (categoryId) => {
         ))}
       </div>
       {postlength === 0 ? (
-        <div className='post-alert'><Text label={"No more posts. Check back soon!"}/></div>
+        <div className="post-alert">
+          <Text label={"No more posts. Check back soon!"} />
+        </div>
       ) : (
         <div>
           <Animate>
-          <div className={`card-component ${animate ? 'animate' : ''}`} onClick={() => handleJobCardClick(currentPost._id)}>
-            <Card
-              id={currentPost._id}
-              category={currentPost.category.name}
-              title={currentPost.position}
-              info={currentPost.creatorId.companyName}
-              background={currentPost.creatorId.profilePhoto}
-            />
-          </div>
+            <div
+              className={`card-component ${animate ? "animate" : ""}`}
+              onClick={() => handleJobCardClick(currentPost._id)}
+            >
+              <Card
+                id={currentPost._id}
+                category={currentPost.category.name}
+                title={currentPost.position}
+                info={currentPost.creatorId.companyName}
+                background={currentPost.creatorId.profilePhoto}
+              />
+            </div>
           </Animate>
-          <div className='card-buttons'>
-            <button className='left-button' onClick={previous}>
+          <div className="card-buttons">
+            <button className="left-button" onClick={previous}>
               <img src={back}></img>
             </button>
-              <button className="cancel" onClick={() => handleAction('dislike')}>
-                {" "}
-                <img src={x} alt="x" />
-              </button>
-              <button className="like" onClick={() => handleAction('like')}>
-                <img src={heart} alt="heart" />
-              </button>
-              <button className='right-button' onClick={next}>
-              <img src={back} className='right'></img>
+            <button className="cancel" onClick={() => handleAction("dislike")}>
+              {" "}
+              <img src={x} alt="x" />
+            </button>
+            <button className="like" onClick={() => handleAction("like")}>
+              <img src={heart} alt="heart" />
+            </button>
+            <button className="right-button" onClick={next}>
+              <img src={back} className="right"></img>
             </button>
           </div>
         </div>
       )}
     </div>
   );
-  
 };
 
 export default UserHome;
