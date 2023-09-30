@@ -5,6 +5,7 @@ import {
   Route,
   Routes,
   useLocation,
+  Outlet
 } from "react-router-dom"; // Importing Routes instead of Switch
 import { Auth } from "aws-amplify";
 import { Amplify } from "aws-amplify";
@@ -154,6 +155,17 @@ function App() {
       console.error("Error fetching employer data:", error);
     }
   };
+  function MessageRoute({ userRole, employee, employer }) {
+    if (userRole === 'employee') {
+      return <ListUserMessages user={employee} />;
+    } else if (userRole === 'employer') {
+      return <ListOfMatches employer={employer} />;
+    } else {
+      // Handle other cases or provide a default component
+      return <div>Invalid user role</div>;
+    }
+  }
+  
 
   const hideNavPaths = ["/postJob", "/completeprofile"];
   const hideNav = hideNavPaths.includes(location.pathname);
@@ -266,16 +278,17 @@ function App() {
             )
           }
         />
-        <Route path="/matches/:id" element={<ListOfMatches />} />
-        <Route 
-        path="/userMessages" 
-        element={
-          isLoading ? (
-            <div>Loading...</div>
-          ) : (
-            <ListUserMessages user = { userRole === "employee" ? employee : null }/>
-          )
-        } />
+        {/* <Route path="/matches/:id" element={<ListOfMatches />} /> */}
+        <Route
+          path="/messages"
+          element={
+            isLoading ? (
+              <div>Loading...</div>
+            ) : (
+              <MessageRoute userRole={userRole} employee={employee} employer={employer} />
+            )
+          }
+        />
         <Route path="*" element={<Home />} />
 
         <Route

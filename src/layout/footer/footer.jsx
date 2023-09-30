@@ -14,13 +14,16 @@ const Footer = () => {
   const handleProfileNavigate = () => {
     navigate("/profile");
   };
+  const handleChatNavigate = () => {
+    navigate("/messages");
+  }
   return (
     <div className="footer-component">
       <div className="footer-container">
         <div className="home" onClick={handleHomeNavigate}>
           <img src={home}></img>
         </div>
-        <div className="chat">
+        <div className="chat" onClick={handleChatNavigate}>
           <img src={chat}></img>
         </div>
         <div className="profile" onClick={handleProfileNavigate}>
