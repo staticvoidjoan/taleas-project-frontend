@@ -318,6 +318,7 @@ function App() {
           exact
           path="/completeprofile"
           element={
+            isLoading ? (<Loader/>) :
             userRole === "employee" ? (
               <ProfileForm userId={employee._id} />
             ) : (
