@@ -34,6 +34,7 @@ import NavBar from "./layout/navBar/Navbar2";
 import Footer from "./layout/footer/footer";
 import CenterNavbar from "./components/centerNavbar/centerNavbar";
 
+
 //Mutual Pages
 import Home from "./pages/home/home";
 import LandingPage from "./pages/landingPage/StartingPage";
