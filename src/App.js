@@ -31,6 +31,7 @@ import EmployerProfile from "./pages/Employer/employerProfile";
 //Layout
 import NavBar from "./layout/navBar/Navbar2";
 import Footer from "./layout/footer/footer";
+import CenterNavbar from "./components/centerNavbar/centerNavbar";
 
 //Mutual Pages
 import Home from "./pages/home/home";
@@ -191,7 +192,7 @@ function App() {
 
   return (
     <div className="App">
-      {isLoading ? null : hideNav ? null : (
+      {isLoading ? null : hideNav ? (<CenterNavbar/>) : (
         <NavBar
           givenName={givenName}
           lastName={lastName}

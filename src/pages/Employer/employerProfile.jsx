@@ -57,67 +57,60 @@ const EmployerProfile = ({ employerData, employeeCheck }) => {
     position: "relative",
   };
 
-
-  
-
-
   return (
     <>
-    <CenterNavbar/>
-    <Animate>
-
-   
-    <div className="profile-container">
-      <div className="photo-container">
-        <div className="profile-profile-pic" style={cardStyle}>
-          <form className="change-photo-form">
-            <input
-              type="file"
-              accept="image/*"
-              className="custom-file-input"
-              onChange={handleImageChange}
-            />
-          </form>
-          <div className="gradient-overlay"></div>
-        </div>
-      </div>
-      <div className="employer-profile-info">
-        <Text
-          label={employerData.companyName}
-          size={"s18"}
-          color={"#333"}
-          weight={"bold"}
-        />
-        <Text
-          label={employerData.industry}
-          size={"s16"}
-          weight={"regular"}
-          color={"black"}
-        />
-        <div className="job-title-info">
-          <div className="employer-info-bubble">
-            <img alt="email" src={emailpic} />
-
-            <Text label={employerData.email} size={"s14"} color={"black"} />
-          </div>
-        </div>
-        <div className="job-title-info">
-          <div className="info-bubble">
-            <img src={locationico} className="location-icon" />
-            <div style={{ marginRight: "10px" }}>
-              <Text
-                label={employerData.address}
-                weight={"regular"}
-                color={"lightgray"}
-                size={"s14"}
-              />
+      <Animate>
+        <div className="profile-container">
+          <div className="photo-container">
+            <div className="profile-profile-pic" style={cardStyle}>
+              <form className="change-photo-form">
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="custom-file-input"
+                  onChange={handleImageChange}
+                />
+              </form>
+              <div className="gradient-overlay"></div>
             </div>
           </div>
+          <div className="employer-profile-info">
+            <Text
+              label={employerData.companyName}
+              size={"s18"}
+              color={"#333"}
+              weight={"bold"}
+            />
+            <Text
+              label={employerData.industry}
+              size={"s16"}
+              weight={"regular"}
+              color={"black"}
+            />
+            <div className="job-title-info">
+              <div className="employer-info-bubble">
+                <img alt="email" src={emailpic} />
+
+                <Text label={employerData.email} size={"s14"} color={"black"} />
+              </div>
+            </div>
+            <div className="job-title-info">
+              <div className="info-bubble">
+                <img src={locationico} className="location-icon" />
+                <div style={{ marginRight: "10px" }}>
+                  <Text
+                    label={employerData.address}
+                    weight={"regular"}
+                    color={"lightgray"}
+                    size={"s14"}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <SignOut />
         </div>
-      </div>
-      <SignOut />
-    </div>
-    </Animate>
+      </Animate>
     </>
   );
 };

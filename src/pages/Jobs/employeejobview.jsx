@@ -53,7 +53,6 @@ const JobProfile = () => {
   };
   return (
     <>
-    <CenterNavbar/>
     <Animate>
     <div className="job-post-container">
       <div className="photo-container">

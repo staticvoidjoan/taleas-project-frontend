@@ -51,7 +51,6 @@ const UserInfo = ({ userId }) => {
   };
   return (
     <>
-    <CenterNavbar/>
     <Animate>
     <div className="userInfo-container">
       <div className="user-image">
