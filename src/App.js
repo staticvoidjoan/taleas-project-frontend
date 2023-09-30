@@ -192,7 +192,14 @@ function App() {
 
   return (
     <div className="App">
-      {isLoading ? null : hideNav ? (<CenterNavbar/>) : (
+      {isLoading ?   <NavBar
+          givenName={givenName}
+          lastName={lastName}
+          authenticated={authenticated}
+          employeeData={employee}
+          employerData={employer}
+          userRole={userRole}
+        /> : hideNav ? (<CenterNavbar/>) : (
         <NavBar
           givenName={givenName}
           lastName={lastName}

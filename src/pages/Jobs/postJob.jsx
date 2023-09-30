@@ -95,64 +95,67 @@ const PostJob = () => {
     }
   };
 
+  const goBack = () => {
+    navigate(-1);
+  };
+
   return (
     <Animate>
-
-       <div className="post-job-container">
-      <div className="post-job-bar">
-        <div className="post-job-bar-nav">
-          <Text label={"Add Job"} size={"s16"} weight={"medium"} />
-          <img src={X} alt="" />
+      <div className="post-job-container">
+        <div className="post-job-bar">
+          <div className="post-job-bar-nav">
+            <Text label={"Add Job"} size={"s16"} weight={"medium"} />
+            <img src={X} alt=""  onClick={goBack}/>
+          </div>
+          <hr className="post-job-bar-div"></hr>
         </div>
-        <hr className="post-job-bar-div"></hr>
-      </div>
-      <div className="post-job-body">
-        <form className="job-form" onSubmit={onSubmit}>
-          <div className="inputbox-register">
-            {categories.length > 0 ? (
-              <select
-                name="category"
-                value={jobPost.category}
-                onChange={onInputChange}
+        <div className="post-job-body">
+          <form className="job-form" onSubmit={onSubmit}>
+            <div className="inputbox-register">
+              {categories.length > 0 ? (
+                <select
+                  name="category"
+                  value={jobPost.category}
+                  onChange={onInputChange}
+                  className="register-input"
+                  required
+                >
+                  <option value="" disabled>
+                    Select a category
+                  </option>
+                  {categories.map((category) => (
+                    <option key={category._id} value={category._id}>
+                      {category.name}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <p>Loading categories...</p>
+              )}
+            </div>
+            <div className="inputbox-register">
+              <input
+                type="text"
+                name="position"
+                value={position}
+                onChange={(e) => onInputChange(e)}
+                placeholder="Position"
                 className="register-input"
                 required
-              >
-                <option value="" disabled>
-                  Select a category
-                </option>
-                {categories.map((category) => (
-                  <option key={category._id} value={category._id}>
-                    {category.name}
-                  </option>
-                ))}
-              </select>
-            ) : (
-              <p>Loading categories...</p>
-            )}
-          </div>
-          <div className="inputbox-register">
-            <input
-              type="text"
-              name="position"
-              value={position}
-              onChange={(e) => onInputChange(e)}
-              placeholder="Position"
-              className="register-input"
-              required
-            />
-          </div>
-          <div className="inputbox-register-box">
-            <input
-              type="text"
-              name="description"
-              value={description}
-              onChange={(e) => onInputChange(e)}
-              placeholder="Description..."
-              className="register-input"
-              required
-            />
-          </div>
-          {/* <div className="inputbox-register">
+              />
+            </div>
+            <div className="inputbox-register-box">
+              <input
+                type="text"
+                name="description"
+                value={description}
+                onChange={(e) => onInputChange(e)}
+                placeholder="Description..."
+                className="register-input"
+                required
+              />
+            </div>
+            {/* <div className="inputbox-register">
             <input
               name="requirements"
               placeholder="Requirements (One requirement per line)"
@@ -161,41 +164,40 @@ const PostJob = () => {
               onChange={onInputChange}
             />
           </div> */}
-          <div className="inputbox-register">
-            {/* Input for new requirements */}
-            <div className="requirement-input">
-              <input
-                type="text"
-                placeholder="Add Requirement"
-                className="register-input"
-                value={newRequirement}
-                onChange={(e) => setNewRequirement(e.target.value)}
-              />
-              <button
-                type="button"
-                className="add-button"
-                onClick={onAddRequirement}
-              >
-                <Text label={"Add"} size={"s14"} weight={"regular"} />
-              </button>
+            <div className="inputbox-register">
+              {/* Input for new requirements */}
+              <div className="requirement-input">
+                <input
+                  type="text"
+                  placeholder="Add Requirement"
+                  className="register-input"
+                  value={newRequirement}
+                  onChange={(e) => setNewRequirement(e.target.value)}
+                />
+                <button
+                  type="button"
+                  className="add-button"
+                  onClick={onAddRequirement}
+                >
+                  <Text label={"Add"} size={"s14"} weight={"regular"} />
+                </button>
+              </div>
             </div>
-          </div>
-          {/* Display the list of requirements */}
-          <div className="requirements-list">
-            <ul>
-              {requirements.map((requirement, index) => (
-                <li key={index}>{requirement}</li>
-              ))}
-            </ul>
-          </div>
-          <button className="job-btn">
-            <Text label={"Save"} size={"s16"} weight={"regular"} />
-          </button>
-        </form>
+            {/* Display the list of requirements */}
+            <div className="requirements-list">
+              <ul>
+                {requirements.map((requirement, index) => (
+                  <li key={index}>{requirement}</li>
+                ))}
+              </ul>
+            </div>
+            <button className="job-btn">
+              <Text label={"Save"} size={"s16"} weight={"regular"} />
+            </button>
+          </form>
+        </div>
       </div>
-    </div>
     </Animate>
-
   );
 };
 

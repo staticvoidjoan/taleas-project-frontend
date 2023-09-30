@@ -45,6 +45,10 @@ const Navbar2 = ({
     backgroundColor: isWhiteTextRoute ? "#222" : "white",
     color: isWhiteTextRoute ? "white" : "black",
   };
+  
+  if(location.pathname.startsWith("/postjob")){
+    return null;
+  }
 
   return (
     <div className="navbar-container" style={navbarStyle}>
