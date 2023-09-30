@@ -37,7 +37,7 @@ import Home from "./pages/home/home";
 import LandingPage from "./pages/landingPage/StartingPage";
 
 import ChatApp from "./ChatApp";
-import ListOfApplicants from "./components/applicants/acceptedApplicants";
+import ListOfMatches from "./components/applicants/ListOfMatches";
 
 //Misc
 import Loader from "./components/Loader/Loader";
@@ -254,7 +254,7 @@ function App() {
             )
           }
         />
-        <Route path="/matches/:id" element={<ListOfApplicants />} />
+        <Route path="/matches/:id" element={<ListOfMatches />} />
         <Route 
         path="/userMessages" 
         element={
