@@ -71,7 +71,6 @@ const EmployerProfile = ({ employerData, employeeCheck }) => {
                   onChange={handleImageChange}
                 />
               </form>
-              <div className="gradient-overlay"></div>
             </div>
           </div>
           <div className="employer-profile-info">
@@ -89,9 +88,18 @@ const EmployerProfile = ({ employerData, employeeCheck }) => {
             />
             <div className="job-title-info">
               <div className="info-bubble">
-                <img alt="email" src={emailpic} style={{marginLeft:"8px", marginRight:"8px"}} />
+                <img
+                  alt="email"
+                  src={emailpic}
+                  style={{ marginLeft: "8px", marginRight: "8px" }}
+                />
 
-                <Text label={employerData.email} size={"s14"} color={"black"} style={{marginRight:"8px"}}/>
+                <Text
+                  label={employerData.email}
+                  size={"s14"}
+                  color={"black"}
+                  style={{ marginRight: "8px" }}
+                />
               </div>
             </div>
             <div className="job-title-info">

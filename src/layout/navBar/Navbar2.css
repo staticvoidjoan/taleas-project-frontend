@@ -21,6 +21,8 @@
   height: 32px;
   border-radius: 32px;
   background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
 }
 
 .nav-profile {
