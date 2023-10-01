@@ -11,6 +11,8 @@ import { Amplify } from "aws-amplify";
 import awsExports from "./aws-exports";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import { Hub } from "aws-amplify";
+
 //User Services
 import LoginPage from "./service/authentication/user/userSignIn";
 import UserSignUp from "./service/authentication/user/userSignUp";
@@ -54,6 +56,7 @@ import Contact from "./pages/contact/contact";
 
 function App() {
   // State variables
+  const [signingOut, setSigningOut] = useState(false);
   const [authenticated, setAuthenticated] = useState(false);
   const [givenName, setGivenName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -129,6 +132,24 @@ function App() {
     }
   }, [checkEmployee, useremail]);
 
+  useEffect(() => {
+    // Listen for the sign-out event
+    Hub.listen("auth", ({ payload }) => {
+      if (payload.event === "signOut") {
+        // The user is signing out, set signingOut to true
+        setSigningOut(true);
+      }
+    });
+
+    // Check for the user's authenticated status on component mount
+    checkAuthenticated();
+
+    return () => {
+      // Clean up the event listener when the component unmounts
+      Hub.remove("auth");
+    };
+  }, []);
+
   // Save employee data to local storage
   const saveEmployeeToStorage = async () => {
     console.log("Trying to get employee with ", useremail);
@@ -181,6 +202,7 @@ function App() {
     location.pathname.startsWith("/matches") ||
     location.pathname.startsWith("/userMessasges") ||
     location.pathname.startsWith("/applicant") ||
+    location.pathname.startsWith("/completeprofile") ||
     location.pathname.startsWith("/menu");
   const pathsToHideFooter = [
     "/signup",
@@ -193,8 +215,13 @@ function App() {
   const hideFooter = pathsToHideFooter.includes(location.pathname);
 
   if (!isEmployeeLoaded) {
-    return <Loader />; // TODO CHANGE TO SPINNER
+    return <Loader />; 
   }
+
+  if (signingOut) {
+  return <Loader />;
+}
+
 
   return (
     <div className="App">
@@ -222,9 +249,6 @@ function App() {
 
       {/* ----------------------------------  Home routes ------------------------------------------------------- */}
       <Routes>
-        <Route path="/terms" element={<Privacy />} />
-        <Route path="/aboutus" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
         <Route
           exact
           path="/menu"
@@ -297,6 +321,7 @@ function App() {
           exact
           path="/completeprofile"
           element={
+            isLoading ? (<Loader/>) :
             userRole === "employee" ? (
               <ProfileForm userId={employee._id} />
             ) : (

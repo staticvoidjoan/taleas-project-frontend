@@ -3,8 +3,7 @@
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
-  background-color: #f5f5f5;
-  border: 1px solid #ccc;
+  background-color: white;
   border-radius: 5px;
 }
 
@@ -21,6 +20,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  margin-top: 25px;
 }
 
 .complete-profile-bar-nav img {
@@ -31,52 +31,228 @@
 .complete-profile-bar-div {
   width: calc(100% - 40px);
   margin-top: 25px;
-  margin-bottom: 25px;
   border: none;
   border-bottom: 2px solid #dedede;
 }
 
+.label-for-fields{
+  position: absolute;
+  margin: 5px 10px;
+}
+
 .profile-form {
-  font-family: Arial, sans-serif;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 10px 20px;
+  margin: 0px 20px;
 }
 
 .fields-form {
   margin-bottom: 10px;
 }
 
-.field-input {
-  width: 100%;
-  padding: 5px;
-  margin-top: 5px;
+.update-input {
+  margin: 0px;
+    padding: 10px;
+    width: calc(100% - 60px);
+    height: 100%;
+    margin-right: 8px;
+    border: 1px solid #DDDDDD;
+    font-size: 16px;
+    font-family: Open Sans;
 }
 
-.remove-button {
-  background-color: #f44336;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  margin-left: 5px;
-  cursor: pointer;
-}
-
-.add-button {
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  margin-top: 10px;
-  cursor: pointer;
+.general-data{
+  display: flex;
+  flex-direction: column;
+  margin: 16px 0px;
 }
 
 .profilePhoto{
+  margin-top: 16px;
+}
+
+.certifications-data, .education-data, .experience-data{
+  margin-bottom: 16px;
+}
+
+.fields-form{
+  display: flex;
+  flex-direction: column;
+  margin: 16px 0px;
+}
+
+.update-input-fields {
+  margin:0px;
+    padding: 20px 10px 5px;
+    height: 100%;
+    border: 1px solid #DDDDDD;
+    border-radius: 2px;
+    font-family: Open Sans;
+    font-size: 16px;
+    height: 48px;
+    width: 100%;
+}
+
+.tags-list{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 134px;
+  height: 27px;
+  border-radius: 24px;
+  border: 1px ridge #222222;
+  align-items: center;
+  margin: 8px;
+}
+
+.remove-button{
+  background-color: white;
+  color: red;
+  border: 2px solid red;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 2px;
+  margin-left: 10px;
+  width: 128px;
+  height: 48px;
+}
+
+.remove-fields-button{
+  display: flex;
+  justify-content: flex-end;
+
+}
+
+.remove-list-button{
+  width: 16px;
+  height: 16px;
+  background-color: transparent;
+  color: #222222;
+  border: none;
+}
+
+.profile-photo{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
 }
 
+.profile-image {
+  width: 128px;
+  height: 81px;
+  object-fit: cover; 
+  border: 1px solid #ccc; 
+  border-radius: 10px; 
+}
 
-/* Add more CSS styling as needed */
+.labels{
+  padding: 18px 0px;
+}
+
+.inputbox-update{
+    height: 48px;
+    flex-shrink: 0;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+}
+
+.add-button-fields{
+  background-color: #6e46f5;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 2px;
+  margin-left: 10px;
+  width: 128px;
+  height: 48px;
+  position: relative;
+  bottom: 65px;
+}
+.add-button-update {
+  background-color: #6e46f5;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 2px;
+  margin-left: 10px;
+  width: 128px;
+}
+
+.link-list{
+  display: flex;
+  flex-direction: row;
+  margin: 8px 8px 16px;
+  justify-content: space-between;
+  align-items: center;
+  list-style-type: circle;
+}
+
+.custom-photo{
+  height: 81px;
+  width: 100%;
+}
+
+.submit-button{
+  background-color: #6e46f5;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 2px;
+  height: 48px;
+}
+
+.cancel-button{
+  background-color: white;
+  color: #222222;
+  border: 1px solid #222222;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 2px;
+  height: 48px;
+  margin-top: 16px;
+}
+
+.submit-cancel {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+.cancel-link{
+  text-decoration: none;
+}
+
+.remove-img{
+  width: 16px;
+  height: 16px;
+}
+
+.tags-div{
+  max-width: 350px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+.main-label{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.img{
+  width: 24px;
+  height: 24px;
+}
