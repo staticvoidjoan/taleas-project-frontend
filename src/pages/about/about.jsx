@@ -33,8 +33,8 @@ const About = (props) => {
             }
             weight={"thin"}
             lineheight={"lnormal"}
-            size={"s20"}
-            color={"black"}
+            size={"s18"}
+            color={"lightgray"}
           />
           <img src={About1} alt="" />
         </div>
@@ -54,8 +54,8 @@ const About = (props) => {
             }
             weight={"thin"}
             lineheight={"lnormal"}
-            size={"s20"}
-            color={"black"}
+            size={"s18"}
+            color={"lightgray"}
           />
           <img src={About2} alt="" />
         </div>
@@ -75,8 +75,8 @@ const About = (props) => {
             }
             weight={"thin"}
             lineheight={"lnormal"}
-            size={"s20"}
-            color={"black"}
+            size={"s18"}
+            color={"lightgray"}
           />
           <Text
             label={
@@ -84,12 +84,12 @@ const About = (props) => {
             }
             weight={"thin"}
             lineheight={"lnormal"}
-            size={"s20"}
-            color={"black"}
+            size={"s18"}
+            color={"lightgray"}
           />
           <img src={About3} alt="" />
         </div>
-        <hr />
+
         <div className="contact">
           <Text
             label={"ARE YOU READY FOR THE NEXT STEP ?"}
@@ -102,17 +102,17 @@ const About = (props) => {
             label={"Contact us to guide you."}
             weight={"thin"}
             lineheight={"lnormal"}
-            size={"s20"}
-            color={"black"}
+            size={"s18"}
+            color={"lightgray"}
           />
-          <Link to={"/contact us"}>
+          <Link to={"/contact"}>
             <button className="btn-register">
               {" "}
               <Text
                 label={"Contact us"}
                 weight={"thin"}
                 lineheight={"lnormal"}
-                size={"s20"}
+                size={"s18"}
                 color={"white"}
               />
             </button>

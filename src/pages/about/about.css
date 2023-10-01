@@ -6,6 +6,7 @@
 
 .about-container {
   margin: 20px;
+  /* text-align: center; */
 }
 
 .welcome-about {
@@ -17,17 +18,23 @@
 .welcome-text {
   display: flex;
   flex-direction: column;
+  margin-bottom: 25px;
 }
 
 .vision-text {
   display: flex;
   flex-direction: column;
+  margin-bottom: 25px;
 }
 .offer-text {
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
-  flex-grow: 1;
+  margin-bottom: 25px;
+}
+.welcome-text img,
+.vision-text img,
+.offer-text img {
+  margin-top: 30px; /* 10px margin between image and text */
 }
 .contact {
   text-align: center;

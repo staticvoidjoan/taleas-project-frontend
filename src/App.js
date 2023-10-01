@@ -48,6 +48,9 @@ import ListUserMessages from "./components/userMessages/userMessages";
 
 //Error Handlers
 import NotFound from "./pages/Error/notFound";
+import Privacy from "./pages/privacy/privacy";
+import About from "./pages/about/about";
+import Contact from "./pages/contact/contact";
 
 function App() {
   // State variables
@@ -158,16 +161,15 @@ function App() {
     }
   };
   function MessageRoute({ userRole, employee, employer }) {
-    if (userRole === 'employee') {
+    if (userRole === "employee") {
       return <ListUserMessages user={employee} />;
-    } else if (userRole === 'employer') {
+    } else if (userRole === "employer") {
       return <ListOfMatches employer={employer} />;
     } else {
       // Handle other cases or provide a default component
       return <div>Invalid user role</div>;
     }
   }
-  
 
   const hideNav =
     location.pathname.startsWith("/profile") ||
@@ -177,8 +179,8 @@ function App() {
     location.pathname.startsWith("/jobview") ||
     location.pathname.startsWith("/chat") ||
     location.pathname.startsWith("/matches") ||
-    location.pathname.startsWith("/userMessasges")||
-    location.pathname.startsWith("/applicant")||
+    location.pathname.startsWith("/userMessasges") ||
+    location.pathname.startsWith("/applicant") ||
     location.pathname.startsWith("/menu");
   const pathsToHideFooter = [
     "/signup",
@@ -196,14 +198,18 @@ function App() {
 
   return (
     <div className="App">
-      {isLoading ?   <NavBar
+      {isLoading ? (
+        <NavBar
           givenName={givenName}
           lastName={lastName}
           authenticated={authenticated}
           employeeData={employee}
           employerData={employer}
           userRole={userRole}
-        /> : hideNav ? (<CenterNavbar/>) : (
+        />
+      ) : hideNav ? (
+        <CenterNavbar />
+      ) : (
         <NavBar
           givenName={givenName}
           lastName={lastName}
@@ -214,10 +220,16 @@ function App() {
         />
       )}
 
-
       {/* ----------------------------------  Home routes ------------------------------------------------------- */}
       <Routes>
-      <Route exact path="/menu" element={authenticated ? <NotFound/> : <Menu/>}/>
+        <Route path="/terms" element={<Privacy />} />
+        <Route path="/aboutus" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route
+          exact
+          path="/menu"
+          element={authenticated ? <NotFound /> : <Menu />}
+        />
         <Route
           exact
           path="/"
@@ -300,15 +312,37 @@ function App() {
         <Route
           exact
           path="/postjob/:id"
-          element={userRole === "employer" && authenticated ? <PostJob /> : <NotFound />}
+          element={
+            userRole === "employer" && authenticated ? (
+              <PostJob />
+            ) : (
+              <NotFound />
+            )
+          }
         />
         <Route
           exact
           path="/jobview/:id"
-          element={userRole === "employer" && authenticated ? <JobView /> : <NotFound />}
+          element={
+            userRole === "employer" && authenticated ? (
+              <JobView />
+            ) : (
+              <NotFound />
+            )
+          }
         />
 
-        <Route exact path="/applicant/:id" element={userRole === "employer" && authenticated ? <ViewApplicant/> : <NotFound/>}/>
+        <Route
+          exact
+          path="/applicant/:id"
+          element={
+            userRole === "employer" && authenticated ? (
+              <ViewApplicant />
+            ) : (
+              <NotFound />
+            )
+          }
+        />
 
         {/* ---------------------------------------------------------------------------------------------------- */}
         {/* ----------------------------------  Other routes ------------------------------------------------------- */}
@@ -331,7 +365,11 @@ function App() {
             isLoading ? (
               <div>Loading...</div>
             ) : (
-              <MessageRoute userRole={userRole} employee={employee} employer={employer} />
+              <MessageRoute
+                userRole={userRole}
+                employee={employee}
+                employer={employer}
+              />
             )
           }
         />

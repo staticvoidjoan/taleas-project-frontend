@@ -22,3 +22,6 @@
 .terms-1 {
   display: flex;
 }
+.terms-container p {
+  color: #666666;
+}
