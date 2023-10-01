@@ -107,8 +107,6 @@ const ProfileForm = ({ userId }) => {
       reader.readAsDataURL(file);
     }
   };
-
-  const imageUrlWithoutQuotes = formData.profilePhoto.replace(/"/g, '')
  
   const editUser = async (e) => { 
     const imageUrlWithoutQuotes = newPhoto.profilePhoto.replace(/"/g, '')
@@ -282,7 +280,7 @@ const ProfileForm = ({ userId }) => {
                       <img src={profilePic} className="profile-image" />
                     ) : (
                       <img
-                        src={imageUrlWithoutQuotes}
+                        src={formData.profilePhoto.replace(/"/g, '')}
                         alt="profile-photo"
                         className="profile-image"
                       />
