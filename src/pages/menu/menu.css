@@ -18,6 +18,15 @@
   margin-bottom: 35px; /* Adjust the margin to control the space between items */
 }
 
+.menu-list ul a {
+  text-decoration: none;
+}
+
+/* Add a hover effect if desired */
+.menu-list ul a:hover {
+  text-decoration: underline; /* You can customize the hover effect as needed */
+}
+
 /* Media query for mobile devices */
 @media (max-width: 768px) {
   .menu-list ul li {

@@ -62,6 +62,10 @@ const EmployerHome = ({ creatorId }) => {
     navigate(`/postjob/${creatorId}`);
   };
 
+  if (loading){
+    return <Loader/>
+  }
+
   return (
     <Animate>
       <div>
@@ -102,7 +106,6 @@ const EmployerHome = ({ creatorId }) => {
             <img src={back} alt="Next" className="right" />
           </button>
         </div>
-        {loading && <Loader />} {/* Show a loading indicator */}
       </div>
               </div>
     </Animate>

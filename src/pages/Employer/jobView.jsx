@@ -174,7 +174,7 @@ const JobView = () => {
           </div>
         </div>
         <div style={{ marginBottom: "40px" }} className="applicant-column">
-        <Text label={"Applicants"} weight={"bold"} size={"s16"} style={{marginBottom:"10px"}}/>
+        <Text label={"Applicants"} weight={"bold"} size={"s16"} style={{marginBottom:"10px", marginLeft:"20px"}}/>
           {likes.map((like, index) => (
             <Applicants
               key={`${like._id}-${index}`}

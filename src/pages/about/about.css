@@ -1,0 +1,41 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+.about-container {
+  margin: 20px;
+  /* text-align: center; */
+}
+
+.welcome-about {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.welcome-text {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 25px;
+}
+
+.vision-text {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 25px;
+}
+.offer-text {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 25px;
+}
+.welcome-text img,
+.vision-text img,
+.offer-text img {
+  margin-top: 30px; /* 10px margin between image and text */
+}
+.contact {
+  text-align: center;
+}
