@@ -91,6 +91,7 @@
     font-family: Open Sans;
     font-size: 16px;
     height: 48px;
+    width: 100%;
 }
 
 .tags-list{
@@ -115,11 +116,13 @@
   border-radius: 2px;
   margin-left: 10px;
   width: 128px;
+  height: 48px;
 }
 
 .remove-fields-button{
   display: flex;
   justify-content: flex-end;
+
 }
 
 .remove-list-button{
@@ -158,6 +161,20 @@
     margin-top: 16px;
 }
 
+.add-button-fields{
+  background-color: #6e46f5;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 2px;
+  margin-left: 10px;
+  width: 128px;
+  height: 48px;
+  position: relative;
+  bottom: 65px;
+}
 .add-button-update {
   background-color: #6e46f5;
   color: #fff;
@@ -168,6 +185,20 @@
   border-radius: 2px;
   margin-left: 10px;
   width: 128px;
+}
+
+.link-list{
+  display: flex;
+  flex-direction: row;
+  margin: 8px 8px 16px;
+  justify-content: space-between;
+  align-items: center;
+  list-style-type: circle;
+}
+
+.custom-photo{
+  height: 81px;
+  width: 100%;
 }
 
 .submit-button{
