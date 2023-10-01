@@ -56,7 +56,7 @@ const ProfileForm = ({ userId }) => {
   const loadUser = async () => {
     try {
       const response = await axios.get(
-        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/user/6516a82fe0aba50a8edc6613`,
+        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/user/${userId}`,
       );
       setFormData(response.data.user);
     } catch (error) {
