@@ -8,6 +8,7 @@ import Loader from "../../components/Loader/Loader";
 import Animate from "../../animateTransition/Animate";
 import back from "../../assets/icons/back.svg";
 import debounce from "lodash.debounce"; // Import lodash debounce function
+import EmployerLoader from "../../components/Loader/EmployerLoader";
 
 const EmployerHome = ({ creatorId }) => {
   const navigate = useNavigate();
@@ -63,7 +64,7 @@ const EmployerHome = ({ creatorId }) => {
   };
 
   if (loading){
-    return <Loader/>
+    return <EmployerLoader/>
   }
 
   return (
