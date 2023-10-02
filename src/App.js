@@ -382,6 +382,7 @@ function App() {
             ) : (
               <ChatApp
                 loggedInUser={userRole === "employee" ? employee : employer}
+                userRole={userRole}
               />
             )
           }
