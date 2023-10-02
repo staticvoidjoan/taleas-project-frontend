@@ -1,5 +1,5 @@
 .card-container {
-    height: 539px;
+    height: 500px;
     position: relative;
     margin-left: 20px;
     margin-right: 20px;
@@ -14,6 +14,8 @@
     flex-direction: column;
     justify-content: flex-end;
     gap: 5px;
+    margin-left: 25px;
+    margin-bottom: 26px;
   }
   
   .job-location {
@@ -30,10 +32,10 @@
   }
   
   .card-content {
-    z-index: 1;
-    position: absolute;
-    top: 387px;
-    left: 24px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column-reverse;
   }
   
   .job-position{

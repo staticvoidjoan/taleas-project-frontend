@@ -2,16 +2,25 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router";
 import Text from "../text/text";
-
+import unicorn from "../../assets/images/Unicorn.png";
+import "./listOfMatches.css"
 function ListOfMatches({ employer }) {
   const creatorId = employer._id;
   const [acceptedApplicants, setAcceptedApplicants] = useState([]);
   const navigate = useNavigate();
-
+  const [imageUrl, setImageUrl] = useState("");
   useEffect(() => {
     loadAcceptedApplicants();
   }, []);
 
+  
+  useEffect(() => {
+    const imageUrl = acceptedApplicants.profilePhoto
+
+    console.log(imageUrl);
+
+    setImageUrl(imageUrl);
+  }, [acceptedApplicants]);
   // ...
 
 const loadAcceptedApplicants = async () => {
@@ -24,9 +33,9 @@ const loadAcceptedApplicants = async () => {
       response.data &&
       response.data.posts &&
       Array.isArray(response.data.posts)
-    ) {
+    ) {      const uniqueKeys = new Set();
+
       // Create a Set to keep track of unique keys
-      const uniqueKeys = new Set();
       
       // Iterate through all posts and accumulate recLikes
       const allAcceptedApplicants = response.data.posts.reduce((accumulator, post) => {
@@ -68,8 +77,14 @@ const loadAcceptedApplicants = async () => {
     <div>
       {acceptedApplicants.map((acceptedApplicant) => (
         <div className="applicants-container" key={acceptedApplicant._id}>
-          <div className="applicants-desc">
-            <div className="applicant-info">
+          <div className="applicants-desc-chat">
+        
+              <div
+                className="nav-profile-pic"
+                alt={`${acceptedApplicant.name} profile`}
+                style={{ backgroundImage: `url(${acceptedApplicant.profilePhoto ?? unicorn})` }}
+              />
+              {console.log(acceptedApplicant.profilePhoto, "sadasdasd")}
               <Text
                 label={acceptedApplicant.name}
                 size={"s16"}
@@ -77,7 +92,7 @@ const loadAcceptedApplicants = async () => {
                 color={"black"}
               />
             </div>
-          </div>
+        
           <div className="applicant-buttons">
             <div
               className="chat"

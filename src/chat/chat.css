@@ -1,14 +1,12 @@
 /* Chat.css */
-.chatApp {
-    margin-top: 30px;
-}
+
 .main {
     display: flex;
     flex-direction: column;
     padding: 10px;
     overflow: auto;
     margin-bottom: 40px;
-    background-color:  #ccc;
+    height: 100%;
   }
   
 /* chat.css */

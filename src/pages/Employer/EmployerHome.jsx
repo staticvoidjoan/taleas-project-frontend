@@ -63,52 +63,51 @@ const EmployerHome = ({ creatorId }) => {
     navigate(`/postjob/${creatorId}`);
   };
 
-  if (loading){
-    return <EmployerLoader/>
-  }
 
   return (
     <Animate>
       <div>
-
-      <div className="add-job-btn-container">
-        <button className="register-btn" onClick={addNewPost}>
-          <Text label={"Add Job"} size={"s16"} weight={"regular"} />
-        </button>
-      </div>
-      <div>
-        <div style={{marginLeft:"20px"}}>
-          <Text
-            label={`My Jobs: (${postCount})`}
-            size={"s16"}
-            weight={"medium"}
-
-            />
+        <div className="add-job-btn-container">
+          <button className="register-btn" onClick={addNewPost}>
+            <Text label={"Add Job"} size={"s16"} weight={"regular"} />
+          </button>
         </div>
-        <div className="job-card-column">
-          {userposts.map((post, index) => (
-            <JobCard
-            postId={userposts[index]._id}
-            profilePhoto={post.creatorId.profilePhoto}
-            position={post.position}
-            category={post.category.name}
-            address={post.creatorId.address}
-              likes={post.likedBy}
-              key={post._id}
+        {loading ? (
+          <EmployerLoader />
+        ) : (
+          <div>
+            <div style={{ marginLeft: "20px" }}>
+              <Text
+                label={`My Jobs: (${postCount})`}
+                size={"s16"}
+                weight={"medium"}
               />
+            </div>
+            <div className="job-card-column">
+              {userposts.map((post, index) => (
+                <JobCard
+                  postId={userposts[index]._id}
+                  profilePhoto={post.creatorId.profilePhoto}
+                  position={post.position}
+                  category={post.category.name}
+                  address={post.creatorId.address}
+                  likes={post.likedBy}
+                  key={post._id}
+                />
               ))}
-        </div>
-        <div className="navigate-bubble-row">
-          <button className="left-button" onClick={previousPage}>
-            <img src={back} alt="Previous" />
-          </button>
-          <Text label={page} weight={"bold"} size={"s22"} />
-          <button className="right-button" onClick={nextPage}>
-            <img src={back} alt="Next" className="right" />
-          </button>
-        </div>
+            </div>
+            <div className="navigate-bubble-row">
+              <button className="left-button" onClick={previousPage}>
+                <img src={back} alt="Previous" />
+              </button>
+              <Text label={page} weight={"bold"} size={"s22"} />
+              <button className="right-button" onClick={nextPage}>
+                <img src={back} alt="Next" className="right" />
+              </button>
+            </div>
+          </div>
+        )}
       </div>
-              </div>
     </Animate>
   );
 };

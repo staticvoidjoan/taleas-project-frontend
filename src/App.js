@@ -74,6 +74,7 @@ function App() {
 
   // Check authentication status on component mount
   useEffect(() => {
+    localStorage.setItem("localindex", 0)
     checkAuthenticated();
   }, []);
 
@@ -333,7 +334,7 @@ function App() {
           }
         />
         <Route exact path="/userInfo/:id" element={<UserInfo />} />
-        <Route exact path="/viewjobpost/:id" element={<EmployeeJobView />} />
+        <Route exact path="/viewjobpost/:id/:index" element={<EmployeeJobView />} />
         {/* --------------------------------------------------------------------------------------------------------------- */}
 
         {/* ----------------------------------  Employer routes ------------------------------------------------------- */}
@@ -382,6 +383,7 @@ function App() {
             ) : (
               <ChatApp
                 loggedInUser={userRole === "employee" ? employee : employer}
+                userRole={userRole}
               />
             )
           }
