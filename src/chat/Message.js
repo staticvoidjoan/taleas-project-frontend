@@ -1,7 +1,7 @@
 import React from 'react';
 import './message.css'; // Import the CSS file
 import { Timestamp } from 'firebase/firestore'; // Import the Timestamp object from Firebase
-
+import Text from '../components/text/text';
 const Message = ({ message, user }) => {
   const messageClass = message.uid === user._id ? 'sent' : 'received';
 
@@ -13,8 +13,10 @@ const Message = ({ message, user }) => {
   return (
     <div>
       <div className={`message ${messageClass}`}>
-        <p>{message.text}</p>
-        <div className="timestamp">{formatTimestamp(jsTimestamp)}</div>
+        <Text label={message.text}></Text>
+        <div className="timestamp">
+        <Text label={formatTimestamp(jsTimestamp)}></Text>
+        </div>
       </div>
     </div>
   );

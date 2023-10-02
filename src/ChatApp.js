@@ -5,7 +5,6 @@ import {useParams} from 'react-router-dom';
 import Chat from './chat/Chat';
 import ChatNavBar from './chat/Navbar';
 
-
 function ChatApp({loggedInUser}) {
     const [user, setUser] = useState(loggedInUser)
     useEffect(() => {
