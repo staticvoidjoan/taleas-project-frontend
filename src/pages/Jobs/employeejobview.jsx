@@ -56,7 +56,7 @@ const JobProfile = () => {
     <Animate>
     <div className="job-post-container">
       <div className="photo-container">
-        <div className="company-photo" style={cardStyle}>
+        <div className="job-company-photo" style={cardStyle}>
           <div className="gradient-overlay"></div>
         </div>
       </div>
