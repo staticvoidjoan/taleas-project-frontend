@@ -83,6 +83,7 @@ const ConfirmSignup = ({
         window.location.reload();
       } catch (error) {
         console.error("Error during POST request:", error);
+        window.location.reload();
       }
     }
     console.log("After Axios POST request");

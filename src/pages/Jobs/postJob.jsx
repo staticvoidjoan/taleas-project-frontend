@@ -6,6 +6,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 import Animate from "../../animateTransition/AnimateY";
+import Trash from "../../assets/icons/TrashCan.svg"
+
 const PostJob = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -17,8 +19,10 @@ const PostJob = () => {
   });
 
   const [categories, setCategories] = useState({});
-  const { category, position, requirements, description } = jobPost;
-  const [newRequirement, setNewRequirement] = useState([]);
+  const [newRequirement, setNewRequirement] = useState("");
+  const [requirements, setRequirements] = useState([]);
+
+  const { category, position, description } = jobPost;
 
   useEffect(() => {
     getCategoryNames();
@@ -26,11 +30,11 @@ const PostJob = () => {
 
   const onAddRequirement = () => {
     if (newRequirement.trim() !== "") {
-      // Check if the new requirement is not empty
-      setJobPost((prevJobPost) => ({
-        ...prevJobPost,
-        requirements: [...prevJobPost.requirements, newRequirement],
-      }));
+      const uniqueId = Date.now(); // Generate a unique identifier
+      setRequirements((prevRequirements) => [
+        ...prevRequirements,
+        { text: newRequirement, id: uniqueId },
+      ]);
       setNewRequirement(""); // Clear the input field after adding
     }
   };
@@ -51,8 +55,27 @@ const PostJob = () => {
     } catch (error) {}
   };
 
-  const onSubmit = async (e) => {
+
+  const waitforSumbit = async(e) => {
     e.preventDefault();
+    Swal.fire({
+      title: 'Do you want to post this job?',
+      showDenyButton: true,
+      confirmButtonText: 'Post',
+      denyButtonText: `Not Yet`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        onSubmit();
+      } else if (result.isDenied) {
+        Swal.fire('Job no posted', '', 'info')
+      }
+    })
+  }
+
+
+  const onSubmit = async () => {
+   
     if (!category || !position || !description) {
       alert("Please fill in all required fields.");
       return;
@@ -95,6 +118,12 @@ const PostJob = () => {
     }
   };
 
+  const removeRequirement = (idToRemove) => {
+    setRequirements((prevRequirements) =>
+      prevRequirements.filter((req) => req.id !== idToRemove)
+    );
+  };
+
   const goBack = () => {
     navigate(-1);
   };
@@ -105,12 +134,12 @@ const PostJob = () => {
         <div className="post-job-bar">
           <div className="post-job-bar-nav">
             <Text label={"Add Job"} size={"s16"} weight={"medium"} />
-            <img src={X} alt=""  onClick={goBack}/>
+            <img src={X} alt="" onClick={goBack} />
           </div>
           <hr className="post-job-bar-div"></hr>
         </div>
         <div className="post-job-body">
-          <form className="job-form" onSubmit={onSubmit}>
+          <form className="job-form" onSubmit={waitforSumbit}>
             <div className="inputbox-register">
               {categories.length > 0 ? (
                 <select
@@ -146,7 +175,7 @@ const PostJob = () => {
             </div>
             <div className="inputbox-register-box">
               <input
-                type="text"
+                type="textarea"
                 name="description"
                 value={description}
                 onChange={(e) => onInputChange(e)}
@@ -155,17 +184,7 @@ const PostJob = () => {
                 required
               />
             </div>
-            {/* <div className="inputbox-register">
-            <input
-              name="requirements"
-              placeholder="Requirements (One requirement per line)"
-              className="register-input"
-              value={requirements}
-              onChange={onInputChange}
-            />
-          </div> */}
             <div className="inputbox-register">
-              {/* Input for new requirements */}
               <div className="requirement-input">
                 <input
                   type="text"
@@ -183,11 +202,18 @@ const PostJob = () => {
                 </button>
               </div>
             </div>
-            {/* Display the list of requirements */}
             <div className="requirements-list">
               <ul>
-                {requirements.map((requirement, index) => (
-                  <li key={index}>{requirement}</li>
+                {requirements.map((requirement) => (
+                  <li key={requirement.id}>
+                    {requirement.text}
+                    <button
+                      className="remove-req-button"
+                      onClick={() => removeRequirement(requirement.id)}
+                    >
+                      <img src={Trash} alt="" />
+                    </button>
+                  </li>
                 ))}
               </ul>
             </div>

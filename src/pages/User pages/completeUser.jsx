@@ -42,7 +42,6 @@ const ProfileForm = ({ userId }) => {
     languages: [],
     generalSkills: [],
     links: [],
-    profilePhoto:''
   });
   const [fullName, setFullName] = useState("");
   const [isEducationCollapsed, setIsEducationCollapsed] = useState(true);
