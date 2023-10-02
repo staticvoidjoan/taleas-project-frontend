@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Text from "../../components/text/text";
 import Card from "../../components/cards/cards";
 import Tabs from "../../components/button/tabs";
