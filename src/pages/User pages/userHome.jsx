@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from "react";
-<<<<<<< HEAD
-import { useNavigate, useParams } from "react-router-dom";
-=======
 import { useLocation, useNavigate } from "react-router-dom";
->>>>>>> 55c5564e80875f616ea0d9b7470ae561be702759
 import Text from "../../components/text/text";
 import Card from "../../components/cards/cards";
 import Tabs from "../../components/button/tabs";
@@ -14,6 +10,7 @@ import "./userHome.css";
 import Animate from "../../animateTransition/Animate";
 import ContLoader from "../../components/Loader/ContLoader";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const UserHome = ({ userId }) => {
   const [posts, setPosts] = useState([]);
