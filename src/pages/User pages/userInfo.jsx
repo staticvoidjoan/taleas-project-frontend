@@ -25,6 +25,7 @@ const UserInfo = ({ userId }) => {
   const [links, setLinks] = useState([]);
   const [certifications, setCertifications] = useState([]);
   const [generalSkills, setGeneralSkills] = useState([]);
+  const [languages, setLanguages] = useState([])
   const [loading, setLoading] = useState();
 
   const navigate = useNavigate();
@@ -44,6 +45,7 @@ const UserInfo = ({ userId }) => {
       setEducation(response.data.user.education);
       setLinks(response.data.user.links);
       setGeneralSkills(response.data.user.generalSkills);
+      setLanguages(response.data.user.languages)
       setTimeout(() => {
         setLoading(false);
       }, 1000);
@@ -75,8 +77,9 @@ const UserInfo = ({ userId }) => {
                 <div className="gradient-overlay"></div>
               </div>
             </div>
-
+{/* {HEADER} */}
             <div className="header">
+              
               <div className="fullname" onClick={editNav}>
                 <Text
                   label={`${user.name} ${user.lastname} `}
@@ -102,7 +105,7 @@ const UserInfo = ({ userId }) => {
                 <Text label={user.email} size={"s14"} />
               </div>
             </div>
-
+{/* SKILLS */}
             <div className="skills">
               <div className="skills-title">
                 <Text label={"Skills"} size={"s18"} weight={"medium700"} />
@@ -115,6 +118,7 @@ const UserInfo = ({ userId }) => {
                 ))}
               </div>
             </div>
+{/* EXPERIENCES */}
             <div className="experiences">
               <div className="exp">
                 <Text label={"Experiences"} size={"s18"} weight={"medium700"} />
@@ -133,11 +137,18 @@ const UserInfo = ({ userId }) => {
                       <div className="details-tabs">
                         <Text key={index} label={exp.employer} size={"s14"} />
                       </div>
+                      <div className="exp-date" >
+                      <Text
+                        label={`${exp.startDate} / ${exp.endDate}`}
+                        size={"s14"}
+                      />
+                      </div>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
+{/* EDUCATION */}
             <div className="experiences">
               <div className="exp">
                 <Text label={"Education"} size={"s18"} weight={"medium700"} />
@@ -152,21 +163,21 @@ const UserInfo = ({ userId }) => {
                       <Text label={edu.degree} size={"s16"} />
                     </div>
                     <div className="details">
+                    <div className="details-tabs">
+                        <Text key={index} label={edu.institution} size={"s14"} />
+                      </div>
+                      <div className="exp-date">
                       <Text
-                        label={`${(edu.startDate = format(
-                          new Date(edu.startDate),
-                          "MMMM d, yyyy"
-                        ))} - ${(edu.endDate = format(
-                          new Date(edu.endDate),
-                          "MMMM d, yyyy"
-                        ))}`}
+                        label={`${edu.startDate} / ${edu.endDate}`}
                         size={"s14"}
                       />
+                      </div>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
+{/* CERTIFICATIONS  */}
             <div className="experiences">
               <div className="exp">
                 <Text
@@ -186,20 +197,33 @@ const UserInfo = ({ userId }) => {
                       <Text label={cert.title} size={"s16"} />
                     </div>
                     <div className="details">
+                    <div className="details-tabs">
+                        <Text key={index} label={cert.organization} size={"s14"} />
+                      </div>
+                      <div className="exp-date">
                       <Text
-                        label={`${(cert.issueDate = format(
-                          new Date(cert.issueDate),
-                          "MMMM d, yyyy"
-                        ))} - ${(cert.expirationDate = format(
-                          new Date(cert.expirationDate),
-                          "MMMM d, yyyy"
-                        ))}`}
+                        label={`${cert.issueDate} / ${cert.expirationDate}`}
                         size={"s14"}
                       />
+                      </div>
                     </div>
                   </div>
                 </div>
               ))}
+            </div>
+            <div className="lang">
+              <Text
+                label={"Languages"}
+                size={"s18"}
+                weight={"medium700"}
+              />
+              <div className="lang-div">
+              {languages.map((lang, index) => (
+                <div className="lang-tabs">
+                  <Text label={lang} size={"s14"} />
+                </div>
+              ))}
+              </div>
             </div>
             <div className="projects">
               <Text
