@@ -175,7 +175,7 @@ const PostJob = () => {
             </div>
             <div className="inputbox-register-box">
               <input
-                type="text"
+                type="textarea"
                 name="description"
                 value={description}
                 onChange={(e) => onInputChange(e)}
