@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Text from "../../components/text/text";
+import axios from "axios";
 import "./contact.css";
 
 const Contact = () => {
@@ -18,10 +19,21 @@ const Contact = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form data submitted:", formData);
-
+    try {
+      console.log("Adding new  contact...");
+      console.log("Form data submitted:", formData);
+      const response = await axios.post(
+        "https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/contact",
+        formData
+      );
+      console.log("Server response:", response);
+      console.log("Form data submitted:", formData);
+      console.log("Server response:", response.data);
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
     setFormData({
       firstName: "",
       lastName: "",
@@ -55,7 +67,7 @@ const Contact = () => {
         <div className="contact-form">
           <form onSubmit={handleSubmit}>
             <div>
-              <label htmlFor="">
+              <label htmlFor="firstName" className="contact-label">
                 <Text
                   label={" Name"}
                   weight={"thin"}
@@ -65,6 +77,7 @@ const Contact = () => {
                 />{" "}
               </label>
               <input
+                className="contact-input"
                 type="text"
                 id="firstName"
                 name="firstName"
@@ -73,7 +86,7 @@ const Contact = () => {
               />
             </div>
             <div>
-              <label htmlFor="">
+              <label htmlFor="lastName" className="contact-label">
                 {" "}
                 <Text
                   label={"Surname"}
@@ -84,15 +97,16 @@ const Contact = () => {
                 />{" "}
               </label>
               <input
+                className="contact-input"
                 type="text"
-                id="lasttName"
+                id="lastName"
                 name="lastName"
-                value={formData.lasttName}
+                value={formData.lastName}
                 onChange={handleInputChange}
               />
             </div>
             <div>
-              <label htmlFor="email">
+              <label htmlFor="email" className="contact-label">
                 <Text
                   label={"Email"}
                   weight={"thin"}
@@ -102,6 +116,7 @@ const Contact = () => {
                 />{" "}
               </label>
               <input
+                className="contact-input"
                 type="email"
                 id="email"
                 name="email"
@@ -110,7 +125,7 @@ const Contact = () => {
               />
             </div>
             <div>
-              <label htmlFor="message">
+              <label htmlFor="message" className="contact-label">
                 <Text
                   label={"Message"}
                   weight={"thin"}
@@ -120,6 +135,7 @@ const Contact = () => {
                 />{" "}
               </label>
               <textarea
+                className="contact-input"
                 id="message"
                 name="message"
                 rows="4"
@@ -127,7 +143,7 @@ const Contact = () => {
                 onChange={handleInputChange}
               />
             </div>
-            <button className="btn-register" type="submit">
+            <button className="btn-register-contact" type="submit">
               <Text
                 label={"Submit"}
                 weight={"thin"}
