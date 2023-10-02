@@ -137,6 +137,8 @@ const UserHome = ({ userId }) => {
           break;
       }
 
+      useEffect(()=>{},[])
+
       if (currentIndex < postlength - 1) {
         const nextIndex = currentIndex + 1;
         const nextPost = posts[nextIndex];
