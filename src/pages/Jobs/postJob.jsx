@@ -188,7 +188,7 @@ const PostJob = () => {
               <div className="requirement-input">
                 <input
                   type="text"
-                  placeholder="Add Requirement"
+                  placeholder="   Add Requirement"
                   className="register-input"
                   value={newRequirement}
                   onChange={(e) => setNewRequirement(e.target.value)}
