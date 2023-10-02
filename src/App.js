@@ -333,7 +333,7 @@ function App() {
           }
         />
         <Route exact path="/userInfo/:id" element={<UserInfo />} />
-        <Route exact path="/viewjobpost/:id" element={<EmployeeJobView />} />
+        <Route exact path="/viewjobpost/:id/:index" element={<EmployeeJobView />} />
         {/* --------------------------------------------------------------------------------------------------------------- */}
 
         {/* ----------------------------------  Employer routes ------------------------------------------------------- */}

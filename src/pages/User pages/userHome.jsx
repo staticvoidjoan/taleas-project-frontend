@@ -1,6 +1,5 @@
-import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Text from "../../components/text/text";
 import Card from "../../components/cards/cards";
 import Tabs from "../../components/button/tabs";
@@ -10,6 +9,7 @@ import x from "../../assets/icons/x.svg";
 import "./userHome.css";
 import Animate from "../../animateTransition/Animate";
 import ContLoader from "../../components/Loader/ContLoader";
+import axios from "axios";
 
 const UserHome = ({ userId }) => {
   const [posts, setPosts] = useState([]);
@@ -17,7 +17,7 @@ const UserHome = ({ userId }) => {
   const [selectedButton, setSelectedButton] = useState("All");
   const [categories, setCategories] = useState([]);
   const [categoryId, setCategoryId] = useState(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0); // State to keep track of the current card's index
   const [postlength, setPostLength] = useState(0);
   const [animate, setAnimate] = useState(false);
   const [loading, setLoading] = useState();
@@ -25,14 +25,18 @@ const UserHome = ({ userId }) => {
 
   const navigate = useNavigate();
   const handleJobCardClick = (id) => {
-    navigate(`/viewjobpost/${id}`);
+    // Save the current index in the URL so that you can navigate back to it
+    navigate(`/viewjobpost/${id}/${currentIndex}`);
   };
-
+  const { index } = useParams(); 
   useEffect(() => {
     loadTabs();
-    // filter()
-    loadPosts();
-    // console.log("selectedButton:", selectedButton);
+    // Get the index parameter from the URL
+    if (index) {
+      loadPosts(parseInt(index, 10)); // Load the card at the specified index
+    } else {
+      loadPosts();
+    }
     console.log("THESE ARE THE POSTS", posts);
   }, []);
 
@@ -62,7 +66,7 @@ const UserHome = ({ userId }) => {
       console.error("Cancel API Error:");
     }
   };
-  const loadPosts = async () => {
+  const loadPosts = async (index = 0) => {
     try {
       setLoading(true);
       const response = await axios.get(
@@ -70,7 +74,8 @@ const UserHome = ({ userId }) => {
       );
       setPosts(response.data);
       console.log(response.data);
-      setCurrentPost(response.data[currentIndex]);
+      setCurrentIndex(index); // Set currentIndex based on the parameter
+      setCurrentPost(response.data[index]);
       setPostLength(response.data.length);
       setTimeout(() => {
         setLoading(false);
@@ -79,6 +84,7 @@ const UserHome = ({ userId }) => {
       console.error(error);
     }
   };
+  
 
   const next = async () => {
     setAnimate(true);
