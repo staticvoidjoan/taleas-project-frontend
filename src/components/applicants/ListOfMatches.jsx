@@ -7,12 +7,12 @@ import chatIcon from "../../assets/icons/chat.svg";
 import "./listOfMatches.css"; // Make sure to include the appropriate CSS file
 import { getDocs, query, collection, where, orderBy, limit } from "firebase/firestore";
 import { db } from "../../firebase";
-import Loader from "../loader/loader";
 
 function ListOfMatches({ employer }) {
   const creatorId = employer._id;
   const [acceptedApplicants, setAcceptedApplicants] = useState([]);
   const navigate = useNavigate();
+
 
   useEffect(() => {
     loadAcceptedApplicants();
