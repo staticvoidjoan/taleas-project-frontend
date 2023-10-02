@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router";
 import Text from "../text/text";
-
+import unicorn from "../../assets/images/Unicorn.png";
+import "./listOfMatches.css"
 function ListOfMatches({ employer }) {
   const creatorId = employer._id;
   const [acceptedApplicants, setAcceptedApplicants] = useState([]);
@@ -24,9 +25,9 @@ const loadAcceptedApplicants = async () => {
       response.data &&
       response.data.posts &&
       Array.isArray(response.data.posts)
-    ) {
+    ) {      const uniqueKeys = new Set();
+
       // Create a Set to keep track of unique keys
-      const uniqueKeys = new Set();
       
       // Iterate through all posts and accumulate recLikes
       const allAcceptedApplicants = response.data.posts.reduce((accumulator, post) => {
@@ -70,6 +71,7 @@ const loadAcceptedApplicants = async () => {
         <div className="applicants-container" key={acceptedApplicant._id}>
           <div className="applicants-desc">
             <div className="applicant-info">
+              <img src={acceptedApplicant.profilePicture || unicorn} alt="" className="profile-photo" />
               <Text
                 label={acceptedApplicant.name}
                 size={"s16"}

@@ -65,9 +65,6 @@ body{
   rotate: 180deg;
 }
 
-.abc{
-  height: 100%;
-}
 
 @keyframes slideInRight {
   from {
