@@ -1,17 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./chatNavBar.css";
+import unicorn from "../assets/images/Unicorn.png";
 
+function ChatNavBar({ employer, employee }) {
+  useEffect(() => {
+    console.log("employee", employee);
+    console.log("employer", employer);
+    console.log(displayName)
+  }, []);
 
-function ChatNavBar() {
+  const displayName = employee ? employee.name : employer.email ;
 
-
-
-    return (
-        <div className="chatNavBar">
-            CHAT
-        </div>
-    )
+  return (
+    <div className="chatNavBar">
+      <img className="chatNavBar-image" src={unicorn} alt="unicorn" />
+      <span className="chatNavBar-name">{displayName}</span>
+    </div>
+  );
 }
 
-
-export default ChatNavBar
+export default ChatNavBar;
