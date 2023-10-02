@@ -1,5 +1,4 @@
-import ContentLoader from "./ContLoader";
-
+import ContentLoader from "react-content-loader";
 const EmployerLoader = () => (
   <ContentLoader
     speed={2}
