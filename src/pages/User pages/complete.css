@@ -136,7 +136,7 @@
 .profile-photo{
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
 }
 
@@ -146,6 +146,7 @@
   object-fit: cover; 
   border: 1px solid #ccc; 
   border-radius: 10px; 
+  margin-right: 16px;
 }
 
 .labels{
@@ -185,6 +186,7 @@
   border-radius: 2px;
   margin-left: 10px;
   width: 128px;
+  height: 56px;
 }
 
 .link-list{
@@ -196,9 +198,16 @@
   list-style-type: circle;
 }
 
+.link-list{
+  margin-top: 10px;
+  width: 100%;
+  overflow: hidden;
+}
+
 .custom-photo{
   height: 81px;
   width: 100%;
+  margin: 0px 16px
 }
 
 .submit-button{

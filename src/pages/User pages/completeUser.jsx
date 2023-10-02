@@ -8,6 +8,8 @@ import down from "../../assets/icons/down-arrow.svg";
 import profilePic from "../../assets/images/profilePic.png";
 import { Link } from "react-router-dom";
 import linkPic from "../../assets/icons/link.svg";
+import Swal from "sweetalert2";
+import TextField from "@mui/material/TextField";
 
 const ProfileForm = ({ userId }) => {
   const navigate = useNavigate();
@@ -46,7 +48,8 @@ const ProfileForm = ({ userId }) => {
   const [fullName, setFullName] = useState("");
   const [isEducationCollapsed, setIsEducationCollapsed] = useState(true);
   const [isExperienceCollapsed, setIsExperienceCollapsed] = useState(true);
-  const [isCertificationCollapsed, setIsCertificationCollapsed] = useState(true);
+  const [isCertificationCollapsed, setIsCertificationCollapsed] =
+    useState(true);
   const [isLanguageCollapsed, setIsLanguageCollapsed] = useState(true);
   const [isSkillsCollapsed, setIsSkillsCollapsed] = useState(true);
   const [isLinkCollapsed, setIsLinkCollapsed] = useState(true);
@@ -55,12 +58,96 @@ const ProfileForm = ({ userId }) => {
   const loadUser = async () => {
     try {
       const response = await axios.get(
-        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/user/${userId}`,
+        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/user/${userId}`
       );
       setFormData(response.data.user);
     } catch (error) {
       console.error("Error fetching data: ", error);
     }
+  };
+
+  const waitforSumbit = (e) => {
+    e.preventDefault();
+    Swal.fire({
+      title: "Do you want to save the changes?",
+      showDenyButton: true,
+      confirmButtonText: "Save",
+      denyButtonText: `Don't save`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        handleSubmit();
+      } else if (result.isDenied) {
+        Swal.fire("Changes are not saved", "", "info");
+      }
+    });
+  };
+
+  const handleRemoveEdu = (index, id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        handleRemoveEducation(index, id);
+        Swal.fire("Deleted!", "Your file has been deleted.", "success");
+      }
+    });
+  };
+
+  const handleRemoveExp = (index, id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        handleRemoveExperience(index, id);
+        Swal.fire("Deleted!", "Your file has been deleted.", "success");
+      }
+    });
+  };
+
+  const handleRemoveCert = (index, id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        handleRemoveCertification(index, id);
+        Swal.fire("Deleted!", "Your file has been deleted.", "success");
+      }
+    });
+  };
+
+  const handleCancel = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        navigate("/profile");
+      }
+    });
   };
 
   useEffect(() => {
@@ -80,7 +167,7 @@ const ProfileForm = ({ userId }) => {
   }, [formData.education, formData.experience, formData.certifications]);
 
   const [newPhoto, setNewPhoto] = useState({
-    profilePhoto: '',
+    profilePhoto: "",
   });
   useEffect(() => {
     console.log("newPhoto:", newPhoto);
@@ -106,13 +193,17 @@ const ProfileForm = ({ userId }) => {
       reader.readAsDataURL(file);
     }
   };
- 
-  const editUser = async (e) => { 
-    const imageUrlWithoutQuotes = newPhoto.profilePhoto.replace(/"/g, '')
+
+  const editUser = async (e) => {
+    const imageUrlWithoutQuotes = newPhoto.profilePhoto.replace(/"/g, "");
     try {
-      await axios.put(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/${userId}`, {
-        ...formData, profilePhoto: imageUrlWithoutQuotes,
-      });
+      await axios.put(
+        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/${userId}`,
+        {
+          ...formData,
+          profilePhoto: imageUrlWithoutQuotes,
+        }
+      );
       loadUser();
     } catch (error) {
       console.error(error);
@@ -164,7 +255,7 @@ const ProfileForm = ({ userId }) => {
     try {
       if (id) {
         const response = await axios.delete(
-          `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/education/${id}`,
+          `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/education/${id}`
         );
       }
       const list = [...formData.education];
@@ -189,7 +280,7 @@ const ProfileForm = ({ userId }) => {
     try {
       if (id) {
         await axios.delete(
-          `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/experience/${id}`,
+          `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/experience/${id}`
         );
       }
       const list = [...formData.experience];
@@ -214,7 +305,7 @@ const ProfileForm = ({ userId }) => {
     try {
       if (id) {
         await axios.delete(
-          `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/certifications/${id}`,
+          `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/certifications/${id}`
         );
       }
       const list = [...formData.certifications];
@@ -226,15 +317,36 @@ const ProfileForm = ({ userId }) => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
     try {
       console.log(formData);
       const edit = await axios.put(
         `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/${userId}`,
-        formData,
+        formData
       );
       console.log("Form data to be sent:", formData);
-      navigate('/profile')
+      let timerInterval;
+      Swal.fire({
+        title: "Your changes has been saved!",
+        icon: "success",
+        timer: 1000,
+        didOpen: () => {
+          const b = Swal.getHtmlContainer()?.querySelector("b"); // Check if it exists
+          if (b) {
+            timerInterval = setInterval(() => {
+              b.textContent = Swal.getTimerLeft();
+            }, 100);
+          }
+        },
+        willClose: () => {
+          clearInterval(timerInterval);
+        },
+      }).then((result) => {
+        if (result.dismiss === Swal.DismissReason.timer) {
+          console.log("I was closed by the timer");
+        }
+        // Handle other actions as needed
+        navigate("/profile");
+      });
     } catch (error) {
       console.log(error);
     }
@@ -252,9 +364,12 @@ const ProfileForm = ({ userId }) => {
         <hr className="complete-profile-bar-div"></hr>
       </div>
       <div className="complete-profile-body">
-        <form className="profile-form" onSubmit={handleSubmit}>
+        <form className="profile-form">
           <div className="generalData">
-            <div className="main-label" onClick={() => setIsGeneralCollapsed(!isGeneralCollapsed)}>
+            <div
+              className="main-label"
+              onClick={() => setIsGeneralCollapsed(!isGeneralCollapsed)}
+            >
               <label className="labels">
                 <Text
                   label={"General Information"}
@@ -267,7 +382,9 @@ const ProfileForm = ({ userId }) => {
                 src={down}
                 className="img"
                 alt="down-icon"
-                style={isGeneralCollapsed ? { rotate: "0deg" } : { rotate: "180deg" }}
+                style={
+                  isGeneralCollapsed ? { rotate: "0deg" } : { rotate: "180deg" }
+                }
               />
             </div>
             <hr />
@@ -279,7 +396,7 @@ const ProfileForm = ({ userId }) => {
                       <img src={profilePic} className="profile-image" />
                     ) : (
                       <img
-                        src={formData.profilePhoto.replace(/"/g, '')}
+                        src={formData.profilePhoto.replace(/"/g, "")}
                         alt="profile-photo"
                         className="profile-image"
                       />
@@ -287,42 +404,56 @@ const ProfileForm = ({ userId }) => {
                     <input
                       type="file"
                       accept="image/*"
-                      className="custom-photo"
+                      id="fileInput"
+                      style={{ display: "none" }}
                       onChange={handleImageChange}
                     />
+                    <a
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        document.getElementById("fileInput").click();
+                      }}
+                    >
+                      Change photo
+                    </a>
                   </div>
                 </div>
                 <div class="general-data">
-                  <label htmlFor="name" className="label-for-fields">
-                    <Text label={"First name"} size={"s12"} weight={"regular"} lineheight={"l16"} />
-                  </label>
-                  <input
+                  <TextField
+                    id="outlined-basic"
+                    label="Name"
+                    variant="outlined"
                     type="text"
                     name="name"
                     value={formData.name}
                     onChange={onInputChange}
                     className="update-input-fields"
-                    readOnly
+                    InputProps={{
+                      readOnly: true,
+                    }}
                   />
                 </div>
                 <div class="general-data">
-                  <label className="label-for-fields" htmlFor="lastname">
-                    <Text label={"Last name"} size={"s12"} weight={"regular"} lineheight={"l16"} />
-                  </label>
-                  <input
+                  <TextField
+                    id="outlined-basic"
+                    label="Lastname"
+                    variant="outlined"
                     type="text"
                     name="lastname"
                     value={formData.lastname}
                     onChange={onInputChange}
                     className="update-input-fields"
-                    readOnly
+                    InputProps={{
+                      readOnly: true,
+                    }}
                   />
                 </div>
                 <div class="general-data">
-                  <label className="label-for-fields" htmlFor="headline">
-                    <Text label={"Role"} size={"s12"} weight={"regular"} lineheight={"l16"} />
-                  </label>
-                  <input
+                  <TextField
+                    id="outlined-basic"
+                    label="Role"
+                    variant="outlined"
                     type="text"
                     name="headline"
                     value={formData.headline}
@@ -347,7 +478,11 @@ const ProfileForm = ({ userId }) => {
                 src={down}
                 className="img"
                 alt="down-icon"
-                style={isEducationCollapsed ? { rotate: "0deg" } : { rotate: "180deg" }}
+                style={
+                  isEducationCollapsed
+                    ? { rotate: "0deg" }
+                    : { rotate: "180deg" }
+                }
               />
             </div>
             <hr />
@@ -356,73 +491,75 @@ const ProfileForm = ({ userId }) => {
                 {formData.education.map((edu, index) => (
                   <div key={index} className="fields-form">
                     <div className="education-data">
-                      <label className="label-for-fields" htmlFor="degree">
-                        <Text label={"Degree"} size={"s12"} weight={"regular"} lineheight={"l16"} />
-                      </label>
-                      <input
+                      <TextField
+                        id="outlined-basic"
+                        label="Degree"
+                        variant="outlined"
                         name="degree"
                         className="update-input-fields"
                         value={edu.degree}
-                        onChange={(e) => handleInputChange(e, index, "education", "degree")}
+                        onChange={(e) =>
+                          handleInputChange(e, index, "education", "degree")
+                        }
                       />
                     </div>
                     <div className="education-data">
-                      <label className="label-for-fields" htmlFor="institution">
-                        <Text
-                          label={"Institution"}
-                          size={"s12"}
-                          weight={"regular"}
-                          lineheight={"l16"}
-                        />
-                      </label>
-                      <input
+                      <TextField
+                        id="outlined-basic"
+                        label="Institution"
+                        variant="outlined"
                         name="institution"
                         className="update-input-fields"
                         value={edu.institution}
-                        onChange={(e) => handleInputChange(e, index, "education", "institution")}
+                        onChange={(e) =>
+                          handleInputChange(
+                            e,
+                            index,
+                            "education",
+                            "institution"
+                          )
+                        }
                       />
                     </div>
                     <div className="education-data">
-                      <label className="label-for-fields" htmlFor="startDate">
-                        {" "}
-                        <Text
-                          label={"Start Date"}
-                          size={"s12"}
-                          weight={"regular"}
-                          lineheight={"l16"}
-                        />{" "}
-                      </label>
-                      <input
+                      <TextField
+                        id="outlined-basic"
+                        label="Start Date"
+                        variant="outlined"
                         name="startDate"
-                        type="date"
                         className="update-input-fields"
+                        type="date"
                         value={edu.startDate}
-                        onChange={(e) => handleInputChange(e, index, "education", "startDate")}
+                        onChange={(e) =>
+                          handleInputChange(e, index, "education", "startDate")
+                        }
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
                       />
                     </div>
                     <div className="education-data">
-                      <label className="label-for-fields" htmlFor="endDate">
-                        {" "}
-                        <Text
-                          label={"End Date"}
-                          size={"s12"}
-                          weight={"regular"}
-                          lineheight={"l16"}
-                        />{" "}
-                      </label>
-                      <input
+                      <TextField
+                        id="outlined-basic"
+                        label="End Date"
+                        variant="outlined"
                         name="endDate"
-                        type="date"
                         className="update-input-fields"
+                        type="date"
                         value={edu.endDate}
-                        onChange={(e) => handleInputChange(e, index, "education", "endDate")}
+                        onChange={(e) =>
+                          handleInputChange(e, index, "education", "endDate")
+                        }
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
                       />
                     </div>
                     <div className="remove-fields-button">
                       <button
                         type="button"
                         className="remove-button"
-                        onClick={() => handleRemoveEducation(index, edu._id)}
+                        onClick={() => handleRemoveEdu(index, edu._id)}
                       >
                         Remove
                       </button>
@@ -434,7 +571,7 @@ const ProfileForm = ({ userId }) => {
                   className="add-button-fields"
                   onClick={handleAddEducation}
                 >
-                  +
+                  Add
                 </button>
               </>
             )}
@@ -451,7 +588,11 @@ const ProfileForm = ({ userId }) => {
                 src={down}
                 className="img"
                 alt="down-icon"
-                style={isExperienceCollapsed ? { rotate: "0deg" } : { rotate: "180deg" }}
+                style={
+                  isExperienceCollapsed
+                    ? { rotate: "0deg" }
+                    : { rotate: "180deg" }
+                }
               />
             </div>
             <hr />
@@ -460,88 +601,82 @@ const ProfileForm = ({ userId }) => {
                 {formData.experience.map((exp, index) => (
                   <div key={index} className="fields-form">
                     <div className="experience-data">
-                      <label className="label-for-fields" htmlFor="position">
-                        {" "}
-                        <Text
-                          label={"Position"}
-                          size={"s12"}
-                          weight={"regular"}
-                          lineheight={"l16"}
-                        />{" "}
-                      </label>
-                      <input
+                      <TextField
+                        id="outlined-basic"
+                        label="Position"
+                        variant="outlined"
                         name="position"
                         className="update-input-fields"
                         value={exp.position}
-                        onChange={(e) => handleInputChange(e, index, "experience", "position")}
+                        onChange={(e) =>
+                          handleInputChange(e, index, "experience", "position")
+                        }
                       />
                     </div>
                     <div className="experience-data">
-                      <label className="label-for-fields" htmlFor="employer">
-                        {" "}
-                        <Text
-                          label={"Employer"}
-                          size={"s12"}
-                          weight={"regular"}
-                          lineheight={"l16"}
-                        />{" "}
-                      </label>
-                      <input
+                      <TextField
+                        id="outlined-basic"
+                        label="Employer"
+                        variant="outlined"
                         name="employer"
                         className="update-input-fields"
                         value={exp.employer}
-                        onChange={(e) => handleInputChange(e, index, "experience", "employer")}
+                        onChange={(e) =>
+                          handleInputChange(e, index, "experience", "employer")
+                        }
                       />
                     </div>
                     <div className="experience-data">
-                      <label className="label-for-fields" htmlFor="startDate">
-                        {" "}
-                        <Text
-                          label={"Start Date"}
-                          size={"s12"}
-                          weight={"regular"}
-                          lineheight={"l16"}
-                        />{" "}
-                      </label>
-                      <input
+                      <TextField
+                        id="outlined-basic"
+                        label="Start Date"
+                        variant="outlined"
                         name="startDate"
                         className="update-input-fields"
                         type="date"
                         value={exp.startDate}
-                        onChange={(e) => handleInputChange(e, index, "experience", "startDate")}
+                        onChange={(e) =>
+                          handleInputChange(e, index, "experience", "startDate")
+                        }
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
                       />
                     </div>
                     <div className="experience-data">
-                      <label className="label-for-fields" htmlFor="endDate">
-                        {" "}
-                        <Text
-                          label={"End Date"}
-                          size={"s12"}
-                          weight={"regular"}
-                          lineheight={"l16"}
-                        />{" "}
-                      </label>
-                      <input
+                      <TextField
+                        id="outlined-basic"
+                        label="End Date"
+                        variant="outlined"
                         name="endDate"
                         className="update-input-fields"
                         type="date"
                         value={exp.endDate}
-                        onChange={(e) => handleInputChange(e, index, "experience", "endDate")}
+                        onChange={(e) =>
+                          handleInputChange(e, index, "experience", "endDate")
+                        }
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
                       />
                     </div>
                     <div className="remove-fields-button">
                       <button
                         type="button"
                         className="remove-button"
-                        onClick={() => handleRemoveExperience(index, exp._id)}
+                        onClick={() => handleRemoveExp(index, exp._id)}
                       >
                         Remove
                       </button>
                     </div>
                   </div>
                 ))}
-                <button type="button" className="add-button-fields" onClick={handleAddExperience}>
-                  +
+                <button
+                  type="button"
+                  className="add-button-fields"
+                  onClick={handleAddExperience}
+                >
+                  Add
                 </button>
                 <hr />
               </>
@@ -550,7 +685,9 @@ const ProfileForm = ({ userId }) => {
           <div className="certifications-form">
             <div
               className="main-label"
-              onClick={() => setIsCertificationCollapsed(!isCertificationCollapsed)}
+              onClick={() =>
+                setIsCertificationCollapsed(!isCertificationCollapsed)
+              }
             >
               <label className="labels">
                 <Text label={"Certifications"} size={"s16"} weight={"bold"} />
@@ -559,7 +696,11 @@ const ProfileForm = ({ userId }) => {
                 src={down}
                 className="img"
                 alt="down-icon"
-                style={isCertificationCollapsed ? { rotate: "0deg" } : { rotate: "180deg" }}
+                style={
+                  isCertificationCollapsed
+                    ? { rotate: "0deg" }
+                    : { rotate: "180deg" }
+                }
               />
             </div>
             <hr />
@@ -568,84 +709,83 @@ const ProfileForm = ({ userId }) => {
                 {formData.certifications.map((cert, index) => (
                   <div key={index} className="fields-form">
                     <div className="certifications-data">
-                      <label className="label-for-fields" htmlFor="title">
-                        {" "}
-                        <Text
-                          label={"Title"}
-                          size={"s12"}
-                          weight={"regular"}
-                          lineheight={"l16"}
-                        />{" "}
-                      </label>
-                      <input
+                      <TextField
+                        id="outlined-basic"
+                        label="Title"
+                        variant="outlined"
                         name="title"
                         className="update-input-fields"
                         value={cert.title}
-                        onChange={(e) => handleInputChange(e, index, "certifications", "title")}
+                        onChange={(e) =>
+                          handleInputChange(e, index, "certifications", "title")
+                        }
                       />
                     </div>
                     <div className="certifications-data">
-                      <label className="label-for-fields" htmlFor="organization">
-                        {" "}
-                        <Text
-                          label={"Organization"}
-                          size={"s12"}
-                          weight={"regular"}
-                          lineheight={"l16"}
-                        />{" "}
-                      </label>
-                      <input
+                      <TextField
+                        id="outlined-basic"
+                        label="Organization"
+                        variant="outlined"
                         name="organization"
                         className="update-input-fields"
                         value={cert.organization}
                         onChange={(e) =>
-                          handleInputChange(e, index, "certifications", "organization")
+                          handleInputChange(
+                            e,
+                            index,
+                            "certifications",
+                            "organization"
+                          )
                         }
                       />
                     </div>
                     <div className="certifications-data">
-                      <label className="label-for-fields" htmlFor="issueDate">
-                        {" "}
-                        <Text
-                          label={"Issue Date"}
-                          size={"s12"}
-                          weight={"regular"}
-                          lineheight={"l16"}
-                        />{" "}
-                      </label>
-                      <input
+                      <TextField
                         name="issueDate"
+                        label="Issue Date"
                         type="date"
                         className="update-input-fields"
-                        value={cert.issueDate}
-                        onChange={(e) => handleInputChange(e, index, "certifications", "issueDate")}
+                        value={cert.issueDate.split("/").join("-")}
+                        onChange={(e) =>
+                          handleInputChange(
+                            e,
+                            index,
+                            "certifications",
+                            "issueDate"
+                          )
+                        }
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
                       />
                     </div>
                     <div className="certifications-data">
-                      <label className="label-for-fields" htmlFor="expirationDate">
-                        {" "}
-                        <Text
-                          label={"Expiration Date"}
-                          size={"s12"}
-                          weight={"regular"}
-                          lineheight={"l16"}
-                        />{" "}
-                      </label>
-                      <input
+                      <TextField
+                        id="outlined-basic"
+                        label="Expiration Date"
+                        variant="outlined"
                         name="expirationDate"
-                        type="date"
                         className="update-input-fields"
+                        type="date"
                         value={cert.expirationDate}
                         onChange={(e) =>
-                          handleInputChange(e, index, "certifications", "expirationDate")
+                          handleInputChange(
+                            e,
+                            index,
+                            "certifications",
+                            "expirationDate"
+                          )
                         }
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
                       />
                     </div>
                     <div className="remove-fields-button">
                       <button
                         type="button"
                         className="remove-button"
-                        onClick={() => handleRemoveCertification(index, cert._id)}
+                        onClick={() => handleRemoveCert(index, cert._id)}
                       >
                         Remove
                       </button>
@@ -657,7 +797,7 @@ const ProfileForm = ({ userId }) => {
                   className="add-button-fields"
                   onClick={handleAddCertification}
                 >
-                  +
+                  Add
                 </button>
                 <hr />
               </>
@@ -676,7 +816,11 @@ const ProfileForm = ({ userId }) => {
                 src={down}
                 className="img"
                 alt="down-icon"
-                style={isLanguageCollapsed ? { rotate: "0deg" } : { rotate: "180deg" }}
+                style={
+                  isLanguageCollapsed
+                    ? { rotate: "0deg" }
+                    : { rotate: "180deg" }
+                }
               />
             </div>
             <hr />
@@ -684,9 +828,11 @@ const ProfileForm = ({ userId }) => {
               <>
                 <div className="inputbox-update">
                   {/* Input for new requirements */}
-                  <input
+                  <TextField
+                    id="outlined-basic"
+                    variant="outlined"
+                    label="Language"
                     type="text"
-                    placeholder="Add Language"
                     className="update-input"
                     value={newLanguage}
                     onChange={(e) => setNewLanguage(e.target.value)}
@@ -699,19 +845,26 @@ const ProfileForm = ({ userId }) => {
                       setNewLanguage("");
                     }}
                   >
-                    <Text label={"Add"} size={"s14"} weight={"regular"} />
+                    <Text label={"Add"} size={"s16"} weight={"regular"} />
                   </button>
                 </div>
                 <div className="tags-div">
                   {formData.languages.map((lang, index) => (
                     <div className="tags-list">
                       <div key={index}>
-                        <Text label={lang} size={"s14"} weight={"regular"} color={"black"} />
+                        <Text
+                          label={lang}
+                          size={"s14"}
+                          weight={"regular"}
+                          color={"black"}
+                        />
                       </div>
                       <button
                         type="button"
                         className="remove-list-button"
-                        onClick={() => handleRemoveArrayField(index, "languages")}
+                        onClick={() =>
+                          handleRemoveArrayField(index, "languages")
+                        }
                       >
                         {" "}
                         <img className="remove-img" src={X} alt="Remove" />{" "}
@@ -724,24 +877,36 @@ const ProfileForm = ({ userId }) => {
             )}
           </div>
           <div className="skills-complete">
-            <div className="main-label" onClick={() => setIsSkillsCollapsed(!isSkillsCollapsed)}>
+            <div
+              className="main-label"
+              onClick={() => setIsSkillsCollapsed(!isSkillsCollapsed)}
+            >
               <label className="labels">
-                <Text label={"Skills"} size={"s16"} weight={"bold"} color={"black"} />
+                <Text
+                  label={"Skills"}
+                  size={"s16"}
+                  weight={"bold"}
+                  color={"black"}
+                />
               </label>
               <img
                 src={down}
                 className="img"
                 alt="down-icon"
-                style={isSkillsCollapsed ? { rotate: "0deg" } : { rotate: "180deg" }}
+                style={
+                  isSkillsCollapsed ? { rotate: "0deg" } : { rotate: "180deg" }
+                }
               />
             </div>
             <hr />
             {!isSkillsCollapsed && (
               <>
                 <div className="inputbox-update">
-                  <input
+                  <TextField
+                    label="Skill"
+                    id="outlined-basic"
+                    variant="outlined"
                     type="text"
-                    placeholder="Add Skill"
                     className="update-input"
                     value={newSkill}
                     onChange={(e) => setNewSkill(e.target.value)}
@@ -754,7 +919,7 @@ const ProfileForm = ({ userId }) => {
                       setNewSkill("");
                     }}
                   >
-                    <Text label={"Add"} size={"s14"} weight={"regular"} />
+                    <Text label={"Add"} size={"s16"} weight={"regular"} />
                   </button>
                 </div>
                 <div className="tags-div">
@@ -766,7 +931,9 @@ const ProfileForm = ({ userId }) => {
                       <button
                         type="button"
                         className="remove-list-button"
-                        onClick={() => handleRemoveArrayField(index, "generalSkills")}
+                        onClick={() =>
+                          handleRemoveArrayField(index, "generalSkills")
+                        }
                       >
                         <img className="remove-img" src={X} alt="Remove" />
                       </button>
@@ -778,22 +945,35 @@ const ProfileForm = ({ userId }) => {
             )}
           </div>
           <div className="link">
-            <div className="main-label" onClick={() => setIsLinkCollapsed(!isLinkCollapsed)}>
+            <div
+              className="main-label"
+              onClick={() => setIsLinkCollapsed(!isLinkCollapsed)}
+            >
               <label className="labels">
-                <Text label={"Links"} size={"s16"} weight={"bold"} color={"black"} />{" "}
+                <Text
+                  label={"Links"}
+                  size={"s16"}
+                  weight={"bold"}
+                  color={"black"}
+                />{" "}
               </label>
               <img
                 src={down}
                 className="img"
                 alt="down-icon"
-                style={isLinkCollapsed ? { rotate: "0deg" } : { rotate: "180deg" }}
+                style={
+                  isLinkCollapsed ? { rotate: "0deg" } : { rotate: "180deg" }
+                }
               />
             </div>
             <hr />
             {!isLinkCollapsed && (
               <>
                 <div className="inputbox-update">
-                  <input
+                  <TextField
+                    label="Link"
+                    variant="outlined"
+                    id="outlined-basic"
                     type="text"
                     placeholder="Add Link"
                     className="update-input"
@@ -808,16 +988,21 @@ const ProfileForm = ({ userId }) => {
                       setNewLink("");
                     }}
                   >
-                    <Text label={"Add"} size={"s14"} weight={"regular"} />
+                    <Text label={"Add"} size={"s16"} weight={"regular"} />
                   </button>
                 </div>
-                <div className="requirements-list">
-                    {formData.links.map((link, index) => (
-                      <ul >
-                        <li className="link-list">
-                          <img src={linkPic} alt="link" />
+                <div className="links-list">
+                  {formData.links.map((link, index) => (
+                    <ul>
+                      <li className="link-list">
+                        <img src={linkPic} alt="link" />
                         <div key={index}>
-                          <Text label={link} size={"s14"} weight={"regular"} color={"black"} />
+                          <Text
+                            label={link}
+                            size={"s14"}
+                            weight={"regular"}
+                            color={"black"}
+                          />
                         </div>
                         <button
                           type="button"
@@ -826,9 +1011,9 @@ const ProfileForm = ({ userId }) => {
                         >
                           <img className="remove-img" src={X} alt="Remove" />
                         </button>
-                        </li>
-                      </ul>
-                    ))}
+                      </li>
+                    </ul>
+                  ))}
                 </div>
                 <hr />
               </>
@@ -836,13 +1021,15 @@ const ProfileForm = ({ userId }) => {
           </div>
           <br />
           <div className="submit-cancel">
-            <button type="submit" className="submit-button">
+            <button
+              type="submit"
+              className="submit-button"
+              onClick={waitforSumbit}
+            >
               Submit
             </button>
-            <button className="cancel-button">
-              <Link className="cancel-link" to="/profile">
-                Cancel
-              </Link>
+            <button className="cancel-button" onClick={handleCancel}>
+              Cancel
             </button>
           </div>
         </form>
