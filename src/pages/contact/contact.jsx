@@ -2,9 +2,16 @@ import React, { useState } from "react";
 import Text from "../../components/text/text";
 import axios from "axios";
 import "./contact.css";
+import Swal from "sweetalert2";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    message: "",
+  });
+  const [errors, setErrors] = useState({
     firstName: "",
     lastName: "",
     email: "",
@@ -17,20 +24,59 @@ const Contact = () => {
       ...formData,
       [name]: value,
     });
+    setErrors({
+      ...errors,
+      [name]: "",
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const newErrors = {};
+    if (!formData.firstName) {
+      newErrors.firstName = "First Name is required.";
+    }
+
+    if (!formData.lastName) {
+      newErrors.lastName = "Last Name is required.";
+    }
+
+    if (!formData.email) {
+      newErrors.email = "Email is required.";
+    }
+
+    if (!formData.message) {
+      newErrors.message = "Message is required.";
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    if (!emailPattern.test(formData.email)) {
+      newErrors.email = "Please enter a valid email address.";
+      setErrors(newErrors);
+      return;
+    }
     try {
       console.log("Adding new  contact...");
       console.log("Form data submitted:", formData);
-      const response = await axios.post(
-        "https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/contact",
-        formData
-      );
-      console.log("Server response:", response);
-      console.log("Form data submitted:", formData);
-      console.log("Server response:", response.data);
+      // const response = await axios.post(
+      //   "https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/contact",
+      //   formData
+      // );
+      // console.log("Server response:", response);
+
+      // console.log("Server response:", response.data);
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Your form has been send",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     } catch (error) {
       console.error("Error submitting form:", error);
     }
@@ -83,7 +129,9 @@ const Contact = () => {
                 name="firstName"
                 value={formData.firstName}
                 onChange={handleInputChange}
+                required
               />
+              <span className="error">{errors.firstName}</span>
             </div>
             <div>
               <label htmlFor="lastName" className="contact-label">
@@ -103,7 +151,9 @@ const Contact = () => {
                 name="lastName"
                 value={formData.lastName}
                 onChange={handleInputChange}
+                required
               />
+              <span className="error">{errors.lastName}</span>
             </div>
             <div>
               <label htmlFor="email" className="contact-label">
@@ -122,7 +172,9 @@ const Contact = () => {
                 name="email"
                 value={formData.email}
                 onChange={handleInputChange}
+                required
               />
+              <span className="error">{errors.email}</span>
             </div>
             <div>
               <label htmlFor="message" className="contact-label">
@@ -141,7 +193,9 @@ const Contact = () => {
                 rows="4"
                 value={formData.message}
                 onChange={handleInputChange}
+                required
               />
+              <span className="error">{errors.message}</span>
             </div>
             <button className="btn-register-contact" type="submit">
               <Text

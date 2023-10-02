@@ -33,7 +33,7 @@ const Menu = (props) => {
                 />
               </Link>
             </li>
-            <li>
+            {/* <li>
               {" "}
               <Text
                 label={"Subscriptions"}
@@ -42,7 +42,7 @@ const Menu = (props) => {
                 size={"s18"}
                 color={"black"}
               />
-            </li>
+            </li> */}
             <Link to={"/contact"}>
               <li>
                 {" "}

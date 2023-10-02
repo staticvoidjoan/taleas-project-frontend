@@ -11,14 +11,6 @@
   min-height: 100vh; /* Ensure a minimum height to fill the viewport */
 }
 
-/* .center-all {
-  display: flex;
-  flex-direction: column;
-  height: auto;
-  justify-content: space-around;
-  margin-top: 30px;
-} */
-
 .content {
   display: flex;
   flex-direction: column;
@@ -50,7 +42,7 @@
   margin: 0 20px;
 }
 
-.footer {
+.footer-landpage {
   text-align: center;
 }
 .btn-register {
@@ -70,4 +62,5 @@
   border-radius: 2px;
   border: 1px solid #222;
   width: calc(100% - 40px);
+  margin-bottom: 20px;
 }
