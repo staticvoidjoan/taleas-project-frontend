@@ -56,7 +56,7 @@ const UserHome = ({ userId }) => {
         `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/category/${categoryId}?id=${userId}`
       );
       setPosts(response.data.posts);
-      setCurrentPost(response.data.posts[currentIndex]);
+      setCurrentPost(response.data.posts[localStorage.getItem("localindex")]);
       setPostLength(response.data.posts.length);
     } catch (error) {
       console.error("Cancel API Error:");
@@ -70,7 +70,7 @@ const UserHome = ({ userId }) => {
       );
       setPosts(response.data);
       console.log(response.data);
-      setCurrentPost(response.data[currentIndex]);
+      setCurrentPost(response.data[localStorage.getItem("localindex")]);
       setPostLength(response.data.length);
       setTimeout(() => {
         setLoading(false);
@@ -89,6 +89,7 @@ const UserHome = ({ userId }) => {
       const nextIndex = currentIndex + 1;
       const nextPost = posts[nextIndex];
       setCurrentIndex(nextIndex);
+      localStorage.setItem("localindex", nextIndex)
       setCurrentPost(nextPost);
       console.log(nextIndex);
       console.log("next post is", nextPost);
@@ -105,6 +106,7 @@ const UserHome = ({ userId }) => {
       const previousIndex = currentIndex - 1;
       const previousPost = posts[previousIndex];
       setCurrentIndex(previousIndex);
+      localStorage.setItem("localindex", previousIndex)
       setCurrentPost(previousPost);
       console.log(previousIndex);
       console.log("previous post is", previousPost);
@@ -113,11 +115,13 @@ const UserHome = ({ userId }) => {
       const lastIndex = postlength - 1;
       const lastPost = posts[lastIndex];
       setCurrentIndex(lastIndex);
+      localStorage.setItem("localindex", lastIndex)
       setCurrentPost(lastPost);
       console.log(lastIndex);
       console.log("last post is", lastPost);
     }
   };
+
 
   const handleAction = async (action) => {
     if (!currentPost._id) return; // No post to interact with
@@ -137,12 +141,13 @@ const UserHome = ({ userId }) => {
           break;
       }
 
-      useEffect(()=>{},[])
+     
 
       if (currentIndex < postlength - 1) {
         const nextIndex = currentIndex + 1;
         const nextPost = posts[nextIndex];
         setCurrentIndex(nextIndex);
+        localStorage.setItem("localindex", nextIndex)
         setCurrentPost(nextPost);
         setAnimate(true);
         setTimeout(() => {
