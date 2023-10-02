@@ -50,16 +50,9 @@ function ChatApp({ loggedInUser,userRole }) {
       {user && (talkingToEmployee || talkingToEmployer) ? (
         
         talkingToEmployee ? (
-<<<<<<< HEAD
           <ChatNavBar  employer={null} employee={talkingToEmployee} />
         ) : (
           <ChatNavBar  employer={talkingToEmployer} employee={null}/>
-=======
-          
-          <ChatNavBar employee={talkingToEmployee} employer={null} userRole={userRole} />
-        ) : (
-          <ChatNavBar employee={null} employer={talkingToEmployer} userRole={userRole} test={"I am an employee"}/>
->>>>>>> 55c5564e80875f616ea0d9b7470ae561be702759
         )
       ) : (
         <h1>Loading</h1>

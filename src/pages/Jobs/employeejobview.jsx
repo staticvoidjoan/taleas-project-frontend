@@ -16,6 +16,7 @@ const JobProfile = () => {
   const { id } = useParams();
   useEffect(() => {
     loadPost();
+    console.log(localStorage.getItem("localindex"))
   }, []);
 
   useEffect(() => {
