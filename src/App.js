@@ -74,6 +74,7 @@ function App() {
 
   // Check authentication status on component mount
   useEffect(() => {
+    localStorage.setItem("localindex", 0)
     checkAuthenticated();
   }, []);
 
