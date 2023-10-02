@@ -50,6 +50,9 @@ import ListUserMessages from "./components/userMessages/userMessages";
 
 //Error Handlers
 import NotFound from "./pages/Error/notFound";
+import Privacy from "./pages/privacy/privacy";
+import About from "./pages/about/about";
+import Contact from "./pages/contact/contact";
 
 function App() {
   // State variables
@@ -212,13 +215,12 @@ function App() {
   const hideFooter = pathsToHideFooter.includes(location.pathname);
 
   if (!isEmployeeLoaded) {
-    return <Loader />; 
+    return <Loader />;
   }
 
   if (signingOut) {
-  return <Loader />;
-}
-
+    return <Loader />;
+  }
 
   return (
     <div className="App">
@@ -246,6 +248,9 @@ function App() {
 
       {/* ----------------------------------  Home routes ------------------------------------------------------- */}
       <Routes>
+        <Route exact path={"/aboutus"} element={<About />} />
+        <Route exact path={"/terms"} element={<Privacy />} />
+        <Route exact path={"/contact"} element={<Contact />} />
         <Route
           exact
           path="/menu"
@@ -318,8 +323,9 @@ function App() {
           exact
           path="/completeprofile"
           element={
-            isLoading ? (<Loader/>) :
-            userRole === "employee" ? (
+            isLoading ? (
+              <Loader />
+            ) : userRole === "employee" ? (
               <ProfileForm userId={employee._id} />
             ) : (
               <NotFound />
