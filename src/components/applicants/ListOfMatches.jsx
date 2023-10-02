@@ -7,12 +7,13 @@ import chatIcon from "../../assets/icons/chat.svg";
 import "./listOfMatches.css"; // Make sure to include the appropriate CSS file
 import { getDocs, query, collection, where, orderBy, limit } from "firebase/firestore";
 import { db } from "../../firebase";
+import Loader from "../Loader/Loader";
 
 function ListOfMatches({ employer }) {
   const creatorId = employer._id;
   const [acceptedApplicants, setAcceptedApplicants] = useState([]);
   const navigate = useNavigate();
-
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
 
   useEffect(() => {
     loadAcceptedApplicants();
@@ -59,6 +60,7 @@ function ListOfMatches({ employer }) {
           lastMessage: lastMessages[index],
         }));
         setAcceptedApplicants(all);
+        setIsDataLoaded(true); // Set data as loaded
       } else {
         console.log("Data structure is not as expected.");
       }
@@ -67,9 +69,6 @@ function ListOfMatches({ employer }) {
     }
   };
 
-    // You should execute the query and retrieve the message from Firebase here.
-    // Example: const querySnapshot = await getDocs(q);
-    // Then, extract the message data from the querySnapshot and return it.
   const getLastMessage = async (chatId) => {
     const q = query(
       collection(db, "chats"),
@@ -103,6 +102,7 @@ function ListOfMatches({ employer }) {
     }
     return null;
   };
+
   const chat = (applicantId) => {
     const chatId = `${applicantId}_${creatorId}`;
     const link = `/chat/${chatId}`;
@@ -111,51 +111,54 @@ function ListOfMatches({ employer }) {
 
   return (
     <div>
-      {acceptedApplicants.map((acceptedApplicant) => (
-        <div
-          className={`chatContainer`}
-          key={acceptedApplicant._id}
-          onClick={() => chat(acceptedApplicant._id)}
-        >
+      {!isDataLoaded ? (
+        <Loader />
+      ) : (
+        acceptedApplicants.map((acceptedApplicant) => (
           <div
-            className={`company-photo`}
-            style={{
-              backgroundImage: `url(${acceptedApplicant.profilePhoto || unicorn})`,
-            }}
-          ></div>
-          <div className={`info`}>
-            <Text
-              label={acceptedApplicant.name}
-              size={"s16"}
-              weight={"medium"}
-              color={"black"}
-            />
-            {/* Include the last message logic here */}
-            {acceptedApplicant.lastMessage && (
+            className={`chatContainer`}
+            key={acceptedApplicant._id}
+            onClick={() => chat(acceptedApplicant._id)}
+          >
+            <div
+              className={`company-photo`}
+              style={{
+                backgroundImage: `url(${acceptedApplicant.profilePhoto || unicorn})`,
+              }}
+            ></div>
+            <div className={`info`}>
               <Text
-                label={
-                  acceptedApplicant.lastMessage.name !== acceptedApplicant.name
-                    ? "You: " + acceptedApplicant.lastMessage.text
-                    : acceptedApplicant.lastMessage.text
-                }
-                size={"s14"}
-                weight={"light"}
-                color={"gray"}
+                label={acceptedApplicant.name}
+                size={"s16"}
+                weight={"medium"}
+                color={"black"}
               />
-            )}
+              {/* Include the last message logic here */}
+              {acceptedApplicant.lastMessage && (
+                <Text
+                  label={
+                    acceptedApplicant.lastMessage.name !== acceptedApplicant.name
+                      ? "You: " + acceptedApplicant.lastMessage.text
+                      : acceptedApplicant.lastMessage.text
+                  }
+                  size={"s14"}
+                  weight={"light"}
+                  color={"gray"}
+                />
+              )}
+            </div>
+            <div className={`ch`} onClick={() => chat(acceptedApplicant._id)}>
+              <img src={chatIcon} alt="Chat Icon" />
+            </div>
+            {acceptedApplicant.lastMessage &&
+              acceptedApplicant.lastMessage.uid !== acceptedApplicant._id || (
+                <div className="newMessageCircle"></div>
+              )}
           </div>
-          <div className={`ch`} onClick={() => chat(acceptedApplicant._id)}>
-            <img src={chatIcon} alt="Chat Icon" />
-          </div>
-          {acceptedApplicant.lastMessage &&
-            acceptedApplicant.lastMessage.uid !== acceptedApplicant._id || (
-              <div className="newMessageCircle"></div>
-            )}
-        </div>
-      ))}
+        ))
+      )}
     </div>
   );
 }
-
 
 export default ListOfMatches;
