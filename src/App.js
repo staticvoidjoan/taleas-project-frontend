@@ -74,7 +74,7 @@ function App() {
 
   // Check authentication status on component mount
   useEffect(() => {
-    localStorage.setItem("localindex", 0)
+    localStorage.setItem("localindex", 0);
     checkAuthenticated();
   }, []);
 
@@ -214,7 +214,7 @@ function App() {
     "/resendSignUp",
   ];
   const hideFooter = pathsToHideFooter.includes(location.pathname);
-
+  const hideComplete = location.pathname.startsWith("/completeprofile");
   if (!isEmployeeLoaded) {
     return <Loader />;
   }
@@ -225,7 +225,7 @@ function App() {
 
   return (
     <div className="App">
-      {isLoading ? (
+      {hideComplete ? null : isLoading ? (
         <NavBar
           givenName={givenName}
           lastName={lastName}
@@ -334,7 +334,11 @@ function App() {
           }
         />
         <Route exact path="/userInfo/:id" element={<UserInfo />} />
-        <Route exact path="/viewjobpost/:id/:index" element={<EmployeeJobView />} />
+        <Route
+          exact
+          path="/viewjobpost/:id/:index"
+          element={<EmployeeJobView />}
+        />
         {/* --------------------------------------------------------------------------------------------------------------- */}
 
         {/* ----------------------------------  Employer routes ------------------------------------------------------- */}
