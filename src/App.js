@@ -215,6 +215,7 @@ function App() {
   ];
   const hideFooter = pathsToHideFooter.includes(location.pathname);
   const hideComplete = location.pathname.startsWith("/completeprofile");
+  const hideDivider = location.pathname.startsWith("/")
   if (!isEmployeeLoaded) {
     return <Loader />;
   }
@@ -226,25 +227,35 @@ function App() {
   return (
     <div className="App">
       {hideComplete ? null : isLoading ? (
-        <NavBar
-          givenName={givenName}
-          lastName={lastName}
-          authenticated={authenticated}
-          employeeData={employee}
-          employerData={employer}
-          userRole={userRole}
-        />
+        <>
+          <NavBar
+            givenName={givenName}
+            lastName={lastName}
+            authenticated={authenticated}
+            employeeData={employee}
+            employerData={employer}
+            userRole={userRole}
+          />
+          {authenticated ? null : (
+           hideDivider ? null :
+           ( <div style={{ clear: "both", height: "90px" ,backgroundColor: "#212121" }}></div> )
+          
+          )}
+        </>
       ) : hideNav ? (
         <CenterNavbar />
       ) : (
-        <NavBar
-          givenName={givenName}
-          lastName={lastName}
-          authenticated={authenticated}
-          employeeData={employee}
-          employerData={employer}
-          userRole={userRole}
-        />
+        <>
+          <NavBar
+            givenName={givenName}
+            lastName={lastName}
+            authenticated={authenticated}
+            employeeData={employee}
+            employerData={employer}
+            userRole={userRole}
+          />
+          <div style={{ clear: "both", height: "90px" }}></div>
+        </>
       )}
 
       {/* ----------------------------------  Home routes ------------------------------------------------------- */}

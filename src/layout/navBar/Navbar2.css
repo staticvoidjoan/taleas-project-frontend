@@ -1,9 +1,14 @@
 .navbar-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
   display: flex;
   justify-content: center;
 }
 
 .navbar {
+  position: sticky;
   width: 100%;
   display: flex;
   justify-content: space-between;
