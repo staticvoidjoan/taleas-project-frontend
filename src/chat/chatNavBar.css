@@ -10,6 +10,10 @@
     width: 80px;
     height: 80px;
     border-radius: 50%;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    box-shadow: 9px 9px 5px -4px rgba(0, 0, 0, 0.24);
 }
 
 .chatNavBar-name {

@@ -21,7 +21,7 @@ const Applicants = ({userid, postId, name, lastname, role }) => {
       <div className="applicants-desc" onClick={viewApplicant}>
         <div className="applicant-photo" style={{ backgroundImage: `url(${unicorn})`, lightgray:"50%" }} >
         </div>
-        <div className="applicant-info">
+        <div className="applicant-info-job">
           <Text label={`${name} ${lastname}`} size={"s16"} weight={"medium"} color={"black"}/>
           <Text label={`${role}`} size={"s14"} weight={"regular"} color={"black"}/>
         </div>

@@ -6,14 +6,20 @@ function ChatNavBar({ employer, employee }) {
   useEffect(() => {
     console.log("employee", employee);
     console.log("employer", employer);
-    console.log(displayName)
+    console.log(displayName);
   }, []);
 
-  const displayName = employee ? employee.name : employer.email ;
+  const displayName = employee ? employee.name : employer.email;
 
   return (
     <div className="chatNavBar">
-      <img className="chatNavBar-image" src={unicorn} alt="unicorn" />
+      <div
+        className="chatNavBar-image"
+        alt={`${employee.name} profile`}
+        style={{
+          backgroundImage: `url(${employee.profilePhoto ?? unicorn})`,
+        }}
+      />
       <span className="chatNavBar-name">{displayName}</span>
     </div>
   );

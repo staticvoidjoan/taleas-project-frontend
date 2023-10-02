@@ -8,11 +8,19 @@ function ListOfMatches({ employer }) {
   const creatorId = employer._id;
   const [acceptedApplicants, setAcceptedApplicants] = useState([]);
   const navigate = useNavigate();
-
+  const [imageUrl, setImageUrl] = useState("");
   useEffect(() => {
     loadAcceptedApplicants();
   }, []);
 
+  
+  useEffect(() => {
+    const imageUrl = acceptedApplicants.profilePhoto
+
+    console.log(imageUrl);
+
+    setImageUrl(imageUrl);
+  }, [acceptedApplicants]);
   // ...
 
 const loadAcceptedApplicants = async () => {
@@ -69,9 +77,14 @@ const loadAcceptedApplicants = async () => {
     <div>
       {acceptedApplicants.map((acceptedApplicant) => (
         <div className="applicants-container" key={acceptedApplicant._id}>
-          <div className="applicants-desc">
-            <div className="applicant-info">
-              <img src={acceptedApplicant.profilePicture || unicorn} alt="" className="profile-photo" />
+          <div className="applicants-desc-chat">
+        
+              <div
+                className="nav-profile-pic"
+                alt={`${acceptedApplicant.name} profile`}
+                style={{ backgroundImage: `url(${acceptedApplicant.profilePhoto ?? unicorn})` }}
+              />
+              {console.log(acceptedApplicant.profilePhoto, "sadasdasd")}
               <Text
                 label={acceptedApplicant.name}
                 size={"s16"}
@@ -79,7 +92,7 @@ const loadAcceptedApplicants = async () => {
                 color={"black"}
               />
             </div>
-          </div>
+        
           <div className="applicant-buttons">
             <div
               className="chat"
