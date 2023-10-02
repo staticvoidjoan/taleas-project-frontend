@@ -20,15 +20,16 @@ function ChatApp({ loggedInUser,userRole }) {
         'https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/employer/' +
           ids[1]
       );
-      console.log('response', response.data.employer);
       setTalkingToEmployer(response.data.employer);
+      console.log("talking to employer: " + talkingToEmployer.companyName)
     } else {
       const response = await axios.get(
         'https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/user/' +
           ids[0]
       );
-      console.log('response', response.data);
+
       setTalkingToEmployee(response.data.user);
+      console.log("talking to employee: " + talkingToEmployee)
     }
     //split the chat id first is applicant id second is company id
     //if loggedInUser._id === first then set user to second
@@ -40,7 +41,7 @@ function ChatApp({ loggedInUser,userRole }) {
     if (user) {
       checkWhoTalkingTo(chatId);
     }
-  }, [loggedInUser, chatId]);
+  }, [loggedInUser]);
 
 
   
@@ -49,10 +50,16 @@ function ChatApp({ loggedInUser,userRole }) {
       {user && (talkingToEmployee || talkingToEmployer) ? (
         
         talkingToEmployee ? (
+<<<<<<< HEAD
+          <ChatNavBar  employer={null} employee={talkingToEmployee} />
+        ) : (
+          <ChatNavBar  employer={talkingToEmployer} employee={null}/>
+=======
           
           <ChatNavBar employee={talkingToEmployee} employer={null} userRole={userRole} />
         ) : (
           <ChatNavBar employee={null} employer={talkingToEmployer} userRole={userRole} test={"I am an employee"}/>
+>>>>>>> 55c5564e80875f616ea0d9b7470ae561be702759
         )
       ) : (
         <h1>Loading</h1>
