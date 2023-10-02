@@ -31,7 +31,7 @@ const StartingPage = (props) => {
           </div>
         </div>
 
-        <div className="footer">
+        <div className="footer-landpage">
           <Text
             label={"Start Now"}
             weight={"thin"}
