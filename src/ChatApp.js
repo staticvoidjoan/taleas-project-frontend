@@ -5,12 +5,13 @@ import Chat from './chat/Chat';
 import ChatNavBar from './chat/Navbar';
 import axios from 'axios';
 
-function ChatApp({ loggedInUser }) {
+function ChatApp({ loggedInUser,userRole }) {
   const [user, setUser] = useState(loggedInUser);
   const [talkingToEmployer, setTalkingToEmployer] = useState({});
   const [talkingToEmployee, setTalkingToEmployee] = useState({});
   const { chatId } = useParams();
 
+  
   const checkWhoTalkingTo = async (chatId) => {
     const ids = chatId.split('_');
     if (loggedInUser._id === ids[0]) {
@@ -41,13 +42,17 @@ function ChatApp({ loggedInUser }) {
     }
   }, [loggedInUser, chatId]);
 
+
+  
   return (
     <div>
       {user && (talkingToEmployee || talkingToEmployer) ? (
+        
         talkingToEmployee ? (
-          <ChatNavBar employee={talkingToEmployee} employer={null} />
+          
+          <ChatNavBar employee={talkingToEmployee} employer={null} userRole={userRole} />
         ) : (
-          <ChatNavBar employee={null} employer={talkingToEmployer} />
+          <ChatNavBar employee={null} employer={talkingToEmployer} userRole={userRole} test={"I am an employee"}/>
         )
       ) : (
         <h1>Loading</h1>

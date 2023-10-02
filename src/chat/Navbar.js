@@ -1,15 +1,20 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./chatNavBar.css";
 import unicorn from "../assets/images/Unicorn.png";
 
-function ChatNavBar({ employer, employee }) {
+function ChatNavBar({ employer, employee,userRole,test }) {
+  
   useEffect(() => {
-    console.log("employee", employee);
+    console.log("employee", userRole);
     console.log("employer", employer);
-    console.log(displayName);
+    console.log("what am in?", test);
   }, []);
 
-  const displayName = employee ? employee.name : employer.email;
+  const displayName = userRole === "employee" ? employee.name : employer.companyName;
+
+  useEffect(() => {
+    console.log(displayName)
+  },[displayName])
 
   return (
     <div className="chatNavBar">
