@@ -10,7 +10,6 @@ import "./userHome.css";
 import Animate from "../../animateTransition/Animate";
 import ContLoader from "../../components/Loader/ContLoader";
 import axios from "axios";
-import { useParams } from "react-router-dom";
 
 const UserHome = ({ userId }) => {
   const [posts, setPosts] = useState([]);
