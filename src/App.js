@@ -113,7 +113,6 @@ function App() {
   useEffect(() => {
     const saveToStorage = async () => {
       if (userRole === "employee") {
-
         await saveEmployeeToStorage();
       } else {
         await saveEmployerToStorage();
@@ -148,7 +147,6 @@ function App() {
 
   // Save employee data to local storage
   const saveEmployeeToStorage = async () => {
-  
     try {
       const response = await axios.get(
         `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/userByEmail/${useremail}`
@@ -156,7 +154,6 @@ function App() {
       localStorage.setItem("employeeId", response.data.user._id);
 
       setEmployee(response.data.user);
-    
     } catch (error) {
       console.error("Error fetching employee data:", error);
     }
@@ -170,7 +167,6 @@ function App() {
       );
       localStorage.setItem("employerId", response.data.employer._id);
       setEmployer(response.data.employer);
-
     } catch (error) {
       console.error("Error fetching employer data:", error);
     }
@@ -208,7 +204,7 @@ function App() {
   ];
   const hideFooter = pathsToHideFooter.includes(location.pathname);
   const hideComplete = location.pathname.startsWith("/completeprofile");
-  const hideDivider = location.pathname.startsWith("/")
+  const hideDivider = location.pathname.startsWith("/");
   if (!isEmployeeLoaded) {
     return <Loader />;
   }
@@ -229,10 +225,14 @@ function App() {
             employerData={employer}
             userRole={userRole}
           />
-          {authenticated ? null : (
-           hideDivider ? null :
-           ( <div style={{ clear: "both", height: "90px" ,backgroundColor: "#212121" }}></div> )
-          
+          {authenticated ? null : hideDivider ? null : (
+            <div
+              style={{
+                clear: "both",
+                height: "90px",
+                backgroundColor: "#212121",
+              }}
+            ></div>
           )}
         </>
       ) : hideNav ? (
@@ -247,7 +247,9 @@ function App() {
             employerData={employer}
             userRole={userRole}
           />
-          <div style={{ clear: "both", height: "90px" }}></div>
+          {location.pathname.startsWith("/postjob") ? null : (
+            <div style={{ clear: "both", height: "90px" }}></div>
+          )}
         </>
       )}
 
