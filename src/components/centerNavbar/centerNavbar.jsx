@@ -6,8 +6,14 @@ import TurnBack from "../../assets/icons/back.svg";
 
 const CenterNavbar = (props) => {
   const navigate = useNavigate();
+  const location = useLocation();
+
   const TurnBackOnePage = () => {
-    navigate(-1);
+    if (location.pathname.startsWith("/profile")) {
+      navigate("/");
+    } else {
+      navigate(-1);
+    }
   };
 
   return (
@@ -36,4 +42,5 @@ const CenterNavbar = (props) => {
     </div>
   );
 };
+
 export default CenterNavbar;

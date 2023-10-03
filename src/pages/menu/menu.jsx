@@ -6,6 +6,7 @@ import Animate from "../../animateTransition/AnimateY";
 const Menu = (props) => {
   return (
     <Animate>
+      <div style={{ clear: "both", height: "70px"  }}></div>
       <div className="menu">
         <hr className="line-menu" />
         <div className="menu-list">
@@ -33,7 +34,7 @@ const Menu = (props) => {
                 />
               </Link>
             </li>
-            <li>
+            {/* <li>
               {" "}
               <Text
                 label={"Subscriptions"}
@@ -42,7 +43,7 @@ const Menu = (props) => {
                 size={"s18"}
                 color={"black"}
               />
-            </li>
+            </li> */}
             <Link to={"/contact"}>
               <li>
                 {" "}

@@ -10,16 +10,11 @@ const ContLoader = ({ ...rest }) => (
     {/* Card Text */}
     <rect x="20" y="520" rx="4" ry="4" width="350" height="15" />
   
-    {/* Card Description */}
-    <rect x="20" y="550" rx="4" ry="4" width="350" height="10" />
-    <rect x="20" y="570" rx="4" ry="4" width="350" height="10" />
-    <rect x="20" y="590" rx="4" ry="4" width="350" height="10" />
-  
     {/* Buttons */}
-    <circle cx="50" cy="660" r="30" />
-    <circle cx="150" cy="660" r="30" />
-    <circle cx="240" cy="660" r="30" />
-    <circle cx="340" cy="660" r="30" />
+    <circle cx="50" cy="600" r="30" />
+    <circle cx="150" cy="600" r="30" />
+    <circle cx="240" cy="600" r="30" />
+    <circle cx="340" cy="600" r="30" />
   </ContentLoader>
 )
 

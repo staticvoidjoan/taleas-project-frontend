@@ -6,7 +6,7 @@ import decline from "../../assets/icons/dislike.svg"
 import Text from "../text/text";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-const Applicants = ({userid, postId, name, lastname, role }) => {
+const Applicants = ({userid, postId, name, lastname, role, profilePhoto }) => {
   const navigate = useNavigate();
   const [user,setUser] = useState({});
 
@@ -19,7 +19,7 @@ const Applicants = ({userid, postId, name, lastname, role }) => {
   return (
 
       <div className="applicants-desc" onClick={viewApplicant}>
-        <div className="applicant-photo" style={{ backgroundImage: `url(${unicorn})`, lightgray:"50%" }} >
+        <div className="applicant-photo" style={{ backgroundImage: `url(${profilePhoto ?? unicorn})`, lightgray:"50%" }} >
         </div>
         <div className="applicant-info-job">
           <Text label={`${name} ${lastname}`} size={"s16"} weight={"medium"} color={"black"}/>

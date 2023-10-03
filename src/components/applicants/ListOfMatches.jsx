@@ -1,110 +1,173 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate } from "react-router";
 import Text from "../text/text";
 import unicorn from "../../assets/images/Unicorn.png";
-import "./listOfMatches.css"
+import chatIcon from "../../assets/icons/chat.svg";
+import "./listOfMatches.css"; // Make sure to include the appropriate CSS file
+import { getDocs, query, collection, where, orderBy, limit } from "firebase/firestore";
+import { db } from "../../firebase";
+import Loader from "../Loader/Loader";
+
 function ListOfMatches({ employer }) {
   const creatorId = employer._id;
   const [acceptedApplicants, setAcceptedApplicants] = useState([]);
   const navigate = useNavigate();
-  const [imageUrl, setImageUrl] = useState("");
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
+
   useEffect(() => {
     loadAcceptedApplicants();
   }, []);
 
-  
-  useEffect(() => {
-    const imageUrl = acceptedApplicants.profilePhoto
+  const loadAcceptedApplicants = async () => {
+    try {
+      const response = await axios.get(
+        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/creatorNoPagination/${creatorId}`
+      );
 
-    console.log(imageUrl);
+      if (
+        response.data &&
+        response.data.posts &&
+        Array.isArray(response.data.posts)
+      ) {
+        const uniqueKeys = new Set();
 
-    setImageUrl(imageUrl);
-  }, [acceptedApplicants]);
-  // ...
+        const allAcceptedApplicants = response.data.posts.reduce(
+          (accumulator, post) => {
+            if (post.recLikes && Array.isArray(post.recLikes)) {
+              post.recLikes.forEach((applicant) => {
+                const key = applicant._id;
 
-const loadAcceptedApplicants = async () => {
-  try {
-    const response = await axios.get(
-      `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/creatorNoPagination/${creatorId}`
+                if (!uniqueKeys.has(key)) {
+                  uniqueKeys.add(key);
+                  accumulator.push(applicant);
+                }
+              });
+            }
+            return accumulator;
+          },
+          []
+        );
+
+        const lastMessages = await Promise.all(
+          allAcceptedApplicants.map((applicant) =>
+            getLastMessage(`${applicant._id}_${creatorId}`)
+          )
+        );
+
+        const all = allAcceptedApplicants.map((applicant, index) => ({
+          ...applicant,
+          lastMessage: lastMessages[index],
+        }));
+
+        // Sort the accepted applicants based on the timestamp of the lastMessage (most recent first)
+        all.sort((a, b) => {
+          if (a.lastMessage && b.lastMessage) {
+            return b.lastMessage.timestamp - a.lastMessage.timestamp;
+          }
+          return 0;
+        });
+
+        setAcceptedApplicants(all);
+        setIsDataLoaded(true); // Set data as loaded
+      } else {
+        console.log("Data structure is not as expected.");
+      }
+    } catch (error) {
+      console.error("Error loading accepted applicants:", error);
+    }
+  };
+
+  const getLastMessage = async (chatId) => {
+    const q = query(
+      collection(db, "chats"),
+      where("chatId", "==", chatId),
+      orderBy("timestamp", "desc"),
+      limit(1)
     );
 
-    if (
-      response.data &&
-      response.data.posts &&
-      Array.isArray(response.data.posts)
-    ) {      const uniqueKeys = new Set();
+    try {
+      const querySnapshot = await getDocs(q);
+      if (!querySnapshot.empty) {
+        const doc = querySnapshot.docs[0];
+        const text = doc.data().text;
 
-      // Create a Set to keep track of unique keys
-      
-      // Iterate through all posts and accumulate recLikes
-      const allAcceptedApplicants = response.data.posts.reduce((accumulator, post) => {
-        if (post.recLikes && Array.isArray(post.recLikes)) {
-          post.recLikes.forEach((applicant) => {
-            // Generate a unique key based on the applicant's ID
-            const key = applicant._id;
-            
-            // Check if the key is unique before adding it
-            if (!uniqueKeys.has(key)) {
-              uniqueKeys.add(key);
-              accumulator.push(applicant);
-            }
-          });
+        // Check if the message is too long
+        if (text.length > 10) { // Adjust the threshold as needed
+          return {
+            name: doc.data().name,
+            text: `${text.slice(0, 10)}...`, // Truncate long message
+            timestamp: doc.data().timestamp, // Include timestamp for sorting
+          };
+        } else {
+          return {
+            uid: doc.data().uid,
+            name: doc.data().name,
+            text: text,
+            timestamp: doc.data().timestamp, // Include timestamp for sorting
+          };
         }
-        return accumulator;
-      }, []);
-
-      setAcceptedApplicants(allAcceptedApplicants);
-      console.log(allAcceptedApplicants);
-    } else {
-      console.log("Data structure is not as expected.");
+      }
+    } catch (error) {
+      console.error('Error fetching last message:', error);
     }
-  } catch (error) {
-    console.error("Error loading accepted applicants:", error);
-  }
-};
-
-// ...
-
+    return null;
+  };
 
   const chat = (applicantId) => {
-    const chatId = applicantId + "_" + creatorId;
-    const link = "/chat/" + chatId;
+    const chatId = `${applicantId}_${creatorId}`;
+    const link = `/chat/${chatId}`;
     navigate(link);
   };
 
   return (
     <div>
-      {acceptedApplicants.map((acceptedApplicant) => (
-        <div className="applicants-container" key={acceptedApplicant._id}>
-          <div className="applicants-desc-chat">
-        
-              <div
-                className="nav-profile-pic"
-                alt={`${acceptedApplicant.name} profile`}
-                style={{ backgroundImage: `url(${acceptedApplicant.profilePhoto ?? unicorn})` }}
-              />
-              {console.log(acceptedApplicant.profilePhoto, "sadasdasd")}
+      {!isDataLoaded ? (
+        <Loader />
+      ) : (
+        acceptedApplicants.map((acceptedApplicant) => (
+          <div
+            className={`chatContainer`}
+            key={acceptedApplicant._id}
+            onClick={() => chat(acceptedApplicant._id)}
+          >
+            <div
+              className={`company-photo`}
+              style={{
+                backgroundImage: `url(${acceptedApplicant.profilePhoto || unicorn})`,
+              }}
+            ></div>
+            <div className={`info`}>
               <Text
                 label={acceptedApplicant.name}
                 size={"s16"}
                 weight={"medium"}
                 color={"black"}
               />
+              {/* Include the last message logic here */}
+              {acceptedApplicant.lastMessage && (
+                <Text
+                  label={
+                    acceptedApplicant.lastMessage.name !== acceptedApplicant.name
+                      ? "You: " + acceptedApplicant.lastMessage.text
+                      : acceptedApplicant.lastMessage.text
+                  }
+                  size={"s14"}
+                  weight={"light"}
+                  color={"gray"}
+                />
+              )}
             </div>
-        
-          <div className="applicant-buttons">
-            <div
-              className="chat"
-              onClick={() => {
-                chat(acceptedApplicant._id);
-              }}
-            >
-              Chat
+            <div className={`ch`} onClick={() => chat(acceptedApplicant._id)}>
+              <img src={chatIcon} alt="Chat Icon" />
             </div>
+            {acceptedApplicant.lastMessage &&
+              acceptedApplicant.lastMessage.uid !== acceptedApplicant._id || (
+                <div className="newMessageCircle"></div>
+              )}
           </div>
-        </div>
-      ))}
+        ))
+      )}
     </div>
   );
 }

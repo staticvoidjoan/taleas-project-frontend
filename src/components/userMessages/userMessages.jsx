@@ -7,10 +7,12 @@ import Text from "../text/text";
 import chat from "../../assets/icons/chat.svg";
 import { getDocs, query, collection, where, orderBy, limit } from "firebase/firestore";
 import { db } from "../../firebase";
+import Loader from "../Loader/Loader";
 
 function ListUserMessages({ user }) {
   const navigate = useNavigate();
   const [chatData, setChatData] = useState([]);
+  const [isChatDataLoaded, setIsChatDataLoaded] = useState(false);
 
   useEffect(() => {
     fetchData();
@@ -42,7 +44,16 @@ function ListUserMessages({ user }) {
         lastMessage: lastMessages[index],
       }));
 
+      // Sort the chatData based on the timestamp of the lastMessage (most recent first)
+      chatData.sort((a, b) => {
+        if (a.lastMessage && b.lastMessage) {
+          return b.lastMessage.timestamp - a.lastMessage.timestamp;
+        }
+        return 0;
+      });
+      console.log(lastMessages)
       setChatData(chatData);
+      setIsChatDataLoaded(true); // Set chat data as loaded
     } catch (error) {
       console.error(error);
     }
@@ -72,6 +83,7 @@ function ListUserMessages({ user }) {
           return {
             name: doc.data().name,
             text: text,
+            timestamp: doc.data().timestamp,
           };
         }
       }
@@ -94,25 +106,29 @@ function ListUserMessages({ user }) {
         Messages ({chatData.length})
       </div>
 
-      <div>
-        {chatData.map(({ creatorId, match, lastMessage }) => (
-          <div key={creatorId} className={`chatContainer ${lastMessage && lastMessage.name !== user.name ? "hasNewMessage" : ""}`} onClick={() => goToChat(creatorId)}>
-            {lastMessage && lastMessage.name !== user.name && <div className="newMessageCircle"></div>}
-            <div className="company-photo" style={{ 
+      {!isChatDataLoaded ? (
+        <Loader />
+      ) : (
+        <div>
+          {chatData.map(({ creatorId, match, lastMessage }) => (
+            <div key={creatorId} className={`chatContainer ${lastMessage && lastMessage.name !== user.name ? "hasNewMessage" : ""}`} onClick={() => goToChat(creatorId)}>
+              {lastMessage && lastMessage.name !== user.name && <div className="newMessageCircle"></div>}
+              <div className="company-photo" style={{ 
                 backgroundImage: match && match.creatorId && match.creatorId.companyPhoto
                   ? `url(${match.creatorId.companyPhoto})`
                   : `url(${unicorn})`,
                 lightgray: "50%"
               }}>
               </div>
-            <div className="info">
-              <Text label={match && match.creatorId && match.creatorId.companyName ? match.creatorId.companyName : ""} size={"s16"} weight={"medium"} color={"black"} />
-              <Text label={lastMessage ? lastMessage.text : ""} size={"s14"} weight={"thin"} color={"lightgray"} />
+              <div className="info">
+                <Text label={match && match.creatorId && match.creatorId.companyName ? match.creatorId.companyName : ""} size={"s16"} weight={"medium"} color={"black"} />
+                <Text label={lastMessage ? lastMessage.text : ""} size={"s14"} weight={"thin"} color={"lightgray"} />
+              </div>
+              <div className="ch" onClick={() => goToChat(creatorId)}><img src={chat} alt="Chat Icon" /></div>
             </div>
-            <div className="ch" onClick={() => goToChat(creatorId)}><img src={chat} alt="Chat Icon" /></div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

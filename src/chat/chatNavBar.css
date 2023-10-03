@@ -14,6 +14,7 @@
     background-position: center center;
     background-repeat: no-repeat;
     box-shadow: 9px 9px 5px -4px rgba(0, 0, 0, 0.24);
+    object-fit: cover;
 }
 
 .chatNavBar-name {
@@ -21,3 +22,4 @@
     font-weight: 500;
     margin-top: 10px;
 }
+
