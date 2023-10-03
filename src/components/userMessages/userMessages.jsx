@@ -44,6 +44,14 @@ function ListUserMessages({ user }) {
         lastMessage: lastMessages[index],
       }));
 
+      // Sort the chatData based on the timestamp of the lastMessage (most recent first)
+      chatData.sort((a, b) => {
+        if (a.lastMessage && b.lastMessage) {
+          return b.lastMessage.timestamp - a.lastMessage.timestamp;
+        }
+        return 0;
+      });
+      console.log(lastMessages)
       setChatData(chatData);
       setIsChatDataLoaded(true); // Set chat data as loaded
     } catch (error) {
@@ -75,6 +83,7 @@ function ListUserMessages({ user }) {
           return {
             name: doc.data().name,
             text: text,
+            timestamp: doc.data().timestamp,
           };
         }
       }

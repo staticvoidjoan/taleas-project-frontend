@@ -59,6 +59,15 @@ function ListOfMatches({ employer }) {
           ...applicant,
           lastMessage: lastMessages[index],
         }));
+
+        // Sort the accepted applicants based on the timestamp of the lastMessage (most recent first)
+        all.sort((a, b) => {
+          if (a.lastMessage && b.lastMessage) {
+            return b.lastMessage.timestamp - a.lastMessage.timestamp;
+          }
+          return 0;
+        });
+
         setAcceptedApplicants(all);
         setIsDataLoaded(true); // Set data as loaded
       } else {
@@ -88,12 +97,14 @@ function ListOfMatches({ employer }) {
           return {
             name: doc.data().name,
             text: `${text.slice(0, 10)}...`, // Truncate long message
+            timestamp: doc.data().timestamp, // Include timestamp for sorting
           };
         } else {
           return {
             uid: doc.data().uid,
             name: doc.data().name,
             text: text,
+            timestamp: doc.data().timestamp, // Include timestamp for sorting
           };
         }
       }
