@@ -112,10 +112,12 @@ const ConfirmSignup = ({
 
   return (
     <div className="user-register-page">
+      
+        <div style={{ clear: "both", height: "90px" }}></div>
       <div className="form-box-register">
         <form
           onSubmit={confirmSignUp}
-          className="form-value"
+          className="form-value-confirm"
           style={{ marginTop: "20px" }}
         >
           <div style={{ marginBottom: "20px", marginTop: "20px" }}>
@@ -140,6 +142,7 @@ const ConfirmSignup = ({
           </button>
         </form>
       </div>
+      
     </div>
   );
 };

@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import linkPic from "../../assets/icons/link.svg";
 import Swal from "sweetalert2";
 import TextField from "@mui/material/TextField";
-
+import Animate from "../../animateTransition/AnimateY";
 const ProfileForm = ({ userId }) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -353,6 +353,7 @@ const ProfileForm = ({ userId }) => {
   };
 
   return (
+    <Animate>
     <div className="compete-profile-main">
       <div className="complete-profile-bar">
         <div className="complete-profile-bar-nav">
@@ -1035,6 +1036,7 @@ const ProfileForm = ({ userId }) => {
         </form>
       </div>
     </div>
+    </Animate>
   );
 };
 

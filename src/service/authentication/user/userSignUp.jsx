@@ -6,7 +6,7 @@ import ConfirmSignup from "./confirmSignup";
 import { Link, useNavigate } from "react-router-dom";
 import Text from "../../../components/text/text";
 import Button from "../../../components/button/button";
-
+import DatePicker from "react-datepicker";
 //Alerts
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -51,32 +51,10 @@ function RegistrationForm() {
   const validateForm = () => {
     let formIsValid = true;
     const newErrors = { ...errors };
-    const nameRegEx = /^[a-zA-Z]{2,30}$/;
-    const lastnameRegEx = /^[a-zA-Z]{2,30}$/;
+
     const emailRegEx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const passwordRegex =
       /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
-
-    // if (!name) {
-    //   formIsValid = false;
-    //   newErrors.name = "Full name is required";
-    // } else if (!nameRegEx.test(name)) {
-    //   formIsValid = false;
-    //   newErrors.name = "Name expression is not correct";
-    // } else {
-    //   newErrors.name = "";
-    // }
-
-    // if (!lastname) {
-    //   formIsValid = false;
-    //   newErrors.lastname = "Full name is required";
-    // } else if (!lastnameRegEx.test(lastname)) {
-    //   formIsValid = false;
-    //   newErrors.lastname = "Name expression is not correct";
-    // } else {
-    //   newErrors.lastname = "";
-    // }
-
     const birthDate = new Date(birthday);
     console.log(birthDate);
     const today = new Date();
@@ -142,7 +120,7 @@ function RegistrationForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (1 + 1 === 2) {
+    if (validateForm()) {
       console.log("The form results in", validateForm());
       if (selectedCategory === "employer") {
         setisEmployee(false);
@@ -228,13 +206,15 @@ function RegistrationForm() {
                 />
               </div>
               <div className="inputbox-register">
+                <label htmlFor="birthday" className="register-input-label">
+                  {formData.birthday ? "Date of Birth" : "Birthday"}
+                </label>
                 <input
                   type="date"
                   id="birthday"
                   name="birthday"
                   value={formData.birthday}
                   onChange={handleInputChange}
-                  placeholder="Birthday"
                   className="register-input"
                   required
                 />
@@ -397,6 +377,8 @@ function RegistrationForm() {
           )}
         </div>
       ) : (
+        <>
+        
         <ConfirmSignup
           username={formData.email}
           password={formData.password}
@@ -406,6 +388,8 @@ function RegistrationForm() {
           industry={formData.industry}
           address={formData.address}
         />
+        <div style={{ clear: "both", height: "90px"}}></div>
+        </>
       )}
       <div className="user-register-title">
         <div style={{ marginBottom: "16px" }}>

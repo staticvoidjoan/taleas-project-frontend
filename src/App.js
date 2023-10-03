@@ -74,7 +74,7 @@ function App() {
 
   // Check authentication status on component mount
   useEffect(() => {
-    localStorage.setItem("localindex", 0)
+    localStorage.setItem("localindex", 0);
     checkAuthenticated();
   }, []);
 
@@ -214,7 +214,8 @@ function App() {
     "/resendSignUp",
   ];
   const hideFooter = pathsToHideFooter.includes(location.pathname);
-
+  const hideComplete = location.pathname.startsWith("/completeprofile");
+  const hideDivider = location.pathname.startsWith("/")
   if (!isEmployeeLoaded) {
     return <Loader />;
   }
@@ -225,26 +226,36 @@ function App() {
 
   return (
     <div className="App">
-      {isLoading ? (
-        <NavBar
-          givenName={givenName}
-          lastName={lastName}
-          authenticated={authenticated}
-          employeeData={employee}
-          employerData={employer}
-          userRole={userRole}
-        />
+      {hideComplete ? null : isLoading ? (
+        <>
+          <NavBar
+            givenName={givenName}
+            lastName={lastName}
+            authenticated={authenticated}
+            employeeData={employee}
+            employerData={employer}
+            userRole={userRole}
+          />
+          {authenticated ? null : (
+           hideDivider ? null :
+           ( <div style={{ clear: "both", height: "90px" ,backgroundColor: "#212121" }}></div> )
+          
+          )}
+        </>
       ) : hideNav ? (
         <CenterNavbar />
       ) : (
-        <NavBar
-          givenName={givenName}
-          lastName={lastName}
-          authenticated={authenticated}
-          employeeData={employee}
-          employerData={employer}
-          userRole={userRole}
-        />
+        <>
+          <NavBar
+            givenName={givenName}
+            lastName={lastName}
+            authenticated={authenticated}
+            employeeData={employee}
+            employerData={employer}
+            userRole={userRole}
+          />
+          <div style={{ clear: "both", height: "90px" }}></div>
+        </>
       )}
 
       {/* ----------------------------------  Home routes ------------------------------------------------------- */}
@@ -334,7 +345,11 @@ function App() {
           }
         />
         <Route exact path="/userInfo/:id" element={<UserInfo />} />
-        <Route exact path="/viewjobpost/:id/:index" element={<EmployeeJobView />} />
+        <Route
+          exact
+          path="/viewjobpost/:id/:index"
+          element={<EmployeeJobView />}
+        />
         {/* --------------------------------------------------------------------------------------------------------------- */}
 
         {/* ----------------------------------  Employer routes ------------------------------------------------------- */}
