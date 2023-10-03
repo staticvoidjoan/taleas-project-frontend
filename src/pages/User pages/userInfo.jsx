@@ -91,10 +91,10 @@ const UserInfo = ({ userId }) => {
                 </div>
               </div>
               <div className="socials">
-                <a href="https://www.facebook.com" target="_blank">
+                <a href="https://www.instagram.com" target="_blank">
                   <img alt="facebook" src={facebook} />
                 </a>
-                <a href="https://www.instagram.com" target="_blank">
+                <a href="https://www.facebook.com" target="_blank">
                   <img alt="instagram" src={instagram} />
                 </a>
               </div>
@@ -225,6 +225,7 @@ const UserInfo = ({ userId }) => {
               ))}
               </div>
             </div>
+{/* links */}
             <div className="projects">
               <Text
                 label={"Link to projects"}
@@ -234,7 +235,7 @@ const UserInfo = ({ userId }) => {
               {links.map((links1, index) => (
                 <div className="project-link">
                   <img src={link} />
-                  <Text label={links1} size={"s16"} />
+                  <a href={links1} className="link-tab"><Text label={links1} size={"s16"} /></a>
                 </div>
               ))}
             </div>

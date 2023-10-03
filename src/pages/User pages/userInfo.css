@@ -196,3 +196,7 @@
 .div{
     width: 20px;
 }
+
+.link-tab{
+    text-decoration: none;
+}

@@ -2,7 +2,8 @@ import React from 'react';
 import ContentLoader from 'react-content-loader';
 
 const ContLoader = ({ ...rest }) => (
-    <ContentLoader viewBox=" 0 360 800" height={700} backgroundColor="#999999" foregroundColor="#ecebeb" width={400}>
+    <ContentLoader viewBox=" 0 360 800" height={700} backgroundColor="#cfe8f7"
+    foregroundColor="#ecebeb" width={400}>
     {/* Card Photo */}
     <rect x="20" y="40" rx="10" ry="10" width="350" height="500" />
   
