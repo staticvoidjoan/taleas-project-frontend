@@ -112,15 +112,10 @@ function App() {
   // Check if user is employee and save id to storage
   useEffect(() => {
     const saveToStorage = async () => {
-      console.log("Checking employee status:", checkEmployee);
-      console.log("User email:", useremail);
-      console.log(" User status", userRole);
-
       if (userRole === "employee") {
-        console.log("Saving as employee");
+
         await saveEmployeeToStorage();
       } else {
-        console.log("Saving as employer");
         await saveEmployerToStorage();
       }
       setTimeout(() => {
@@ -153,15 +148,15 @@ function App() {
 
   // Save employee data to local storage
   const saveEmployeeToStorage = async () => {
-    console.log("Trying to get employee with ", useremail);
+  
     try {
       const response = await axios.get(
         `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/userByEmail/${useremail}`
       );
       localStorage.setItem("employeeId", response.data.user._id);
-      console.log(localStorage.getItem("employeeId"));
+
       setEmployee(response.data.user);
-      console.log(response.data.user);
+    
     } catch (error) {
       console.error("Error fetching employee data:", error);
     }
@@ -169,7 +164,6 @@ function App() {
 
   // Save employer data to local storage
   const saveEmployerToStorage = async () => {
-    console.log("Trying to get employer with", useremail);
     try {
       const response = await axios.get(
         `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/employer-email/${useremail}`
@@ -177,7 +171,6 @@ function App() {
       localStorage.setItem("employerId", response.data.employer._id);
       setEmployer(response.data.employer);
 
-      console.log(response.data.employer);
     } catch (error) {
       console.error("Error fetching employer data:", error);
     }
