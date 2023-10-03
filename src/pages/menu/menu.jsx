@@ -6,6 +6,7 @@ import Animate from "../../animateTransition/AnimateY";
 const Menu = (props) => {
   return (
     <Animate>
+      <div style={{ clear: "both", height: "70px"  }}></div>
       <div className="menu">
         <hr className="line-menu" />
         <div className="menu-list">
