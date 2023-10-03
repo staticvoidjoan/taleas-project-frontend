@@ -53,10 +53,10 @@ const ConfirmSignup = ({
         const userMongoId = response.data._id;
         localStorage.setItem("userMongoId", userMongoId);
         console.log("Axios POST request successful");
-        navigate("/");
+        navigate("/profile");
         window.location.reload();
       } catch (error) {
-        navigate("/");
+        navigate("/profile");
         console.error("Error during POST request:", error);
       }
     } else {
