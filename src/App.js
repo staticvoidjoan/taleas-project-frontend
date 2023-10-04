@@ -163,7 +163,7 @@ function App() {
   const saveEmployerToStorage = async () => {
     try {
       const response = await axios.get(
-        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/employer-email/${useremail}`
+        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/employerByEmail/${useremail}`
       );
       localStorage.setItem("employerId", response.data.employer._id);
       setEmployer(response.data.employer);

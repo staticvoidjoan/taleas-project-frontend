@@ -9,11 +9,26 @@ import emailpic from "../../assets/icons/email.svg";
 import locationico from "../../assets/icons/location.svg";
 import Animate from "../../animateTransition/Animate";
 import CenterNavbar from "../../components/centerNavbar/centerNavbar";
+import Swal from "sweetalert2";
 const EmployerProfile = ({ employerData, employeeCheck }) => {
   const [newPhoto, setNewPhoto] = useState({
     profilePhoto: "",
   });
+  const [profile, setProfile] = useState({
+    address: "",
+    industry: "",
+  });
   useEffect(() => {
+    if (employerData.address === ""){
+      Swal.fire({
+        title: 'Sweet!',
+        text: 'Modal with a custom image.',
+        imageUrl: 'https://unsplash.it/400/200',
+        imageWidth: 400,
+        imageHeight: 200,
+        imageAlt: 'Custom image',
+      })
+    }
     console.log("newPhoto:", newPhoto);
     if (newPhoto.profilePhoto) {
       // Automatically submit the form when a new image is selected
@@ -81,7 +96,7 @@ const EmployerProfile = ({ employerData, employeeCheck }) => {
               weight={"bold"}
             />
             <Text
-              label={employerData.industry}
+              label={employerData.industry ?? "Industry"}
               size={"s16"}
               weight={"regular"}
               color={"black"}
@@ -107,7 +122,7 @@ const EmployerProfile = ({ employerData, employeeCheck }) => {
                 <img src={locationico} className="location-icon" />
                 <div style={{ marginRight: "10px" }}>
                   <Text
-                    label={employerData.address}
+                    label={employerData.address ?? "Address"}
                     weight={"regular"}
                     color={"lightgray"}
                     size={"s14"}

@@ -31,7 +31,6 @@ const ConfirmSignup = ({
     }
   }
 
-
   const logIn = async () => {
     try {
       const user = await Auth.signIn(username, password);
@@ -47,16 +46,30 @@ const ConfirmSignup = ({
       localStorage.setItem("idToken", idToken);
       localStorage.setItem("accessToken", accessToken);
       console.log(username);
-      navigate("/profile")
+      if (isEmployee === "false") {
+        updateEmployer();
+      }
+      navigate("/profile");
     } catch (err) {
       console.log(err);
     }
   };
 
+ const updateEmployer = async () => {
+  try {
+    
+    await axios.put(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/updateEmployerEmail${username}`,{
+      address: address,
+      industry: industry
+    })
+  } catch (error) {
+    console.log(error);
+  }
+ }
+
   return (
     <div className="user-register-page">
-      
-        <div style={{ clear: "both", height: "90px" }}></div>
+      <div style={{ clear: "both", height: "90px" }}></div>
       <div className="form-box-register">
         <form
           onSubmit={confirmSignUp}
@@ -85,7 +98,6 @@ const ConfirmSignup = ({
           </button>
         </form>
       </div>
-      
     </div>
   );
 };
