@@ -92,7 +92,7 @@ function App() {
       setLastName(userLastName);
 
       const isEmployee = userAttributes["custom:isEmployee"];
-      if (isEmployee === "true") {
+      if (isEmployee === true) {
         setUserRole("employee");
       } else setUserRole("employer");
       setCheckEmployee(isEmployee);

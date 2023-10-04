@@ -241,7 +241,7 @@ function RegistrationForm() {
               )}
               <div className="radio-terms">
                 <input
-                  type="radio"
+                  type="checkbox"
                   name="agree-to-terms"
                   required
                   className="terms-button"
@@ -358,7 +358,7 @@ function RegistrationForm() {
               </div>
               <div className="radio-terms">
                 <input
-                  type="radio"
+                  type="checkbox"
                   name="agree-to-terms"
                   required
                   className="terms-button"
