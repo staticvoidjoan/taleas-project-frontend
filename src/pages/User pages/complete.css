@@ -165,6 +165,17 @@
     margin-top: 16px;
 }
 
+.error-message{
+  display: flex;
+  flex-direction: row;
+  margin: 16px 0px 0px;
+  color: red;
+}
+
+.error-icon{
+  height: 18px;
+}
+
 .add-button-fields{
   background-color: #6e46f5;
   color: #fff;

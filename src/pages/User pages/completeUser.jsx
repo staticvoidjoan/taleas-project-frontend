@@ -11,6 +11,7 @@ import linkPic from "../../assets/icons/link.svg";
 import Swal from "sweetalert2";
 import TextField from "@mui/material/TextField";
 import Animate from "../../animateTransition/AnimateY";
+import error from "../../assets/icons/exclamation-mark-svgrepo-com.svg"
 const ProfileForm = ({ userId }) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -134,22 +135,6 @@ const ProfileForm = ({ userId }) => {
     });
   };
 
-  const handleCancel = () => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        navigate("/profile");
-      }
-    });
-  };
-
   useEffect(() => {
     loadUser();
   }, []);
@@ -214,8 +199,45 @@ const ProfileForm = ({ userId }) => {
     const { value } = e.target;
     const list = [...formData[section]];
     list[index][field] = value;
+  
+    // Perform date validation if the field is 'startDate' or 'endDate'
+    if (field === 'startDate' || field === 'endDate') {
+      const startDate = new Date(list[index]['startDate']);
+      const endDate = new Date(list[index]['endDate']);
+      const currentDate = new Date();
+  
+      if (field === 'startDate' && startDate > currentDate) {
+        list[index]['error'] = 'Start date should not be later than current date';
+      }
+      else if (list[index]['startDate'] && list[index]['endDate']) {
+        if (endDate < startDate) {
+          list[index]['error'] = 'End date should be earlier than start date';
+        } else {
+          list[index]['error'] = '';
+        }
+      }
+    }
+
+    if (field === 'issueDate' || field === 'expirationDate') {
+      const issueDate = new Date(list[index]['issueDate']);
+      const expirationDate = new Date(list[index]['expirationDate']);
+      const currentDate = new Date();
+  
+      if (field === 'issueDate' && issueDate > currentDate) {
+        list[index]['error'] = 'Issue date should not be later than current date';
+      }
+      else if (list[index]['issueDate'] && list[index]['expirationDate']) {
+        if (expirationDate < issueDate) {
+          list[index]['error'] = 'Expiration date should be earlier than issue date';
+        } else {
+          list[index]['error'] = '';
+        }
+      }
+    }
+  
     setFormData((prevState) => ({ ...prevState, [section]: list }));
   };
+  
   const onInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -555,6 +577,7 @@ const ProfileForm = ({ userId }) => {
                           shrink: true,
                         }}
                       />
+                       <div className="validation">{edu.error && (<div className="error-message"><img className="error-icon" src={error} alt="error" /><p>{edu.error}</p></div>)} </div>
                     </div>
                     <div className="remove-fields-button">
                       <button
@@ -660,7 +683,7 @@ const ProfileForm = ({ userId }) => {
                           shrink: true,
                         }}
                       />
-                    </div>
+                    </div><div className="validation">{exp.error && (<div className="error-message"><img className="error-icon" src={error} alt="error" /><p>{exp.error}</p></div>)} </div>
                     <div className="remove-fields-button">
                       <button
                         type="button"
@@ -780,7 +803,7 @@ const ProfileForm = ({ userId }) => {
                         InputLabelProps={{
                           shrink: true,
                         }}
-                      />
+                      /><div className="validation">{cert.error && (<div className="error-message"><img className= 'error-icon'src={error} alt="error" /><p>{cert.error}</p></div>)} </div>
                     </div>
                     <div className="remove-fields-button">
                       <button
@@ -1029,8 +1052,10 @@ const ProfileForm = ({ userId }) => {
             >
               Submit
             </button>
-            <button className="cancel-button" onClick={handleCancel}>
+            <button className="cancel-button">
+              <Link to='/profile'>
               Cancel
+              </Link>
             </button>
           </div>
         </form>

@@ -31,63 +31,6 @@ const ConfirmSignup = ({
     }
   }
 
-  const saveToDatabase = async () => {
-    console.log(isEmployee);
-    if (isEmployee) {
-      try {
-        console.log("registering employee");
-        const response = await axios.post(
-          "https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/user",
-          {
-            name: name,
-            lastname: lastName,
-            email: username,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json", // Add this line
-            },
-          }
-        );
-
-        const userMongoId = response.data._id;
-        localStorage.setItem("userMongoId", userMongoId);
-        console.log("Axios POST request successful");
-        navigate("/profile");
-        window.location.reload();
-      } catch (error) {
-        navigate("/profile");
-        console.error("Error during POST request:", error);
-      }
-    } else {
-      try {
-        console.log("registering employer");
-        const response = await axios.post(
-          "https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/employer",
-          {
-            companyName: name,
-            industry: industry,
-            email: username,
-            address: address,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json", // Add this line
-            },
-          }
-        );
-        const userMongoId = response.data._id;
-        localStorage.setItem("userMongoId", userMongoId);
-        console.log("Axios POST request successful");
-        navigate("/");
-        window.location.reload();
-      } catch (error) {
-        window.location.reload();
-        console.error("Error during POST request:", error);
-      }
-    }
-    console.log("After Axios POST request");
-  };
 
   const logIn = async () => {
     try {
@@ -104,7 +47,7 @@ const ConfirmSignup = ({
       localStorage.setItem("idToken", idToken);
       localStorage.setItem("accessToken", accessToken);
       console.log(username);
-      saveToDatabase();
+      navigate("/profile")
     } catch (err) {
       console.log(err);
     }
