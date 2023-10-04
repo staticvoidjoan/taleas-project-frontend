@@ -227,7 +227,7 @@ const ProfileForm = ({ userId }) => {
       }
       else if (list[index]['startDate'] && list[index]['endDate']) {
         if (endDate < startDate) {
-          list[index]['error'] = 'End date should be later than start date';
+          list[index]['error'] = 'End date should be earlier than start date';
         } else {
           list[index]['error'] = '';
         }
@@ -244,7 +244,7 @@ const ProfileForm = ({ userId }) => {
       }
       else if (list[index]['issueDate'] && list[index]['expirationDate']) {
         if (expirationDate < issueDate) {
-          list[index]['error'] = 'Expiration date should be later than issue date';
+          list[index]['error'] = 'Expiration date should be earlier than issue date';
         } else {
           list[index]['error'] = '';
         }
