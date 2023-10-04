@@ -241,6 +241,18 @@ button {
   background-color: #fff;
 }
 
+.inputbox-register-birthday{
+  width: calc(100% - 40px);
+  height: 48px;
+  flex-shrink: 0;
+  margin-bottom: 16px;
+  border: none;
+  display: flex;
+  justify-content: center;
+  background-color: #fff;
+}
+
+
 .inputbox-register-box {
   width: calc(100% - 40px);
   height: 90px;
@@ -323,19 +335,14 @@ button {
   align-content: center;
   margin-left: 12px;
 }
-.terms-button {
-  border: 2px solid #222;
-  padding: 0.5em;
+.terms-button{
+  font-size: .9em;
+  color: aliceblue;
+  font-weight: 500;
+  display: flex;
+  justify-content:space-between
 }
 
-.terms-button:checked {
-  background-color: #222;
-  color: #fff;
-  background-size: 5px 5px;
-}
-.terms-button:focus {
-  outline-color: transparent;
-}
 .register-btn {
   width: calc(100% - 40px);
   background-color: #6e46f5;
@@ -398,7 +405,7 @@ button {
 .register-input {
   width: 100%;
   padding: 10px;
-  border: 1px solid #ccc;
+  border: none;
   border-radius: 5px;
   outline: none;
   font-size: 16px;

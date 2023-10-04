@@ -10,6 +10,7 @@ import Button from "../../../components/button/button";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./user.css";
+import TextField from "@mui/material/TextField"
 
 function RegistrationForm() {
   Amplify.configure(awsExports);
@@ -211,18 +212,21 @@ function RegistrationForm() {
               {errors.birthday && (
                 <div className="error-message">{errors.birthday}</div>
               )}
-              <div className="inputbox-register">
-                <label htmlFor="birthday" className="register-input-label">
+              <div className="inputbox-register-birthday">
+                {/* <label htmlFor="birthday" className="register-input-label">
                   {formData.birthday ? "Date of Birth" : "Birthday"}
-                </label>
-                <input
+                </label> */}
+                <TextField
+                    label="Birthday"
+                    id="outlined-basic"
+                    variant="outlined"
                   type="date"
-                  id="birthday"
                   name="birthday"
                   value={formData.birthday}
                   onChange={handleInputChange}
                   className="register-input"
                   required
+                  InputLabelProps={{ shrink: true }}
                 />
               </div>
               <div className="inputbox-register">
@@ -241,11 +245,10 @@ function RegistrationForm() {
               )}
               <div className="radio-terms">
                 <input
-                  type="radio"
+                  type="checkbox"
                   name="agree-to-terms"
                   required
                   className="terms-button"
-                  style={{ appearance: "none", borderRadius: "0" }}
                 />
                 <div className="terms-text">
                   <div style={{ marginRight: "5px" }}>
@@ -358,11 +361,10 @@ function RegistrationForm() {
               </div>
               <div className="radio-terms">
                 <input
-                  type="radio"
+                  type="checkbox"
                   name="agree-to-terms"
                   required
                   className="terms-button"
-                  style={{ appearance: "none", borderRadius: "0" }}
                 />
                 <div className="terms-text">
                   <div style={{ marginRight: "5px" }}>
