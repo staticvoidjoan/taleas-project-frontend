@@ -102,11 +102,8 @@ function ListUserMessages({ user }) {
   };
 
   return (
-    <div>
-      <div className="userMessagesTitle">
-        Messages ({chatData.length})
-      </div>
-
+    <div className="bigContainer">
+      <Text label={`Messages (${chatData.length})`} size={"s16"} weight={"medium"} color={"black"} />
       {!isChatDataLoaded ? (
         <Loader />
       ) : (
@@ -128,9 +125,9 @@ function ListUserMessages({ user }) {
                 <Text label={lastMessage ? lastMessage.text : ""} size={"s14"} weight={"thin"} color={"lightgray"} />
               </div>
               </div>
-              <div className="newMessage">
+              <div className="new">
               <div className="chat" onClick={() => goToChat(creatorId)}><img src={chat} alt="Chat Icon" /></div>
-              {lastMessage && lastMessage.uid !== user._id && <div className="newMessage"></div>}
+              {lastMessage && lastMessage.uid !== user._id && <div className="newMessageCircle"></div>}
               </div>
             </div>
           ))}
