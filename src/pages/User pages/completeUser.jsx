@@ -135,22 +135,6 @@ const ProfileForm = ({ userId }) => {
     });
   };
 
-  const handleCancel = () => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        navigate("/profile");
-      }
-    });
-  };
-
   useEffect(() => {
     loadUser();
   }, []);
@@ -1068,8 +1052,10 @@ const ProfileForm = ({ userId }) => {
             >
               Submit
             </button>
-            <button className="cancel-button" onClick={handleCancel}>
+            <button className="cancel-button">
+              <Link to='/profile'>
               Cancel
+              </Link>
             </button>
           </div>
         </form>
