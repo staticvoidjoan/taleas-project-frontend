@@ -25,7 +25,7 @@
   object-fit: cover; 
 }
 
-.newMessageCircle {
+.new .newMessageCircle {
   width: 10px;
   height: 10px;
   background-color: red;

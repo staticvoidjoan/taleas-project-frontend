@@ -76,12 +76,14 @@ function ListUserMessages({ user }) {
         // Check if the message is too long
         if (text.length > 10) { // Adjust the threshold as needed
           return {
+            uid: doc.data().uid,
             name: doc.data().name,
             text: `${text.slice(0, 10)}...`, // Truncate long message
             timestamp: doc.data().timestamp,	
           };
         } else {
           return {
+            uid: doc.data().uid,
             name: doc.data().name,
             text: text,
             timestamp: doc.data().timestamp,
@@ -102,7 +104,7 @@ function ListUserMessages({ user }) {
   };
 
   return (
-    <div className="bigContainer">
+    <div className="big">
       <Text label={`Messages (${chatData.length})`} size={"s16"} weight={"medium"} color={"black"} />
       {!isChatDataLoaded ? (
         <Loader />
@@ -110,7 +112,7 @@ function ListUserMessages({ user }) {
         <div>
           {chatData.map(({ creatorId, match, lastMessage }) => (
             
-            <div key={creatorId} className={`chatContainer ${lastMessage && lastMessage.name !== user.name ? "hasNewMessage" : ""}`} onClick={() => goToChat(creatorId)}>
+            <div key={creatorId} className={`chatContainer`} onClick={() => goToChat(creatorId)}>
               <div className="s">
               <div className="company-photo" style={{ 
                 backgroundImage: match && match.creatorId && match.creatorId.companyPhoto
@@ -127,7 +129,7 @@ function ListUserMessages({ user }) {
               </div>
               <div className="new">
               <div className="chat" onClick={() => goToChat(creatorId)}><img src={chat} alt="Chat Icon" /></div>
-              {lastMessage && lastMessage.uid !== user._id && <div className="newMessageCircle"></div>}
+              {lastMessage && lastMessage.uid !== creatorId && <div className="newMessageCircle"></div>}
               </div>
             </div>
           ))}
