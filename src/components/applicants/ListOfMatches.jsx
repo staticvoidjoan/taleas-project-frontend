@@ -135,7 +135,7 @@ function ListOfMatches({ employer }) {
       ) : (
         acceptedApplicants.map((acceptedApplicant) => (
           <div
-            className={`chat-container`}
+            className="chat-container"
             key={acceptedApplicant._id}
             onClick={() => chat(acceptedApplicant._id)}
           >
@@ -168,13 +168,13 @@ function ListOfMatches({ employer }) {
                 )}
               </div>
             </div>
-            <div className="newMessage">
-              <div className={`ch`} onClick={() => chat(acceptedApplicant._id)}>
-                {unreadMessages[acceptedApplicant._id] && <div className="redCircle"></div>}
-                <img src={chatIcon} alt="Chat Icon" />
+            
+              <div className="newMessage" onClick={() => chat(acceptedApplicant._id)}>
+              <img src={chatIcon} alt="Chat Icon" />
+                {acceptedApplicant.lastMessage.uid === acceptedApplicant._id && <div className="redCircle"></div>}
+                
               </div>
             </div>
-          </div>
         ))
       )}
     </div>
