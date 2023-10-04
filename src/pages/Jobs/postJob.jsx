@@ -6,7 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 import Animate from "../../animateTransition/AnimateY";
-import Trash from "../../assets/icons/TrashCan.svg"
+import Trash from "../../assets/icons/TrashCan.svg";
 
 const PostJob = () => {
   const { id } = useParams();
@@ -30,12 +30,12 @@ const PostJob = () => {
 
   const onAddRequirement = () => {
     if (newRequirement.trim() !== "") {
-      const uniqueId = Date.now(); // Generate a unique identifier
+      const uniqueId = Date.now();
       setRequirements((prevRequirements) => [
         ...prevRequirements,
         { text: newRequirement, id: uniqueId },
       ]);
-      setNewRequirement(""); // Clear the input field after adding
+      setNewRequirement("");
     }
   };
 
@@ -46,49 +46,57 @@ const PostJob = () => {
     });
   };
 
-  const getCategoryNames = async (e) => {
+  const getCategoryNames = async () => {
     try {
       const response = await axios.get(
         "https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/category"
       );
       setCategories(response.data.categories);
-    } catch (error) {}
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-
-  const waitforSumbit = async(e) => {
+  const waitforSubmit = async (e) => {
     e.preventDefault();
     Swal.fire({
-      title: 'Do you want to post this job?',
+      title: "Do you want to post this job?",
       showDenyButton: true,
-      confirmButtonText: 'Post',
-      denyButtonText: `Not Yet`,
+      confirmButtonText: "Post",
+      denyButtonText: "Not Yet",
     }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
         onSubmit();
       } else if (result.isDenied) {
-        Swal.fire('Job no posted', '', 'info')
+        Swal.fire("Job not posted", "", "info");
       }
-    })
-  }
-
+    });
+  };
 
   const onSubmit = async () => {
-   
     if (!category || !position || !description) {
       alert("Please fill in all required fields.");
       return;
     }
-    console.log("Submitting the form...");
+
+    // Create a new array of requirement strings without the 'text' property
+    const requirementsWithoutText = requirements.map(({ text }) => text);
+
+    const updatedJobPost = {
+      ...jobPost,
+      requirements: requirementsWithoutText,
+    };
+
     try {
-      console.log("Adding new job post...");
-      console.log(category, id, position, requirements, description);
-      console.log(jobPost);
+      console.log("Submitting the form...");
+      console.log(category, id, position, requirementsWithoutText, description);
+      console.log(updatedJobPost);
+
       await axios.post(
         `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/creator/${id}`,
-        jobPost
+        updatedJobPost
       );
+
       console.log("Job Successfully posted");
       let timerInterval;
       Swal.fire({
@@ -96,7 +104,7 @@ const PostJob = () => {
         icon: "success",
         timer: 1000,
         didOpen: () => {
-          const b = Swal.getHtmlContainer()?.querySelector("b"); // Check if it exists
+          const b = Swal.getHtmlContainer()?.querySelector("b");
           if (b) {
             timerInterval = setInterval(() => {
               b.textContent = Swal.getTimerLeft();
@@ -110,11 +118,10 @@ const PostJob = () => {
         if (result.dismiss === Swal.DismissReason.timer) {
           console.log("I was closed by the timer");
         }
-        // Handle other actions as needed
         navigate(-1);
       });
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -139,12 +146,12 @@ const PostJob = () => {
           <hr className="post-job-bar-div"></hr>
         </div>
         <div className="post-job-body">
-          <form className="job-form" onSubmit={waitforSumbit}>
+          <form className="job-form" onSubmit={waitforSubmit}>
             <div className="inputbox-register">
               {categories.length > 0 ? (
                 <select
                   name="category"
-                  value={jobPost.category}
+                  value={category}
                   onChange={onInputChange}
                   className="register-input"
                   required
@@ -167,18 +174,17 @@ const PostJob = () => {
                 type="text"
                 name="position"
                 value={position}
-                onChange={(e) => onInputChange(e)}
+                onChange={onInputChange}
                 placeholder="Position"
                 className="register-input"
                 required
               />
             </div>
             <div className="inputbox-register-box">
-              <input
-                type="textarea"
+              <textarea
                 name="description"
                 value={description}
-                onChange={(e) => onInputChange(e)}
+                onChange={onInputChange}
                 placeholder="Description..."
                 className="register-input"
                 required
