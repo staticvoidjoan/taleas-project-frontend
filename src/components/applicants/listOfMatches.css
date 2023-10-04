@@ -1,51 +1,62 @@
-/* userMessages.css */
+/* listOfMatches.css */
+/* You can add this CSS to the existing listOfMatches.css file */
+
+/* Messages Title */
 .userMessagesTitle {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  .chatContainer {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
-  }
-  
-  .hasNewMessage {
-    background-color: #f0f0f0; /* Add a background color for new messages */
-  }
-  
-  .company-photo {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    object-fit: cover;
-    object-position: center center;
-  }
-  
-  .info {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    margin-left: 20px;
-  }
-  
-  .info > * {
-    margin: 5px 0; /* Add spacing between elements inside .info */
-  }
-  
-  .ch {
-    cursor: pointer;
-  }
-  
-  .newMessageCircle {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* Chat Container */
+.chat-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.chat-container .subdiv {
+  display: flex;
+  flex-direction: row;
+  align-items: left;
+}
+
+.company-photo {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center center;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  margin-left: 20px;
+}
+
+.info > * {
+  margin: 5px 0; /* Add spacing between elements inside .info */
+}
+
+.ch {
+  cursor: pointer;
+}
+
+/* New Message Red Circle */
+.newMessage .redCircle {
     width: 10px;
     height: 10px;
-    background-color: green; /* Change the color of the new message indicator */
+    background-color: red;
     border-radius: 50%;
-  }
-  
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    display: none; 
+}

@@ -17,15 +17,6 @@
     background-color: #fff;
     padding-left: 20px;
   }
-  .chatButton {
-    width: 70px;
-    height: 40px;
-    background-color: #6e46f5;
-    padding: 10px;
-    border-radius: 5px;
-    border: none;
-    color: #fff;
-  }
   
   .company-photo {
     width: 70px;
@@ -41,13 +32,18 @@
     background-color: red;
     border-radius: 50%;
     position: absolute;
-    top: 50%;
-    right: 10px;
+    top: 45%;
+    right: 30px;
     transform: translateY(-50%);
     display: none; /* Initially hide the red circle */
   }
   
   .hasNewMessage .newMessageCircle {
     display: block; /* Show the red circle when there is a new message */
+  }
+  .s{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
   

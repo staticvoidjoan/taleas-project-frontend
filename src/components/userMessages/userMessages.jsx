@@ -78,6 +78,7 @@ function ListUserMessages({ user }) {
           return {
             name: doc.data().name,
             text: `${text.slice(0, 10)}...`, // Truncate long message
+            timestamp: doc.data().timestamp,	
           };
         } else {
           return {
@@ -111,8 +112,9 @@ function ListUserMessages({ user }) {
       ) : (
         <div>
           {chatData.map(({ creatorId, match, lastMessage }) => (
+            
             <div key={creatorId} className={`chatContainer ${lastMessage && lastMessage.name !== user.name ? "hasNewMessage" : ""}`} onClick={() => goToChat(creatorId)}>
-              {lastMessage && lastMessage.name !== user.name && <div className="newMessageCircle"></div>}
+              <div className="s">
               <div className="company-photo" style={{ 
                 backgroundImage: match && match.creatorId && match.creatorId.companyPhoto
                   ? `url(${match.creatorId.companyPhoto})`
@@ -120,11 +122,16 @@ function ListUserMessages({ user }) {
                 lightgray: "50%"
               }}>
               </div>
+
               <div className="info">
                 <Text label={match && match.creatorId && match.creatorId.companyName ? match.creatorId.companyName : ""} size={"s16"} weight={"medium"} color={"black"} />
                 <Text label={lastMessage ? lastMessage.text : ""} size={"s14"} weight={"thin"} color={"lightgray"} />
               </div>
-              <div className="ch" onClick={() => goToChat(creatorId)}><img src={chat} alt="Chat Icon" /></div>
+              </div>
+              <div className="newMessage">
+              <div className="chat" onClick={() => goToChat(creatorId)}><img src={chat} alt="Chat Icon" /></div>
+              {lastMessage && lastMessage.uid !== user._id && <div className="newMessage"></div>}
+              </div>
             </div>
           ))}
         </div>
