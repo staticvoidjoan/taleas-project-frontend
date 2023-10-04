@@ -86,10 +86,10 @@ const JobView = () => {
   const likeUser = async (userid) => {
     console.log("Trying to like");
     try {
-      await axios.put(
+      const response = await axios.put(
         `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/like-user/${post._id}?id=${userid}`
       );
-      console.log("Liked");
+      console.log("Liked", response);
       loadPost();
     } catch (error) {
       console.log(error);
