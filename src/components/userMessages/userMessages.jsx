@@ -76,11 +76,14 @@ function ListUserMessages({ user }) {
         // Check if the message is too long
         if (text.length > 10) { // Adjust the threshold as needed
           return {
+            uid: doc.data().uid,
             name: doc.data().name,
             text: `${text.slice(0, 10)}...`, // Truncate long message
+            timestamp: doc.data().timestamp,	
           };
         } else {
           return {
+            uid: doc.data().uid,
             name: doc.data().name,
             text: text,
             timestamp: doc.data().timestamp,
@@ -101,18 +104,16 @@ function ListUserMessages({ user }) {
   };
 
   return (
-    <div>
-      <div className="userMessagesTitle">
-        Messages ({chatData.length})
-      </div>
-
+    <div className="big">
+      <Text label={`Messages (${chatData.length})`} size={"s16"} weight={"medium"} color={"black"} />
       {!isChatDataLoaded ? (
         <Loader />
       ) : (
         <div>
           {chatData.map(({ creatorId, match, lastMessage }) => (
-            <div key={creatorId} className={`chatContainer ${lastMessage && lastMessage.name !== user.name ? "hasNewMessage" : ""}`} onClick={() => goToChat(creatorId)}>
-              {lastMessage && lastMessage.name !== user.name && <div className="newMessageCircle"></div>}
+            
+            <div key={creatorId} className={`chatContainer`} onClick={() => goToChat(creatorId)}>
+              <div className="s">
               <div className="company-photo" style={{ 
                 backgroundImage: match && match.creatorId && match.creatorId.companyPhoto
                   ? `url(${match.creatorId.companyPhoto})`
@@ -120,11 +121,16 @@ function ListUserMessages({ user }) {
                 lightgray: "50%"
               }}>
               </div>
+
               <div className="info">
                 <Text label={match && match.creatorId && match.creatorId.companyName ? match.creatorId.companyName : ""} size={"s16"} weight={"medium"} color={"black"} />
                 <Text label={lastMessage ? lastMessage.text : ""} size={"s14"} weight={"thin"} color={"lightgray"} />
               </div>
-              <div className="ch" onClick={() => goToChat(creatorId)}><img src={chat} alt="Chat Icon" /></div>
+              </div>
+              <div className="new">
+              <div className="chat" onClick={() => goToChat(creatorId)}><img src={chat} alt="Chat Icon" /></div>
+              {lastMessage && lastMessage.uid !== creatorId && <div className="newMessageCircle"></div>}
+              </div>
             </div>
           ))}
         </div>

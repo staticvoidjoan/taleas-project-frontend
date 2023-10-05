@@ -14,6 +14,8 @@ function ListOfMatches({ employer }) {
   const [acceptedApplicants, setAcceptedApplicants] = useState([]);
   const navigate = useNavigate();
   const [isDataLoaded, setIsDataLoaded] = useState(false);
+  const [messageCount, setMessageCount] = useState(0);
+  const [unreadMessages, setUnreadMessages] = useState({});
 
   useEffect(() => {
     loadAcceptedApplicants();
@@ -51,7 +53,7 @@ function ListOfMatches({ employer }) {
 
         const lastMessages = await Promise.all(
           allAcceptedApplicants.map((applicant) =>
-            getLastMessage(`${applicant._id}_${creatorId}`)
+            getLastMessage(`${applicant._id}_${creatorId}`, applicant._id)
           )
         );
 
@@ -68,6 +70,7 @@ function ListOfMatches({ employer }) {
           return 0;
         });
 
+        setMessageCount(all.length);
         setAcceptedApplicants(all);
         setIsDataLoaded(true); // Set data as loaded
       } else {
@@ -78,7 +81,7 @@ function ListOfMatches({ employer }) {
     }
   };
 
-  const getLastMessage = async (chatId) => {
+  const getLastMessage = async (chatId, applicantId) => {
     const q = query(
       collection(db, "chats"),
       where("chatId", "==", chatId),
@@ -90,23 +93,27 @@ function ListOfMatches({ employer }) {
       const querySnapshot = await getDocs(q);
       if (!querySnapshot.empty) {
         const doc = querySnapshot.docs[0];
-        const text = doc.data().text;
+        let text = doc.data().text;
 
         // Check if the message is too long
-        if (text.length > 10) { // Adjust the threshold as needed
-          return {
-            name: doc.data().name,
-            text: `${text.slice(0, 10)}...`, // Truncate long message
-            timestamp: doc.data().timestamp, // Include timestamp for sorting
-          };
-        } else {
-          return {
-            uid: doc.data().uid,
-            name: doc.data().name,
-            text: text,
-            timestamp: doc.data().timestamp, // Include timestamp for sorting
-          };
+        if (text.length > 10) {
+          text = `${text.slice(0, 10)}...`; // Truncate long message
         }
+
+        // Update unread message tracking
+        if (!unreadMessages[applicantId]) {
+          setUnreadMessages((prevState) => ({
+            ...prevState,
+            [applicantId]: true,
+          }));
+        }
+
+        return {
+          uid: doc.data().uid,
+          name: doc.data().name,
+          text: text,
+          timestamp: doc.data().timestamp, // Include timestamp for sorting
+        };
       }
     } catch (error) {
       console.error('Error fetching last message:', error);
@@ -122,50 +129,52 @@ function ListOfMatches({ employer }) {
 
   return (
     <div>
+      <Text label={`Messages (${messageCount})`} size={"s16"} weight={"medium"} color={"black"} />
       {!isDataLoaded ? (
         <Loader />
       ) : (
         acceptedApplicants.map((acceptedApplicant) => (
           <div
-            className={`chatContainer`}
+            className="chat-container"
             key={acceptedApplicant._id}
             onClick={() => chat(acceptedApplicant._id)}
           >
-            <div
-              className={`company-photo`}
-              style={{
-                backgroundImage: `url(${acceptedApplicant.profilePhoto || unicorn})`,
-              }}
-            ></div>
-            <div className={`info`}>
-              <Text
-                label={acceptedApplicant.name}
-                size={"s16"}
-                weight={"medium"}
-                color={"black"}
-              />
-              {/* Include the last message logic here */}
-              {acceptedApplicant.lastMessage && (
+            <div className="subdiv">
+              <div
+                className={`company-photo`}
+                style={{
+                  backgroundImage: `url(${acceptedApplicant.profilePhoto || unicorn})`,
+                }}
+              ></div>
+              <div className={`info`}>
                 <Text
-                  label={
-                    acceptedApplicant.lastMessage.name !== acceptedApplicant.name
-                      ? "You: " + acceptedApplicant.lastMessage.text
-                      : acceptedApplicant.lastMessage.text
-                  }
-                  size={"s14"}
-                  weight={"light"}
-                  color={"gray"}
+                  label={acceptedApplicant.name}
+                  size={"s16"}
+                  weight={"medium"}
+                  color={"black"}
                 />
-              )}
+                {/* Include the last message logic here */}
+                {acceptedApplicant.lastMessage && (
+                  <Text
+                    label={
+                      acceptedApplicant.lastMessage.name !== acceptedApplicant.name
+                        ? "You: " + acceptedApplicant.lastMessage.text
+                        : acceptedApplicant.lastMessage.text
+                    }
+                    size={"s14"}
+                    weight={"light"}
+                    color={"gray"}
+                  />
+                )}
+              </div>
             </div>
-            <div className={`ch`} onClick={() => chat(acceptedApplicant._id)}>
+            
+              <div className="newMessage" onClick={() => chat(acceptedApplicant._id)}>
               <img src={chatIcon} alt="Chat Icon" />
+                {acceptedApplicant.lastMessage.uid === acceptedApplicant._id && <div className="redCircle"></div>}
+                
+              </div>
             </div>
-            {acceptedApplicant.lastMessage &&
-              acceptedApplicant.lastMessage.uid !== acceptedApplicant._id || (
-                <div className="newMessageCircle"></div>
-              )}
-          </div>
         ))
       )}
     </div>

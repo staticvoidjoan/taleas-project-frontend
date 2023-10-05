@@ -4,6 +4,7 @@ import "./user.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Text from "../../../components/text/text";
+
 const ConfirmSignup = ({
   username,
   password,
@@ -17,12 +18,21 @@ const ConfirmSignup = ({
   const [confirmationError, setConfirmationError] = useState(null);
 
   const navigate = useNavigate();
+
   async function confirmSignUp(e) {
     e.preventDefault();
     try {
       await Auth.confirmSignUp(username, code);
       console.log("Successfully confirmed sign up");
-      logIn();
+      await logIn();
+      console.log(username);
+      console.log(isEmployee);
+
+      // Wait for updateEmployer to finish before reloading
+      await updateEmployer();
+
+      navigate("/profile");
+      window.location.reload();
     } catch (error) {
       console.error("Error confirming sign up", error);
       setConfirmationError(
@@ -30,7 +40,6 @@ const ConfirmSignup = ({
       );
     }
   }
-
 
   const logIn = async () => {
     try {
@@ -46,17 +55,40 @@ const ConfirmSignup = ({
 
       localStorage.setItem("idToken", idToken);
       localStorage.setItem("accessToken", accessToken);
-      console.log(username);
-      navigate("/profile")
+      if (isEmployee === false) {
+        updateEmployer();
+      }
     } catch (err) {
       console.log(err);
     }
   };
 
+  const updateEmployer = async () => {
+    try {
+      const response = await axios.get(
+        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/employerByEmail/${username}`
+      );
+      const userid = response.data.employer._id;
+      console.log(userid);
+      if (userid) {
+        await axios.put(
+          `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/update-profile/${userid}`,
+          {
+            profilePhoto:
+              "https://userprofilephotobucket.s3.eu-west-3.amazonaws.com/folder/1696198483421.jpg",
+            address: address,
+            industry: industry,
+          }
+        );
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="user-register-page">
-      
-        <div style={{ clear: "both", height: "90px" }}></div>
+      <div style={{ clear: "both", height: "90px" }}></div>
       <div className="form-box-register">
         <form
           onSubmit={confirmSignUp}
@@ -85,7 +117,6 @@ const ConfirmSignup = ({
           </button>
         </form>
       </div>
-      
     </div>
   );
 };

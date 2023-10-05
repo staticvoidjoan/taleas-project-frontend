@@ -10,7 +10,6 @@ import { Timestamp } from 'firebase/firestore'; // Import the Timestamp object f
 
 function Chat({ user }) {
   const [messages, setMessages] = useState([]);
-  const [displayedDate, setDisplayedDate] = useState(null);
   const scroll = useRef();
   const { chatId } = useParams();
 
@@ -22,44 +21,48 @@ function Chat({ user }) {
     );
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
-       let messagess = [];
-      // let prevDate = null;
+      const messagesData = [];
 
       querySnapshot.forEach((doc) => {
         const messageData = { id: doc.id, ...doc.data() };
-        messagess.push(messageData);
-
-        // Extract the date part from the timestamp
-        // const date = messageData.timestamp instanceof Timestamp
-        //   ? messageData.timestamp.toMillis()
-        //   : messageData.timestamp;
-
-        // Convert to a date object
-        //const messageDate = new Date(date).toLocaleDateString();
-
-        // If the message date is different from the previously displayed date, update it
-        // if (messageDate !== prevDate) {
-        //   setDisplayedDate(messageDate);
-        //   prevDate = messageDate;
-        // }
+        messagesData.push(messageData);
       });
 
-      setMessages(messagess);
+      setMessages(messagesData);
     });
 
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, [chatId]);
+
+  const renderMessagesByDate = () => {
+    let currentDate = null;
+    return messages.map((message) => {
+      const messageDate = message.timestamp instanceof Timestamp
+        ? new Date(message.timestamp.toMillis()).toLocaleDateString()
+        : new Date(message.timestamp).toLocaleDateString();
+
+      // Check if the message's date is different from the current date
+      if (messageDate !== currentDate) {
+        currentDate = messageDate;
+        return (
+          <div key={messageDate} className="message-date">
+            {messageDate}
+          </div>
+        );
+      }
+
+      return (
+        <Message key={message.id} message={message} user={user} />
+      );
+    });
+  };
 
   return (
     <div className="chatApp">
       <main className="main">
-        {displayedDate && <div className="message-date">{displayedDate}</div>}
-        {messages &&
-          messages.map((message) => (
-            <Message key={message.id} message={message} user={user} />
-          ))}
+        {renderMessagesByDate()}
       </main>
       <SendMessage user={user} scroll={scroll} />
       <span ref={scroll}></span>
