@@ -129,7 +129,7 @@ function ListUserMessages({ user }) {
               </div>
               <div className="new">
               <div className="chat" onClick={() => goToChat(creatorId)}><img src={chat} alt="Chat Icon" /></div>
-              {lastMessage && lastMessage.uid !== creatorId && <div className="newMessageCircle"></div>}
+              {lastMessage && lastMessage.uid === creatorId && <div className="newMessageCircle"></div>}
               </div>
             </div>
           ))}
