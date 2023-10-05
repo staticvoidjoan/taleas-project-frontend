@@ -38,17 +38,23 @@ function Chat({ user }) {
 
   const renderMessagesByDate = () => {
     let currentDate = null;
-    return messages.map((message) => {
+    let previousDate = null;
+
+    return messages.map((message, index) => {
       const messageDate = message.timestamp instanceof Timestamp
         ? new Date(message.timestamp.toMillis()).toLocaleDateString()
         : new Date(message.timestamp).toLocaleDateString();
 
-      // Check if the message's date is different from the current date
-      if (messageDate !== currentDate) {
+      if (messageDate !== currentDate || index === 0) {
+        previousDate = currentDate;
         currentDate = messageDate;
         return (
+          <div>
           <div key={messageDate} className="message-date">
             {messageDate}
+          </div>
+            <Message key={message.id} message={message} user={user} />
+          
           </div>
         );
       }
