@@ -22,6 +22,7 @@ function ListUserMessages({ user }) {
     try {
       // Fetch matches
       const response = await axios.get(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/matches/${user._id}`);
+      console.log(response.data)
       const matches = response.data.posts;
 
       // Create an array of unique creatorIds
@@ -55,7 +56,7 @@ function ListUserMessages({ user }) {
       setChatData(chatData);
       setIsChatDataLoaded(true); // Set chat data as loaded
     } catch (error) {
-      console.error(error);
+      setIsChatDataLoaded(true); // Set chat data as loaded
     }
   }
 
