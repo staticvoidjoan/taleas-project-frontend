@@ -225,7 +225,7 @@ const JobView = () => {
                   name={like.name}
                   lastname={like.lastname}
                   postId={id}
-                  role={like.headline}
+                  role={like.headline ?? ""}
                   profilePhoto={like.profilePhoto}
                 />
                 <div className="applicant-buttons">
