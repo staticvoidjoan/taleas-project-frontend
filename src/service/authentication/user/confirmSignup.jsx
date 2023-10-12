@@ -40,6 +40,8 @@ const ConfirmSignup = ({
       setConfirmationError(
         "Error confirming sign up. Please check the code and try again."
       );
+    } finally {
+      setButtonDisabled(false); // Clear the flag after confirmation attempt
     }
   }
 
@@ -113,8 +115,7 @@ const ConfirmSignup = ({
           {confirmationError && (
             <p className="error-message">{confirmationError}</p>
           )}
-          <button className="register-btn" disabled={isButtonDisabled}>
-            {" "}
+          <button className="register-btn" disabled={isButtonDisabled}  style={{ background: isButtonDisabled ?? "gray" }}>
             <Text label={"Confirm"} size={"s16"} weight={"medium17"} />
           </button>
         </form>
