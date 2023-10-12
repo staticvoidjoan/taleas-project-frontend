@@ -17,7 +17,7 @@ const Privacy = (props) => {
             color={"black"}
           />
           {/* ----------------------------------------- Acceptance of Terms ---------------------------------------- */}
-          <div>
+          <div style={{marginTop: "20px"}}>
             <Text
               label={"1. Acceptance of Terms"}
               weight={"bold"}
