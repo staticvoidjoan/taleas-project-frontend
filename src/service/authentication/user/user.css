@@ -220,7 +220,6 @@ button {
   flex: 1 1 1;
 }
 
-
 .form-value-confirm {
   display: flex;
   flex-direction: column;
@@ -241,7 +240,7 @@ button {
   background-color: #fff;
 }
 
-.inputbox-register-birthday{
+.inputbox-register-birthday {
   width: calc(100% - 40px);
   height: 48px;
   flex-shrink: 0;
@@ -251,7 +250,6 @@ button {
   justify-content: center;
   background-color: #fff;
 }
-
 
 .inputbox-register-box {
   width: calc(100% - 40px);
@@ -335,12 +333,12 @@ button {
   align-content: center;
   margin-left: 12px;
 }
-.terms-button{
-  font-size: .9em;
+.terms-button {
+  font-size: 0.9em;
   color: aliceblue;
   font-weight: 500;
   display: flex;
-  justify-content:space-between
+  justify-content: space-between;
 }
 
 .register-btn {
@@ -369,6 +367,12 @@ button {
   margin-right: 40px;
 }
 
+/* Add this to your CSS */
+.disabled {
+  background: gray;
+  cursor: not-allowed;
+}
+
 .login-error {
   margin-top: 10px;
   display: flex;
@@ -384,7 +388,6 @@ button {
   border: 1px solid #b6013c;
   transition: transform 0.3s ease;
 }
-
 
 /* CSS */
 .inputbox-register {

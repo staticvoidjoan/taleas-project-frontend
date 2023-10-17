@@ -55,6 +55,7 @@ const Navbar2 = ({
   }
 
   return (
+    <>
     <div className="navbar-container" style={navbarStyle}>
       <div className="navbar">
         <div className="app-name" onClick={goHome}>
@@ -99,6 +100,9 @@ const Navbar2 = ({
         </div>
       </div>
     </div>
+    {isWhiteTextRoute ? <div style={{clear:"both", height:"80px"}}></div> : null}
+    
+    </>
   );
 };
 

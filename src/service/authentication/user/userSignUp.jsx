@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Auth } from "aws-amplify";
 import { Amplify } from "aws-amplify";
 import awsExports from "../../../aws-exports";
@@ -17,7 +17,7 @@ function RegistrationForm() {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState("employer");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isEmployee, setisEmployee] = useState(true);
+  const [isEmployee, setIsEmployee] = useState(true);
   const [fullName, setFullName] = useState("");
   const [formData, setFormData] = useState({
     name: "",
@@ -37,6 +37,10 @@ function RegistrationForm() {
     lastname: "",
     password: "",
   });
+
+  useEffect(() => {
+    console.log(isEmployee);
+  }, []);
 
   const [registrationSuccess, setRegistrationSuccess] = useState(false);
   const {
@@ -61,8 +65,10 @@ function RegistrationForm() {
     const today = new Date();
     const age = today.getFullYear() - birthDate.getFullYear();
     if (!lastname) {
-      formIsValid = false;
-      newErrors.lastname = "Please put both first and last name";
+      if (isEmployee) {
+        formIsValid = false;
+        newErrors.lastname = "Please put both first and last name";
+      }
     }
     if (age < 16) {
       formIsValid = false;
@@ -122,9 +128,12 @@ function RegistrationForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      setIsSubmitting(true); // Set the flag to true during registration request
+      setIsSubmitting(true);
+      // Correct the logic here
       if (selectedCategory === "employer") {
-        setisEmployee(false);
+        setIsEmployee(false);
+      } else {
+        setIsEmployee(true); // Assuming the default is "employee"
       }
       try {
         await Auth.signUp({
@@ -135,8 +144,7 @@ function RegistrationForm() {
             given_name: formData.name,
             family_name: formData.lastname,
             birthdate: formData.birthday,
-            "custom:isEmployee":
-              selectedCategory === "employee" ? "true" : "false",
+            "custom:isEmployee": isEmployee ? "true" : "false", // Use isEmployee here
           },
         });
 
@@ -148,32 +156,77 @@ function RegistrationForm() {
         toast.error(error.message);
         console.error("Error during signup:", error);
       } finally {
-        setIsSubmitting(false); // Clear the flag after registration attempt
+        setIsSubmitting(false);
       }
     }
   };
 
+
+
+  const handleEmployerSubmit = async (e) => {
+    e.preventDefault();
+      setIsSubmitting(true);
+     
+      if (selectedCategory === "employer") {
+        setIsEmployee(false);
+      } else {
+        setIsEmployee(true); // Assuming the default is "employee"
+      }
+      try {
+        await Auth.signUp({
+          username: formData.email,
+          password: formData.password,
+          attributes: {
+            email: formData.email,
+            given_name: formData.name,
+            family_name: formData.lastname,
+            birthdate: formData.birthday,
+            "custom:isEmployee": isEmployee ? "true" : "false", // Use isEmployee here
+          },
+        });
+
+        console.log("Registration successful");
+        toast.success("Registration successful", { autoClose: 5000 });
+        setRegistrationSuccess(true);
+      } catch (error) {
+        alert(error);
+        toast.error(error.message);
+        console.error("Error during signup:", error);
+      } finally {
+        setIsSubmitting(false);
+      }
+    
+  };
+
+
+  const handleCategorySelection = (category) => {
+    setSelectedCategory(category);
+    // Set isEmployee here based on the selected category
+    setIsEmployee(category === "employee");
+  };
+
   return (
     <div className="user-register-page">
-      {!registrationSuccess ? (
-        <div className="form-box-register">
-          <div className="form-category">
-            <div
-              className={`employer-category ${
-                selectedCategory === "employee" ? "selected" : ""
-              }`}
-              onClick={() => setSelectedCategory("employee")}
-            >
-              <div style={{ marginBottom: "10px" }}>
-                <Text label={"Employee"} />
-              </div>
+    {!registrationSuccess ? (
+      <>
+      <div className="form-box-register">
+        <div className="form-category">
+          <div
+            className={`employer-category ${
+              selectedCategory === "employee" ? "selected" : ""
+            }`}
+            onClick={() => handleCategorySelection("employee")}
+          >
+            <div style={{ marginBottom: "10px" }}>
+              <Text label={"Employee"} />
             </div>
-            <div
-              className={`employee-category ${
-                selectedCategory === "employer" ? "selected" : ""
-              }`}
-              onClick={() => setSelectedCategory("employer")}
-            >
+          </div>
+          <div
+            className={`employee-category ${
+              selectedCategory === "employer" ? "selected" : ""
+            }`}
+            onClick={() => handleCategorySelection("employer")}
+          >
               <div style={{ marginBottom: "10px" }}>
                 <Text label={"Employer"} />
               </div>
@@ -222,8 +275,8 @@ function RegistrationForm() {
               )}
               <div className="inputbox-register-birthday">
                 {/* <label htmlFor="birthday" className="register-input-label">
-                  {formData.birthday ? "Date of Birth" : "Birthday"}
-                </label> */}
+                    {formData.birthday ? "Date of Birth" : "Birthday"}
+                  </label> */}
                 <TextField
                   label="Birthday"
                   id="outlined-basic"
@@ -266,9 +319,8 @@ function RegistrationForm() {
                 </div>
               </div>
               <button
-                className="register-btn"
+                className={`register-btn ${isSubmitting ? "disabled" : ""}`}
                 disabled={isSubmitting}
-                style={{ background: isSubmitting ?? "gray" }}
               >
                 <Text
                   label={"Register"}
@@ -297,7 +349,7 @@ function RegistrationForm() {
             </form>
           ) : (
             <form
-              onSubmit={handleSubmit}
+              onSubmit={handleEmployerSubmit}
               className="form-value"
               autoComplete="off"
             >
@@ -386,7 +438,10 @@ function RegistrationForm() {
                   <Text label={"Terms & Conditions"} weight={"bold"} />
                 </div>
               </div>
-              <button className="register-btn">
+              <button
+                className={`register-btn ${isSubmitting ? "disabled" : ""}`}
+                disabled={isSubmitting}
+              >
                 <Text
                   label={"Register"}
                   weight={"regular"}
@@ -394,6 +449,7 @@ function RegistrationForm() {
                   size={"s16"}
                 />
               </button>
+
               <div className="goto-login">
                 <Text
                   label={"Already have an account?"}
@@ -412,7 +468,10 @@ function RegistrationForm() {
               </div>
             </form>
           )}
+    
         </div>
+         
+            </>
       ) : (
         <>
           <ConfirmSignup
@@ -427,6 +486,9 @@ function RegistrationForm() {
           <div style={{ clear: "both", height: "90px" }}></div>
         </>
       )}
+
+     
+    
       <div className="user-register-title">
         <div style={{ marginBottom: "16px" }}>
           <Text
@@ -447,6 +509,8 @@ function RegistrationForm() {
           color={"white"}
         />
       </div>
+      <div style={{clear:"both", height:"50px"}}></div> 
+      
     </div>
   );
 }
