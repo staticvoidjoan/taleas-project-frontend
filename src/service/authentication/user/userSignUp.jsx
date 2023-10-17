@@ -10,12 +10,13 @@ import Button from "../../../components/button/button";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./user.css";
-import TextField from "@mui/material/TextField"
+import TextField from "@mui/material/TextField";
 
 function RegistrationForm() {
   Amplify.configure(awsExports);
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState("employer");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isEmployee, setisEmployee] = useState(true);
   const [fullName, setFullName] = useState("");
   const [formData, setFormData] = useState({
@@ -59,7 +60,10 @@ function RegistrationForm() {
     const birthDate = new Date(birthday);
     const today = new Date();
     const age = today.getFullYear() - birthDate.getFullYear();
-
+    if (!lastname) {
+      formIsValid = false;
+      newErrors.lastname = "Please put both first and last name";
+    }
     if (age < 16) {
       formIsValid = false;
       newErrors.birthday = "You must be at least 16 years old to register";
@@ -115,11 +119,10 @@ function RegistrationForm() {
       lastname: rest.join(" "),
     });
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      console.log("The form results in", validateForm());
+      setIsSubmitting(true); // Set the flag to true during registration request
       if (selectedCategory === "employer") {
         setisEmployee(false);
       }
@@ -144,6 +147,8 @@ function RegistrationForm() {
         alert(error);
         toast.error(error.message);
         console.error("Error during signup:", error);
+      } finally {
+        setIsSubmitting(false); // Clear the flag after registration attempt
       }
     }
   };
@@ -183,6 +188,9 @@ function RegistrationForm() {
               {errors.name && (
                 <div className="error-message">{errors.name}</div>
               )}
+              {errors.lastname && (
+                <div className="error-message">{errors.lastname}</div>
+              )}
               <div className="inputbox-register">
                 <input
                   type="text"
@@ -217,9 +225,9 @@ function RegistrationForm() {
                   {formData.birthday ? "Date of Birth" : "Birthday"}
                 </label> */}
                 <TextField
-                    label="Birthday"
-                    id="outlined-basic"
-                    variant="outlined"
+                  label="Birthday"
+                  id="outlined-basic"
+                  variant="outlined"
                   type="date"
                   name="birthday"
                   value={formData.birthday}
@@ -257,7 +265,11 @@ function RegistrationForm() {
                   <Text label={"Terms & Conditions"} weight={"bold"} />
                 </div>
               </div>
-              <button className="register-btn">
+              <button
+                className="register-btn"
+                disabled={isSubmitting}
+                style={{ background: isSubmitting ?? "gray" }}
+              >
                 <Text
                   label={"Register"}
                   weight={"regular"}
@@ -265,6 +277,7 @@ function RegistrationForm() {
                   size={"s16"}
                 />
               </button>
+
               <div className="goto-login">
                 <Text
                   label={"Already have an account?"}

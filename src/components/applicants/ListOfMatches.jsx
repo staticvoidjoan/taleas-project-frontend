@@ -8,6 +8,7 @@ import "./listOfMatches.css"; // Make sure to include the appropriate CSS file
 import { getDocs, query, collection, where, orderBy, limit } from "firebase/firestore";
 import { db } from "../../firebase";
 import Loader from "../Loader/Loader";
+import { set } from "date-fns";
 
 function ListOfMatches({ employer }) {
   const creatorId = employer._id;
@@ -18,68 +19,78 @@ function ListOfMatches({ employer }) {
   const [unreadMessages, setUnreadMessages] = useState({});
 
   useEffect(() => {
-    loadAcceptedApplicants();
-  }, []);
+  loadAcceptedApplicants();
+  if(acceptedApplicants.length > 0){
+  setIsDataLoaded(true);
+  }
+}, []);
 
-  const loadAcceptedApplicants = async () => {
-    try {
-      const response = await axios.get(
-        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/creatorNoPagination/${creatorId}`
+const loadAcceptedApplicants = async () => {
+  try {
+    const response = await axios.get(
+      `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/creatorNoPagination/${creatorId}`
+    );
+
+    if (
+      response.data &&
+      response.data.posts &&
+      Array.isArray(response.data.posts)
+    ) {
+      const uniqueKeys = new Set();
+
+      const allAcceptedApplicants = response.data.posts.reduce(
+        (accumulator, post) => {
+          if (post.recLikes && Array.isArray(post.recLikes)) {
+            post.recLikes.forEach((applicant) => {
+              const key = applicant._id;
+
+              if (!uniqueKeys.has(key)) {
+                uniqueKeys.add(key);
+                accumulator.push(applicant);
+              }
+            });
+          }
+          return accumulator;
+        },
+        []
       );
 
-      if (
-        response.data &&
-        response.data.posts &&
-        Array.isArray(response.data.posts)
-      ) {
-        const uniqueKeys = new Set();
-
-        const allAcceptedApplicants = response.data.posts.reduce(
-          (accumulator, post) => {
-            if (post.recLikes && Array.isArray(post.recLikes)) {
-              post.recLikes.forEach((applicant) => {
-                const key = applicant._id;
-
-                if (!uniqueKeys.has(key)) {
-                  uniqueKeys.add(key);
-                  accumulator.push(applicant);
-                }
-              });
-            }
-            return accumulator;
-          },
-          []
-        );
-
-        const lastMessages = await Promise.all(
-          allAcceptedApplicants.map((applicant) =>
-            getLastMessage(`${applicant._id}_${creatorId}`, applicant._id)
-          )
-        );
-
-        const all = allAcceptedApplicants.map((applicant, index) => ({
-          ...applicant,
-          lastMessage: lastMessages[index],
-        }));
-
-        // Sort the accepted applicants based on the timestamp of the lastMessage (most recent first)
-        all.sort((a, b) => {
-          if (a.lastMessage && b.lastMessage) {
-            return b.lastMessage.timestamp - a.lastMessage.timestamp;
-          }
-          return 0;
-        });
-
-        setMessageCount(all.length);
-        setAcceptedApplicants(all);
-        setIsDataLoaded(true); // Set data as loaded
-      } else {
-        console.log("Data structure is not as expected.");
+      // Check if there are no accepted applicants
+      if (allAcceptedApplicants.length === 0) {
+        setIsDataLoaded(true); // Indicate that data is loaded (no matches found)
+        return;
       }
-    } catch (error) {
-      console.error("Error loading accepted applicants:", error);
+
+      const lastMessages = await Promise.all(
+        allAcceptedApplicants.map((applicant) =>
+          getLastMessage(`${applicant._id}_${creatorId}`, applicant._id)
+        )
+      );
+
+      const all = allAcceptedApplicants.map((applicant, index) => ({
+        ...applicant,
+        lastMessage: lastMessages[index],
+      }));
+
+      // Sort the accepted applicants based on the timestamp of the lastMessage (most recent first)
+      all.sort((a, b) => {
+        if (a.lastMessage && b.lastMessage) {
+          return b.lastMessage.timestamp - a.lastMessage.timestamp;
+        }
+        return 0;
+      });
+
+      setMessageCount(all.length);
+      setAcceptedApplicants(all);
+      setIsDataLoaded(true); // Set data as loaded
+    } else {
+      console.log("Data structure is not as expected.");
     }
-  };
+  } catch (error) {
+    setIsDataLoaded(true); // Set data as loaded
+  }
+};
+
 
   const getLastMessage = async (chatId, applicantId) => {
     const q = query(
@@ -171,7 +182,9 @@ function ListOfMatches({ employer }) {
             
               <div className="newMessage" onClick={() => chat(acceptedApplicant._id)}>
               <img src={chatIcon} alt="Chat Icon" />
-                {acceptedApplicant.lastMessage.uid === acceptedApplicant._id && <div className="redCircle"></div>}
+              {acceptedApplicant.lastMessage && acceptedApplicant.lastMessage.uid ? (
+                  <div className="redCircle"></div>
+                ) : null}
                 
               </div>
             </div>

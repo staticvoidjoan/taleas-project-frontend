@@ -17,35 +17,33 @@ const UserHome = ({ userId }) => {
   const [selectedButton, setSelectedButton] = useState("All");
   const [categories, setCategories] = useState([]);
   const [categoryId, setCategoryId] = useState(null);
-  const [currentIndex, setCurrentIndex] = useState(0); // State to keep track of the current card's index
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [postlength, setPostLength] = useState(0);
   const [animate, setAnimate] = useState(false);
-  const [loading, setLoading] = useState();
-  console.log(userId);
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
+
   const handleJobCardClick = (id) => {
-    // Save the current index in the URL so that you can navigate back to it
     navigate(`/viewjobpost/${id}/${currentIndex}`);
   };
-  const { index } = useParams(); 
+
+  const { index } = useParams();
+
   useEffect(() => {
     loadTabs();
-    // Get the index parameter from the URL
     if (index) {
-      loadPosts(parseInt(index, 10)); // Load the card at the specified index
+      loadPosts(parseInt(index, 10));
     } else {
       loadPosts();
     }
-    console.log("THESE ARE THE POSTS", posts);
-  }, []);
+  }, [index]);
 
   const loadTabs = async () => {
     try {
       const response = await axios.get(
         "https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/category"
       );
-      console.log(response.data.categories);
       setCategories(response.data.categories);
       setCategoryId(response.data.categories.id);
     } catch (error) {
@@ -55,17 +53,21 @@ const UserHome = ({ userId }) => {
 
   const filter = async (categoryId) => {
     try {
-      console.log(categoryId);
       const response = await axios.get(
         `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/category/${categoryId}?id=${userId}`
       );
       setPosts(response.data.posts);
-      setCurrentPost(response.data.posts[localStorage.getItem("localindex")]);
       setPostLength(response.data.posts.length);
+      if (response.data.posts.length > 0) {
+        setCurrentPost(response.data.posts[0]);
+      } else {
+        setCurrentPost({}); // Set to an empty object if no posts
+      }
     } catch (error) {
-      console.error("Cancel API Error:");
+      console.error("Cancel API Error:", error);
     }
   };
+
   const loadPosts = async (index = 0) => {
     try {
       setLoading(true);
@@ -73,9 +75,12 @@ const UserHome = ({ userId }) => {
         `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/user/${userId}`
       );
       setPosts(response.data);
-      console.log(response.data);
-      setCurrentPost(response.data[localStorage.getItem("localindex")]);
       setPostLength(response.data.length);
+      if (response.data.length > 0) {
+        setCurrentPost(response.data[0]);
+      } else {
+        setCurrentPost({}); // Set to an empty object if no posts
+      }
       setTimeout(() => {
         setLoading(false);
       }, 1000);
@@ -83,7 +88,6 @@ const UserHome = ({ userId }) => {
       console.error(error);
     }
   };
-  
 
   const next = async () => {
     setAnimate(true);
@@ -92,16 +96,17 @@ const UserHome = ({ userId }) => {
     }, 500);
     if (currentIndex < postlength - 1) {
       const nextIndex = currentIndex + 1;
-      const nextPost = posts[nextIndex];
       setCurrentIndex(nextIndex);
-      localStorage.setItem("localindex", nextIndex)
-      setCurrentPost(nextPost);
-      console.log(nextIndex);
-      console.log("next post is", nextPost);
+      if (posts[nextIndex]) {
+        setCurrentPost(posts[nextIndex]);
+      } else {
+        setCurrentPost({}); // Set to an empty object if no more posts
+      }
     } else {
       setPostLength(0);
     }
   };
+
   const previous = () => {
     setAnimate(true);
     setTimeout(() => {
@@ -109,24 +114,22 @@ const UserHome = ({ userId }) => {
     }, 500);
     if (currentIndex > 0) {
       const previousIndex = currentIndex - 1;
-      const previousPost = posts[previousIndex];
       setCurrentIndex(previousIndex);
-      localStorage.setItem("localindex", previousIndex)
-      setCurrentPost(previousPost);
-      console.log(previousIndex);
-      console.log("previous post is", previousPost);
+      if (posts[previousIndex]) {
+        setCurrentPost(posts[previousIndex]);
+      } else {
+        setCurrentPost({}); // Set to an empty object if no previous posts
+      }
     } else {
-      // Optionally, you can loop back to the last card when reaching the first card.
       const lastIndex = postlength - 1;
-      const lastPost = posts[lastIndex];
       setCurrentIndex(lastIndex);
-      localStorage.setItem("localindex", lastIndex)
-      setCurrentPost(lastPost);
-      console.log(lastIndex);
-      console.log("last post is", lastPost);
+      if (posts[lastIndex]) {
+        setCurrentPost(posts[lastIndex]);
+      } else {
+        setCurrentPost({}); // Set to an empty object if no previous posts
+      }
     }
   };
-
 
   const handleAction = async (action) => {
     if (!currentPost._id) return; // No post to interact with
@@ -146,14 +149,14 @@ const UserHome = ({ userId }) => {
           break;
       }
 
-     
-
       if (currentIndex < postlength - 1) {
         const nextIndex = currentIndex + 1;
-        const nextPost = posts[nextIndex];
         setCurrentIndex(nextIndex);
-        localStorage.setItem("localindex", nextIndex)
-        setCurrentPost(nextPost);
+        if (posts[nextIndex]) {
+          setCurrentPost(posts[nextIndex]);
+        } else {
+          setCurrentPost({}); // Set to an empty object if no more posts
+        }
         setAnimate(true);
         setTimeout(() => {
           setAnimate(false);
@@ -195,10 +198,10 @@ const UserHome = ({ userId }) => {
             >
               <Card
                 id={currentPost._id}
-                category={currentPost.category.name}
+                category={currentPost.category?.name}
                 title={currentPost.position}
-                info={currentPost.creatorId.companyName}
-                background={currentPost.creatorId.profilePhoto}
+                info={currentPost.creatorId?.companyName}
+                background={currentPost.creatorId?.profilePhoto}
               />
             </div>
           </Animate>

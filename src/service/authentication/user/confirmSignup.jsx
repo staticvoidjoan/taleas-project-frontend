@@ -16,12 +16,14 @@ const ConfirmSignup = ({
 }) => {
   const [code, setCode] = useState("");
   const [confirmationError, setConfirmationError] = useState(null);
+  const [isButtonDisabled, setButtonDisabled] = useState(false); // Add state to disable the button
 
   const navigate = useNavigate();
 
   async function confirmSignUp(e) {
     e.preventDefault();
     try {
+      setButtonDisabled(true); // Disable the button on click
       await Auth.confirmSignUp(username, code);
       console.log("Successfully confirmed sign up");
       await logIn();
@@ -38,6 +40,8 @@ const ConfirmSignup = ({
       setConfirmationError(
         "Error confirming sign up. Please check the code and try again."
       );
+    } finally {
+      setButtonDisabled(false); // Clear the flag after confirmation attempt
     }
   }
 
@@ -111,8 +115,7 @@ const ConfirmSignup = ({
           {confirmationError && (
             <p className="error-message">{confirmationError}</p>
           )}
-          <button className="register-btn">
-            {" "}
+          <button className="register-btn" disabled={isButtonDisabled}  style={{ background: isButtonDisabled ?? "gray" }}>
             <Text label={"Confirm"} size={"s16"} weight={"medium17"} />
           </button>
         </form>
