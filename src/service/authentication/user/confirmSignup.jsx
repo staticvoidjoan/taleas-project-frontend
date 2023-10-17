@@ -17,12 +17,13 @@ const ConfirmSignup = ({
   const [code, setCode] = useState("");
   const [confirmationError, setConfirmationError] = useState(null);
   const [isButtonDisabled, setButtonDisabled] = useState(false); // Add state to disable the button
-
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   async function confirmSignUp(e) {
     e.preventDefault();
     try {
+      setIsLoading(true);
       setButtonDisabled(true); // Disable the button on click
       await Auth.confirmSignUp(username, code);
       console.log("Successfully confirmed sign up");
@@ -41,7 +42,7 @@ const ConfirmSignup = ({
         "Error confirming sign up. Please check the code and try again."
       );
     } finally {
-      setButtonDisabled(false); // Clear the flag after confirmation attempt
+      setIsLoading(false); // Clear the flag after confirmation attempt
     }
   }
 
@@ -115,7 +116,11 @@ const ConfirmSignup = ({
           {confirmationError && (
             <p className="error-message">{confirmationError}</p>
           )}
-          <button className="register-btn" disabled={isButtonDisabled}  style={{ background: isButtonDisabled ?? "gray" }}>
+          <button
+            className="register-btn"
+            disabled={isLoading} // Disable the button when isLoading is true
+            style={{ background: isLoading ? "gray" : "" }} // Optionally set a gray background when disabled
+          >
             <Text label={"Confirm"} size={"s16"} weight={"medium17"} />
           </button>
         </form>

@@ -47,6 +47,7 @@ import ListOfMatches from "./components/applicants/ListOfMatches";
 //Misc
 import Loader from "./components/Loader/Loader";
 import ListUserMessages from "./components/userMessages/userMessages";
+import ScrollToTop from "./components/scrollToTop/scrollToTop"
 
 //Error Handlers
 import NotFound from "./pages/Error/notFound";
