@@ -59,11 +59,32 @@ const UserHome = ({ userId }) => {
       const response = await axios.get(
         `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/category/${categoryId}?id=${userId}`
       );
-      setPosts(response.data.posts);
-      setCurrentPost(response.data.posts[localStorage.getItem("localindex")]);
-      setPostLength(response.data.posts.length);
-    } catch (error) {
-      console.error("Cancel API Error:");
+      
+      if (response.status === 404) {
+        // Handle the case when no posts are found
+        console.log("response status", response.status)
+        return (
+          <div className="post-alert">
+            <Text label={"No posts found for this category."} />
+          </div>
+        );
+      }
+        setPosts(response.data.posts);
+        setCurrentPost(response.data.posts[localStorage.getItem("localindex")]);
+        setPostLength(response.data.posts.length);
+      } catch (error) {
+        console.error("Error:", error);
+
+        // Check if the error response status code is 404 (Not Found)
+        if (error.response && error.response.status === 404) {
+          // Handle the case when no posts are found
+          console.log("404")
+          return (
+            <div className="post-alert">
+              <Text label={"No posts found for this category."} />
+            </div>
+          );
+        }
     }
   };
   const loadPosts = async (index = 0) => {
@@ -169,6 +190,7 @@ const UserHome = ({ userId }) => {
   return (
     <div className="abc">
       <div className="button-row">
+        <Tabs buttonName={"All"}/>
         {categories.map((buttonName, index) => (
           <Tabs
             buttonName={buttonName.name}
