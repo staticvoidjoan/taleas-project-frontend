@@ -253,9 +253,10 @@ function App() {
           )}
         </>
       )}
-
-      {/* ----------------------------------  Home routes ------------------------------------------------------- */}
+    <ScrollToTop>
       <Routes>
+      {/* ----------------------------------  Home routes ------------------------------------------------------- */}
+      
         <Route exact path={"/aboutus"} element={<About />} />
         <Route exact path={"/terms"} element={<Privacy />} />
         <Route exact path={"/contact"} element={<Contact />} />
@@ -436,6 +437,7 @@ function App() {
           }
         />
       </Routes>
+      </ScrollToTop>
       {!authenticated ? null : (
         <div style={{ clear: "both", height: "90px" }}></div>
       )}
