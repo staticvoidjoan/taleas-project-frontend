@@ -100,7 +100,7 @@ const Navbar2 = ({
         </div>
       </div>
     </div>
-    {isWhiteTextRoute ? <div style={{clear:"both", height:"80px"}}></div> : null}
+    {isWhiteTextRoute ? <div style={{clear:"both", height:"80px",backgroundColor: "#212121"}}></div> : null}
     
     </>
   );

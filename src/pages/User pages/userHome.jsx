@@ -172,6 +172,7 @@ const UserHome = ({ userId }) => {
   return (
     <div className="abc">
       <div className="button-row">
+        <Tabs buttonName={"All"}/>
         {categories.map((buttonName, index) => (
           <Tabs
             buttonName={buttonName.name}

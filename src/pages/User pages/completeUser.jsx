@@ -12,6 +12,7 @@ import Swal from "sweetalert2";
 import TextField from "@mui/material/TextField";
 import Animate from "../../animateTransition/AnimateY";
 import error from "../../assets/icons/exclamation-mark-svgrepo-com.svg"
+import Loader from "../../components/Loader/Loader";
 const ProfileForm = ({ userId }) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -55,6 +56,7 @@ const ProfileForm = ({ userId }) => {
   const [isSkillsCollapsed, setIsSkillsCollapsed] = useState(true);
   const [isLinkCollapsed, setIsLinkCollapsed] = useState(true);
   const [isGeneralCollapsed, setIsGeneralCollapsed] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const loadUser = async () => {
     try {
@@ -325,6 +327,7 @@ const ProfileForm = ({ userId }) => {
 
   const handleRemoveCertification = async (index, id) => {
     try {
+      
       if (id) {
         await axios.delete(
           `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/certifications/${id}`
@@ -340,6 +343,7 @@ const ProfileForm = ({ userId }) => {
 
   const handleSubmit = async (e) => {
     try {
+      setIsLoading(true);
       console.log(formData);
       const edit = await axios.put(
         `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/${userId}`,
@@ -371,8 +375,14 @@ const ProfileForm = ({ userId }) => {
       });
     } catch (error) {
       console.log(error);
+    }finally{
+      setIsLoading(false);
     }
   };
+  
+  if (isLoading) {
+    return <Loader/>
+  }
 
   return (
     <Animate>
@@ -416,7 +426,7 @@ const ProfileForm = ({ userId }) => {
                 <div className="profilePhoto">
                   <div className="profile-photo">
                     {!formData.profilePhoto ? (
-                      <img src={profilePic} className="profile-image" />
+                      <img src={"https://userprofilephotobucket.s3.eu-west-3.amazonaws.com/folder/1696198483421.jpg"} className="profile-image" />
                     ) : (
                       <img
                         src={formData.profilePhoto.replace(/"/g, "")}

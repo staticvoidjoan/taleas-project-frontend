@@ -7,10 +7,12 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import Animate from "../../animateTransition/AnimateY";
 import Trash from "../../assets/icons/TrashCan.svg";
+import Loader from "../../components/Loader/Loader";
 
 const PostJob = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false); 
   const [jobPost, setJobPost] = useState({
     category: "",
     position: "",
@@ -91,7 +93,7 @@ const PostJob = () => {
       console.log("Submitting the form...");
       console.log(category, id, position, requirementsWithoutText, description);
       console.log(updatedJobPost);
-
+      setIsLoading(true);
       await axios.post(
         `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/creator/${id}`,
         updatedJobPost
@@ -122,6 +124,8 @@ const PostJob = () => {
       });
     } catch (error) {
       console.error(error);
+    }finally{
+      setIsLoading(false);
     }
   };
 
@@ -135,6 +139,9 @@ const PostJob = () => {
     navigate(-1);
   };
 
+  if(isLoading){
+    return <Loader/>
+  }
   return (
     <Animate>
       <div className="post-job-container">
