@@ -166,12 +166,7 @@ function RegistrationForm() {
   const handleEmployerSubmit = async (e) => {
     e.preventDefault();
       setIsSubmitting(true);
-     
-      if (selectedCategory === "employer") {
-        setIsEmployee(false);
-      } else {
-        setIsEmployee(true); // Assuming the default is "employee"
-      }
+
       try {
         await Auth.signUp({
           username: formData.email,
@@ -179,9 +174,7 @@ function RegistrationForm() {
           attributes: {
             email: formData.email,
             given_name: formData.name,
-            family_name: formData.lastname,
-            birthdate: formData.birthday,
-            "custom:isEmployee": isEmployee ? "true" : "false", // Use isEmployee here
+            "custom:isEmployee": "false", // Use isEmployee here
           },
         });
 
