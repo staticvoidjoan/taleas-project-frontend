@@ -39,17 +39,24 @@ const EmployerProfile = ({ employerData, employeeCheck }) => {
   };
 
   const editEmployer = async (e) => {
+    let theAdd = employerData.address;
+    if (theAdd){
+        
+    
     try {
+     
       await axios.put(
         `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/update-profile/${employerData._id}`,
         {
           profilePhoto: newPhoto.profilePhoto,
+          address: theAdd
         }
       );
       window.location.reload();
     } catch (error) {
       console.error(error);
     }
+  }
   };
 
   const cardStyle = {
