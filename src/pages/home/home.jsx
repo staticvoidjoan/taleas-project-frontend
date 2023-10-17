@@ -1,75 +1,84 @@
-import React,{useState,useEffect} from "react";
-import Text from "../../components/text/text";
-import { useNavigate, Link } from "react-router-dom";
-import { Auth } from "aws-amplify";
-import { Amplify } from "aws-amplify";
-import SignOut from "../../service/authentication/user/userSignOut"
-import awsExports from "../../aws-exports"
+import React from "react";
+import { Link } from "react-router-dom";
 import "./home.css";
-const Index = () => {
-  const navigate = useNavigate();
-  const [authenticated, setAuthenticated] = useState(false);
-  Amplify.configure(awsExports);
-  useEffect(() => {
-    checkAuthenticated();
-  }, []);
+import Text from "../../components/text/text";
+import ConnectImg from "../../assets/images/connectTeam.svg";
 
-  const checkAuthenticated = async () => {
-    try {
-      const user = await Auth.currentAuthenticatedUser();
-      if (user) {
-        setAuthenticated(true);
-      } else {
-        setAuthenticated(false);
-      }
-    } catch (error) {
-      setAuthenticated(false);
-    }
-  };
-
-  function gotToSignUp() {
-    navigate("/signup");
-  }
-
+const StartingPage = (props) => {
   return (
-    <div className="home-container">
-      <div className="home-bio">
-        <Text
-          label={"Swipe your way to your dream career"}
-          weight={"medium"}
-          size={"s20"}
-          color={"white"}
-        />
-        <div className="homt-btn-container">
-          <button className="myButton">
-            <Text label={"I'm an employer"} weight={"medium"} size={"s14"} />
-          </button>
-          <button className="myButton" onClick={gotToSignUp}>
-            <Text label={"I'm a talent"} weight={"medium"} size={"s14"} />
-          </button>
-        </div>
-        <div className="home-sub">
-          <div>
+    <>
+      <div className="starting">
+        <div className="content">
+          <div className="main-tittle">
             <Text
-              label={`Already registered?`}
-              weight={"medium"}
-              size={"s16"}
-              color={"white"}
+              label={"Swipe your way"}
+              weight={"medium700"}
+              lineheight={"lnormal"}
+              size={"s32"}
+              color={"black"}
+            />
+            <Text
+              label={"to your dream job!"}
+              weight={"medium700"}
+              lineheight={"lnormal"}
+              size={"s32"}
+              color={"purple"}
             />
           </div>
-          {
-            <Link to={"signin"} className="home-link">
-              <Text label={`Log In Now`} weight={"regular"} size={"s14"} />
-            </Link>
-          }
+          <div>
+            {" "}
+            <img src={ConnectImg} alt="" className="start-img" />
+          </div>
         </div>
-         {authenticated ? 
-           <SignOut/> : null}
 
-         
+        <div className="footer">
+          <Text
+            label={"Start Now"}
+            weight={"thin"}
+            lineheight={"lnormal"}
+            size={"s16"}
+            color={"black"}
+          />
+          <Link to={"/signup"}>
+            {" "}
+            <button className="btn-register">
+              <Text
+                label={"Register"}
+                weight={"thin"}
+                lineheight={"lnormal"}
+                size={"s16"}
+                color={"white"}
+              />
+            </button>
+          </Link>
+
+          <div className="start-line">
+            <hr className="line" />
+            <Text
+              label={"or"}
+              weight={"thin"}
+              lineheight={"lnormal"}
+              size={"s16"}
+              color={"lightgray"}
+            />
+            <hr className="line" />
+          </div>
+          <Link to={"/signin"}>
+            {" "}
+            <button className="btn-login">
+              {" "}
+              <Text
+                label={"Login"}
+                weight={"thin"}
+                lineheight={"lnormal"}
+                size={"s16"}
+                color={"black"}
+              />
+            </button>
+          </Link>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
-
-export default Index;
+export default StartingPage;

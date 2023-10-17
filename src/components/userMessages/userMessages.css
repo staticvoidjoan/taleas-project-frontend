@@ -1,0 +1,49 @@
+.chatContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 100px;
+  width: 100%;
+  overflow: hidden; 
+  position: relative;
+  padding-right: 20px;
+  padding-left: 20px; /* Added padding to the left */
+  border: solid 1px #e6e6e6;
+}
+
+.userMessagesTitle {
+  background-color: #fff;
+  padding-left: 20px;
+}
+
+.company-photo {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background-size: cover; /* Ensure the image covers the entire circle */
+  object-fit: cover; 
+}
+
+.new .newMessageCircle {
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  border-radius: 50%;
+  position: absolute;
+  top: 45%;
+  right: 30px;
+  transform: translateY(-50%);
+  display: none; /* Initially hide the red circle */
+}
+
+.new .newMessageCircle {
+  display: block; /* Show the red circle when there is a new message */
+}
+
+.s {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+

@@ -5,6 +5,7 @@ import { Amplify } from "aws-amplify";
 import { Link, useNavigate } from "react-router-dom";
 import awsExports from "../../../aws-exports";
 import Text from "../../../components/text/text";
+import Swal from "sweetalert2";
 const LoginPage = () => {
   Amplify.configure(awsExports);
   const [selectedCategory, setSelectedCategory] = useState("employer");
@@ -45,9 +46,31 @@ const LoginPage = () => {
     try {
       const user = await Auth.currentAuthenticatedUser();
       const userAttributes = user.attributes || {};
-      const userGivenName = userAttributes.given_name || "";
-      navigate(`/${userGivenName}`);
-      window.location.reload();
+      let timerInterval;
+
+      Swal.fire({
+        title: "Sign in successful!",
+        icon: "success",
+        timer: 900,
+        didOpen: () => {
+          const b = Swal.getHtmlContainer()?.querySelector("b"); // Check if it exists
+          if (b) {
+            timerInterval = setInterval(() => {
+              b.textContent = Swal.getTimerLeft();
+            }, 100);
+          }
+        },
+        willClose: () => {
+          clearInterval(timerInterval);
+        },
+      }).then((result) => {
+        if (result.dismiss === Swal.DismissReason.timer) {
+          console.log("I was closed by the timer");
+        }
+        // Handle other actions as needed
+        window.location.reload();
+        window.location.href = "/";
+      });
     } catch (error) {
       console.log(error);
     }
@@ -58,23 +81,13 @@ const LoginPage = () => {
       <div className="form-box-register">
         <div className="form-category">
           <div
-            className={`employer-category ${
-              selectedCategory === "employee" ? "selected" : ""
-            }`}
-            onClick={() => setSelectedCategory("employee")}
-          >
-            <div style={{ marginBottom: "10px" }}>
-              <Text label={"Employee"} />
-            </div>
-          </div>
-          <div
             className={`employee-category ${
               selectedCategory === "employer" ? "selected" : ""
             }`}
             onClick={() => setSelectedCategory("employer")}
           >
             <div style={{ marginBottom: "10px" }}>
-              <Text label={"Employer"} />
+              <Text label={"Log In"} />
             </div>
           </div>
         </div>
@@ -101,6 +114,16 @@ const LoginPage = () => {
               className="register-input"
               required
             />
+          </div>
+          <div className="forgot-password">
+            <Link style={{ textDecoration: "none" }} to={"/passwordreset"}>
+              <Text
+                label={"Forgot Password?"}
+                weight={"medium700"}
+                color={"purple"}
+                size={"s16"}
+              />
+            </Link>
           </div>
           <button className="register-btn">
             <Text
@@ -141,34 +164,20 @@ const LoginPage = () => {
             </Link>
           </div>
           {/* <Button bgcolor={"primary"} label={"register"}/> */}
-          <div className="forgot-password">
-            <Link style={{ textDecoration: "none" }} to={"/passwordreset"}>
-              <Text
-                label={"Forgot Password?"}
-                weight={"medium700"}
-                color={"purple"}
-                size={"s16"}
-              />
-            </Link>
-          </div>
         </form>
       </div>
       <div className="user-register-title">
         <div style={{ marginBottom: "16px" }}>
           <Text
-            label={"Login"}
-            size={"s20"}
+            label={"Connecting Dreams with Talent"}
+            size={"s18"}
             weight={"medium700"}
             color={"white"}
           />
         </div>
         <Text
-          label={
-            selectedCategory === "employee"
-              ? "Find your dream job?"
-              : "Find the employees for your company!"
-          }
-          size={"s16"}
+          label={"Find Your Dream Job, Find Your Employees!"}
+          size={"s14"}
           weight={"regular"}
           color={"white"}
         />

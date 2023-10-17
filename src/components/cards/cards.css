@@ -1,5 +1,5 @@
 .card-container {
-    height: 539px;
+    height: 500px;
     position: relative;
     margin-left: 20px;
     margin-right: 20px;
@@ -13,12 +13,15 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    gap: 5px;
+    margin-left: 25px;
+    margin-bottom: 26px;
   }
   
   .job-location {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
     width: 87px;
     height: 27px;
@@ -29,33 +32,15 @@
   }
   
   .card-content {
-    z-index: 1;
-    position: absolute;
-    top: 341px;
-    left: 24px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column-reverse;
   }
   
-  .job-title{
+  .job-position{
     margin-bottom: 8px;
   }
   .job-info{
     margin-bottom: 12px;
   }
-
-  .cancel{
-    border-radius: 50px 50px 50px 50px;
-    height: 48px;
-    width: 48px;
-    background-color: red;
-  }
-  .like{
-    border-radius: 50px 50px 50px 50px;
-    height: 48px;
-    width: 48px;
-  }
-  .superlike{
-    border-radius: 50px 50px 50px 50px;
-    height: 43px;
-    width: 43px;
-  }
-

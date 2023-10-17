@@ -202,7 +202,6 @@ button {
   background-color: #212121;
 }
 
-
 .form-box-register {
   background-color: #fff;
   width: 100%;
@@ -221,6 +220,15 @@ button {
   flex: 1 1 1;
 }
 
+.form-value-confirm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 50vh;
+  flex: 1 1 1;
+  justify-content: center;
+}
+
 .inputbox-register {
   width: calc(100% - 40px);
   height: 48px;
@@ -229,9 +237,21 @@ button {
   border: 1px solid #ddd;
   display: flex;
   justify-content: center;
+  background-color: #fff;
 }
 
-.inputbox-register-box{
+.inputbox-register-birthday {
+  width: calc(100% - 40px);
+  height: 48px;
+  flex-shrink: 0;
+  margin-bottom: 16px;
+  border: none;
+  display: flex;
+  justify-content: center;
+  background-color: #fff;
+}
+
+.inputbox-register-box {
   width: calc(100% - 40px);
   height: 90px;
   flex-shrink: 0;
@@ -239,6 +259,7 @@ button {
   border: 1px solid #ddd;
   display: flex;
   justify-content: center;
+  background-color: #fff;
 }
 
 .register-input {
@@ -268,13 +289,13 @@ button {
 .employer-category.selected,
 .employee-category.selected {
   border-bottom: 2px solid #6e46f5;
-  color: #6E46F5;
+  color: #6e46f5;
   font-weight: bold;
 }
 
 .employer-category.selected .form-category,
 .employee-category.selected .form-category {
-  color: #6E46F5;
+  color: #6e46f5;
 }
 
 .employer-category,
@@ -313,18 +334,13 @@ button {
   margin-left: 12px;
 }
 .terms-button {
-  border: 2px solid #222;
-  padding: 0.5em;
+  font-size: 0.9em;
+  color: aliceblue;
+  font-weight: 500;
+  display: flex;
+  justify-content: space-between;
 }
 
-.terms-button:checked {
-  background-color: #222;
-  color: #fff;
-  background-size: 5px 5px;
-}
-.terms-button:focus {
-  outline-color: transparent;
-}
 .register-btn {
   width: calc(100% - 40px);
   background-color: #6e46f5;
@@ -351,10 +367,59 @@ button {
   margin-right: 40px;
 }
 
+/* Add this to your CSS */
+.disabled {
+  background: gray;
+  cursor: not-allowed;
+}
 
-.login-error{
+.login-error {
   margin-top: 10px;
   display: flex;
   flex-direction: column;
   width: calc(100% - 40px);
+}
+
+.logout-btn {
+  color: #b6013c;
+  width: calc(100% - 40px);
+  background-color: transparent;
+  height: 48px;
+  border: 1px solid #b6013c;
+  transition: transform 0.3s ease;
+}
+
+/* CSS */
+.inputbox-register {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.register-input-label {
+  position: absolute;
+  top: 0px;
+  left: 10px;
+  pointer-events: none; /* Prevent label from interfering with input */
+  transition: top 0.2s, left 0.2s, font-size 0.2s;
+  font-size: 14px;
+  color: #999;
+}
+
+.register-input {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+  font-size: 16px;
+  transition: border-color 0.2s;
+}
+
+/* Adjust the label position and style when the input is focused or has a value */
+.register-input:focus + .register-input-label,
+.register-input:valid + .register-input-label {
+  top: -5px;
+  left: 5px;
+  font-size: 12px;
+  color: #333;
 }

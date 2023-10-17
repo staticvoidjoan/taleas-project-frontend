@@ -1,66 +1,281 @@
 /* complete.css */
-.form-container{
+.complete-profile-main {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: white;
+  border-radius: 5px;
+}
+
+.complete-profile-bar {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  width: 100%;
 }
-.form {
-    width: 400px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 5px solid #ddd;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    color: white;
-    
+
+.complete-profile-bar-nav {
+  width: calc(100% - 40px);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 25px;
 }
-  .form-section {
-    display: block;
-    margin-bottom: 20px;
-  }
-  
-  .form-section label {
-    font-weight: normal;
-    margin-bottom: 5px;
-    display: block;
-  }
-  
-  .form-input {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border-bottom: 2px solid #fff;
-    border-radius: 3px;
+
+.complete-profile-bar-nav img {
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.complete-profile-bar-div {
+  width: calc(100% - 40px);
+  margin-top: 25px;
+  border: none;
+  border-bottom: 2px solid #dedede;
+}
+
+.label-for-fields{
+  position: absolute;
+  margin: 5px 10px;
+}
+
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0px 20px;
+}
+
+.fields-form {
+  margin-bottom: 10px;
+}
+
+.update-input {
+  margin: 0px;
+    padding: 10px;
+    width: calc(100% - 60px);
+    height: 100%;
+    margin-right: 8px;
+    border: 1px solid #DDDDDD;
     font-size: 16px;
-    background: transparent;
-  }
+    font-family: Open Sans;
+}
+
+.general-data{
+  display: flex;
+  flex-direction: column;
+  margin: 16px 0px;
+}
+
+.profilePhoto{
+  margin-top: 30px;
+  margin-bottom: 40px;
   
-  .form-section .next,
-  .form-section .previous,
-  .form-section .submit {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 3px;
-    padding: 10px 20px;
-    cursor: pointer;
-    margin-right: 10px;
-  }
-  
-  .form-section .next:hover,
-  .form-section .previous:hover,
-  .form-section .submit:hover {
-    background-color: #0056b3;
-  }
-  
-  .form-section .previous {
-    background-color: #ccc;
-    color: #333;
-  }
-  
-  .form-section .previous:hover {
-    background-color: #999;
-  }
-  
+}
+
+.certifications-data, .education-data, .experience-data{
+  margin-bottom: 16px;
+}
+
+.fields-form{
+  display: flex;
+  flex-direction: column;
+  margin: 16px 0px;
+}
+
+.update-input-fields {
+  margin:0px;
+    padding: 20px 10px 5px;
+    height: 100%;
+    border: 1px solid #DDDDDD;
+    border-radius: 2px;
+    font-family: Open Sans;
+    font-size: 16px;
+    height: 48px;
+    width: 100%;
+}
+
+.tags-list{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 134px;
+  height: 27px;
+  border-radius: 24px;
+  border: 1px ridge #222222;
+  align-items: center;
+  margin: 8px;
+}
+
+.remove-button{
+  background-color: white;
+  color: red;
+  border: 2px solid red;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 2px;
+  margin-left: 10px;
+  width: 128px;
+  height: 48px;
+}
+
+.remove-fields-button{
+  display: flex;
+  justify-content: flex-end;
+
+}
+
+.remove-list-button{
+  width: 16px;
+  height: 16px;
+  background-color: transparent;
+  color: #222222;
+  border: none;
+}
+
+.profile-photo{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.profile-image {
+  width: 128px;
+  height: 81px;
+  object-fit: cover; 
+  border: 1px solid #ccc; 
+  border-radius: 10px; 
+  margin-right: 16px;
+}
+
+.labels{
+  padding: 18px 0px;
+}
+
+.inputbox-update{
+    height: 48px;
+    flex-shrink: 0;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+}
+
+.error-message{
+  display: flex;
+  flex-direction: row;
+  margin: 16px 0px 0px;
+  color: red;
+}
+
+.error-icon{
+  height: 18px;
+}
+
+.add-button-fields{
+  background-color: #6e46f5;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 2px;
+  margin-left: 10px;
+  width: 128px;
+  height: 48px;
+  position: relative;
+  bottom: 65px;
+}
+.add-button-update {
+  background-color: #6e46f5;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 2px;
+  margin-left: 10px;
+  width: 128px;
+  height: 56px;
+}
+
+.link-list{
+  display: flex;
+  flex-direction: row;
+  margin: 8px 8px 16px;
+  justify-content: space-between;
+  align-items: center;
+  list-style-type: circle;
+}
+
+.link-list{
+  margin-top: 10px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.custom-photo{
+  height: 81px;
+  width: 100%;
+  margin: 0px 16px
+}
+
+.submit-button{
+  background-color: #6e46f5;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 2px;
+  height: 48px;
+}
+
+.cancel-button{
+  background-color: white;
+  color: #222222;
+  border: 1px solid #222222;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 2px;
+  height: 48px;
+  margin-top: 16px;
+}
+
+.submit-cancel {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+.cancel-link{
+  text-decoration: none;
+}
+
+.remove-img{
+  width: 16px;
+  height: 16px;
+}
+
+.tags-div{
+  max-width: 350px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+.main-label{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.img{
+  width: 24px;
+  height: 24px;
+}

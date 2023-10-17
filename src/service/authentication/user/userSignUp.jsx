@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Auth } from "aws-amplify";
 import { Amplify } from "aws-amplify";
 import awsExports from "../../../aws-exports";
@@ -6,15 +6,18 @@ import ConfirmSignup from "./confirmSignup";
 import { Link, useNavigate } from "react-router-dom";
 import Text from "../../../components/text/text";
 import Button from "../../../components/button/button";
-//Alerts
+// Alerts
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./user.css";
+import TextField from "@mui/material/TextField";
+
 function RegistrationForm() {
   Amplify.configure(awsExports);
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState("employer");
-  const [isEmployee, setisEmployee] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isEmployee, setIsEmployee] = useState(true);
   const [fullName, setFullName] = useState("");
   const [formData, setFormData] = useState({
     name: "",
@@ -25,7 +28,7 @@ function RegistrationForm() {
     companyName: "",
     industry: "",
     address: "",
-  }); //Create the user object
+  }); // Create the user object
 
   const [errors, setErrors] = useState({
     name: "",
@@ -35,61 +38,51 @@ function RegistrationForm() {
     password: "",
   });
 
+  useEffect(() => {
+    console.log(isEmployee);
+  }, []);
 
   const [registrationSuccess, setRegistrationSuccess] = useState(false);
-  const { name, birthday, email, lastname, password, companyName,industry,address } = formData;
+  const {
+    name,
+    birthday,
+    email,
+    lastname,
+    password,
+    companyName,
+    industry,
+    address,
+  } = formData;
 
   const validateForm = () => {
     let formIsValid = true;
     const newErrors = { ...errors };
-    const nameRegEx = /^[a-zA-Z]{2,30}$/;
-    const lastnameRegEx = /^[a-zA-Z]{2,30}$/;
+
     const emailRegEx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const passwordRegex =
       /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
-
-    // if (!name) {
-    //   formIsValid = false;
-    //   newErrors.name = "Full name is required";
-    // } else if (!nameRegEx.test(name)) {
-    //   formIsValid = false;
-    //   newErrors.name = "Name expression is not correct";
-    // } else {
-    //   newErrors.name = "";
-    // }
-
-    // if (!lastname) {
-    //   formIsValid = false;
-    //   newErrors.lastname = "Full name is required";
-    // } else if (!lastnameRegEx.test(lastname)) {
-    //   formIsValid = false;
-    //   newErrors.lastname = "Name expression is not correct";
-    // } else {
-    //   newErrors.lastname = "";
-    // }
-
-
-      const birthDate = new Date(birthday);
-      console.log(birthDate);
-      const today = new Date();
-      console.log(today);
-      const age = today.getFullYear() - birthDate.getFullYear();
-      console.log(age);
-
-      if (age < 16) {
+    const birthDate = new Date(birthday);
+    const today = new Date();
+    const age = today.getFullYear() - birthDate.getFullYear();
+    if (!lastname) {
+      if (isEmployee) {
         formIsValid = false;
-        newErrors.birthday = "You must be at least 16 years old to register";
-      } else {
-        newErrors.birthday = "";
+        newErrors.lastname = "Please put both first and last name";
       }
-    
+    }
+    if (age < 16) {
+      formIsValid = false;
+      newErrors.birthday = "You must be at least 16 years old to register";
+    } else {
+      newErrors.birthday = "";
+    }
 
     if (!email) {
       formIsValid = false;
       newErrors.email = "Email is required";
     } else if (!emailRegEx.test(email)) {
       formIsValid = false;
-      newErrors.email = "Email provided is not correct expression";
+      newErrors.email = "Email provided is not in the correct format";
     } else {
       newErrors.email = "";
     }
@@ -100,7 +93,7 @@ function RegistrationForm() {
     } else if (!passwordRegex.test(password)) {
       formIsValid = false;
       newErrors.password =
-        "Invalid password format! Password must be at least 8 characters long and should contain at least one number, one letter and one symbol.";
+        "Invalid password format! Password must be at least 8 characters long and should contain at least one number, one letter, and one symbol.";
     } else {
       newErrors.password = "";
     }
@@ -121,7 +114,6 @@ function RegistrationForm() {
     }));
   };
 
-
   const handleFullName = (event) => {
     const { value } = event.target;
     setFullName(value);
@@ -133,14 +125,15 @@ function RegistrationForm() {
       lastname: rest.join(" "),
     });
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (1+1 ===2) {
-      console.log("The form results in", validateForm());
+    if (validateForm()) {
+      setIsSubmitting(true);
+      // Correct the logic here
       if (selectedCategory === "employer") {
-        setisEmployee(false)
-
+        setIsEmployee(false);
+      } else {
+        setIsEmployee(true); // Assuming the default is "employee"
       }
       try {
         await Auth.signUp({
@@ -151,7 +144,7 @@ function RegistrationForm() {
             given_name: formData.name,
             family_name: formData.lastname,
             birthdate: formData.birthday,
-            'custom:isEmployee': selectedCategory === "employee" ? 'true' : 'false',
+            "custom:isEmployee": isEmployee ? "true" : "false", // Use isEmployee here
           },
         });
 
@@ -160,33 +153,73 @@ function RegistrationForm() {
         setRegistrationSuccess(true);
       } catch (error) {
         alert(error);
-        toast.error(error);
+        toast.error(error.message);
         console.error("Error during signup:", error);
+      } finally {
+        setIsSubmitting(false);
       }
     }
   };
 
+
+
+  const handleEmployerSubmit = async (e) => {
+    e.preventDefault();
+      setIsSubmitting(true);
+
+      try {
+        await Auth.signUp({
+          username: formData.email,
+          password: formData.password,
+          attributes: {
+            email: formData.email,
+            given_name: formData.name,
+            "custom:isEmployee": "false", // Use isEmployee here
+          },
+        });
+
+        console.log("Registration successful");
+        toast.success("Registration successful", { autoClose: 5000 });
+        setRegistrationSuccess(true);
+      } catch (error) {
+        alert(error);
+        toast.error(error.message);
+        console.error("Error during signup:", error);
+      } finally {
+        setIsSubmitting(false);
+      }
+    
+  };
+
+
+  const handleCategorySelection = (category) => {
+    setSelectedCategory(category);
+    // Set isEmployee here based on the selected category
+    setIsEmployee(category === "employee");
+  };
+
   return (
     <div className="user-register-page">
-      {!registrationSuccess ? (
-        <div className="form-box-register">
-          <div className="form-category">
-            <div
-              className={`employer-category ${
-                selectedCategory === "employee" ? "selected" : ""
-              }`}
-              onClick={() => setSelectedCategory("employee")}
-            >
-              <div style={{ marginBottom: "10px" }}>
-                <Text label={"Employee"} />
-              </div>
+    {!registrationSuccess ? (
+      <>
+      <div className="form-box-register">
+        <div className="form-category">
+          <div
+            className={`employer-category ${
+              selectedCategory === "employee" ? "selected" : ""
+            }`}
+            onClick={() => handleCategorySelection("employee")}
+          >
+            <div style={{ marginBottom: "10px" }}>
+              <Text label={"Employee"} />
             </div>
-            <div
-              className={`employee-category ${
-                selectedCategory === "employer" ? "selected" : ""
-              }`}
-              onClick={() => setSelectedCategory("employer")}
-            >
+          </div>
+          <div
+            className={`employee-category ${
+              selectedCategory === "employer" ? "selected" : ""
+            }`}
+            onClick={() => handleCategorySelection("employer")}
+          >
               <div style={{ marginBottom: "10px" }}>
                 <Text label={"Employer"} />
               </div>
@@ -198,6 +231,12 @@ function RegistrationForm() {
               className="form-value"
               autoComplete="off"
             >
+              {errors.name && (
+                <div className="error-message">{errors.name}</div>
+              )}
+              {errors.lastname && (
+                <div className="error-message">{errors.lastname}</div>
+              )}
               <div className="inputbox-register">
                 <input
                   type="text"
@@ -210,6 +249,9 @@ function RegistrationForm() {
                 />
               </div>
 
+              {errors.email && (
+                <div className="error-message">{errors.email}</div>
+              )}
               <div className="inputbox-register">
                 <input
                   type="text"
@@ -221,16 +263,24 @@ function RegistrationForm() {
                   className="register-input"
                 />
               </div>
-              <div className="inputbox-register">
-                <input
+              {errors.birthday && (
+                <div className="error-message">{errors.birthday}</div>
+              )}
+              <div className="inputbox-register-birthday">
+                {/* <label htmlFor="birthday" className="register-input-label">
+                    {formData.birthday ? "Date of Birth" : "Birthday"}
+                  </label> */}
+                <TextField
+                  label="Birthday"
+                  id="outlined-basic"
+                  variant="outlined"
                   type="date"
-                  id="birthday"
                   name="birthday"
                   value={formData.birthday}
                   onChange={handleInputChange}
-                  placeholder="Birthday"
                   className="register-input"
                   required
+                  InputLabelProps={{ shrink: true }}
                 />
               </div>
               <div className="inputbox-register">
@@ -244,13 +294,15 @@ function RegistrationForm() {
                   required
                 />
               </div>
+              {errors.password && (
+                <div className="error-message">{errors.password}</div>
+              )}
               <div className="radio-terms">
                 <input
-                  type="radio"
+                  type="checkbox"
                   name="agree-to-terms"
                   required
                   className="terms-button"
-                  style={{ appearance: "none", borderRadius: "0" }}
                 />
                 <div className="terms-text">
                   <div style={{ marginRight: "5px" }}>
@@ -259,7 +311,10 @@ function RegistrationForm() {
                   <Text label={"Terms & Conditions"} weight={"bold"} />
                 </div>
               </div>
-              <button className="register-btn">
+              <button
+                className={`register-btn ${isSubmitting ? "disabled" : ""}`}
+                disabled={isSubmitting}
+              >
                 <Text
                   label={"Register"}
                   weight={"regular"}
@@ -267,7 +322,7 @@ function RegistrationForm() {
                   size={"s16"}
                 />
               </button>
-              {/* <Button bgcolor={"primary"} label={"register"}/> */}
+
               <div className="goto-login">
                 <Text
                   label={"Already have an account?"}
@@ -287,10 +342,13 @@ function RegistrationForm() {
             </form>
           ) : (
             <form
-              onSubmit={handleSubmit}
+              onSubmit={handleEmployerSubmit}
               className="form-value"
               autoComplete="off"
             >
+              {errors.name && (
+                <div className="error-message">{errors.name}</div>
+              )}
               <div className="inputbox-register">
                 <input
                   type="text"
@@ -303,6 +361,9 @@ function RegistrationForm() {
                 />
               </div>
 
+              {errors.industry && (
+                <div className="error-message">{errors.industry}</div>
+              )}
               <div className="inputbox-register">
                 <input
                   type="text"
@@ -314,6 +375,9 @@ function RegistrationForm() {
                   required
                 />
               </div>
+              {errors.address && (
+                <div className="error-message">{errors.address}</div>
+              )}
               <div className="inputbox-register">
                 <input
                   type="text"
@@ -325,6 +389,9 @@ function RegistrationForm() {
                   required
                 />
               </div>
+              {errors.email && (
+                <div className="error-message">{errors.email}</div>
+              )}
               <div className="inputbox-register">
                 <input
                   type="text"
@@ -336,6 +403,9 @@ function RegistrationForm() {
                   required
                 />
               </div>
+              {errors.password && (
+                <div className="error-message">{errors.password}</div>
+              )}
               <div className="inputbox-register">
                 <input
                   type="password"
@@ -349,11 +419,10 @@ function RegistrationForm() {
               </div>
               <div className="radio-terms">
                 <input
-                  type="radio"
+                  type="checkbox"
                   name="agree-to-terms"
                   required
                   className="terms-button"
-                  style={{ appearance: "none", borderRadius: "0" }}
                 />
                 <div className="terms-text">
                   <div style={{ marginRight: "5px" }}>
@@ -362,7 +431,10 @@ function RegistrationForm() {
                   <Text label={"Terms & Conditions"} weight={"bold"} />
                 </div>
               </div>
-              <button className="register-btn">
+              <button
+                className={`register-btn ${isSubmitting ? "disabled" : ""}`}
+                disabled={isSubmitting}
+              >
                 <Text
                   label={"Register"}
                   weight={"regular"}
@@ -370,7 +442,7 @@ function RegistrationForm() {
                   size={"s16"}
                 />
               </button>
-              {/* <Button bgcolor={"primary"} label={"register"}/> */}
+
               <div className="goto-login">
                 <Text
                   label={"Already have an account?"}
@@ -389,18 +461,27 @@ function RegistrationForm() {
               </div>
             </form>
           )}
+    
         </div>
+         
+            </>
       ) : (
-        <ConfirmSignup
-          username={formData.email}
-          password={formData.password}
-          lastName={formData.lastname}
-          name={formData.name}
-          isEmployee={isEmployee}
-          industry={formData.industry}
-          address={formData.address}
-        />
+        <>
+          <ConfirmSignup
+            username={formData.email}
+            password={formData.password}
+            lastName={formData.lastname}
+            name={formData.name}
+            isEmployee={isEmployee}
+            industry={formData.industry}
+            address={formData.address}
+          />
+          <div style={{ clear: "both", height: "90px" }}></div>
+        </>
       )}
+
+     
+    
       <div className="user-register-title">
         <div style={{ marginBottom: "16px" }}>
           <Text
@@ -414,13 +495,15 @@ function RegistrationForm() {
           label={
             selectedCategory === "employee"
               ? "Find your dream job?"
-              : "Find the employees for your company!"
+              : "Find employees for your company!"
           }
           size={"s16"}
           weight={"regular"}
           color={"white"}
         />
       </div>
+      <div style={{clear:"both", height:"50px"}}></div> 
+      
     </div>
   );
 }

@@ -1,85 +1,107 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Text from "../../components/text/text";
 import "./Navbar2.css";
-import NavIcon from "../../assets/images/Group 1.png";
-import { Link, useNavigate } from "react-router-dom";
-import { Auth } from "aws-amplify";
+import MenuBlack from "../../assets/images/pngblack.png";
+import MenuWhite from "../../assets/images/png menu white.png";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import unicorn from "../../assets/images/Unicorn.png";
 
-const Navbar2 = (props) => {
-  const [authenticated, setAuthenticated] = useState(false);
-  const [givenName, setGivenName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [isEmployee, setIsEmployee] = useState(false);
-
+const Navbar2 = ({
+  givenName,
+  lastName,
+  authenticated,
+  employeeData,
+  employerData,
+  userRole,
+}) => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const [imageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
-    checkAuthenticated();
-  }, []);
+    const imageUrl =
+      userRole === "employee"
+        ? employeeData.profilePhoto || unicorn
+        : employerData.profilePhoto || unicorn;
 
-  const checkAuthenticated = async () => {
-    try {
-      const user = await Auth.currentAuthenticatedUser();
-      if (user) {
-        setAuthenticated(true);
-      } else {
-        setAuthenticated(false);
-      }
+    const cleanImageUrl = imageUrl.replace(/&quot;/g, "");
 
-      const userAttributes = user.attributes || {};
-      const userGivenName = userAttributes.given_name || "";
-      setGivenName(userGivenName);
-      const userLastName = userAttributes.family_name || "";
-      setLastName(userLastName);
+    setImageUrl(cleanImageUrl);
+  }, [userRole, employeeData, employerData]);
 
-      // const userIsEmployee = userAttributes.isEmployee || false;
-      // setIsEmployee(userIsEmployee); // Set the isEmployee state
-    } catch (error) {
-      setAuthenticated(false);
+  const goHome = () => {
+    navigate("/");
+  };
+
+  const handleMenu = () => {
+    if (location.pathname.startsWith("/menu")) {
+      navigate("/");
+    } else {
+      navigate("/menu");
     }
   };
 
-  const handleTurnBack = () => {
-    navigate("/");
+  const whiteTextRoutes = ["/signup", "/signin"];
+  const isWhiteTextRoute = whiteTextRoutes.includes(location.pathname);
+
+  const navbarStyle = {
+    backgroundColor: isWhiteTextRoute ? "#222" : "white",
+    color: isWhiteTextRoute ? "white" : "black",
   };
-  const handleMenu = () => {
-    navigate("/menu");
-  };
+
+  if (location.pathname.startsWith("/postjob")) {
+    return null;
+  }
+
   return (
     <>
+    <div className="navbar-container" style={navbarStyle}>
       <div className="navbar">
-        <div className="app-name" onClick={handleTurnBack}>
-          {" "}
+        <div className="app-name" onClick={goHome}>
           <Text
-            label={"CAREER"}
+            label={"Career"}
             weight={"medium800"}
             lineheight={"l24"}
             size={"s20"}
-            color={"black "}
+            color={isWhiteTextRoute ? "white" : "black"}
           />
           <Text
-            label={"CRUSH"}
+            label={"Crush"}
             weight={"medium800"}
             lineheight={"l24"}
             size={"s20"}
             color={"purple"}
           />
         </div>
-        {/* <div>
-          <img src={NavIcon} alt="Menu" onClick={handleMenu} />
-        </div> */}
         <div>
           {authenticated ? (
-            <>
-              <Link to={`${givenName}-profile`}>
-                {givenName} {lastName}
+            <div className="nav-profile">
+              <Link to={"/profile"} style={{ textDecoration: "none" }}>
+                <Text
+                  label={`${givenName} ${lastName}`}
+                  size={"s16"}
+                  color={"black"}
+                />
               </Link>
-            </>
+              <div
+                className="nav-profile-pic"
+                alt={`${givenName} profile`}
+                style={{ backgroundImage: `url(${imageUrl ?? unicorn})` }}
+              />
+            </div>
           ) : (
-            <img src={NavIcon} alt="Menu" onClick={handleMenu} />
+            <img
+              src={isWhiteTextRoute ? MenuWhite : MenuBlack}
+              alt="Menu"
+              onClick={handleMenu}
+            />
           )}
         </div>
       </div>
+    </div>
+    {isWhiteTextRoute ? <div style={{clear:"both", height:"80px",backgroundColor: "#212121"}}></div> : null}
+    
     </>
   );
 };

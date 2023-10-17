@@ -4,6 +4,7 @@ import "./user.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Text from "../../../components/text/text";
+
 const ConfirmSignup = ({
   username,
   password,
@@ -15,77 +16,35 @@ const ConfirmSignup = ({
 }) => {
   const [code, setCode] = useState("");
   const [confirmationError, setConfirmationError] = useState(null);
-
+  const [isButtonDisabled, setButtonDisabled] = useState(false); // Add state to disable the button
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+
   async function confirmSignUp(e) {
     e.preventDefault();
     try {
+      setIsLoading(true);
+      setButtonDisabled(true); // Disable the button on click
       await Auth.confirmSignUp(username, code);
       console.log("Successfully confirmed sign up");
-      logIn();
+      await logIn();
+      console.log(username);
+      console.log(isEmployee);
+
+      // Wait for updateEmployer to finish before reloading
+      await updateEmployer();
+
+      navigate("/profile");
+      window.location.reload();
     } catch (error) {
       console.error("Error confirming sign up", error);
       setConfirmationError(
         "Error confirming sign up. Please check the code and try again."
       );
+    } finally {
+      setIsLoading(false); // Clear the flag after confirmation attempt
     }
   }
-
-  const saveToDatabase = async () => {
-    console.log(isEmployee);
-    if (isEmployee) {
-      try {
-        console.log("registering employee");
-        const response = await axios.post(
-          "https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/user",
-          {
-            name: name,
-            lastname: lastName,
-            email: username,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json", // Add this line
-            },
-          }
-        );
-
-        const userMongoId = response.data._id;
-        localStorage.setItem("userMongoId", userMongoId);
-        console.log("Axios POST request successful");
-        navigate(`/${name}`);
-        window.location.reload();
-      } catch (error) {
-        console.error("Error during POST request:", error);
-      }
-    } else {
-      try {
-        console.log("registering employer");
-        const response = await axios.post(
-          "https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/employer",
-          {
-            companyName: name,
-            industry: industry,
-            email: username,
-            address: address,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json", // Add this line
-            },
-          }
-        );
-        const userMongoId = response.data._id;
-        localStorage.setItem("userMongoId", userMongoId);
-        console.log("Axios POST request successful");
-        navigate(`/${name}-profile`);
-        window.location.reload();
-      } catch (error) {
-        console.error("Error during POST request:", error);
-      }
-    }
-    console.log("After Axios POST request");
-  };
 
   const logIn = async () => {
     try {
@@ -101,19 +60,44 @@ const ConfirmSignup = ({
 
       localStorage.setItem("idToken", idToken);
       localStorage.setItem("accessToken", accessToken);
-      console.log(username);
-      saveToDatabase();
+      if (isEmployee === false) {
+        updateEmployer();
+      }
     } catch (err) {
       console.log(err);
     }
   };
 
+  const updateEmployer = async () => {
+    try {
+      const response = await axios.get(
+        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/employerByEmail/${username}`
+      );
+      const userid = response.data.employer._id;
+      console.log(userid);
+      if (userid) {
+        await axios.put(
+          `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/update-profile/${userid}`,
+          {
+            profilePhoto:
+              "https://userprofilephotobucket.s3.eu-west-3.amazonaws.com/folder/1696198483421.jpg",
+            address: address,
+            industry: industry,
+          }
+        );
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="user-register-page">
+      <div style={{ clear: "both", height: "90px" }}></div>
       <div className="form-box-register">
         <form
           onSubmit={confirmSignUp}
-          className="form-value"
+          className="form-value-confirm"
           style={{ marginTop: "20px" }}
         >
           <div style={{ marginBottom: "20px", marginTop: "20px" }}>
@@ -132,8 +116,11 @@ const ConfirmSignup = ({
           {confirmationError && (
             <p className="error-message">{confirmationError}</p>
           )}
-          <button className="register-btn">
-            {" "}
+          <button
+            className="register-btn"
+            disabled={isLoading} // Disable the button when isLoading is true
+            style={{ background: isLoading ? "gray" : "" }} // Optionally set a gray background when disabled
+          >
             <Text label={"Confirm"} size={"s16"} weight={"medium17"} />
           </button>
         </form>

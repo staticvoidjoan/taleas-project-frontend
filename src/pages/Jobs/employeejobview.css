@@ -71,7 +71,6 @@
   margin-right: 5px;
 }
 
-
 .job-describtion{
     display: flex;
     flex-direction: column;
@@ -83,9 +82,6 @@
 .job-requirements{
     margin-bottom: 24px;
 }
-
-
-
   .about-company{
     margin-bottom: 32px;
   }

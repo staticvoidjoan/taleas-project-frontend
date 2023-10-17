@@ -13,14 +13,13 @@ async function getToken() {
   return token;
 }
 
-
 axios.interceptors.request.use(async (request) => {
-  const token = await getToken(); 
+  const token = await getToken();
   request.headers.Authorization = token;
   return request;
 });
 
-axios.interceptors.response.use(async (response) => { 
+axios.interceptors.response.use(async (response) => {
   const token = await getToken(); // Await the getToken() function
   response.headers.Authorization = token;
   return response;
@@ -28,9 +27,11 @@ axios.interceptors.response.use(async (response) => {
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
-  <React.StrictMode>
-    <Router>
-      <App />
-    </Router>
-  </React.StrictMode>
+
+      <React.StrictMode>
+        <Router>
+          <App />
+        </Router>
+      </React.StrictMode>
+   
 );

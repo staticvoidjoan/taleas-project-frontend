@@ -10,6 +10,9 @@
     overflow: hidden;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);;
 }
+.userInfo-container{
+    height: 100%;
+}
 
 .gradient-overlay{
     position: absolute;
@@ -66,6 +69,7 @@
     flex-direction: row;
     justify-content: flex-start;
     margin-top: 8px;
+    flex-wrap: wrap;
     
 }
 .skill-tab-name{
@@ -107,6 +111,7 @@
     flex-direction: row;
     justify-content: space-between;
     margin-top: 4px;
+    gap: 15px;
 }
 
 .exp-pic{
@@ -114,7 +119,6 @@
     height: 42px;
     flex-shrink: 0;
     border-radius: 6px;
-    background: #999;
     background-size: cover;
 }
 
@@ -131,4 +135,68 @@
     justify-content: flex-start;
     align-items: center;
     margin-top: 12px;
+    margin-bottom: 15px;
+}
+
+.post-alert{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(7.7px);
+    -webkit-backdrop-filter: blur(7.7px);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    margin-top: 100px;
+}
+
+.signout{
+    display: flex;
+    justify-content:center ;
+    align-items: center;
+
+    margin-bottom: 20px;
+}
+
+.fullname{
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+}
+
+.lang{
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.lang-tabs{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    margin-right: 8px;
+    align-items: center;
+    width: fit-content;
+    padding: 10px;
+    height: 27px;
+    flex-shrink: 0;
+    border-radius: 24px;
+    border: 1px solid #222;
+    background: rgba(244, 244, 244, 0.30);
+    margin-top: 12px;
+}
+
+.lang-div{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.div{
+    width: 20px;
+}
+
+.link-tab{
+    text-decoration: none;
 }

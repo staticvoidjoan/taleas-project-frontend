@@ -1,136 +1,229 @@
-import axios from 'axios';
-import React, { useState, useEffect} from 'react';
-import { useNavigate } from "react-router-dom";
-import Card from '../../components/cards/cards';
-import Tabs from '../../components/button/tabs';
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import Text from "../../components/text/text";
+import Card from "../../components/cards/cards";
+import Tabs from "../../components/button/tabs";
 import heart from "../../assets/icons/heart.svg";
-import x from "../../assets/icons/x.svg"
+import back from "../../assets/icons/back.svg";
+import x from "../../assets/icons/x.svg";
 import "./userHome.css";
+import Animate from "../../animateTransition/Animate";
+import ContLoader from "../../components/Loader/ContLoader";
+import axios from "axios";
 
-const UserHome = () => {
-  const [posts, setPosts] = useState([])
+const UserHome = ({ userId }) => {
+  const [posts, setPosts] = useState([]);
   const [currentPost, setCurrentPost] = useState({});
-  const [selectedButton, setSelectedButton] = useState('All');
+  const [selectedButton, setSelectedButton] = useState("All");
   const [categories, setCategories] = useState([]);
-  const [currentIndex, setCurrentIndex] = useState(0)
+  const [categoryId, setCategoryId] = useState(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [postlength, setPostLength] = useState(0);
-  const userId = localStorage.getItem('employeeId')
-  console.log(userId)
-  const navigate = useNavigate();
-  useEffect(() => {
-    loadPosts();
-    loadTabs();
-    // console.log("selectedButton:", selectedButton);
-    console.log("THESE ARE THE POSTS",posts)
-  }, []);
-  const handleJobCardClick = (id) => {
-    navigate(`/jobProfile/${id}`);
-  };
-  const handleCancelClick = async () => {
-    try{
-      await axios.put(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/dislike/${userId}?id=${posts[0].id}`)
-      console.log('Cancel API Response:');
-    }
-    catch {
-      console.error('Cancel API Error:');
-    };
-};
+  const [animate, setAnimate] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-const handleLikeClick = async (postId) => {
-  try{
-    await axios.put(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/like/${userId}?id=${postId}`)
-     console.log('Cancel API Response:');
-   }
-   catch {
-     console.error('Cancel API Error:');
-   };
-}
+  const navigate = useNavigate();
+
+  const handleJobCardClick = (id) => {
+    navigate(`/viewjobpost/${id}/${currentIndex}`);
+  };
+
+  const { index } = useParams();
+
+  useEffect(() => {
+    loadTabs();
+    if (index) {
+      loadPosts(parseInt(index, 10));
+    } else {
+      loadPosts();
+    }
+  }, [index]);
 
   const loadTabs = async () => {
     try {
-      const response = await axios.get("https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/category")
-      console.log(response)
-      setCategories(response.data.categories)
-      console.log(response)
-    } catch (error) {
-      console.error(error)
-    }
-  }
-  const loadPosts = async () => {
-    try {
       const response = await axios.get(
-        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/user/${userId}`
+        "https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/category"
       );
-      setPosts(response.data);
-      console.log(response.data)
-      setCurrentPost(response.data[currentIndex])
-      setPostLength(response.data.length)
+      setCategories(response.data.categories);
+      setCategoryId(response.data.categories.id);
     } catch (error) {
       console.error(error);
     }
   };
-  
-  const fetchNextEntry = async () => {
-    await handleLikeClick(currentPost._id);
-    console.log("We just LIKED this POST> ", currentPost._id);
+
+  const filter = async (categoryId) => {
+    try {
+      const response = await axios.get(
+        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/category/${categoryId}?id=${userId}`
+      );
+      setPosts(response.data.posts);
+      setPostLength(response.data.posts.length);
+      if (response.data.posts.length > 0) {
+        setCurrentPost(response.data.posts[0]);
+      } else {
+        setCurrentPost({}); // Set to an empty object if no posts
+      }
+    } catch (error) {
+      console.error("Cancel API Error:", error);
+    }
+  };
+
+  const loadPosts = async (index = 0) => {
+    try {
+      setLoading(true);
+      const response = await axios.get(
+        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/user/${userId}`
+      );
+      setPosts(response.data);
+      setPostLength(response.data.length);
+      if (response.data.length > 0) {
+        setCurrentPost(response.data[0]);
+      } else {
+        setCurrentPost({}); // Set to an empty object if no posts
+      }
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const next = async () => {
+    setAnimate(true);
+    setTimeout(() => {
+      setAnimate(false);
+    }, 500);
     if (currentIndex < postlength - 1) {
       const nextIndex = currentIndex + 1;
-      const nextPost = posts[nextIndex];
       setCurrentIndex(nextIndex);
-      setCurrentPost(nextPost)
-      console.log(nextIndex);
-      console.log("next post is", nextPost);
-     
+      if (posts[nextIndex]) {
+        setCurrentPost(posts[nextIndex]);
+      } else {
+        setCurrentPost({}); // Set to an empty object if no more posts
+      }
     } else {
       setPostLength(0);
     }
   };
-  
 
+  const previous = () => {
+    setAnimate(true);
+    setTimeout(() => {
+      setAnimate(false);
+    }, 500);
+    if (currentIndex > 0) {
+      const previousIndex = currentIndex - 1;
+      setCurrentIndex(previousIndex);
+      if (posts[previousIndex]) {
+        setCurrentPost(posts[previousIndex]);
+      } else {
+        setCurrentPost({}); // Set to an empty object if no previous posts
+      }
+    } else {
+      const lastIndex = postlength - 1;
+      setCurrentIndex(lastIndex);
+      if (posts[lastIndex]) {
+        setCurrentPost(posts[lastIndex]);
+      } else {
+        setCurrentPost({}); // Set to an empty object if no previous posts
+      }
+    }
+  };
+
+  const handleAction = async (action) => {
+    if (!currentPost._id) return; // No post to interact with
+    try {
+      switch (action) {
+        case "like":
+          await axios.put(
+            `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/like/${userId}?id=${currentPost._id}`
+          );
+          break;
+        case "dislike":
+          await axios.put(
+            `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/dislike/${userId}?id=${currentPost._id}`
+          );
+          break;
+        default:
+          break;
+      }
+
+      if (currentIndex < postlength - 1) {
+        const nextIndex = currentIndex + 1;
+        setCurrentIndex(nextIndex);
+        if (posts[nextIndex]) {
+          setCurrentPost(posts[nextIndex]);
+        } else {
+          setCurrentPost({}); // Set to an empty object if no more posts
+        }
+        setAnimate(true);
+        setTimeout(() => {
+          setAnimate(false);
+        }, 500);
+      } else {
+        setPostLength(0);
+      }
+    } catch (error) {
+      console.error("API Error:", error);
+    }
+  };
 
   return (
-    <div>
+    <div className="abc">
       <div className="button-row">
+        <Tabs buttonName={"All"} selected={true} />
         {categories.map((buttonName, index) => (
           <Tabs
             buttonName={buttonName.name}
             key={index}
             selected={selectedButton === buttonName}
-            onClick={() => setSelectedButton(buttonName)}
+            onClick={() => filter(buttonName._id)}
           />
         ))}
       </div>
-      {postlength === 0 ? (
-        <div>No more posts</div>
+      {loading ? (
+        <div>
+          <ContLoader />
+        </div>
+      ) : postlength === 0 ? (
+        <div className="post-alert">
+          <Text label={"No more posts. Check back soon!"} />
+        </div>
       ) : (
         <div>
-          <div onClick={() => handleJobCardClick(currentPost.id)}>
-            <Card
-              id={currentPost.id}
-              category={currentPost.category.name}
-              title={currentPost.position}
-              info={currentPost.creatorId.companyName}
-              background={currentPost.creatorId.profilePhoto}
-            />
-          </div>
-          <div className='card-buttons'>
-            <div>
-              <button className="cancel" onClick={handleCancelClick}>
-                {" "}
-                <img src={x} alt="x" />
-              </button>
+          <Animate>
+            <div
+              className={`card-component ${animate ? "animate" : ""}`}
+              onClick={() => handleJobCardClick(currentPost._id)}
+            >
+              <Card
+                id={currentPost._id}
+                category={currentPost.category?.name}
+                title={currentPost.position}
+                info={currentPost.creatorId?.companyName}
+                background={currentPost.creatorId?.profilePhoto}
+              />
             </div>
-            <div>
-              <button className="like" onClick={fetchNextEntry}>
-                <img src={heart} alt="heart" />
-              </button>
-            </div>
+          </Animate>
+          <div className="card-buttons">
+            <button className="left-button" onClick={previous}>
+              <img src={back} alt="back" />
+            </button>
+            <button className="cancel" onClick={() => handleAction("dislike")}>
+              <img src={x} alt="x" />
+            </button>
+            <button className="like" onClick={() => handleAction("like")}>
+              <img src={heart} alt="heart" />
+            </button>
+            <button className="right-button" onClick={next}>
+              <img src={back} className="right" alt="back" />
+            </button>
           </div>
         </div>
       )}
     </div>
   );
-  
 };
 
 export default UserHome;

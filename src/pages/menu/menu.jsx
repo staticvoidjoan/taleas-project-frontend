@@ -2,53 +2,73 @@ import React from "react";
 import "./menu.css";
 import { Link, useNavigate } from "react-router-dom";
 import Text from "../../components/text/text";
-
+import Animate from "../../animateTransition/AnimateY";
 const Menu = (props) => {
   return (
-    <>
+    <Animate>
+      <div style={{ clear: "both", height: "70px"  }}></div>
       <div className="menu">
         <hr className="line-menu" />
         <div className="menu-list">
           <ul>
+            <Link to={"/"}>
+              <li>
+                <Text
+                  label={"Home"}
+                  weight={"thin"}
+                  lineheight={"lnormal"}
+                  size={"s18"}
+                  color={"black"}
+                />
+              </li>
+            </Link>
+
             <li>
-              <Text
-                label={"Home"}
-                weight={"thin"}
-                lineheight={"lnormal"}
-                size={"18"}
-                color={"black"}
-              />
+              <Link to={"/aboutus"}>
+                <Text
+                  label={"About Us"}
+                  weight={"thin"}
+                  lineheight={"lnormal"}
+                  size={"s18"}
+                  color={"black"}
+                />
+              </Link>
             </li>
-            <li>
-              {" "}
-              <Text
-                label={"About Us"}
-                weight={"thin"}
-                lineheight={"lnormal"}
-                size={"18"}
-                color={"black"}
-              />
-            </li>
-            <li>
+            {/* <li>
               {" "}
               <Text
                 label={"Subscriptions"}
                 weight={"thin"}
                 lineheight={"lnormal"}
-                size={"18"}
+                size={"s18"}
                 color={"black"}
               />
-            </li>
-            <li>
-              {" "}
-              <Text
-                label={"Contacts"}
-                weight={"thin"}
-                lineheight={"lnormal"}
-                size={"18"}
-                color={"black"}
-              />
-            </li>
+            </li> */}
+            <Link to={"/contact"}>
+              <li>
+                {" "}
+                <Text
+                  label={"Contacts"}
+                  weight={"thin"}
+                  lineheight={"lnormal"}
+                  size={"s18"}
+                  color={"black"}
+                />
+              </li>
+            </Link>
+
+            <Link to={"/terms"}>
+              <li>
+                {" "}
+                <Text
+                  label={"Terms & Conditions"}
+                  weight={"thin"}
+                  lineheight={"lnormal"}
+                  size={"s18"}
+                  color={"black"}
+                />
+              </li>
+            </Link>
           </ul>
         </div>
         <hr className="line" />
@@ -92,7 +112,7 @@ const Menu = (props) => {
           </Link>
         </div>
       </div>
-    </>
+    </Animate>
   );
 };
 

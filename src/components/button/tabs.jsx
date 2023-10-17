@@ -1,11 +1,13 @@
-import React from 'react';
-import "./tabs.css"
-
-const Tabs = ({buttonName, selected, onClick }) => {
-    const buttonClassName = `AllButton ${selected ? 'selected' : ''}`;
-    return (
-        <button className={buttonClassName} onClick={onClick}>{buttonName}</button>
-    );
-}
+import React from "react";
+import "./tabs.css";
+import Text from "../text/text";
+const Tabs = ({ buttonName, selected, onClick }) => {
+  const buttonClassName = `AllButton ${selected ? "selected" : ""}`;
+  return (
+    <button className={buttonClassName} onClick={onClick}>
+      <Text label={`${buttonName}`} size={"s16"} weight={"medium"} />
+    </button>
+  );
+};
 
 export default Tabs;

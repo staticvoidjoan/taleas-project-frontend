@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Text from "../../components/text/text";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "./navBar.css";
 import { Auth } from "aws-amplify";
 function Navbar() {
@@ -9,7 +9,7 @@ function Navbar() {
   const [authenticated, setAuthenticated] = useState(false);
   const [givenName, setGivenName] = useState("");
   const [lastName, setLastName] = useState("");
-  
+  const location = useLocation();
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
 

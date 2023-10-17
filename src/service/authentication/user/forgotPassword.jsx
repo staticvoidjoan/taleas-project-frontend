@@ -15,6 +15,7 @@ const ForgotPassword = () => {
   const [username, setUsername] = useState("");
   const [emailsent, setEmailSent] = useState(false);
   const navigate = useNavigate();
+  const [isResettingPassword, setIsResettingPassword] = useState(false);
 
   async function getEmail(e) {
     e.preventDefault();
@@ -31,13 +32,15 @@ const ForgotPassword = () => {
     e.preventDefault();
     if (password === repeatpass) {
       try {
+        setIsResettingPassword(true); // Disable the button on click
         const data = await Auth.forgotPasswordSubmit(username, code, password);
-
         setSuccess(true);
         navigate("/signin");
         console.log(data);
       } catch (err) {
         console.log(err);
+      } finally {
+        setIsResettingPassword(false); // Clear the flag after the password reset attempt
       }
     } else {
       throw new Error("Passwords do not match");
@@ -91,12 +94,14 @@ const ForgotPassword = () => {
               />
             </div>
 
-            <button className="register-btn">  <Text
-              label={"Change Password"}
-              weight={"regular"}
-              color={"white"}
-              size={"s16"}
-            /></button>
+            <button className="register-btn" disabled={isResettingPassword}  style={{ background: isResettingPassword ?? "gray" }}>
+              <Text
+                label={"Change Password"}
+                weight={"regular"}
+                color={"white"}
+                size={"s16"}
+              />
+            </button>
           </form>
         </div>
       ) : (
@@ -119,12 +124,15 @@ const ForgotPassword = () => {
                 required
               />
             </div>
-            <button className="register-btn">  <Text
-              label={"Send Email"}
-              weight={"regular"}
-              color={"white"}
-              size={"s16"}
-            /></button>
+            <button className="register-btn">
+              {" "}
+              <Text
+                label={"Send Email"}
+                weight={"regular"}
+                color={"white"}
+                size={"s16"}
+              />
+            </button>
           </form>
         </div>
       )}
