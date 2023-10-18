@@ -3,7 +3,7 @@ import { Auth } from "aws-amplify";
 import "./user.css";
 import awsExports from "../../../aws-exports";
 import { Amplify } from "aws-amplify";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Text from "../../../components/text/text";
 const ForgotPassword = () => {
   Amplify.configure(awsExports);
@@ -102,18 +102,20 @@ const ForgotPassword = () => {
                 size={"s16"}
               />
             </button>
+            
           </form>
         </div>
       ) : (
         <div className="form-box-register">
-          <form onSubmit={getEmail} id="loginform" className="form-value">
-            <div style={{ marginTop: "10px", marginBottom: "10px" }}>
+          <form onSubmit={getEmail} id="loginform1" className="form-value">
+            <div style={{ marginTop: "30px", marginBottom: "30px", marginLeft: "20px" }}>
               <Text
                 label={"Enter your email address"}
                 size={"s20"}
                 weight={"medium"}
               />
             </div>
+            <div className="register-form-second">
             <div className="inputbox-register">
               <input
                 type="email"
@@ -124,7 +126,7 @@ const ForgotPassword = () => {
                 required
               />
             </div>
-            <button className="register-btn">
+            <button className="register-btn-2">
               {" "}
               <Text
                 label={"Send Email"}
@@ -133,6 +135,15 @@ const ForgotPassword = () => {
                 size={"s16"}
               />
             </button>
+            </div>
+            <div className="backToLogin">
+              <Link to='/signin' style={{textDecoration: "none", color: "#6e46f5"}}>
+                <Text
+                label={"Back to Login"}
+                weight={"medium700"}
+                size={"s16"}
+              /></Link>
+            </div>
           </form>
         </div>
       )}

@@ -5,7 +5,10 @@ const Tabs = ({ buttonName, selected, onClick }) => {
   const buttonClassName = `AllButton ${selected ? "selected" : ""}`;
   return (
     <button className={buttonClassName} onClick={onClick}>
-      <Text label={`${buttonName}`} size={"s16"} weight={"medium"} />
+    
+
+      <Text label={`${buttonName}`} size={"s16"} weight={"medium"} style={{margin:"10px"}}/>
+    
     </button>
   );
 };

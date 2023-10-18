@@ -6,6 +6,8 @@ import { Link, useNavigate } from "react-router-dom";
 import awsExports from "../../../aws-exports";
 import Text from "../../../components/text/text";
 import Swal from "sweetalert2";
+import show from "../../../assets/icons/eye-regular.svg"
+import notShow from "../../../assets/icons/eye-slash-regular.svg"
 const LoginPage = () => {
   Amplify.configure(awsExports);
   const [selectedCategory, setSelectedCategory] = useState("employer");
@@ -13,6 +15,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [showPassword, setShowPassword] = useState(false)
   const [confirmationError, setConfirmationError] = useState(false);
   const navigate = useNavigate();
 
@@ -40,6 +43,10 @@ const LoginPage = () => {
       setConfirmationError(true);
       setSuccess(false);
     }
+  };
+
+  const handleShowPassword = () => {
+    setShowPassword(!showPassword);
   };
 
   const goToHome = async () => {
@@ -106,7 +113,7 @@ const LoginPage = () => {
 
           <div className="inputbox-register">
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               name="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -114,6 +121,9 @@ const LoginPage = () => {
               className="register-input"
               required
             />
+             <div onClick={handleShowPassword} style={{width: "20px", position: "inherit", top: "14.5px", left: "-16px"}}>
+                    {showPassword ? <img src={notShow} /> : <img src={show} />} 
+                  </div>
           </div>
           <div className="forgot-password">
             <Link style={{ textDecoration: "none" }} to={"/passwordreset"}>
