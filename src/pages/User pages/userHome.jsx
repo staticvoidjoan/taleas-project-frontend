@@ -208,10 +208,10 @@ const UserHome = ({ userId }) => {
             >
               <Card
                 id={currentPost._id}
-                category={currentPost.category.name}
+                category={currentPost.category?.name}
                 title={currentPost.position}
-                info={currentPost.creatorId.companyName}
-                background={currentPost.creatorId.profilePhoto}
+                info={currentPost.creatorId?.companyName}
+                background={currentPost.creatorId?.profilePhoto}
               />
             </div>
           </Animate>
