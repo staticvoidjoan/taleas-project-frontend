@@ -106,14 +106,15 @@ const ForgotPassword = () => {
         </div>
       ) : (
         <div className="form-box-register">
-          <form onSubmit={getEmail} id="loginform" className="form-value">
-            <div style={{ marginTop: "10px", marginBottom: "10px" }}>
+          <form onSubmit={getEmail} id="loginform1" className="form-value">
+            <div style={{ marginTop: "30px", marginBottom: "30px", marginLeft: "20px" }}>
               <Text
                 label={"Enter your email address"}
                 size={"s20"}
                 weight={"medium"}
               />
             </div>
+            <div className="register-form-second">
             <div className="inputbox-register">
               <input
                 type="email"
@@ -124,7 +125,7 @@ const ForgotPassword = () => {
                 required
               />
             </div>
-            <button className="register-btn">
+            <button className="register-btn-2">
               {" "}
               <Text
                 label={"Send Email"}
@@ -133,6 +134,7 @@ const ForgotPassword = () => {
                 size={"s16"}
               />
             </button>
+            </div>
           </form>
         </div>
       )}
