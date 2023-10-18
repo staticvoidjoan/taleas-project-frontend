@@ -51,21 +51,26 @@ const UserHome = ({ userId }) => {
     }
   };
 
-  const filter = async (categoryId) => {
-    try {
-      const response = await axios.get(
-        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/category/${categoryId}?id=${userId}`
-      );
-      setPosts(response.data.posts);
-      setPostLength(response.data.posts.length);
-      if (response.data.posts.length > 0) {
-        setCurrentPost(response.data.posts[0]);
-      } else {
-        setCurrentPost({}); // Set to an empty object if no posts
+  const filter = async (categoryName, categoryId) => {
+    if (categoryName === "All") {
+      loadPosts(); // Load all posts
+    } else {
+      try {
+        const response = await axios.get(
+          `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/category/${categoryId}?id=${userId}`
+        );
+        setPosts(response.data.posts);
+        setPostLength(response.data.posts.length);
+        if (response.data.posts.length > 0) {
+          setCurrentPost(response.data.posts[0]);
+        } else {
+          setCurrentPost({}); // Set to an empty object if no posts
+        }
+      } catch (error) {
+        console.error("Cancel API Error:", error);
       }
-    } catch (error) {
-      console.error("Cancel API Error:", error);
     }
+    setSelectedButton(categoryName);
   };
 
   const loadPosts = async (index = 0) => {
@@ -172,13 +177,17 @@ const UserHome = ({ userId }) => {
   return (
     <div className="abc">
       <div className="button-row">
-        <Tabs buttonName={"All"} selected={true} />
+        <Tabs
+          buttonName={"All"}
+          selected={selectedButton === "All"}
+          onClick={() => filter("All")}
+        />
         {categories.map((buttonName, index) => (
           <Tabs
             buttonName={buttonName.name}
             key={index}
-            selected={selectedButton === buttonName}
-            onClick={() => filter(buttonName._id)}
+            selected={selectedButton === buttonName.name}
+            onClick={() => filter(buttonName.name, buttonName._id)}
           />
         ))}
       </div>
