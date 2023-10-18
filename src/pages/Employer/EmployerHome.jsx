@@ -23,7 +23,7 @@ const EmployerHome = ({ creatorId }) => {
     try {
       setLoading(true); // Set loading to true while fetching data
       const response = await axios.get(
-        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/creator/${creatorId}?page=${page}&limit=3`
+        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/creator/${creatorId}?page=${page}&limit=4`
       );
       setuserPosts(response.data.posts);
       console.log(response.data.posts);
