@@ -182,7 +182,7 @@ const loadAcceptedApplicants = async () => {
             
               <div className="newMessage" onClick={() => chat(acceptedApplicant._id)}>
               <img src={chatIcon} alt="Chat Icon" />
-              {acceptedApplicant.lastMessage && acceptedApplicant.lastMessage.uid ? (
+              {acceptedApplicant.lastMessage && (acceptedApplicant.lastMessage.uid === acceptedApplicant._id) ? (
                   <div className="redCircle"></div>
                 ) : null}
                 
