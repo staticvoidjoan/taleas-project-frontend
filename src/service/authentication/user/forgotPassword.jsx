@@ -3,7 +3,7 @@ import { Auth } from "aws-amplify";
 import "./user.css";
 import awsExports from "../../../aws-exports";
 import { Amplify } from "aws-amplify";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Text from "../../../components/text/text";
 const ForgotPassword = () => {
   Amplify.configure(awsExports);
@@ -102,6 +102,7 @@ const ForgotPassword = () => {
                 size={"s16"}
               />
             </button>
+            
           </form>
         </div>
       ) : (
@@ -134,6 +135,14 @@ const ForgotPassword = () => {
                 size={"s16"}
               />
             </button>
+            </div>
+            <div className="backToLogin">
+              <Link to='/signin' style={{textDecoration: "none", color: "#6e46f5"}}>
+                <Text
+                label={"Back to Login"}
+                weight={"medium700"}
+                size={"s16"}
+              /></Link>
             </div>
           </form>
         </div>
