@@ -14,7 +14,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2  
+        uses: actions/checkout@v2
       - name: Install Node.js
         uses: actions/setup-node@v2
         with:
@@ -23,12 +23,20 @@ jobs:
         run: npm install
       - name: Build
         run: npm run build 
-      # - name: Test
-      #   run: npm test
-      - name: Checkout code 
-        uses: actions/checkout@v2 
-      - name: Upload to S3 
-        uses: shallwefootball/s3-upload-action@master  #
+      - name: Check if build directory exists
+        run: |
+        if [ -d "build"]; then
+          exho "Build directory exists."
+          exist 0 # Exist with success code if dir exists
+        else 
+          echo " Build directory not found"
+          exit 1 #Exit with error code if dir does not exists
+        fi
+      continue-on-error: true
+
+      #Upload to S3 if the "build" dir exists
+      - name: Upload to S3
+        uses: shallwefootball/s3-upload-action@master
         with:
           aws_key_id: ${{ secrets.AWS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
