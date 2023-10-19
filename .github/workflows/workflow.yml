@@ -24,7 +24,7 @@ jobs:
       - name: Build
         run: npm run build
 
-      # Check if build directory exists
+      # Check if build directory existss
       - name: Check if build directory exists
         run: |
           if [ -d "build" ]; then
