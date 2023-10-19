@@ -2,17 +2,26 @@ name: CareerCrush CD/CI
 
 on:
   push:
-    bracnhes:
-      -"main"
+    branches:
+      - main  
+
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: {18.x}
+        node-version: 18.x
+
     steps:
-      - uses: actions/checkout@v1
-      - run: npm install
-      - run: npm rund build
-      - run: npm test
-          
+      - name: Checkout code
+        uses: actions/checkout@v2  
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        run: npm install
+      - name: Build
+        run: npm run build 
+      - name: Test
+        run: npm test
