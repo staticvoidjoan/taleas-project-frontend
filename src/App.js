@@ -36,6 +36,7 @@ import NavBar from "./layout/navBar/Navbar2";
 import Footer from "./layout/footer/footer";
 import CenterNavbar from "./components/centerNavbar/centerNavbar";
 import Menu from "./pages/menu/menu";
+import Sidebar from "./components/sidebar/sidebar";
 
 //Mutual Pages
 import Home from "./pages/home/home";
@@ -110,6 +111,19 @@ function App() {
     }
   };
 
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
   // Check if user is employee and save id to storage
   useEffect(() => {
     const saveToStorage = async () => {
@@ -137,6 +151,7 @@ function App() {
       }
     });
 
+    
     // Check for the user's authenticated status on component mount
     checkAuthenticated();
 
@@ -256,6 +271,8 @@ function App() {
       )}
     <ScrollToTop>
       <Routes>
+
+
       {/* ----------------------------------  Home routes ------------------------------------------------------- */}
       
         <Route exact path={"/aboutus"} element={<About />} />
@@ -275,7 +292,7 @@ function App() {
                 isLoading ? (
                   <Loader />
                 ) : (
-                  <UserHome userId={employee._id} />
+                  <UserHome userId={employee._id} employee={employee} />
                 )
               ) : isLoading ? (
                 <Loader />
@@ -443,11 +460,9 @@ function App() {
         <div style={{ clear: "both", height: "90px" }}></div>
       )}
 
-      {authenticated ? (
-        hideFooter ? null : (
-          <Footer userRole={userRole} />
-        )
-      ) : null}
+  {authenticated && !hideFooter && windowWidth < 756 ? <Footer userRole={userRole} /> : null}
+
+
     </div>
   );
 }
