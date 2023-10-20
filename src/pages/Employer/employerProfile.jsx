@@ -68,7 +68,7 @@ const EmployerProfile = ({ employerData, employeeCheck }) => {
     <>
       <Animate>
         <div className="profile-container">
-          <div className="photo-container">
+          <div className="photo-container-employer-profile">
             <div className="profile-profile-pic" style={cardStyle}>
               <form className="change-photo-form">
                 <input

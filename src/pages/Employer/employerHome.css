@@ -20,6 +20,14 @@
   height: 48px;
   margin-top: 32px;
 }
+.content-loader-container {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   margin-bottom: 20px;
+ }
+ 
 
 .navigate-bubble-row {
   display: flex;

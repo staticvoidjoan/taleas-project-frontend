@@ -10,6 +10,9 @@ import back from "../../assets/icons/back.svg";
 import debounce from "lodash.debounce"; // Import lodash debounce function
 import EmployerLoader from "../../components/Loader/EmployerLoader";
 import Sidebar from "../../components/sidebar/sidebar";
+import EmploterWebLoader from "../../components/Loader/EmployerWebLoader";
+import ContentLoader from "react-content-loader";
+
 const EmployerHome = ({ creatorId, employer }) => {
   const navigate = useNavigate();
   const [userposts, setuserPosts] = useState([]);
@@ -98,8 +101,10 @@ const EmployerHome = ({ creatorId, employer }) => {
             </div>
           </div>
         )}
-        {loading ? (
-          <EmployerLoader />
+        {loading && isSidebarVisible ===false ? (
+
+            <EmployerLoader />
+         
         ) : (
           <div>
             {isSidebarVisible && (
@@ -128,17 +133,21 @@ const EmployerHome = ({ creatorId, employer }) => {
               </div>
             )}
             <div className="job-card-column">
-              {userposts.map((post, index) => (
-                <JobCard
-                  postId={userposts[index]._id}
-                  profilePhoto={post.creatorId.profilePhoto}
-                  position={post.position}
-                  category={post.category.name}
-                  address={post.creatorId.address}
-                  likes={post.likedBy}
-                  key={post._id}
-                />
-              ))}
+              {userposts.map((post, index) =>
+                loading ? (
+                  <EmploterWebLoader/>
+                ) : (
+                  <JobCard
+                    postId={userposts[index]._id}
+                    profilePhoto={post.creatorId.profilePhoto}
+                    position={post.position}
+                    category={post.category.name}
+                    address={post.creatorId.address}
+                    likes={post.likedBy}
+                    key={post._id}
+                  />
+                )
+              )}
             </div>
             {isSidebarVisible ? null : (
               <div className="navigate-bubble-row">
