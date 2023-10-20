@@ -10,3 +10,11 @@
 .careercrush-logo{
     width: 50%;
 }
+
+
+@media (min-width:768px){
+    .careercrush-logo{
+        width: 20%;
+    }
+    
+}

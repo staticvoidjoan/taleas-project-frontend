@@ -9,8 +9,8 @@ import Animate from "../../animateTransition/Animate";
 import back from "../../assets/icons/back.svg";
 import debounce from "lodash.debounce"; // Import lodash debounce function
 import EmployerLoader from "../../components/Loader/EmployerLoader";
-
-const EmployerHome = ({ creatorId }) => {
+import Sidebar from "../../components/sidebar/sidebar";
+const EmployerHome = ({ creatorId, employer }) => {
   const navigate = useNavigate();
   const [userposts, setuserPosts] = useState([]);
   const [postCount, setPostCount] = useState("");
@@ -63,26 +63,70 @@ const EmployerHome = ({ creatorId }) => {
     navigate(`/postjob/${creatorId}`);
   };
 
+  const [isSidebarVisible, setIsSidebarVisible] = useState(
+    window.innerWidth > 768
+  );
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSidebarVisible(window.innerWidth > 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      // Clean up the event listener on unmount
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <Animate>
-      <div>
-        <div className="add-job-btn-container">
-          <button className="register-btn" onClick={addNewPost}>
-            <Text label={"Add Job"} size={"s16"} weight={"regular"} />
-          </button>
-        </div>
+      <div className="two-column-layout">
+        {isSidebarVisible && (
+          <Sidebar
+            className="sidebar"
+            userRole="employer"
+            employer={employer}
+          />
+        )}
+        {isSidebarVisible ? null : (
+          <div>
+            <div className="add-job-btn-container">
+              <button className="employer-btn" onClick={addNewPost}>
+                <Text label={"Add Job"} size={"s16"} weight={"regular"} />
+              </button>
+            </div>
+          </div>
+        )}
         {loading ? (
           <EmployerLoader />
         ) : (
           <div>
-            <div style={{ marginLeft: "20px" }}>
-              <Text
-                label={`My Jobs: (${postCount})`}
-                size={"s16"}
-                weight={"medium"}
-              />
-            </div>
+            {isSidebarVisible && (
+              <div className="company-container-on-web">
+                <div>
+                  <Text
+                    label={`My Jobs: (${postCount})`}
+                    size={"s20"}
+                    weight={"medium"}
+                  />
+                </div>
+                <div className="navigate-bubble-row">
+                  <button className="left-button" onClick={previousPage}>
+                    <img src={back} alt="Previous" />
+                  </button>
+                  <Text label={page} weight={"bold"} size={"s22"} />
+                  <button className="right-button" onClick={nextPage}>
+                    <img src={back} alt="Next" className="right" />
+                  </button>
+                </div>
+                <div className="add-job-btn-container">
+                  <button className="employer-btn" onClick={addNewPost}>
+                    <Text label={"Add Job"} size={"s16"} weight={"regular"} />
+                  </button>
+                </div>
+              </div>
+            )}
             <div className="job-card-column">
               {userposts.map((post, index) => (
                 <JobCard
@@ -96,15 +140,17 @@ const EmployerHome = ({ creatorId }) => {
                 />
               ))}
             </div>
-            <div className="navigate-bubble-row">
-              <button className="left-button" onClick={previousPage}>
-                <img src={back} alt="Previous" />
-              </button>
-              <Text label={page} weight={"bold"} size={"s22"} />
-              <button className="right-button" onClick={nextPage}>
-                <img src={back} alt="Next" className="right" />
-              </button>
-            </div>
+            {isSidebarVisible ? null : (
+              <div className="navigate-bubble-row">
+                <button className="left-button" onClick={previousPage}>
+                  <img src={back} alt="Previous" />
+                </button>
+                <Text label={page} weight={"bold"} size={"s22"} />
+                <button className="right-button" onClick={nextPage}>
+                  <img src={back} alt="Next" className="right" />
+                </button>
+              </div>
+            )}
           </div>
         )}
       </div>

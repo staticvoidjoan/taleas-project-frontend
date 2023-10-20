@@ -297,7 +297,7 @@ function App() {
               ) : isLoading ? (
                 <Loader />
               ) : (
-                <EmployerHome creatorId={employer._id} />
+                <EmployerHome creatorId={employer._id} employer={employer}/>
               )
             ) : (
               <Home />
