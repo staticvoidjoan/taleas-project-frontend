@@ -51,7 +51,7 @@ jobs:
           AWS_REGION: 'eu-west-3'   
           SOURCE_DIR: 'build'     
 
-      # Invalidate Cloudfront cache after uploading to S3
+      # Invalidate Cloudfront cache after uploading to S3 Bucket
       - name: Invalidate CloudFront
         uses: chetan/invalidate-cloudfront-action@v2
         env:
