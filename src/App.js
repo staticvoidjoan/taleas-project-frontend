@@ -83,7 +83,7 @@ function App() {
   const checkAuthenticated = async () => {
     try {
       const user = await Auth.currentAuthenticatedUser();
-      setAuthenticated(!!user);
+      setAuthenticated(Boolean(user));
 
       const userAttributes = user.attributes || {};
       const userGivenName = userAttributes.given_name || "";
@@ -252,6 +252,7 @@ function App() {
             <div style={{ clear: "both", height: "90px" }}></div>
           )}
         </>
+        //Test
       )}
     <ScrollToTop>
       <Routes>

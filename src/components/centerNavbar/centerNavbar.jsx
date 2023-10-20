@@ -17,6 +17,8 @@ const CenterNavbar = (props) => {
   };
 
   return (
+    <>
+    
     <div className="navbar-container-center">
       <div className="navbar-center">
         <div className="turn-back">
@@ -40,6 +42,8 @@ const CenterNavbar = (props) => {
         <div style={{ flex: "1, 1, 1" }}></div>
       </div>
     </div>
+    <div style={{clear:"both", height:"76px"}}></div>
+    </>
   );
 };
 

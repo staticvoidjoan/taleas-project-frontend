@@ -1,0 +1,62 @@
+name: CareerCrush CD/CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      # Check if build directory exists
+      - name: Check if build directory exists
+        run: |
+          if [ -d "build" ]; then
+            echo "Build directory exists."
+            exit 0  # Exit with success code if directory exists
+          else
+            echo "Build directory not found."
+            exit 1  # Exit with error code if directory does not exist
+        continue-on-error: true
+
+      # Upload to S3 if the "build" directory exists
+      - name: Upload to S3
+        if: ${{ success() }}
+        uses: jakejarvis/s3-sync-action@master
+        with:
+          args: --acl public-read --follow-symlinks --delete
+        env:
+          AWS_S3_BUCKET: ${{ secrets.AWS_BUCKET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: 'eu-west-3'   
+          SOURCE_DIR: 'build'     
+
+      # Invalidate Cloudfront cache after uploading to S3
+      - name: Invalidate CloudFront
+        uses: chetan/invalidate-cloudfront-action@v2
+        env:
+          DISTRIBUTION: ${{ secrets.DISTRIBUTION }}
+          PATHS: "/index.html"
+          AWS_REGION: "eu-west-3"
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
