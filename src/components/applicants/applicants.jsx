@@ -18,7 +18,7 @@ const Applicants = ({userid, postId, name, lastname, role, profilePhoto }) => {
 
   return (
 
-      <div className="applicants-desc" onClick={viewApplicant}>
+      <div className="applicants-desc" onClick={viewApplicant} data-testid="applicant-test" >
         <div className="applicant-photo" style={{ backgroundImage: `url(${profilePhoto ?? unicorn})`, lightgray:"50%" }} >
         </div>
         <div className="applicant-info-job">
