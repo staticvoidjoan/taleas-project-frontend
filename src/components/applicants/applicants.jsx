@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./applicants.css";
 import unicorn from "../../assets/images/Unicorn.png";
-import accept from "../../assets/icons/accept.svg"
-import decline from "../../assets/icons/dislike.svg"
 import Text from "../text/text";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 const Applicants = ({userid, postId, name, lastname, role, profilePhoto }) => {
   const navigate = useNavigate();
-  const [user,setUser] = useState({});
+
 
  
 
