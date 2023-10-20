@@ -161,6 +161,7 @@ const PostJob = () => {
                   value={category}
                   onChange={onInputChange}
                   className="register-input"
+                  placeholder="Select a Category"
                   required
                 >
                   <option value="" disabled>
