@@ -16,7 +16,7 @@ const Card = ({ title, info, category, background }) => {
   };
 
   return (
-    <div className="card-container" style={cardStyle}>
+    <div className="card-container" style={cardStyle} data-testid="card-test">
       <div className="card-content">
         <div className="card-info">
           <div className="job-position">
