@@ -21,7 +21,7 @@
   align-items: center; /* Change to align-items: center */
 }
 
-.company-photo {
+.company-photo-chat {
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -63,3 +63,34 @@
   display: block;
 }
 
+@media (min-width: 1200px){
+  .chat-container {
+    display: flex;
+    flex-direction: row;
+
+  }
+
+  .company-photo-chat {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center center;
+  }
+
+  .newMessage .redCircle {
+    width: 20px;
+    height: 20px;
+    background-color: red;
+    border-radius: 50%;
+    position: absolute;
+    top: 45%;
+    right: 0; /* Adjust the right position to 0 */
+    transform: translateY(-50%);
+  }
+  .userMessagesTitle {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+}

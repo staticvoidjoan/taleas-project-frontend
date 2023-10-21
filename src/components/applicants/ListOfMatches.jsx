@@ -152,7 +152,7 @@ const loadAcceptedApplicants = async () => {
           >
             <div className="subdiv">
               <div
-                className={`company-photo`}
+                className={`company-photo-chat`}
                 style={{
                   backgroundImage: `url(${acceptedApplicant.profilePhoto || unicorn})`,
                 }}

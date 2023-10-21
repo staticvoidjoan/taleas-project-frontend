@@ -5,7 +5,9 @@
   align-items: center;
   margin-bottom: 20px;
 }
-
+.empl-home{
+  padding-top: 20px;
+}
 .add-job-btn-container {
   width: 100%;
   display: flex;
@@ -47,7 +49,6 @@
 @media screen and (min-width: 768px) {
   .job-card-column {
     margin: 20px auto;
-    background-color: #fff;
     display: grid;
     grid-template-columns: 300px 300px;
     grid-row: auto auto;
@@ -79,4 +80,15 @@
    margin-top: 32px;
  }
 
+}
+
+@media (min-width: 1200px){
+  .job-card-column {
+    margin: 20px auto;
+    display: grid;
+    grid-template-columns: 400px 400px;
+    grid-row: auto auto;
+    grid-column-gap: 50px;
+    grid-row-gap: 20px;
+  }
 }

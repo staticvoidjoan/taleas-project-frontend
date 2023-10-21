@@ -12,7 +12,7 @@ import EmployerLoader from "../../components/Loader/EmployerLoader";
 import Sidebar from "../../components/sidebar/sidebar";
 import EmploterWebLoader from "../../components/Loader/EmployerWebLoader";
 import ContentLoader from "react-content-loader";
-
+import EmployerWebLoaderL from "../../components/Loader/EmployerWebLoaderL";
 const EmployerHome = ({ creatorId, employer }) => {
   const navigate = useNavigate();
   const [userposts, setuserPosts] = useState([]);
@@ -39,6 +39,19 @@ const EmployerHome = ({ creatorId, employer }) => {
     }
   };
 
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
   useEffect(() => {
     getAllPosts();
   }, [page]); // Fetch data when page changes
@@ -84,7 +97,7 @@ const EmployerHome = ({ creatorId, employer }) => {
 
   return (
     <Animate>
-      <div className="two-column-layout">
+      <div className="two-column-layout empl-home">
         {isSidebarVisible && (
           <Sidebar
             className="sidebar"
@@ -101,10 +114,8 @@ const EmployerHome = ({ creatorId, employer }) => {
             </div>
           </div>
         )}
-        {loading && isSidebarVisible ===false ? (
-
-            <EmployerLoader />
-         
+        {loading && isSidebarVisible === false ? (
+          <EmployerLoader />
         ) : (
           <div>
             {isSidebarVisible && (
@@ -135,7 +146,11 @@ const EmployerHome = ({ creatorId, employer }) => {
             <div className="job-card-column">
               {userposts.map((post, index) =>
                 loading ? (
-                  <EmploterWebLoader/>
+                  windowWidth > 1200 ? (
+                    <EmployerWebLoaderL />
+                  ) : (
+                    <EmploterWebLoader />
+                  )
                 ) : (
                   <JobCard
                     postId={userposts[index]._id}

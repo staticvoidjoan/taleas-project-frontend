@@ -112,7 +112,7 @@ function App() {
   };
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
+  
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -241,7 +241,7 @@ function App() {
             employerData={employer}
             userRole={userRole}
           />
-          {authenticated ? null : hideDivider ? null : (
+          {authenticated ? null : hideDivider  ? null : (
             <div
               style={{
                 clear: "both",
@@ -263,9 +263,11 @@ function App() {
             employerData={employer}
             userRole={userRole}
           />
-          {location.pathname.startsWith("/postjob") ? null : (
-            <div style={{ clear: "both", height: "90px" }}></div>
+          {location.pathname.startsWith("/postjob") || windowWidth > 756? null : (
+            <div style={{ clear: "both", height: "90px"}}></div>
           )}
+       {!(windowWidth < 756 || location.pathname.startsWith("/postjob")) ? <div style={{ clear: "both", height: "70px" }}></div> : null}
+
         </>
         //Test
       )}
@@ -457,6 +459,7 @@ function App() {
       </Routes>
       </ScrollToTop>
       {!authenticated ? null : (
+        windowWidth > 756 ? null :
         <div style={{ clear: "both", height: "90px" }}></div>
       )}
 
