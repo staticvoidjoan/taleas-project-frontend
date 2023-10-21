@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import ChatApp from "../../chat/Chat";
 import ListOfMatches from "../applicants/ListOfMatches";
 import ListUserMessages from "../userMessages/userMessages";
+import Text from "../text/text";
 const Sidebar = ({userId, userRole, employee, employer}) => {
   const navigate = useNavigate();
 
@@ -22,6 +23,7 @@ const Sidebar = ({userId, userRole, employee, employer}) => {
 
   return (
     <div className="sidebar-component">
+      <div className="sidebar-messages">
         {userRole === "employee" ? (
       <ListUserMessages user={employee} />
         ) : userRole === "employer" ? (
@@ -29,7 +31,10 @@ const Sidebar = ({userId, userRole, employee, employer}) => {
         ) : (
         <div>Invalid user role</div>
         )}
-        {/* Add more sidebar items as needed */}
+        </div>
+      <div className="sidebar-info">
+       <Text label={"Support at: careercrushapp@gmail.com"} size={"s12"}/>
+      </div>
       </div>
   );
 };

@@ -44,3 +44,10 @@
   .job-info{
     margin-bottom: 12px;
   }
+
+  @media (min-width: 768px){
+    .card-container {
+      height: 480px;
+    }
+    
+  }

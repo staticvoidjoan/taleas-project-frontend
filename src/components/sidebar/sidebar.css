@@ -1,16 +1,22 @@
 /* CSS for the sidebar */
 .sidebar-component{
-    width: 25%; /* Width for larger screens */
-    background-color: #F4F4F4;
+    width: 25%; 
+    background-color: #ffffff;
     color: #827a7a;
     padding: 20px;
     display: flex;
     flex-direction: column;
     gap: 20px;
-    height: 100vh;
-    overflow-y: auto; 
+    max-height: 100vh;
+    overflow-y: hidden; 
+    justify-content: space-between;
   }
-
+.sidebar-info{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 10px;
+}
 .sidebar-item{
     display: flex;
     flex-direction: row;
@@ -18,14 +24,13 @@
     justify-content: center;
 }
   
-  /* Media query for small screens (e.g., mobile) */
   @media (max-width: 768px) {
     .container {
-      flex-direction: column; /* Stack content on top of the sidebar */
+      flex-direction: column; 
     }
   
     .sidebar-component {
-      display: none; /* Hide the sidebar on mobile screens */
+      display: none; 
     }
   }
   

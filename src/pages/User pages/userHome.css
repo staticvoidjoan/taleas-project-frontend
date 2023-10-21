@@ -8,7 +8,6 @@ body{
     display: flex; 
     gap: 8px;
     overflow-x: auto;
-  
   }
 
 .like,.cancel {
@@ -120,13 +119,17 @@ body{
   }
 
   .sidebar {
-      width: 25%; /* Adjust the width according to your design */
-      background: #F4F4F4; /* Apply a background color if needed */
-      padding: 20px; /* Add padding or styles as needed */
+      background: #F4F4F4; 
+      padding: 20px; 
   }
 
   .main-content {
-      width: 70%; /* Adjust the width according to your design */
-      padding: 20px; /* Add padding or styles as needed */
+      width: 70%; 
+      padding: 20px; 
   }
+  .left-button, .right-button,.like,.cancel{
+    width: 55px;
+    height: 55px;
+   }
+
 }

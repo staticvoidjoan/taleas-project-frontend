@@ -119,6 +119,9 @@
 }
 
 
-@media (min-width: 768px) {
-
+@media (max-width:768px) {
+  .job-info{
+    display: flex;
+    flex-direction: row;
+  }
 }
