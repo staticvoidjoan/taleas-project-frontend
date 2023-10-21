@@ -26,6 +26,8 @@
   height: 50px;
   border-radius: 50%;
   object-fit: cover;
+  background-size: cover;
+  background-repeat: no-repeat;
   object-position: center center;
 }
 
@@ -76,6 +78,8 @@
     border-radius: 50%;
     object-fit: cover;
     object-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
   }
 
   .newMessage .redCircle {

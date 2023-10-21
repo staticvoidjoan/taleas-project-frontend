@@ -422,19 +422,23 @@ function App() {
         />
         {/* <Route path="/matches/:id" element={<ListOfMatches />} /> */}
         <Route
-          path="/messages"
-          element={
-            isLoading ? (
-              <div>Loading...</div>
-            ) : (
-              <MessageRoute
-                userRole={userRole}
-                employee={employee}
-                employer={employer}
-              />
-            )
-          }
-        />
+      path="/messages"
+      element={
+        windowWidth > 768 ? (
+          <NotFound />
+        ) : (
+          isLoading ? (
+            <div>Loading...</div>
+          ) : (
+            <MessageRoute
+              userRole={userRole}
+              employee={employee}
+              employer={employer}
+            />
+          )
+        )
+      }
+    />
 
         <Route
           path="*"
