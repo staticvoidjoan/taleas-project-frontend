@@ -50,7 +50,7 @@
   .job-card-column {
     margin: 20px auto;
     display: grid;
-    grid-template-columns: 300px 300px;
+    grid-template-columns: 200px 200px;
     grid-row: auto auto;
     grid-column-gap: 50px;
     grid-row-gap: 20px;
@@ -86,8 +86,8 @@
   .job-card-column {
     margin: 20px auto;
     display: grid;
-    grid-template-columns: 400px 400px;
-    grid-row: auto auto;
+    grid-template-columns: 200px 200px 200px 200px;
+    grid-template-rows: auto auto ; /* Define 4 rows */
     grid-column-gap: 50px;
     grid-row-gap: 20px;
   }

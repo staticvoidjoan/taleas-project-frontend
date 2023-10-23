@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import unicorn from "../../assets/images/Unicorn.png";
 import SignOut from "../../service/authentication/user/userSignOut";
 import Text from "../../components/text/text";
@@ -9,16 +10,24 @@ import emailpic from "../../assets/icons/email.svg";
 import locationico from "../../assets/icons/location.svg";
 import Animate from "../../animateTransition/Animate";
 import CenterNavbar from "../../components/centerNavbar/centerNavbar";
+import Swal from "sweetalert2";
+import Loader from "../../components/Loader/Loader.jsx";
+import edit from "../../assets/icons/edit.svg";
 const EmployerProfile = ({ employerData, employeeCheck }) => {
+  const [loading, setLoading] = useState(false);
   const [newPhoto, setNewPhoto] = useState({
     profilePhoto: "",
   });
+
+  const navigate = useNavigate();
   useEffect(() => {
+    console.log(employerData.profilePhoto);
+
     console.log("newPhoto:", newPhoto);
     if (newPhoto.profilePhoto) {
       // Automatically submit the form when a new image is selected
       console.log("Submitting form...");
-      editEmployer();
+      checkEmployer();
     }
   }, [newPhoto]);
 
@@ -38,31 +47,80 @@ const EmployerProfile = ({ employerData, employeeCheck }) => {
     }
   };
 
-  const editEmployer = async (e) => {
-    let theAdd = employerData.address;
-    if (theAdd){
-        
-    
+  const checkEmployer = async () => {
     try {
-     
-      await axios.put(
-        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/update-profile/${employerData._id}`,
+      setLoading(true);
+      console.log("Trying to check image content");
+
+      const response = await axios.post(
+        "https://oet3gzct9a.execute-api.eu-west-2.amazonaws.com/prod/analyse-image",
+        { imageUrl: newPhoto.profilePhoto },
         {
-          profilePhoto: newPhoto.profilePhoto,
-          address: theAdd
+          headers: {
+            "Content-Type": "application/json",
+            // Other custom headers, if needed
+          },
         }
       );
-      window.location.reload();
+      console.log("Image content checked successfully");
+      console.log(response);
+      if (response.data.detectionStatus === "Bad") {
+        Swal.fire({
+          icon: "error",
+          title: "Attention",
+          text: "That picture is against our community guidelines!",
+          confirmButtonText: "Ok",
+        }).then(async (result) => {
+          if (result.isConfirmed) {
+            window.location.reload();
+          }
+        });
+      } else {
+        editEmployer();
+      }
     } catch (error) {
-      console.error(error);
+      console.log("error", error);
+    } finally {
+      setLoading(false); // Set loading to false after the operation is completed
     }
-  }
+  };
+
+  const editEmployer = async (e) => {
+    let theAdd = employerData.address;
+    if (theAdd) {
+      try {
+        setLoading(true);
+        console.log();
+        const employer = await axios.put(
+          `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/update-profile/${employerData._id}`,
+          {
+            profilePhoto: newPhoto.profilePhoto,
+            address: theAdd,
+            industry: employerData.industry,
+            description: employerData.description,
+          }
+        );
+        window.location.reload();
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false); // Set loading to false after the operation is completed
+      }
+    }
   };
 
   const cardStyle = {
     backgroundImage: `url(${employerData.profilePhoto || unicorn})`,
     position: "relative",
   };
+
+  const gotoedit = () => {
+    navigate("/edit");
+  };
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <>
@@ -81,18 +139,32 @@ const EmployerProfile = ({ employerData, employeeCheck }) => {
             </div>
           </div>
           <div className="employer-profile-info">
+            <div className="fullname-employer" onClick={gotoedit}>
+              <div className="fullname-employer-mini">
+                <Text
+                  label={employerData.companyName}
+                  size={"s18"}
+                  color={"#333"}
+                  weight={"bold"}
+                />
+                <div className="edit-profile">
+                  <img src={edit}></img>
+                </div>
+              </div>
+              <Text
+                label={employerData.industry}
+                size={"s16"}
+                weight={"regular"}
+                color={"black"}
+              />
+            </div>
             <Text
-              label={employerData.companyName}
-              size={"s18"}
-              color={"#333"}
-              weight={"bold"}
-            />
-            <Text
-              label={employerData.industry}
+              label={employerData.description}
               size={"s16"}
+              color={"#333"}
               weight={"regular"}
-              color={"black"}
-            />
+            ></Text>
+
             <div className="job-title-info">
               <div className="info-bubble">
                 <img

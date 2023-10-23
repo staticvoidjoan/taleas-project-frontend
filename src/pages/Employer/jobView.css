@@ -5,6 +5,7 @@
   align-items: center;
   width: 100%;
 }
+
 .job-company-photo {
   width: calc(100% - 40px);
   margin-top: 24px;
@@ -118,10 +119,3 @@
   width: 100%;
 }
 
-
-@media (max-width:768px) {
-  .job-info{
-    display: flex;
-    flex-direction: row;
-  }
-}

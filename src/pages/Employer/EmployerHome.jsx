@@ -23,10 +23,14 @@ const EmployerHome = ({ creatorId, employer }) => {
 
   // Define the getAllPosts function
   const getAllPosts = async () => {
+    let limit = 4
+    if (window.innerWidth >= 1200){
+      limit = 8
+    }
     try {
       setLoading(true); // Set loading to true while fetching data
       const response = await axios.get(
-        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/creator/${creatorId}?page=${page}&limit=4`
+        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/creator/${creatorId}?page=${page}&limit=${limit}`
       );
       setuserPosts(response.data.posts);
       console.log(response.data.posts);
