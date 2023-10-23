@@ -8,6 +8,7 @@ import chat from "../../assets/icons/chat.svg";
 import { getDocs, query, collection, where, orderBy, limit } from "firebase/firestore";
 import { db } from "../../firebase";
 import Loader from "../Loader/Loader";
+import Spinner from "../Loader/spinner";
 
 function ListUserMessages({ user }) {
   const navigate = useNavigate();
@@ -108,7 +109,7 @@ function ListUserMessages({ user }) {
     <div className="big">
       <Text label={`Messages (${chatData.length})`} size={"s16"} weight={"medium"} color={"black"} />
       {!isChatDataLoaded ? (
-        <Loader />
+        <Spinner />
       ) : (
         <div>
           {chatData.map(({ creatorId, match, lastMessage }) => (
