@@ -6,10 +6,11 @@ import Animate from "../../animateTransition/AnimateY";
 const Menu = (props) => {
   return (
     <Animate>
-      <div style={{ clear: "both", height: "70px"  }}></div>
-      <div className="menu">
-        <hr className="line-menu" />
+      <div style={{ clear: "both", height: "70px" }}></div>
+      <div className="menu-content">
+        
         <div className="menu-list">
+        <hr className="line-menu" />
           <ul>
             <Link to={"/"}>
               <li>
@@ -34,16 +35,7 @@ const Menu = (props) => {
                 />
               </Link>
             </li>
-            {/* <li>
-              {" "}
-              <Text
-                label={"Subscriptions"}
-                weight={"thin"}
-                lineheight={"lnormal"}
-                size={"s18"}
-                color={"black"}
-              />
-            </li> */}
+
             <Link to={"/contact"}>
               <li>
                 {" "}
@@ -71,11 +63,11 @@ const Menu = (props) => {
             </Link>
           </ul>
         </div>
-        <hr className="line" />
-        <div className="footer">
+        <hr className="line-menu" />
+        <div className="footer-menu">
           <Link to={"/signup"}>
             {" "}
-            <button className="btn-register">
+            <button className="btn-register-menu">
               <Text
                 label={"Register"}
                 weight={"thin"}
@@ -86,8 +78,8 @@ const Menu = (props) => {
             </button>
           </Link>
 
-          <div className="start-line">
-            <hr className="line" />
+          <div className="start-line-menu">
+            <hr className="line-menu" />
             <Text
               label={"or"}
               weight={"thin"}
@@ -95,11 +87,11 @@ const Menu = (props) => {
               size={"s16"}
               color={"lightgray"}
             />
-            <hr className="line" />
+            <hr className="line-menu" />
           </div>
           <Link to={"/signin"}>
             {" "}
-            <button className="btn-login">
+            <button className="btn-login-menu">
               {" "}
               <Text
                 label={"Login"}
