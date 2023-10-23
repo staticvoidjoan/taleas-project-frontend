@@ -80,8 +80,7 @@ function App() {
   useEffect(() => {
     
     localStorage.setItem("localindex", 0);
-    checkAuthenticated();
-    saveEmployeeToStorage();
+    checkAuthenticated(); 
   }, []);
 
   // Check if  user is authenticated
