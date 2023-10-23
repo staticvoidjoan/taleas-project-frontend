@@ -116,7 +116,7 @@ function ListUserMessages({ user }) {
             
             <div key={creatorId} className={`chatContainer`} onClick={() => goToChat(creatorId)}>
               <div className="s">
-              <div className="company-photo" style={{ 
+              <div className="company-photo-chat" style={{ 
                 backgroundImage: match && match.creatorId && match.creatorId.companyPhoto
                   ? `url(${match.creatorId.companyPhoto})`
                   : `url(${unicorn})`,
@@ -129,9 +129,9 @@ function ListUserMessages({ user }) {
                 <Text label={lastMessage ? lastMessage.text : ""} size={"s14"} weight={"thin"} color={"lightgray"} />
               </div>
               </div>
-              <div className="new">
-              <div className="chat" onClick={() => goToChat(creatorId)}><img src={chat} alt="Chat Icon" /></div>
-              {lastMessage && lastMessage.uid === creatorId && <div className="newMessageCircle"></div>}
+              <div className="newMessage" onClick={() => goToChat(creatorId)}>
+              <img src={chat} alt="Chat Icon" />
+              {lastMessage && lastMessage.uid === creatorId && <div className="redCircle"></div>}
               </div>
             </div>
           ))}
