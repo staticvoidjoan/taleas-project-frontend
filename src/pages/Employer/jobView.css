@@ -119,10 +119,3 @@
   width: 100%;
 }
 
-
-@media (max-width:768px) {
-  .job-info{
-    display: flex;
-    flex-direction: row;
-  }
-}
