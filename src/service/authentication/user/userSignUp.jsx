@@ -13,6 +13,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./user.css";
 import TextField from "@mui/material/TextField";
+// import LinkedInOAuth from "../../../linkedinOAuth";
 
 function RegistrationForm() {
   Amplify.configure(awsExports);
@@ -332,7 +333,7 @@ function RegistrationForm() {
                     size={"s16"}
                   />
                 </button>
-
+                {/* <LinkedInOAuth /> */}
                 <div className="goto-login">
                   <Text
                     label={"Already have an account?"}
