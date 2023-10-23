@@ -17,7 +17,7 @@ import Animate from "../../animateTransition/AnimateY";
 import CenterNavbar from "../../components/centerNavbar/centerNavbar";
 import { useNavigate } from "react-router-dom";
 import UserInfoLoader from "../../components/Loader/UserInfoLoader";
-import UserInfoLoaderWeb from "../../components/Loader/UserInfoLoaderWeb";
+import Loader from "../../components/Loader/Loader";
 
 const UserInfo = ({ userId }) => {
   const [user, setUser] = useState({});
@@ -83,7 +83,7 @@ const UserInfo = ({ userId }) => {
     <>
       {loading ? (
       windowWidth > 768 ? (
-         <UserInfoLoaderWeb />
+         <Loader />
       ) : (
        <UserInfoLoader />
       )

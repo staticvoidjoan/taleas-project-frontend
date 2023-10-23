@@ -203,13 +203,14 @@
 
 @media (min-width: 768px){
     .user-photo{
-        width: calc(100% - 800px);
+        width: 40%;
+        height: 300px;
     }
     .userInfo-container{
        margin-left: 50px;
        margin-right: 50px;
     }
     .signout{
-        margin-bottom: 50px;
+        padding-bottom: 30px;
     }
 }
