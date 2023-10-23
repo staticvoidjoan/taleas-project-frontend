@@ -17,6 +17,7 @@ import Animate from "../../animateTransition/AnimateY";
 import CenterNavbar from "../../components/centerNavbar/centerNavbar";
 import { useNavigate } from "react-router-dom";
 import UserInfoLoader from "../../components/Loader/UserInfoLoader";
+import UserInfoLoaderWeb from "../../components/Loader/UserInfoLoaderWeb";
 
 const UserInfo = ({ userId }) => {
   const [user, setUser] = useState({});
@@ -27,6 +28,19 @@ const UserInfo = ({ userId }) => {
   const [generalSkills, setGeneralSkills] = useState([]);
   const [languages, setLanguages] = useState([])
   const [loading, setLoading] = useState();
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const navigate = useNavigate();
   const editNav = () => {
@@ -68,8 +82,12 @@ const UserInfo = ({ userId }) => {
   return (
     <>
       {loading ? (
-        <UserInfoLoader />
+      windowWidth > 768 ? (
+         <UserInfoLoaderWeb />
       ) : (
+       <UserInfoLoader />
+      )
+    ) : (
         <Animate>
           <div className="userInfo-container">
             <div className="user-image">
