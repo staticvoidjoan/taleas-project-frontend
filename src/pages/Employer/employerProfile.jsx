@@ -10,10 +10,9 @@ import locationico from "../../assets/icons/location.svg";
 import Animate from "../../animateTransition/Animate";
 import CenterNavbar from "../../components/centerNavbar/centerNavbar";
 import Swal from "sweetalert2";
-import Loader from "../../components/Loader/Loader.jsx"
+import Loader from "../../components/Loader/Loader.jsx";
 const EmployerProfile = ({ employerData, employeeCheck }) => {
   const [loading, setLoading] = useState(false);
-  const [oldPhoto, setOldPhoto] = useState("");
   const [newPhoto, setNewPhoto] = useState({
     profilePhoto: "",
   });
@@ -25,7 +24,7 @@ const EmployerProfile = ({ employerData, employeeCheck }) => {
     if (newPhoto.profilePhoto) {
       // Automatically submit the form when a new image is selected
       console.log("Submitting form...");
-      editEmployer();
+      checkEmployer();
     }
   }, [newPhoto]);
 
@@ -45,19 +44,14 @@ const EmployerProfile = ({ employerData, employeeCheck }) => {
     }
   };
 
-  const checkEmployer = async (employer) => {
+  const checkEmployer = async () => {
     try {
       setLoading(true);
-      console.log(employer.data.employer.profilePhoto);
-      const imageUrl = employer.data.employer.profilePhoto.replace(
-        /^"(.*)"$/,
-        "$1"
-      );
       console.log("Trying to check image content");
 
       const response = await axios.post(
         "https://oet3gzct9a.execute-api.eu-west-2.amazonaws.com/prod/analyse-image",
-        { imageUrl: imageUrl },
+        { imageUrl: newPhoto.profilePhoto },
         {
           headers: {
             "Content-Type": "application/json",
@@ -66,52 +60,30 @@ const EmployerProfile = ({ employerData, employeeCheck }) => {
         }
       );
       console.log("Image content checked successfully");
-      console.log(response.data);
-      if (response.data === "Bad") {
+      console.log(response);
+      if (response.data.detectionStatus === "Bad") {
         Swal.fire({
+          icon: 'error',
           title: "Attention",
           text: "That picture is against our community guidelines!",
           confirmButtonText: "Ok",
         }).then(async (result) => {
           if (result.isConfirmed) {
-            await keepOldPhoto(); // Wait for the async function to complete
+            window.location.reload();
           }
         });
       } else {
-        window.location.reload();
+          editEmployer();
       }
     } catch (error) {
       console.log("error", error);
-    }finally {
-      setLoading(false); // Set loading to false after the operation is completed
-    }
-  };
-
-  const keepOldPhoto = async () => {
-    try {
-      setLoading(true); // Set loading to true while the operation is in progress
-      console.log("Trying to set old photo");
-      console.log("OldPhoto", oldPhoto);
-      const employer = await axios.put(
-        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/update-profile/${employerData._id}`,
-        {
-          profilePhoto: oldPhoto,
-          address: employerData.address,
-          industry: employerData.industry,
-          description: "Hey how are you i am keeping the old photo",
-        }
-      );
-      console.log("After trying to set old photo", employer);
-      checkEmployer(employer);
-    } catch (error) {
-      console.error(error);
     } finally {
       setLoading(false); // Set loading to false after the operation is completed
     }
   };
 
+
   const editEmployer = async (e) => {
-    setOldPhoto(employerData.profilePhoto);
     let theAdd = employerData.address;
     if (theAdd) {
       try {
@@ -125,11 +97,11 @@ const EmployerProfile = ({ employerData, employeeCheck }) => {
             industry: employerData.industry,
             description: "Hejjjjjjjjjjjjjjjjy",
           }
-        );
-        checkEmployer(employer);
+          );
+          window.location.reload();
       } catch (error) {
         console.error(error);
-      }finally {
+      } finally {
         setLoading(false); // Set loading to false after the operation is completed
       }
     }
@@ -140,8 +112,8 @@ const EmployerProfile = ({ employerData, employeeCheck }) => {
     position: "relative",
   };
 
-  if(loading){
-    return <Loader/>
+  if (loading) {
+    return <Loader />;
   }
 
   return (
@@ -206,7 +178,6 @@ const EmployerProfile = ({ employerData, employeeCheck }) => {
           <SignOut />
         </div>
       </Animate>
-     
     </>
   );
 };
