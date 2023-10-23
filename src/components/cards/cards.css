@@ -48,6 +48,8 @@
   @media (min-width: 768px){
     .card-container {
       height: 480px;
+      margin-left: 0px;
+      margin-right: 0px;
     }
     
   }
