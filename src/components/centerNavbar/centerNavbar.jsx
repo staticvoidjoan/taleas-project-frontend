@@ -9,7 +9,7 @@ const CenterNavbar = (props) => {
   const location = useLocation();
 
   const TurnBackOnePage = () => {
-    if (location.pathname.startsWith("/profile")) {
+    if (location.pathname.startsWith("/profile") ) {
       navigate("/");
     } else {
       navigate(-1);

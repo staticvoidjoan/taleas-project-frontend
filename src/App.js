@@ -31,6 +31,8 @@ import EmployerHome from "./pages/Employer/EmployerHome";
 import JobView from "./pages/Employer/jobView";
 import EmployerProfile from "./pages/Employer/employerProfile";
 import ViewApplicant from "./pages/Employer/viewApplicant";
+import EditEmployer from "./pages/Employer/editEmployer";
+
 //Layout
 import NavBar from "./layout/navBar/Navbar2";
 import Footer from "./layout/footer/footer";
@@ -76,8 +78,10 @@ function App() {
 
   // Check authentication status on component mount
   useEffect(() => {
+    
     localStorage.setItem("localindex", 0);
     checkAuthenticated();
+    saveEmployeeToStorage();
   }, []);
 
   // Check if  user is authenticated
@@ -143,6 +147,7 @@ function App() {
   }, [checkEmployee, useremail]);
 
   useEffect(() => {
+    
     // Listen for the sign-out event
     Hub.listen("auth", ({ payload }) => {
       if (payload.event === "signOut") {
@@ -219,7 +224,7 @@ function App() {
     "/resendSignUp",
   ];
   const hideFooter = pathsToHideFooter.includes(location.pathname);
-  const hideComplete = location.pathname.startsWith("/completeprofile");
+  const hideComplete = location.pathname.startsWith("/completeprofile") || location.pathname.startsWith("/edit");
   const hideDivider = location.pathname.startsWith("/");
   if (!isEmployeeLoaded) {
     return <Loader />;
@@ -376,6 +381,17 @@ function App() {
           element={
             userRole === "employer" && authenticated ? (
               <PostJob />
+            ) : (
+              <NotFound />
+            )
+          }
+        />
+         <Route
+          exact
+          path="/edit"
+          element={
+            userRole === "employer" && authenticated ? (
+              <EditEmployer employerData={employer} />
             ) : (
               <NotFound />
             )

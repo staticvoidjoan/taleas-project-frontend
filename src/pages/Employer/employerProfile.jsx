@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import unicorn from "../../assets/images/Unicorn.png";
 import SignOut from "../../service/authentication/user/userSignOut";
 import Text from "../../components/text/text";
@@ -11,12 +12,14 @@ import Animate from "../../animateTransition/Animate";
 import CenterNavbar from "../../components/centerNavbar/centerNavbar";
 import Swal from "sweetalert2";
 import Loader from "../../components/Loader/Loader.jsx";
+import edit from "../../assets/icons/edit.svg";
 const EmployerProfile = ({ employerData, employeeCheck }) => {
   const [loading, setLoading] = useState(false);
   const [newPhoto, setNewPhoto] = useState({
     profilePhoto: "",
   });
 
+  const navigate = useNavigate();
   useEffect(() => {
     console.log(employerData.profilePhoto);
 
@@ -63,7 +66,7 @@ const EmployerProfile = ({ employerData, employeeCheck }) => {
       console.log(response);
       if (response.data.detectionStatus === "Bad") {
         Swal.fire({
-          icon: 'error',
+          icon: "error",
           title: "Attention",
           text: "That picture is against our community guidelines!",
           confirmButtonText: "Ok",
@@ -73,7 +76,7 @@ const EmployerProfile = ({ employerData, employeeCheck }) => {
           }
         });
       } else {
-          editEmployer();
+        editEmployer();
       }
     } catch (error) {
       console.log("error", error);
@@ -81,7 +84,6 @@ const EmployerProfile = ({ employerData, employeeCheck }) => {
       setLoading(false); // Set loading to false after the operation is completed
     }
   };
-
 
   const editEmployer = async (e) => {
     let theAdd = employerData.address;
@@ -95,10 +97,10 @@ const EmployerProfile = ({ employerData, employeeCheck }) => {
             profilePhoto: newPhoto.profilePhoto,
             address: theAdd,
             industry: employerData.industry,
-            description: "Hejjjjjjjjjjjjjjjjy",
+            description: employerData.description,
           }
-          );
-          window.location.reload();
+        );
+        window.location.reload();
       } catch (error) {
         console.error(error);
       } finally {
@@ -110,6 +112,10 @@ const EmployerProfile = ({ employerData, employeeCheck }) => {
   const cardStyle = {
     backgroundImage: `url(${employerData.profilePhoto || unicorn})`,
     position: "relative",
+  };
+
+  const gotoedit = () => {
+    navigate("/edit");
   };
 
   if (loading) {
@@ -133,18 +139,32 @@ const EmployerProfile = ({ employerData, employeeCheck }) => {
             </div>
           </div>
           <div className="employer-profile-info">
+            <div className="fullname-employer" onClick={gotoedit}>
+              <div className="fullname-employer-mini">
+                <Text
+                  label={employerData.companyName}
+                  size={"s18"}
+                  color={"#333"}
+                  weight={"bold"}
+                />
+                <div className="edit-profile">
+                  <img src={edit}></img>
+                </div>
+              </div>
+              <Text
+                label={employerData.industry}
+                size={"s16"}
+                weight={"regular"}
+                color={"black"}
+              />
+            </div>
             <Text
-              label={employerData.companyName}
-              size={"s18"}
-              color={"#333"}
-              weight={"bold"}
-            />
-            <Text
-              label={employerData.industry}
+              label={employerData.description}
               size={"s16"}
+              color={"#333"}
               weight={"regular"}
-              color={"black"}
-            />
+            ></Text>
+
             <div className="job-title-info">
               <div className="info-bubble">
                 <img
