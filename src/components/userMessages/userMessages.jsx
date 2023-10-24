@@ -117,8 +117,8 @@ function ListUserMessages({ user }) {
             <div key={creatorId} className={`chatContainer`} onClick={() => goToChat(creatorId)}>
               <div className="s">
               <div className="company-photo-chat" style={{ 
-                backgroundImage: match && match.creatorId && match.creatorId.companyPhoto
-                  ? `url(${match.creatorId.companyPhoto})`
+                backgroundImage: match && match.creatorId && match.creatorId.profilePhoto
+                  ? `url(${match.creatorId.profilePhoto})`
                   : `url(${unicorn})`,
                 lightgray: "50%"
               }}>

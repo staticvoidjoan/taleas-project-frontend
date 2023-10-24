@@ -253,7 +253,7 @@ const UserInfo = ({ userId }) => {
               {links.map((links1, index) => (
                 <div className="project-link">
                   <img src={link} />
-                  <a href={links1} className="link-tab"><Text label={links1} size={"s16"} /></a>
+                  <a href={links1} target="_blank" className="link-tab"><Text label={links1} size={"s16"} /></a>
                 </div>
               ))}
             </div>

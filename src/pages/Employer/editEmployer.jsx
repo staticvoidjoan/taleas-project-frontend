@@ -67,7 +67,7 @@ const EditEmployer = ({ employerData }) => {
       return;
     }
 
-    const updatedJobPostString = `${newEmployer.description} ${newEmployer.address} ${newEmployer.industry}`;
+    const updatedJobPostString = `${newEmployer.description} ${newEmployer.address} ${newEmployer.industry}`.toLowerCase();
 
     try {
       console.log("Submitting the form...");
@@ -153,6 +153,7 @@ const EditEmployer = ({ employerData }) => {
         </div>
         <div className="post-job-body">
           <form className="job-form" onSubmit={waitforSubmit}>
+            <div className="informative">Industry</div>
             <div className="inputbox-register">
               <input
                 type="text"
@@ -164,6 +165,7 @@ const EditEmployer = ({ employerData }) => {
                 required
               />
             </div>
+            <div className="informative">Address</div>
             <div className="inputbox-register">
               <input
                 type="text"
@@ -175,6 +177,7 @@ const EditEmployer = ({ employerData }) => {
                 required
               />
             </div>
+            <div className="informative">Description</div>
             <div className="inputbox-register-box">
               <textarea
                 name="description"

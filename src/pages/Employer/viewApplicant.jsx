@@ -72,20 +72,46 @@ const UserInfo = ({ employerid }) => {
     console.log(employerid._id);
     console.log(reportReason);
     try {
-      await axios.post(
+      const response = await axios.post(
         "https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/report-something",
         {
-          user: user._id,
-          employer: employerid,
+          reportedBy: user._id,
+          userBeingReported: employerid,
           reportReason: reportReason,
-        }
-      );
+        });
+  
+      console.log(response);
+      setOpen(false);
       Swal.fire({
         icon: "success",
         title: "Report Submitted Successfully",
         text: "Thank you for taking the time to report. Your contribution helps improve the community.",
       });
-    } catch (error) {}
+    } catch (error) {
+      setOpen(false);
+      
+      console.log("error response", error.response?.data);
+  
+      if (error.response && error.response.data) {
+
+        if (reportReason === "") {
+          Swal.fire({
+            icon: "error",
+            title: `You need a report reason!`,
+          });
+        } else if (error.response.data.message === "You have already reported this employer") {
+          Swal.fire({
+            icon: "info",
+            title: `You have already reported ${user.name}`,
+            text: "We have received your report and will investigate it accordingly. Thank you for helping maintain a safe environment.",
+          });
+        }
+      } else {
+        // Handle other unexpected errors
+        // Display a generic error message
+        console.error("An unexpected error occurred:", error);
+      }
+    }
   };
 
   return (
@@ -111,7 +137,7 @@ const UserInfo = ({ employerid }) => {
                   label="Reason for the report"
                   fullWidth
                   style={{ marginBottom: "20px", marginTop: "20px" }}
-                  multiline   
+                  multiline
                   rowsMax={4}
                   value={reportReason}
                   onChange={(e) => setReportReason(e.target.value)}
