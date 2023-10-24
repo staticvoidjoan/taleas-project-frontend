@@ -4,6 +4,10 @@ import { useNavigate } from "react-router";
 import Text from "../text/text";
 import unicorn from "../../assets/images/Unicorn.png";
 import chatIcon from "../../assets/icons/chat.svg";
+import moreIcon from "../../assets/icons/more.png";
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import the CSS
+
 import "./listOfMatches.css"; // Make sure to include the appropriate CSS file
 import {
   getDocs,
@@ -25,6 +29,8 @@ function ListOfMatches({ employer }) {
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   const [messageCount, setMessageCount] = useState(0);
   const [unreadMessages, setUnreadMessages] = useState({});
+  const [showUnmatchOption, setShowUnmatchOption] = useState(false);
+
 
   useEffect(() => {
     loadAcceptedApplicants();
@@ -148,6 +154,35 @@ function ListOfMatches({ employer }) {
     navigate(link);
   };
 
+  const handleMoreClick = (applicantId) => {
+    confirmAlert({
+      title: 'Unmatch user',
+      message: 'Are you sure you want to unmatch this user?',
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: () => handleUnmatch(applicantId),
+        },
+        {
+          label: 'No',
+          onClick: () => console.log('No clicked'), // Handle the "No" action if needed
+        },
+      ],
+    });
+  };
+  const handleUnmatch = async (applicantId) => {
+    // Implement your unmatching logic here
+    // This function will be called when the user confirms the action
+    // You can use this function to send a request to the server or perform any other necessary actions.
+    console.log(creatorId)
+    console.log(applicantId)
+    const response = await axios.put(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/unmatch-employee?employeerId=${creatorId}&employeeId=${applicantId}`);
+    if (response.data) {
+      console.log(response.data);
+      loadAcceptedApplicants();
+    }
+  };
+
   return (
     <div>
       <Text
@@ -163,7 +198,7 @@ function ListOfMatches({ employer }) {
           <div
             className="chat-container"
             key={acceptedApplicant._id}
-            onClick={() => chat(acceptedApplicant._id)}
+            // onClick={() => chat(acceptedApplicant._id)}
           >
             <div className="subdiv">
               <div
@@ -199,6 +234,7 @@ function ListOfMatches({ employer }) {
               </div>
             </div>
 
+            <div className="uwu">
             <div
               className="newMessage"
               onClick={() => chat(acceptedApplicant._id)}
@@ -208,7 +244,17 @@ function ListOfMatches({ employer }) {
               acceptedApplicant.lastMessage.uid === acceptedApplicant._id ? (
                 <div className="redCircle"></div>
               ) : null}
+             
             </div>
+            <div></div>
+
+            <div className="more">
+              <img src={moreIcon} alt="More Icon"  onClick={()=>{
+              handleMoreClick(acceptedApplicant._id)
+            }}/>
+            </div>
+            </div>
+            
           </div>
         ))
       )}
