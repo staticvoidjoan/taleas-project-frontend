@@ -23,7 +23,6 @@
     "react-content-loader": "^6.2.1",
     "react-dom": "^18.2.0",
     "react-firebase-hooks": "^5.1.1",
-    "react-linkedin-login-oauth2": "^2.0.1",
     "react-router-dom": "^6.16.0",
     "react-scripts": "5.0.1",
     "react-spinners": "^0.13.8",
