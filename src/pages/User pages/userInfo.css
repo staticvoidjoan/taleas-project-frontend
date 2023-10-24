@@ -28,6 +28,7 @@
 .user-image{
     display: flex;
     justify-content: center;
+    width: 100%;
 }
 
 .header{
@@ -203,14 +204,16 @@
 
 @media (min-width: 768px){
     .user-photo{
-        width: 40%;
+        width: calc(100% - 120px);;
         height: 300px;
+        background-position-x: center;
     }
     .userInfo-container{
-       margin-left: 50px;
-       margin-right: 50px;
-    }
-    .signout{
-        padding-bottom: 30px;
+    box-shadow: 0 4px 4px 0 rgba(0,0,0,.25);
+    margin-left: 140px;
+    margin-right: 140px;
+    margin-top: 40px;
+    padding: 40px;
+    width: calc(100% - 280px);
     }
 }
