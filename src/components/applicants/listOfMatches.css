@@ -83,8 +83,8 @@
   }
 
   .newMessage .redCircle {
-    width: 20px;
-    height: 20px;
+    width: 10px;
+    height: 10px;
     background-color: red;
     border-radius: 50%;
     position: absolute;

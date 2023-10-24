@@ -68,10 +68,10 @@
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
-@media screen and (min-width: 600px) {
+@media screen and (min-width: 800px) {
   .job-card-container {
-    width: 300px;
-    height: 300px;
+    width: 200px;
+    height: 200px;
   }
 
   .post-card-photo {
@@ -89,19 +89,19 @@
     display: flex;
     flex-direction: column;
     margin-left: 26px;
-    justify-content: flex-end;
+    justify-content: flex-start;
     gap: 10px;
-    margin-bottom: 20px;
+    margin-top: 10px;
     height: 100%;
     z-index: 999;
   }
   .post-info-bubble {
     position: absolute;
-    top: 10px; /* Adjust the top position as needed */
-    right: 10px; /* Adjust the right position as needed */
+    bottom: 22px; /* Adjust the top position as needed */
+    left: 10px; /* Adjust the right position as needed */
     justify-content: flex-start;
     width: fit-content;
-    padding: 10px;
+    padding: 2px;
     height: 27px;
     flex-shrink: 0;
     border-radius: 24px;
@@ -112,8 +112,8 @@
 
   .job-card-likes {
     position: absolute;
-    top: 22px; /* Adjust the top position as needed */
-    left: 20px; /* Adjust the right position as needed */
+    bottom: 22px; /* Adjust the top position as needed */
+    right: 20px; /* Adjust the right position as needed */
     flex-direction: row;
     align-items: center;
   }
@@ -123,7 +123,7 @@
 
 @media (min-width: 1200px){
   .job-card-container {
-    width: 400px;
-    height: 400px;
+    width: 200px;
+    height: 200px;
   }
 }

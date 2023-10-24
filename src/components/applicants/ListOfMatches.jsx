@@ -16,6 +16,7 @@ import {
 import { db } from "../../firebase";
 import Loader from "../Loader/Loader";
 import { set } from "date-fns";
+import Spinner from "../Loader/spinner";
 
 function ListOfMatches({ employer }) {
   const creatorId = employer._id;
@@ -156,7 +157,7 @@ function ListOfMatches({ employer }) {
         color={"black"}
       />
       {!isDataLoaded ? (
-        <Loader />
+        <Spinner />
       ) : (
         acceptedApplicants.map((acceptedApplicant) => (
           <div

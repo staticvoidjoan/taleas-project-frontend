@@ -1,6 +1,8 @@
 // import React from 'react';
-// const LINKEDIN_CLIENT_SECRET = "CLIENT_SECRET"
-// const LINKEDIN_CLIENT_ID = "CLIENT_ID"
+// import { Auth } from 'aws-amplify';
+
+// const LINKEDIN_CLIENT_SECRET = "CBDFVwzCPhXemS3j"
+// const LINKEDIN_CLIENT_ID = "77j06fbawwlp08"
 // const LINKEDIN_CALLBACK_URL = 'http://localhost:3000/profile';
 // const linkedinOAuthURL = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${LINKEDIN_CLIENT_ID}&redirect_uri=${encodeURIComponent(
 //   LINKEDIN_CALLBACK_URL
@@ -36,6 +38,20 @@
 //     console.log(
 //       `Welcome, ${userProfile.data.firstName.localized.en_US} ${userProfile.data.lastName.localized.en_US}!`
 //     );
+
+//     // Sign up the user in Cognito with LinkedIn data
+//     const attributes = {
+//       email: userProfile.data.email,
+//       'custom:linkedinData': JSON.stringify(userProfile.data),
+//     };
+
+//     const result = await Auth.signUp({
+//       username: userProfile.data.email,
+//       password: 'placeholderpassword',
+//       attributes,
+//     });
+
+//     console.log('Cognito sign-up result:', result);
 //   };
 
 //   const handleLinkedInCallback = () => {
