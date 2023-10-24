@@ -50,6 +50,7 @@
   flex-direction: column;
   height: 14vh;
   justify-content: space-evenly;
+  margin-bottom: 30px;
 }
 
 .job-title-info {
