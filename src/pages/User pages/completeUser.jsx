@@ -57,6 +57,7 @@ const ProfileForm = ({ userId }) => {
   const [isLinkCollapsed, setIsLinkCollapsed] = useState(true);
   const [isGeneralCollapsed, setIsGeneralCollapsed] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const loadUser = async () => {
     try {
@@ -120,6 +121,47 @@ const ProfileForm = ({ userId }) => {
     });
   };
 
+  const checkEmployee = async () => {
+    try {
+      setLoading(true);
+      console.log("Trying to check image content");
+
+      const response = await axios.post(
+        "https://oet3gzct9a.execute-api.eu-west-2.amazonaws.com/prod/analyse-image",
+        { imageUrl: newPhoto.profilePhoto },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            // Other custom headers, if needed
+          },
+        }
+      );
+      console.log("Image content checked successfully");
+      console.log(response);
+      if (response.data.detectionStatus === "Bad") {
+        Swal.fire({
+          icon: "error",
+          title: "Attention",
+          text: "That picture is against our community guidelines!",
+          confirmButtonText: "Ok",
+        }).then(async (result) => {
+          if (result.isConfirmed) {
+            window.location.reload();
+          }
+        });
+      } else {
+        editUser();
+      }
+    } catch (error) {
+      console.log("error", error);
+    } finally {
+      setLoading(false); // Set loading to false after the operation is completed
+    }
+  };
+
+  if(isLoading) {
+    return <Loader/>
+  }
   const handleRemoveCert = (index, id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -161,7 +203,7 @@ const ProfileForm = ({ userId }) => {
     if (newPhoto.profilePhoto) {
       // Automatically submit the form when a new image is selected
       console.log("Submitting form...");
-      editUser();
+      checkEmployee();
     }
   }, [newPhoto]);
 
