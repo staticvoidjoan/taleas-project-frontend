@@ -368,7 +368,7 @@ function App() {
           <Route
             exact
             path="/viewjobpost/:id/:index"
-            element={<EmployeeJobView />}
+            element={<EmployeeJobView  employeeid ={employee._id}/>}
           />
           {/* --------------------------------------------------------------------------------------------------------------- */}
 
