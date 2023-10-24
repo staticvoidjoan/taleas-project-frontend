@@ -75,6 +75,7 @@ const PostJob = () => {
     });
   };
 
+
   const onSubmit = async () => {
     if (!category || !position || !description) {
       alert("Please fill in all required fields.");
@@ -88,12 +89,34 @@ const PostJob = () => {
       ...jobPost,
       requirements: requirementsWithoutText,
     };
+    const requirementsString = updatedJobPost.requirements.join(', ');
 
+    const updatedJobPostString = `${updatedJobPost.description} ${requirementsString} ${updatedJobPost.position}`;
+    
     try {
       console.log("Submitting the form...");
       console.log(category, id, position, requirementsWithoutText, description);
-      console.log(updatedJobPost);
+      console.log(updatedJobPostString);
       setIsLoading(true);
+
+      const moderationResponse = await axios.post(
+        'https://oet3gzct9a.execute-api.eu-west-2.amazonaws.com/prod/analyse', {text:updatedJobPostString}
+      )
+      const sentiment = moderationResponse.data.sentiments.Sentiment
+      console.log(sentiment)
+      const profanityDetected = moderationResponse.data.profanityDetected
+      if(sentiment === "NEGATIVE" || profanityDetected === true){
+        Swal.fire({
+          icon: 'error',
+          title: 'Attention',
+          text: 'Your content contains inappropriate language.!',
+          footer: 'Please keep it respectful, and follow our community guidelines'
+        })
+        return;
+      }
+
+      console.log("ModerationResponse", moderationResponse)
+
       await axios.post(
         `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/creator/${id}`,
         updatedJobPost

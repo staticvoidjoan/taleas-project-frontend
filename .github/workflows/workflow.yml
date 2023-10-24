@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version: [16.x]
 
     steps:
       - name: Checkout code
@@ -27,18 +27,6 @@ jobs:
         run: npm test
       - name: Build
         run: npm run build
-
-      # Check if build directory exists
-      - name: Check if build directory exists
-        run: |
-          if [ -d "build" ]; then
-            echo "Build directory exists."
-            exit 0  # Exit with success code if directory exists
-          else
-            echo "Build directory not found."
-            exit 1  # Exit with error code if directory does not exist
-        continue-on-error: true
-
       # Upload to S3 if the "build" directory exists
       - name: Upload to S3
         if: ${{ success() }}
@@ -57,15 +45,15 @@ jobs:
         uses: chetan/invalidate-cloudfront-action@v2
         env:
           DISTRIBUTION: ${{ secrets.DISTRIBUTION }}
-          PATHS: "/index.html"
+          PATHS: "/*"
           AWS_REGION: "eu-west-3"
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
       - name: Notify Slack Channel
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_ICON: https://lh3.googleusercontent.com/MA_1MIjGTMjmLolDEWGQqR-vy-oSNamjeMR3LTLRcmL13KSiKYgRoP3G6NUjnMZDdvbc3ULBs-VWnIrWLHM4T71Q3Kw6sw_Nie_J=h200-rw
-          SLACK_USERNAME: Joan's Mighty Workflow Bot
-          SLACK_TITLE: Workflow Push
+          SLACK_USERNAME: Joan's Mighty Frontend Deployment Bot
+          SLACK_TITLE: Building and uploading project (+Clearing Cache)
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-

@@ -192,7 +192,7 @@ button {
 
 
 */
-.backToLogin{
+.backToLogin {
   position: relative;
   top: 20px;
   left: 20px;
@@ -200,13 +200,17 @@ button {
 }
 .user-register-page {
   width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column-reverse;
+  /* height: 100%; */
+  /* display: flex;
+  flex-direction: column-reverse; */
   overflow: hidden;
   background-color: #212121;
 }
 
+.forms-users {
+  display: flex;
+  flex-direction: column-reverse;
+}
 .form-box-register {
   background-color: #fff;
   width: 100%;
@@ -313,7 +317,6 @@ button {
 .user-register-title {
   width: 100%;
   height: 100%;
-
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -355,7 +358,7 @@ button {
   margin-top: 32px;
 }
 
-.register-btn-2{
+.register-btn-2 {
   width: calc(100% - 40px);
   background-color: #6e46f5;
   border: none;
@@ -435,16 +438,316 @@ button {
   color: #333;
 }
 
-#loginform1{
+#loginform1 {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   min-height: 50vh;
   flex: 1 1 1;
 }
-.register-form-second{
+.register-form-second {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
+}
+
+@media screen and (min-width: 901px) {
+  .user-register-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    width: 100%;
+    overflow: hidden;
+  }
+  .forms-users {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    justify-content: center;
+    max-height: 100vh; /* Adjust the height to your needs */
+    padding-bottom: 100px;
+    padding-top: 100px;
+  }
+  .form-box-register {
+    width: 550px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 0;
+  }
+
+  .form-value,
+  .form-value-confirm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 50vh;
+    flex: 1 1 1;
+  }
+
+  .login-photo-page {
+    max-width: 400px; /* Adjust the width as needed */
+    height: auto;
+    margin-right: 20px; /* Add some spacing between the photo and the form */
+  }
+}
+
+@media screen and (max-width: 497) {
+  .backToLogin {
+    position: relative;
+    top: 20px;
+    left: 20px;
+    text-decoration: none;
+  }
+  .user-register-page {
+    width: 100%;
+    /* height: 100%; */
+    display: flex;
+    flex-direction: column-reverse;
+    overflow: hidden;
+    background-color: #212121;
+  }
+
+  .form-box-register {
+    background-color: #fff;
+    width: 100%;
+    height: 550;
+    border-radius: 10px 10px 0px 0px;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 0;
+  }
+
+  .form-value {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 50vh;
+    flex: 1 1 1;
+  }
+
+  .form-value-confirm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 50vh;
+    flex: 1 1 1;
+    justify-content: center;
+  }
+
+  .inputbox-register {
+    width: calc(100% - 40px);
+    height: 48px;
+    flex-shrink: 0;
+    margin-bottom: 16px;
+    border: 1px solid #ddd;
+    display: flex;
+    justify-content: center;
+    background-color: #fff;
+  }
+
+  .inputbox-register-birthday {
+    width: calc(100% - 40px);
+    height: 48px;
+    flex-shrink: 0;
+    margin-bottom: 28px;
+    border: none;
+    display: flex;
+    justify-content: center;
+    background-color: #fff;
+  }
+
+  .inputbox-register-box {
+    width: calc(100% - 40px);
+    height: 90px;
+    flex-shrink: 0;
+    margin-bottom: 16px;
+    border: 1px solid #ddd;
+    display: flex;
+    justify-content: center;
+    background-color: #fff;
+  }
+
+  .register-input {
+    margin: 0px;
+    padding: 0px;
+    width: calc(100% - 12px);
+    height: 100%;
+    border: none;
+  }
+
+  .register-input:focus {
+    outline: none;
+  }
+
+  .form-category {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 55px;
+    justify-content: space-evenly;
+    margin-top: 16px;
+    align-items: center;
+    margin-bottom: 24px;
+    color: #999;
+  }
+
+  .employer-category.selected,
+  .employee-category.selected {
+    border-bottom: 2px solid #6e46f5;
+    color: #6e46f5;
+    font-weight: bold;
+  }
+
+  .employer-category.selected .form-category,
+  .employee-category.selected .form-category {
+    color: #6e46f5;
+  }
+
+  .employer-category,
+  .employee-category {
+    width: 100px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .user-register-title {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    padding-bottom: 24px;
+  }
+
+  .radio-terms {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    justify-content: flex-start;
+    margin-left: 40px;
+  }
+
+  .terms-text {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    margin-left: 12px;
+  }
+  .terms-button {
+    font-size: 0.9em;
+    color: aliceblue;
+    font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .register-btn {
+    width: calc(100% - 40px);
+    background-color: #6e46f5;
+    border: none;
+    color: #fff;
+    height: 48px;
+    margin-top: 32px;
+  }
+
+  .register-btn-2 {
+    width: calc(100% - 40px);
+    background-color: #6e46f5;
+    border: none;
+    color: #fff;
+    height: 48px;
+  }
+
+  .goto-login {
+    display: flex;
+    flex-direction: row;
+    margin-top: 40px;
+    margin-bottom: 24px;
+  }
+
+  .forgot-password {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-right: 40px;
+  }
+
+  /* Add this to your CSS */
+  .disabled {
+    background: gray;
+    cursor: not-allowed;
+  }
+
+  .login-error {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    width: calc(100% - 40px);
+  }
+
+  .logout-btn {
+    color: #b6013c;
+    width: calc(100% - 40px);
+    background-color: transparent;
+    height: 48px;
+    border: 1px solid #b6013c;
+    transition: transform 0.3s ease;
+  }
+
+  /* CSS */
+  .inputbox-register {
+    position: relative;
+    margin-bottom: 20px;
+  }
+
+  .register-input-label {
+    position: absolute;
+    top: 0px;
+    left: 10px;
+    pointer-events: none; /* Prevent label from interfering with input */
+    transition: top 0.2s, left 0.2s, font-size 0.2s;
+    font-size: 14px;
+    color: #999;
+  }
+
+  .register-input {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    font-size: 16px;
+    transition: border-color 0.2s;
+  }
+
+  /* Adjust the label position and style when the input is focused or has a value */
+  .register-input:focus + .register-input-label,
+  .register-input:valid + .register-input-label {
+    top: -5px;
+    left: 5px;
+    font-size: 12px;
+    color: #333;
+  }
+
+  #loginform1 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-height: 50vh;
+    flex: 1 1 1;
+  }
+  .register-form-second {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
 }

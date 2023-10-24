@@ -47,3 +47,17 @@
   align-items: center;
 }
 
+
+@media (min-width: 768px){
+  .chatContainer {
+    margin-top: 5px;
+    padding-right: 10px;
+    padding-left: 10px; 
+    border: solid 1px #e6e6e6;
+    border-radius: 10px;
+  }
+  .newMessageCircle{
+    right: 20px;
+  }
+  
+}

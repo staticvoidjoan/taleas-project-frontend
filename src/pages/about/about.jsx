@@ -36,9 +36,9 @@ const About = (props) => {
             size={"s18"}
             color={"lightgray"}
           />
-          <img src={About1} alt="" />
+          <img src={About1} alt="" className="photo-welcome" />
         </div>
-        <div className="vision">
+        {/* <div className="vision-content">
           <Text
             label={"Our Vision"}
             weight={"bold"}
@@ -46,77 +46,89 @@ const About = (props) => {
             size={"s24"}
             color={"purple"}
           />
+        </div> */}
+        <div className="vision-content">
+          <div className="vision-text">
+            <Text
+              label={"Our Vision"}
+              weight={"bold"}
+              lineheight={"lnormal"}
+              size={"s24"}
+              color={"purple"}
+            />
+            <Text
+              label={
+                "We believe that the world of work should be more transparent, efficient, and user-friendly. That's why we've built CareerCrush to provide a seamless experience for both companies and workers."
+              }
+              weight={"thin"}
+              lineheight={"lnormal"}
+              size={"s18"}
+              color={"lightgray"}
+            />
+          </div>
+
+          <img src={About2} alt="" className="photo-welcome" />
         </div>
-        <div className="vision-text">
-          <Text
-            label={
-              "We believe that the world of work should be more transparent, efficient, and user-friendly. That's why we've built CareerCrush to provide a seamless experience for both companies and workers."
-            }
-            weight={"thin"}
-            lineheight={"lnormal"}
-            size={"s18"}
-            color={"lightgray"}
-          />
-          <img src={About2} alt="" />
-        </div>
-        <div className="ofer">
-          <Text
-            label={"What We Offer"}
-            weight={"bold"}
-            lineheight={"lnormal"}
-            size={"s24"}
-            color={"purple"}
-          />
-        </div>
-        <div className="offer-text">
-          <Text
-            label={
-              "Our platform allows employers to post job listings, interact with potential candidates, and streamline the hiring process. You can see who's interested in your job postings and engage with them through our private chat feature."
-            }
-            weight={"thin"}
-            lineheight={"lnormal"}
-            size={"s18"}
-            color={"lightgray"}
-          />
-          <Text
-            label={
-              "Job seekers can explore a wide range of job listings, express their interest through likes and connect with employers directly via private chat. We're here to help you find the perfect job match."
-            }
-            weight={"thin"}
-            lineheight={"lnormal"}
-            size={"s18"}
-            color={"lightgray"}
-          />
-          <img src={About3} alt="" />
+        <div className="offer-content">
+          <div className="offer-text">
+            <Text
+              label={"What We Offer"}
+              weight={"bold"}
+              lineheight={"lnormal"}
+              size={"s24"}
+              color={"purple"}
+            />
+            <Text
+              label={
+                "Our platform allows employers to post job listings, interact with potential candidates, and streamline the hiring process. You can see who's interested in your job postings and engage with them through our private chat feature."
+              }
+              weight={"thin"}
+              lineheight={"lnormal"}
+              size={"s18"}
+              color={"lightgray"}
+            />
+            <Text
+              label={
+                "Job seekers can explore a wide range of job listings, express their interest through likes and connect with employers directly via private chat. We're here to help you find the perfect job match."
+              }
+              weight={"thin"}
+              lineheight={"lnormal"}
+              size={"s18"}
+              color={"lightgray"}
+            />
+          </div>
         </div>
 
-        <div className="contact">
-          <Text
-            label={"ARE YOU READY FOR THE NEXT STEP ?"}
-            weight={"bold"}
-            lineheight={"lnormal"}
-            size={"s24"}
-            color={"purple"}
-          />{" "}
-          <Text
-            label={"Contact us to guide you."}
-            weight={"thin"}
-            lineheight={"lnormal"}
-            size={"s18"}
-            color={"lightgray"}
-          />
-          <Link to={"/contact"}>
-            <button className="btn-register">
-              {" "}
-              <Text
-                label={"Contact us"}
-                weight={"thin"}
-                lineheight={"lnormal"}
-                size={"s18"}
-                color={"white"}
-              />
-            </button>
-          </Link>
+        <div className="contact-content">
+          <img src={About3} alt="" className="photo-contact" />
+          <div className="contact-text">
+            <Text
+              label={"ARE YOU READY FOR THE NEXT STEP ?"}
+              weight={"bold"}
+              lineheight={"lnormal"}
+              size={"s24"}
+              color={"purple"}
+            />{" "}
+            <Text
+              label={"Contact us to guide you."}
+              weight={"thin"}
+              lineheight={"lnormal"}
+              size={"s18"}
+              color={"lightgray"}
+            />
+            <Link to={"/contact"}>
+              <button className="btn-register-contact">
+                {" "}
+                <Text
+                  label={"Contact us"}
+                  weight={"thin"}
+                  lineheight={"lnormal"}
+                  size={"s18"}
+                  color={"white"}
+                />
+              </button>
+            </Link>
+          </div>
         </div>
       </div>
     </>

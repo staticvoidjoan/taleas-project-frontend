@@ -34,7 +34,7 @@
   overflow: hidden;
   z-index: 0;
 }
-.job-info{
+.job-info-view{
     width: calc(100% - 40px);
 }
 .photo-container {
@@ -84,4 +84,14 @@
 }
   .about-company{
     margin-bottom: 32px;
+  }
+
+  
+  @media (min-width: 768px){
+    .job-info-view{
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      margin-top: 10px;
+    }
   }

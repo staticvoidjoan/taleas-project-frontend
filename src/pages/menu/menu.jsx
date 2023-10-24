@@ -8,9 +8,8 @@ const Menu = (props) => {
     <Animate>
       <div style={{ clear: "both", height: "70px" }}></div>
       <div className="menu-content">
-        
         <div className="menu-list">
-        <hr className="line-menu" />
+          <hr className="line-menu" />
           <ul>
             <Link to={"/"}>
               <li>

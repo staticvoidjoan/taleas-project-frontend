@@ -5,6 +5,7 @@
   align-items: center;
   width: 100%;
 }
+
 .job-company-photo {
   width: calc(100% - 40px);
   margin-top: 24px;
@@ -117,3 +118,4 @@
 .applicant-column {
   width: 100%;
 }
+
