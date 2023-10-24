@@ -279,3 +279,11 @@
   width: 24px;
   height: 24px;
 }
+
+
+@media (min-width: 768){
+  .complete-profile-main{
+    display: flex;
+    flex-direction: row;
+  }
+}

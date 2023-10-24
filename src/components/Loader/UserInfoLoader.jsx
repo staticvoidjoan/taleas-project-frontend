@@ -9,6 +9,7 @@ const UserInfoLoader = () => (
     viewBox="0 0 800 600"
     backgroundColor="#999999"
     foregroundColor="#ecebeb"
+    className="userInfoLoader" 
   >
     {/* {User profile photo} */}
     <rect x="20" y="20" rx="3" ry="3" width="350" height="231" />
