@@ -51,6 +51,7 @@ import ListOfMatches from "./components/applicants/ListOfMatches";
 import Loader from "./components/Loader/Loader";
 import ListUserMessages from "./components/userMessages/userMessages";
 import ScrollToTop from "./components/scrollToTop/scrollToTop";
+import OfflinePage from "./components/offline/offlinePage"
 
 //Error Handlers
 import NotFound from "./pages/Error/notFound";
@@ -470,7 +471,11 @@ function App() {
                   <EmployerHome creatorId={employer._id} />
                 )
               ) : (
-                <NotFound />
+                navigator.onLine ? (
+                  <NotFound />
+                ) : (
+                  <OfflinePage/>
+                )
               )
             }
           />
