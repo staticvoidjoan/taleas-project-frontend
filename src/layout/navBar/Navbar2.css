@@ -21,6 +21,7 @@
 
 .app-name {
   display: flex;
+  cursor: pointer;
 }
 
 .nav-profile-pic {
@@ -37,4 +38,5 @@
   align-items: center;
   flex-direction: row;
   gap: 8px;
+  cursor: pointer;  
 }
