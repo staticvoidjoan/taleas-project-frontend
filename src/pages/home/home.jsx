@@ -4,12 +4,12 @@ import "./home.css";
 import Text from "../../components/text/text";
 import ConnectImg from "../../assets/images/connectTeam.svg";
 
-const Home = (props) => {
+const StartingPage = (props) => {
   return (
     <>
-      <div className="starting-home">
-        <div className="content-home">
-          <div className="main-tittle-home">
+      <div className="starting">
+        <div className="content">
+          <div className="main-tittle">
             <Text
               label={"Swipe your way"}
               weight={"medium700"}
@@ -25,13 +25,13 @@ const Home = (props) => {
               color={"purple"}
             />
           </div>
-          <div className="div-foto">
+          <div>
             {" "}
-            <img src={ConnectImg} alt="" className="start-img-home" />
+            <img src={ConnectImg} alt="" className="start-img" />
           </div>
         </div>
 
-        <div className="footer-container-home ">
+        <div className="footer">
           <Text
             label={"Start Now"}
             weight={"thin"}
@@ -41,7 +41,7 @@ const Home = (props) => {
           />
           <Link to={"/signup"}>
             {" "}
-            <button className="btn-register-home">
+            <button className="btn-register">
               <Text
                 label={"Register"}
                 weight={"thin"}
@@ -52,8 +52,8 @@ const Home = (props) => {
             </button>
           </Link>
 
-          <div className="start-line-home">
-            <hr className="line-home" />
+          <div className="start-line">
+            <hr className="line" />
             <Text
               label={"or"}
               weight={"thin"}
@@ -61,11 +61,11 @@ const Home = (props) => {
               size={"s16"}
               color={"lightgray"}
             />
-            <hr className="line-home" />
+            <hr className="line" />
           </div>
           <Link to={"/signin"}>
             {" "}
-            <button className="btn-login-home">
+            <button className="btn-login">
               {" "}
               <Text
                 label={"Login"}
@@ -81,4 +81,4 @@ const Home = (props) => {
     </>
   );
 };
-export default Home;
+export default StartingPage;
