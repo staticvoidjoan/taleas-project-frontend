@@ -2,6 +2,7 @@ import { clientsClaim } from 'workbox-core';
 import { precacheAndRoute } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
 import { CacheFirst, StaleWhileRevalidate } from 'workbox-strategies';
+import { ExpirationPlugin } from 'workbox-expiration';
 
 clientsClaim();
 
@@ -31,8 +32,8 @@ registerRoute(
     cacheName: 'images',
     plugins: [
       new ExpirationPlugin({
-        maxEntries: 50,
-        maxAgeSeconds: 30 * 24 * 60 * 60, // Cache for 30 days
+        maxEntries: 100, // Adjust max entries as needed
+        maxAgeSeconds: 7 * 24 * 60 * 60, // Cache for 7 days
       }),
     ],
   })
@@ -43,6 +44,12 @@ registerRoute(
   ({ request }) => request.destination === 'fetch',
   new StaleWhileRevalidate({
     cacheName: 'api-data',
+    plugins: [
+      new ExpirationPlugin({
+        maxEntries: 50, // Adjust max entries as needed
+        maxAgeSeconds: 24 * 60 * 60, // Cache for 24 hours
+      }),
+    ],
   })
 );
 
