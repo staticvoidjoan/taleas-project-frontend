@@ -31,6 +31,13 @@
   object-position: center center;
 }
 
+.uwu{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
 .info {
   display: flex;
   flex-direction: column;
@@ -63,6 +70,22 @@
 /* Display the red circle when there are unread messages */
 .newMessage .redCircle {
   display: block;
+}
+
+.more img{ 
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+.unmatch-option {
+  position: absolute;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  padding: 5px;
+  border-radius: 5px;
+  top: 30px;
+  left: -80px; /* Adjust the left position as needed */
+  z-index: 1;
 }
 
 @media (min-width: 1200px){
