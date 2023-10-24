@@ -61,7 +61,7 @@ const JobProfile = () => {
           <div className="gradient-overlay"></div>
         </div>
       </div>
-      <div className="job-info">
+      <div className="job-info-view">
         <div className="job-title">
           <Text
             label={post.position ?? "Loading..."}

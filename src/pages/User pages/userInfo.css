@@ -200,3 +200,17 @@
 .link-tab{
     text-decoration: none;
 }
+
+@media (min-width: 768px){
+    .user-photo{
+        width: 40%;
+        height: 300px;
+    }
+    .userInfo-container{
+       margin-left: 50px;
+       margin-right: 50px;
+    }
+    .signout{
+        padding-bottom: 30px;
+    }
+}

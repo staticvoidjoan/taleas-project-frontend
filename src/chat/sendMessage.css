@@ -37,3 +37,13 @@
 .sendMessage-button:hover {
   background-color: #6e46f5;
 }
+
+@media (min-width: 768px){
+  .sendMessage-form{
+    bottom: 0px;
+    margin-left: 140px;
+    margin-right: 140px;
+  }
+}
+
+

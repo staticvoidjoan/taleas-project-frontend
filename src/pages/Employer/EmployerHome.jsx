@@ -9,8 +9,11 @@ import Animate from "../../animateTransition/Animate";
 import back from "../../assets/icons/back.svg";
 import debounce from "lodash.debounce"; // Import lodash debounce function
 import EmployerLoader from "../../components/Loader/EmployerLoader";
-
-const EmployerHome = ({ creatorId }) => {
+import Sidebar from "../../components/sidebar/sidebar";
+import EmploterWebLoader from "../../components/Loader/EmployerWebLoader";
+import ContentLoader from "react-content-loader";
+import EmployerWebLoaderL from "../../components/Loader/EmployerWebLoaderL";
+const EmployerHome = ({ creatorId, employer }) => {
   const navigate = useNavigate();
   const [userposts, setuserPosts] = useState([]);
   const [postCount, setPostCount] = useState("");
@@ -20,10 +23,14 @@ const EmployerHome = ({ creatorId }) => {
 
   // Define the getAllPosts function
   const getAllPosts = async () => {
+    let limit = 4
+    if (window.innerWidth >= 1200){
+      limit = 8
+    }
     try {
       setLoading(true); // Set loading to true while fetching data
       const response = await axios.get(
-        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/creator/${creatorId}?page=${page}&limit=4`
+        `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/posts/creator/${creatorId}?page=${page}&limit=${limit}`
       );
       setuserPosts(response.data.posts);
       console.log(response.data.posts);
@@ -36,6 +43,19 @@ const EmployerHome = ({ creatorId }) => {
     }
   };
 
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
   useEffect(() => {
     getAllPosts();
   }, [page]); // Fetch data when page changes
@@ -63,48 +83,102 @@ const EmployerHome = ({ creatorId }) => {
     navigate(`/postjob/${creatorId}`);
   };
 
+  const [isSidebarVisible, setIsSidebarVisible] = useState(
+    window.innerWidth > 768
+  );
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSidebarVisible(window.innerWidth > 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      // Clean up the event listener on unmount
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <Animate>
-      <div>
-        <div className="add-job-btn-container">
-          <button className="register-btn" onClick={addNewPost}>
-            <Text label={"Add Job"} size={"s16"} weight={"regular"} />
-          </button>
-        </div>
-        {loading ? (
+      <div className="two-column-layout empl-home">
+        {isSidebarVisible && (
+          <Sidebar
+            className="sidebar"
+            userRole="employer"
+            employer={employer}
+          />
+        )}
+        {isSidebarVisible ? null : (
+          <div>
+            <div className="add-job-btn-container">
+              <button className="employer-btn" onClick={addNewPost}>
+                <Text label={"Add Job"} size={"s16"} weight={"regular"} />
+              </button>
+            </div>
+          </div>
+        )}
+        {loading && isSidebarVisible === false ? (
           <EmployerLoader />
         ) : (
           <div>
-            <div style={{ marginLeft: "20px" }}>
-              <Text
-                label={`My Jobs: (${postCount})`}
-                size={"s16"}
-                weight={"medium"}
-              />
-            </div>
+            {isSidebarVisible && (
+              <div className="company-container-on-web">
+                <div>
+                  <Text
+                    label={`My Jobs: (${postCount})`}
+                    size={"s20"}
+                    weight={"medium"}
+                  />
+                </div>
+                <div className="navigate-bubble-row">
+                  <button className="left-button" onClick={previousPage}>
+                    <img src={back} alt="Previous" />
+                  </button>
+                  <Text label={page} weight={"bold"} size={"s22"} />
+                  <button className="right-button" onClick={nextPage}>
+                    <img src={back} alt="Next" className="right" />
+                  </button>
+                </div>
+                <div className="add-job-btn-container">
+                  <button className="employer-btn" onClick={addNewPost}>
+                    <Text label={"Add Job"} size={"s16"} weight={"regular"} />
+                  </button>
+                </div>
+              </div>
+            )}
             <div className="job-card-column">
-              {userposts.map((post, index) => (
-                <JobCard
-                  postId={userposts[index]._id}
-                  profilePhoto={post.creatorId.profilePhoto}
-                  position={post.position}
-                  category={post.category.name}
-                  address={post.creatorId.address}
-                  likes={post.likedBy}
-                  key={post._id}
-                />
-              ))}
+              {userposts.map((post, index) =>
+                loading ? (
+                  windowWidth > 1200 ? (
+                    <EmployerWebLoaderL />
+                  ) : (
+                    <EmploterWebLoader />
+                  )
+                ) : (
+                  <JobCard
+                    postId={userposts[index]._id}
+                    profilePhoto={post.creatorId.profilePhoto}
+                    position={post.position}
+                    category={post.category.name}
+                    address={post.creatorId.address}
+                    likes={post.likedBy}
+                    key={post._id}
+                  />
+                )
+              )}
             </div>
-            <div className="navigate-bubble-row">
-              <button className="left-button" onClick={previousPage}>
-                <img src={back} alt="Previous" />
-              </button>
-              <Text label={page} weight={"bold"} size={"s22"} />
-              <button className="right-button" onClick={nextPage}>
-                <img src={back} alt="Next" className="right" />
-              </button>
-            </div>
+            {isSidebarVisible ? null : (
+              <div className="navigate-bubble-row">
+                <button className="left-button" onClick={previousPage}>
+                  <img src={back} alt="Previous" />
+                </button>
+                <Text label={page} weight={"bold"} size={"s22"} />
+                <button className="right-button" onClick={nextPage}>
+                  <img src={back} alt="Next" className="right" />
+                </button>
+              </div>
+            )}
           </div>
         )}
       </div>

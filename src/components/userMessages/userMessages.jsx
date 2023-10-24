@@ -8,6 +8,7 @@ import chat from "../../assets/icons/chat.svg";
 import { getDocs, query, collection, where, orderBy, limit } from "firebase/firestore";
 import { db } from "../../firebase";
 import Loader from "../Loader/Loader";
+import Spinner from "../Loader/spinner";
 
 function ListUserMessages({ user }) {
   const navigate = useNavigate();
@@ -108,14 +109,14 @@ function ListUserMessages({ user }) {
     <div className="big">
       <Text label={`Messages (${chatData.length})`} size={"s16"} weight={"medium"} color={"black"} />
       {!isChatDataLoaded ? (
-        <Loader />
+        <Spinner />
       ) : (
         <div>
           {chatData.map(({ creatorId, match, lastMessage }) => (
             
             <div key={creatorId} className={`chatContainer`} onClick={() => goToChat(creatorId)}>
               <div className="s">
-              <div className="company-photo" style={{ 
+              <div className="company-photo-chat" style={{ 
                 backgroundImage: match && match.creatorId && match.creatorId.companyPhoto
                   ? `url(${match.creatorId.companyPhoto})`
                   : `url(${unicorn})`,
@@ -128,9 +129,9 @@ function ListUserMessages({ user }) {
                 <Text label={lastMessage ? lastMessage.text : ""} size={"s14"} weight={"thin"} color={"lightgray"} />
               </div>
               </div>
-              <div className="new">
-              <div className="chat" onClick={() => goToChat(creatorId)}><img src={chat} alt="Chat Icon" /></div>
-              {lastMessage && lastMessage.uid === creatorId && <div className="newMessageCircle"></div>}
+              <div className="newMessage" onClick={() => goToChat(creatorId)}>
+              <img src={chat} alt="Chat Icon" />
+              {lastMessage && lastMessage.uid === creatorId && <div className="redCircle"></div>}
               </div>
             </div>
           ))}

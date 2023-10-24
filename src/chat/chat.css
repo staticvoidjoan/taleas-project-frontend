@@ -21,3 +21,24 @@
     width: fit-content; /* Make the width fit the content */
   }
   
+
+@media screen and (min-width: 800px) {
+
+    .main {      
+    }
+  
+    .message-date {
+      font-size: 12px;
+    }
+
+    .chatApp{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        padding: 10px 140px 10px 140px;
+        
+    }
+  
+}

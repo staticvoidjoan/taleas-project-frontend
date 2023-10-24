@@ -10,6 +10,7 @@
   padding-right: 20px;
   padding-left: 20px; /* Added padding to the left */
   border: solid 1px #e6e6e6;
+  /* height: 76px; */
 }
 
 .userMessagesTitle {
@@ -17,7 +18,7 @@
   padding-left: 20px;
 }
 
-.company-photo {
+.company-photo-chat {
   width: 70px;
   height: 70px;
   border-radius: 50%;
@@ -26,20 +27,20 @@
 }
 
 .new .newMessageCircle {
-  width: 10px;
-  height: 10px;
   background-color: red;
-  border-radius: 50%;
+  display: block;
+  height: 10px;
   position: absolute;
+  right: 19px;
   top: 45%;
-  right: 30px;
   transform: translateY(-50%);
-  display: none; /* Initially hide the red circle */
+  width: 10px;
+  border-radius: 50%;
 }
 
-.new .newMessageCircle {
-  display: block; /* Show the red circle when there is a new message */
-}
+/* .new .newMessageCircle {
+  display: block; 
+} */
 
 .s {
   display: flex;
@@ -47,3 +48,29 @@
   align-items: center;
 }
 
+
+@media (min-width: 768px){
+  .chatContainer {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    border-bottom: 1px solid rgb(204, 204, 204);
+    padding: 10px;
+  }
+  .newMessageCircle{
+    right: 8px;
+  }
+  .company-photo-chat{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-size: cover;
+    background-repeat: no-repeat;
+    object-position: center center;
+  }
+}
