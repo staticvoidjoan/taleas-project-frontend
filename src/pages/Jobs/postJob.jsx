@@ -90,9 +90,8 @@ const PostJob = () => {
       requirements: requirementsWithoutText,
     };
     const requirementsString = updatedJobPost.requirements.join(', ');
+    const updatedJobPostString = `${updatedJobPost.description} ${requirementsString} ${updatedJobPost.position}`.toLowerCase();
 
-    const updatedJobPostString = `${updatedJobPost.description} ${requirementsString} ${updatedJobPost.position}`;
-    
     try {
       console.log("Submitting the form...");
       console.log(category, id, position, requirementsWithoutText, description);

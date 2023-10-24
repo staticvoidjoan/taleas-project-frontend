@@ -67,7 +67,7 @@ const EditEmployer = ({ employerData }) => {
       return;
     }
 
-    const updatedJobPostString = `${newEmployer.description} ${newEmployer.address} ${newEmployer.industry}`;
+    const updatedJobPostString = `${newEmployer.description} ${newEmployer.address} ${newEmployer.industry}`.toLowerCase();
 
     try {
       console.log("Submitting the form...");
