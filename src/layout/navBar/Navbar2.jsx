@@ -42,7 +42,7 @@ const Navbar2 = ({
     }
   };
 
-  const whiteTextRoutes = ["/signup", "/signin"];
+  const whiteTextRoutes = ["/signup", "/signin", "/passwordreset"];
   const isWhiteTextRoute = whiteTextRoutes.includes(location.pathname);
 
   const navbarStyle = {
@@ -56,52 +56,55 @@ const Navbar2 = ({
 
   return (
     <>
-    <div className="navbar-container" style={navbarStyle}>
-      <div className="navbar">
-        <div className="app-name" onClick={goHome}>
-          <Text
-            label={"Career"}
-            weight={"medium800"}
-            lineheight={"l24"}
-            size={"s20"}
-            color={isWhiteTextRoute ? "white" : "black"}
-          />
-          <Text
-            label={"Crush"}
-            weight={"medium800"}
-            lineheight={"l24"}
-            size={"s20"}
-            color={"purple"}
-          />
-        </div>
-        <div>
-          {authenticated ? (
-            <div className="nav-profile">
-              <Link to={"/profile"} style={{ textDecoration: "none" }}>
-                <Text
-                  label={`${givenName} ${lastName}`}
-                  size={"s16"}
-                  color={"black"}
-                />
-              </Link>
-              <div
-                className="nav-profile-pic"
-                alt={`${givenName} profile`}
-                style={{ backgroundImage: `url(${imageUrl ?? unicorn})` }}
-              />
-            </div>
-          ) : (
-            <img
-              src={isWhiteTextRoute ? MenuWhite : MenuBlack}
-              alt="Menu"
-              onClick={handleMenu}
+      <div className="navbar-container" style={navbarStyle}>
+        <div className="navbar">
+          <div className="app-name" onClick={goHome}>
+            <Text
+              label={"Career"}
+              weight={"medium800"}
+              lineheight={"l24"}
+              size={"s20"}
+              color={isWhiteTextRoute ? "white" : "black"}
             />
-          )}
+            <Text
+              label={"Crush"}
+              weight={"medium800"}
+              lineheight={"l24"}
+              size={"s20"}
+              color={"purple"}
+            />
+          </div>
+          <div>
+            {authenticated ? (
+              <div className="nav-profile">
+                <Link to={"/profile"} style={{ textDecoration: "none" }}>
+                  <Text
+                    label={`${givenName} ${lastName}`}
+                    size={"s16"}
+                    color={"black"}
+                  />
+                </Link>
+                <div
+                  className="nav-profile-pic"
+                  alt={`${givenName} profile`}
+                  style={{ backgroundImage: `url(${imageUrl ?? unicorn})` }}
+                />
+              </div>
+            ) : (
+              <img
+                src={isWhiteTextRoute ? MenuWhite : MenuBlack}
+                alt="Menu"
+                onClick={handleMenu}
+              />
+            )}
+          </div>
         </div>
       </div>
-    </div>
-    {isWhiteTextRoute ? <div style={{clear:"both", height:"80px",backgroundColor: "#212121"}}></div> : null}
-    
+      {isWhiteTextRoute ? (
+        <div
+          style={{ clear: "both", height: "80px", backgroundColor: "#212121" }}
+        ></div>
+      ) : null}
     </>
   );
 };

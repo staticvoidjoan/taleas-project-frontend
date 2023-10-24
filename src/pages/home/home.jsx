@@ -7,9 +7,9 @@ import ConnectImg from "../../assets/images/connectTeam.svg";
 const StartingPage = (props) => {
   return (
     <>
-      <div className="starting">
-        <div className="content">
-          <div className="main-tittle">
+      <div className="starting-home">
+        <div className="content-home">
+          <div className="main-tittle-home">
             <Text
               label={"Swipe your way"}
               weight={"medium700"}
@@ -27,11 +27,11 @@ const StartingPage = (props) => {
           </div>
           <div>
             {" "}
-            <img src={ConnectImg} alt="" className="start-img" />
+            <img src={ConnectImg} alt="" className="start-img-home" />
           </div>
         </div>
 
-        <div className="footer">
+        <div className="footer-container-home">
           <Text
             label={"Start Now"}
             weight={"thin"}
@@ -41,7 +41,7 @@ const StartingPage = (props) => {
           />
           <Link to={"/signup"}>
             {" "}
-            <button className="btn-register">
+            <button className="btn-register-home">
               <Text
                 label={"Register"}
                 weight={"thin"}
@@ -52,8 +52,8 @@ const StartingPage = (props) => {
             </button>
           </Link>
 
-          <div className="start-line">
-            <hr className="line" />
+          <div className="start-line-home">
+            <hr className="line-home" />
             <Text
               label={"or"}
               weight={"thin"}
@@ -61,11 +61,11 @@ const StartingPage = (props) => {
               size={"s16"}
               color={"lightgray"}
             />
-            <hr className="line" />
+            <hr className="line-home" />
           </div>
           <Link to={"/signin"}>
             {" "}
-            <button className="btn-login">
+            <button className="btn-login-home">
               {" "}
               <Text
                 label={"Login"}
