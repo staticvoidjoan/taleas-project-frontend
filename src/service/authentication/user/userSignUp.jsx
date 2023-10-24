@@ -333,7 +333,7 @@ function RegistrationForm() {
                     size={"s16"}
                   />
                 </button>
-                {/* <LinkedInOAuth /> */}
+                  {/* <LinkedInOAuth /> */}
                 <div className="goto-login">
                   <Text
                     label={"Already have an account?"}
