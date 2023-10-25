@@ -1,0 +1,14 @@
+{
+  "user-login": {
+    "header": "Lidhni endrrat me talentin",
+    "subHead": "Find Your Dream Job, Find Your Employees!",
+    "password": "Fjalkalimi",
+    "forgot_password": "Keni harruar fjalekalimin?",
+
+    "login": "Kycu",
+    "login_error": "Kredencialet e hyrjes nuk janë të sakta, ose llogaria nuk është verifikuar.",
+    "click_here": "Kliko ketu",
+    "not_acc": "Nuk keni ende një llogari?  &nbsp",
+    "register":"Regjistrohu"
+  }
+}
