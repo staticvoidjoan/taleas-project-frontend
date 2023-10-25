@@ -1,3 +1,6 @@
 {
-  "app-name": "Puna Fiksuese"
+  "app-name": {
+    "part1": "Karriera",
+    "part2": "Fiksuese"
+  }
 }
