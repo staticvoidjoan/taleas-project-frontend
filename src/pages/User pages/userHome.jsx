@@ -24,6 +24,8 @@ const UserHome = ({ userId, employee }) => {
   const [postlength, setPostLength] = useState(0);
   const [animate, setAnimate] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [viewingMessages, setViewingMessages] = useState(false);
+
   const isLargerScreen = useMediaQuery("(min-width: 768px)");
 
   const {t} = useTranslation(["Translate"]);

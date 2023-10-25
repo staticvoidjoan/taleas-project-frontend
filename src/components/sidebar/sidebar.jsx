@@ -8,7 +8,7 @@ import ChatApp from "../../chat/Chat";
 import ListOfMatches from "../applicants/ListOfMatches";
 import ListUserMessages from "../userMessages/userMessages";
 import Text from "../text/text";
-const Sidebar = ({userId, userRole, employee, employer}) => {
+const Sidebar = ({userRole, employee, employer}) => {
   const navigate = useNavigate();
 
   const handleHomeNavigate = () => {
@@ -20,6 +20,7 @@ const Sidebar = ({userId, userRole, employee, employer}) => {
   const handleChatNavigate = () => {
     navigate("/messages");
   };
+  
 
   return (
     <div className="sidebar-component">
