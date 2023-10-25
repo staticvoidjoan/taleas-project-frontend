@@ -1,0 +1,18 @@
+{
+  "user-register": {
+    "header": "Regjistrohu",
+    "subEmployer": "Gjeni punonjës për kompaninë tuaj!",
+    "subEmployee": "Gjeni punën tuaj të ëndrrave!",
+    "fullname": "Emri Plotë",
+    "birthday": "Ditëlindja",
+    "password": "Fjalëkalimi",
+    "company": "Emri Kompanisë",
+    "industry": "Industria",
+    "address": "Adresa",
+    "accept": "I pranoj",
+    "terms_condition": "Terms & Conditions",
+    "login": "Kycu",
+    "register": "Regjistrohu",
+    "haveAcc": "A keni tashmë një llogari?"
+  }
+}

@@ -15,9 +15,11 @@ import "react-toastify/dist/ReactToastify.css";
 import "./user.css";
 import TextField from "@mui/material/TextField";
 // import LinkedInOAuth from "../../../linkedinOAuth";
+import { useTranslation } from "react-i18next";
 
 function RegistrationForm() {
   Amplify.configure(awsExports);
+  const { t } = useTranslation(["userSignUp"]);
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState("employer");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -257,7 +259,7 @@ function RegistrationForm() {
                       name="fullName"
                       value={fullName}
                       onChange={handleFullName}
-                      placeholder="Full Name"
+                      placeholder={t("user-register.fullname")}
                       className="register-input"
                       required
                     />
@@ -285,11 +287,11 @@ function RegistrationForm() {
                     {formData.birthday ? "Date of Birth" : "Birthday"}
                   </label> */}
                     <TextField
-                      label="Birthday"
+                      label={t("user-register.birthday")}
                       id="outlined-basic"
                       variant="outlined"
                       type="date"
-                      name="birthday"
+                      name={t("user-register.birthday")}
                       value={formData.birthday}
                       onChange={handleInputChange}
                       className="register-input"
@@ -303,7 +305,7 @@ function RegistrationForm() {
                       name="password"
                       value={formData.password}
                       onChange={handleInputChange}
-                      placeholder="Password"
+                      placeholder={t("user-register.password")}
                       className="register-input"
                       required
                     />
@@ -335,9 +337,15 @@ function RegistrationForm() {
                     />
                     <div className="terms-text">
                       <div style={{ marginRight: "5px" }}>
-                        <Text label={"I accept"} weight={"thin"} />
+                        <Text
+                          label={t("user-register.accept")}
+                          weight={"thin"}
+                        />
                       </div>
-                      <Text label={"Terms & Conditions"} weight={"bold"} />
+                      <Text
+                        label={t("user-register.terms_condition")}
+                        weight={"bold"}
+                      />
                     </div>
                   </div>
                   <button
@@ -345,7 +353,7 @@ function RegistrationForm() {
                     disabled={isSubmitting}
                   >
                     <Text
-                      label={"Register"}
+                      label={t("user-register.register")}
                       weight={"regular"}
                       color={"white"}
                       size={"s16"}
@@ -354,14 +362,14 @@ function RegistrationForm() {
 
                   <div className="goto-login">
                     <Text
-                      label={"Already have an account?"}
+                      label={t("user-register.haveAcc")}
                       weight={"regular"}
                       color={"black"}
                       size={"s16"}
                     />
                     <Link style={{ textDecoration: "none" }} to={"/signin"}>
                       <Text
-                        label={"Login"}
+                        label={t("user-register.login")}
                         weight={"medium700"}
                         color={"purple"}
                         size={"s16"}
@@ -384,7 +392,7 @@ function RegistrationForm() {
                       name="name"
                       value={formData.name}
                       onChange={handleInputChange}
-                      placeholder="Company Name"
+                      placeholder={t("user-register.company")}
                       className="register-input"
                       required
                     />
@@ -399,7 +407,7 @@ function RegistrationForm() {
                       name="industry"
                       value={formData.industry}
                       onChange={handleInputChange}
-                      placeholder="Industry"
+                      placeholder={t("user-register.industry")}
                       className="register-input"
                       required
                     />
@@ -413,7 +421,7 @@ function RegistrationForm() {
                       name="address"
                       value={formData.address}
                       onChange={handleInputChange}
-                      placeholder="Address"
+                      placeholder={t("user-register.address")}
                       className="register-input"
                       required
                     />
@@ -441,7 +449,7 @@ function RegistrationForm() {
                       name="password"
                       value={formData.password}
                       onChange={handleInputChange}
-                      placeholder="Password"
+                      placeholder={t("user-register.password")}
                       className="register-input"
                       required
                     />
@@ -480,7 +488,7 @@ function RegistrationForm() {
                     disabled={isSubmitting}
                   >
                     <Text
-                      label={"Register"}
+                      label={t("user-register.register")}
                       weight={"regular"}
                       color={"white"}
                       size={"s16"}
@@ -489,14 +497,14 @@ function RegistrationForm() {
 
                   <div className="goto-login">
                     <Text
-                      label={"Already have an account?"}
+                      label={t("user-register.haveAcc")}
                       weight={"regular"}
                       color={"black"}
                       size={"s16"}
                     />
                     <Link style={{ textDecoration: "none" }} to={"/signin"}>
                       <Text
-                        label={"Login"}
+                        label={t("user-register.login")}
                         weight={"medium700"}
                         color={"purple"}
                         size={"s16"}
@@ -524,7 +532,7 @@ function RegistrationForm() {
         <div className="user-register-title">
           <div style={{ marginBottom: "16px" }}>
             <Text
-              label={"Register"}
+              label={t("user-register.header")}
               size={"s20"}
               weight={"medium700"}
               color={"white"}
@@ -533,8 +541,8 @@ function RegistrationForm() {
           <Text
             label={
               selectedCategory === "employee"
-                ? "Find your dream job?"
-                : "Find employees for your company!"
+                ? t("user-register.subEmployee")
+                : t("user-register.subEmployer")
             }
             size={"s16"}
             weight={"regular"}
