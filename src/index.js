@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
-import * as serviceWorkerRegistration from "../src/src/serviceWorkerRegistration";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Auth } from "aws-amplify";
 import axios from "axios";
@@ -38,4 +37,3 @@ root.render(
   </React.StrictMode>
 );
 
-serviceWorkerRegistration.register();
