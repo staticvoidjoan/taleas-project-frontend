@@ -24,6 +24,7 @@ i18n
       "userSignUp",
       "userSingIn",
       "forgotPassword",
+      "confirmSignUp",
     ],
     fallbackLng: "en",
     interpolation: {
