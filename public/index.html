@@ -3,7 +3,22 @@
   <head>
     <meta charset="utf-8" />
     <script src="https://kit.fontawesome.com/8501e0ea6f.js" crossorigin="anonymous"></script>
-    <script src="./serviceWorkerRegistration.js"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+      // Try to register the service worker.
+      try {
+        // Capture the registration for later use, if needed
+        let reg;
+        const regServiceWorker = async () =>{
+          reg = await navigator.serviceWorker.register('/service-worker.js')
+        }
+        regServiceWorker()
+        console.log('Service worker registered! 😎', reg);
+      } catch (err) {
+        console.log('😥 Service worker registration failed: ', err);
+      }
+    };
+    </script>
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
