@@ -1,4 +1,19 @@
 const cacheName = 'my-cache-v1';
+
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+      caches.keys().then((cacheName) => {
+          return Promise.all(
+              cacheName.map((name) => {
+                  if (name !== cacheName) {
+                      return caches.delete(name); 
+                  }
+              })
+          );
+      })
+  );
+});
+
 const IDBConfig = {
     name: 'my_awesome_idb',
     version: 1,
@@ -28,6 +43,7 @@ self.addEventListener('install', (event) => {
             ]);
         })
     );
+    self.skipWaiting()
 });
 
 self.addEventListener('fetch', (event) => {
