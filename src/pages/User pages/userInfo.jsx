@@ -18,6 +18,8 @@ import CenterNavbar from "../../components/centerNavbar/centerNavbar";
 import { useNavigate } from "react-router-dom";
 import UserInfoLoader from "../../components/Loader/UserInfoLoader";
 import Loader from "../../components/Loader/Loader";
+import {useTranslation} from "react-i18next";
+
 
 const UserInfo = ({ userId }) => {
   const [user, setUser] = useState({});
@@ -30,6 +32,8 @@ const UserInfo = ({ userId }) => {
   const [loading, setLoading] = useState();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   
+  const {t} = useTranslation(["Translate"])
+
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -126,7 +130,7 @@ const UserInfo = ({ userId }) => {
 {/* SKILLS */}
             <div className="skills">
               <div className="skills-title">
-                <Text label={"Skills"} size={"s18"} weight={"medium700"} />
+                <Text label={t("skills")} size={"s18"} weight={"medium700"} />
               </div>
               <div className="skills-tabs">
                 {generalSkills.map((skill, index) => (
@@ -139,7 +143,7 @@ const UserInfo = ({ userId }) => {
 {/* EXPERIENCES */}
             <div className="experiences">
               <div className="exp">
-                <Text label={"Experiences"} size={"s18"} weight={"medium700"} />
+                <Text label={t("experiences")} size={"s18"} weight={"medium700"} />
               </div>
 
               {experiences.map((exp, index) => (
@@ -169,7 +173,7 @@ const UserInfo = ({ userId }) => {
 {/* EDUCATION */}
             <div className="experiences">
               <div className="exp">
-                <Text label={"Education"} size={"s18"} weight={"medium700"} />
+                <Text label={t("education")} size={"s18"} weight={"medium700"} />
               </div>
               {education.map((edu, index) => (
                 <div className="exp-info">
@@ -199,7 +203,7 @@ const UserInfo = ({ userId }) => {
             <div className="experiences">
               <div className="exp">
                 <Text
-                  label={"Certifications"}
+                  label={t("certifications")}
                   size={"s18"}
                   weight={"medium700"}
                 />
@@ -231,7 +235,7 @@ const UserInfo = ({ userId }) => {
             </div>
             <div className="lang">
               <Text
-                label={"Languages"}
+                label={t("languages")}
                 size={"s18"}
                 weight={"medium700"}
               />
@@ -246,7 +250,7 @@ const UserInfo = ({ userId }) => {
 {/* links */}
             <div className="projects">
               <Text
-                label={"Link to projects"}
+                label={t("links")}
                 size={"s18"}
                 weight={"medium700"}
               />

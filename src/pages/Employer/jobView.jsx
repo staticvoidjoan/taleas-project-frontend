@@ -13,6 +13,8 @@ import Animate from "../../animateTransition/Animate";
 import CenterNavbar from "../../components/centerNavbar/centerNavbar";
 import accept from "../../assets/icons/accept.svg";
 import decline from "../../assets/icons/dislike.svg";
+import {useTranslation} from "react-i18next";
+
 const JobView = () => {
   const navigate = useNavigate();
   const [post, setPost] = useState({});
@@ -21,6 +23,8 @@ const JobView = () => {
   const [postDate, setPostDate] = useState("");
   const [likes, setLikes] = useState([]);
   const { id } = useParams();
+
+  const {t}= useTranslation(["Translate"]);
 
   useEffect(() => {
     loadPost();
@@ -160,7 +164,7 @@ const JobView = () => {
             <div className="job-describtion">
               <div style={{ marginBottom: "12px" }}>
                 <Text
-                  label={"Job Description"}
+                  label={t("jobDescription")}
                   weight={"bold"}
                   color={"black"}
                   size={"s16"}
@@ -182,7 +186,7 @@ const JobView = () => {
               />
               <div style={{ marginTop: "16px" }}>
                 <Text
-                  label={`Posted on ${postDate}`}
+                  label={t("postedOn") + `${postDate}`}
                   weight={"regular"}
                   color={"lightgray"}
                   size={"s14"}
@@ -191,7 +195,7 @@ const JobView = () => {
             </div>
             <div className="job-requirements">
               <div style={{ marginBottom: "12px" }}>
-                <Text label={"Requirements"} weight={"bold"} size={"s16"} />
+                <Text label={t("requirements")} weight={"bold"} size={"s16"} />
               </div>
               <ul>
                 {post.requirements &&
@@ -212,7 +216,7 @@ const JobView = () => {
           </div>
           <div style={{ marginBottom: "40px" }} className="applicant-column">
             <Text
-              label={"Applicants"}
+              label={t("applicants")}
               weight={"bold"}
               size={"s16"}
               style={{ marginBottom: "10px", marginLeft: "20px" }}
@@ -248,7 +252,7 @@ const JobView = () => {
           <div className="delete-btn-container">
             <button className="delete-job-btn" onClick={askBeforeDelete}>
               <img src={TrashCan} alt="" />
-              <Text size={"s16"} label={"Delete Job"} />
+              <Text size={"s16"} label={t("deleteJob")} />
             </button>
           </div>
         </div>

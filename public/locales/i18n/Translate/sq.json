@@ -1,0 +1,28 @@
+{
+    "category1" : "Te gjitha",
+
+    "skills": "Aftesite",
+    "experiences": "Eksperiencat",
+    "education": "Edukimi",
+    "certifications": "Certifikimet",
+    "links": "Linqe per projekte",
+    "languages": "Gjuhet",
+    
+    "myJobs": "Postimet e mia",
+    "jobDescription": "Pershkrimi i punes",
+    "postedOn" : "Postuar ne: ",
+    "requirements": "Kerkesat",
+    "applicants":"Aplikuesit",
+    "deleteJob":"Fshi postimin",
+    "select": "Selekto nje kategori",
+    "loadingCategories": "Duke shfaqur kategorite...",
+    "position": "Pozicioni",
+    "description": "Pershkrimi...",
+    "addReq": "Shto kerkessa",
+    "add": "Shto",
+    "save": "Ruaj",
+
+    "messages": "Mesazhet",
+    "Message": "Mesazhi",
+    "Send": "Dergo"
+}

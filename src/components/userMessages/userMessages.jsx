@@ -9,11 +9,14 @@ import { getDocs, query, collection, where, orderBy, limit } from "firebase/fire
 import { db } from "../../firebase";
 import Loader from "../Loader/Loader";
 import Spinner from "../Loader/spinner";
+import {useTranslation} from "react-i18next";
 
 function ListUserMessages({ user }) {
   const navigate = useNavigate();
   const [chatData, setChatData] = useState([]);
   const [isChatDataLoaded, setIsChatDataLoaded] = useState(false);
+
+  const {t} = useTranslation(["Translate"]);
 
   useEffect(() => {
     fetchData();
@@ -107,7 +110,7 @@ function ListUserMessages({ user }) {
 
   return (
     <div className="big">
-      <Text label={`Messages (${chatData.length})`} size={"s16"} weight={"medium"} color={"black"} />
+    <Text label={t("messages") + ` (${chatData.length})`} size={"s16"} weight={"medium"} color={"black"} />
       {!isChatDataLoaded ? (
         <Spinner />
       ) : (

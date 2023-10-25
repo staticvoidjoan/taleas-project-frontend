@@ -12,7 +12,7 @@ import ContLoader from "../../components/Loader/ContLoader";
 import axios from "axios";
 import { useMediaQuery } from "@mui/material";
 import Sidebar from "../../components/sidebar/sidebar";
-import Chat from "../../chat/Chat";
+import {useTranslation} from "react-i18next";
 
 const UserHome = ({ userId, employee }) => {
   const [posts, setPosts] = useState([]);
@@ -26,6 +26,7 @@ const UserHome = ({ userId, employee }) => {
   const [loading, setLoading] = useState(false);
   const isLargerScreen = useMediaQuery("(min-width: 768px)");
 
+  const {t} = useTranslation(["Translate"]);
 
   // State to control sidebar visibility
   const [isSidebarVisible, setSidebarVisible] = useState(isLargerScreen);
@@ -189,7 +190,7 @@ const UserHome = ({ userId, employee }) => {
           <div>
             <div className="button-row">
               <Tabs
-                buttonName={"All"}
+                buttonName={t("category1")}
                 selected={selectedButton === "All"}
                 onClick={() => filter("All")}
               />

@@ -7,6 +7,7 @@ import chatIcon from "../../assets/icons/chat.svg";
 import moreIcon from "../../assets/icons/more.png";
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import the CSS
+import {useTranslation} from "react-i18next";
 
 import "./listOfMatches.css"; // Make sure to include the appropriate CSS file
 import {
@@ -30,6 +31,7 @@ function ListOfMatches({ employer }) {
   const [messageCount, setMessageCount] = useState(0);
   const [unreadMessages, setUnreadMessages] = useState({});
   const [showUnmatchOption, setShowUnmatchOption] = useState(false);
+  const {t} = useTranslation(["Translate"]);
 
 
   useEffect(() => {
@@ -185,12 +187,7 @@ function ListOfMatches({ employer }) {
 
   return (
     <div>
-      <Text
-        label={`Messages (${messageCount})`}
-        size={"s16"}
-        weight={"medium"}
-        color={"black"}
-      />
+      <Text label={t("messages") + ` (${messageCount})`} size={"s16"} weight={"medium"} color={"black"} />
       {!isDataLoaded ? (
         <Spinner />
       ) : (

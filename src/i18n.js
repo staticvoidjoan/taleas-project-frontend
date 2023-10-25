@@ -15,7 +15,7 @@ i18n
     debug: false,
     //can have multiple namespaces , in case  you want to devide a huge
     // translation into smaller pieces  and load  them  on demand
-    ns: ["home", "aboutus", "privacy", "navbar","userSignUp"],
+    ns: ["home", "aboutus", "privacy", "navbar", "Translate"],
     fallbackLng: "en",
     interpolation: {
       escapeValue: false,

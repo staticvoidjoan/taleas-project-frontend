@@ -3,16 +3,18 @@ import { db } from '../firebase';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { useParams } from 'react-router-dom';
 import './sendMessage.css';
+import {useTranslation} from "react-i18next";
 
 const SendMessage = ({ scroll, user }) => {
   const [input, setInput] = useState('');
   const { chatId } = useParams();
   const inputRef = useRef(null);
 
+  const {t}= useTranslation(["Translate"]);
   const sendMessage = async (e) => {
     e.preventDefault();
     if (input === '') {
-      alert('Please enter a valid message');
+      alert(t("validMessage"));
       return;
     }
 
@@ -47,11 +49,11 @@ const SendMessage = ({ scroll, user }) => {
         value={input}
         onChange={handleInputChange}
         className="sendMessage-input"
-        placeholder="Message"
+        placeholder={t("Message")}
         style={{ maxHeight: '100px' }}
       />
       <button className="sendMessage-button" type="submit">
-        Send
+      {t("Send")}
       </button>
     </form>
   );
