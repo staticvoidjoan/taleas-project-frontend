@@ -1,0 +1,13 @@
+{
+  "user-forgot": {
+    "header": "Rivendosni fjalëkalimin tuaj",
+    "subHead": "Ke humbur fjalëkalimin? Mos u shqetëso, vendos një të ri",
+    "email": "Vendosni adresën tuaj të emailit ",
+    "send_email": "Degoni Email",
+    "enter_head": "Futni kodin dhe vendosni fjalëkalimin e ri",
+    "code": "Kodi",
+    "new_psw": "Vendosni fjalëkalimin e ri",
+    "confirm_psw": "Konfirmo fjalëkalimin ",
+    "change_psw": "Ndrysho fjalëkalimin"
+  }
+}

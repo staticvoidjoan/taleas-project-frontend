@@ -23,6 +23,7 @@ i18n
       "Translate",
       "userSignUp",
       "userSingIn",
+      "forgotPassword",
     ],
     fallbackLng: "en",
     interpolation: {

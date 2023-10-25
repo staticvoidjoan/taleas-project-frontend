@@ -1,0 +1,13 @@
+{
+  "user-forgot": {
+    "header": "Reset your password",
+    "subHead": "Lost your password? No worries set a new one",
+    "email": "Enter your email address",
+    "send_email": "Send Email",
+    "enter_head": "Enter code and set new password",
+    "code": "Code",
+    "new_psw": "New password",
+    "confirm_psw": "Confirm password ",
+    "change_psw": "Change password"
+  }
+}
