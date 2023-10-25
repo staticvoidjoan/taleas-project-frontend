@@ -2,11 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
-import * as serviceWorkerRegistration from '../src/src/serviceWorkerRegistration';
+import * as serviceWorkerRegistration from "../src/src/serviceWorkerRegistration";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Auth } from "aws-amplify";
 import axios from "axios";
-
+import "./i18n";
+import { Suspense } from "react";
 
 async function getToken() {
   const session = await Auth.currentSession();
@@ -28,13 +29,13 @@ axios.interceptors.response.use(async (response) => {
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
-
-      <React.StrictMode>
-        <Router>
-          <App />
-        </Router>
-      </React.StrictMode>
-   
+  <React.StrictMode>
+    <Suspense fallback={"Loading..."}>
+      <Router>
+        <App />
+      </Router>
+    </Suspense>
+  </React.StrictMode>
 );
 
 serviceWorkerRegistration.register();

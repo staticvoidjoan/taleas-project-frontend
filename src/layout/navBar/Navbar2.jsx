@@ -5,6 +5,8 @@ import MenuBlack from "../../assets/images/pngblack.png";
 import MenuWhite from "../../assets/images/png menu white.png";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import unicorn from "../../assets/images/Unicorn.png";
+import { useTranslation } from "react-i18next";
+import i18next from "i18next";
 
 const Navbar2 = ({
   givenName,
@@ -18,6 +20,16 @@ const Navbar2 = ({
   const location = useLocation();
 
   const [imageUrl, setImageUrl] = useState("");
+
+  const { i18n, t } = useTranslation(["navbar"]);
+  useEffect(() => {
+    if (localStorage.getItem("i18nextLng")?.length > 2) {
+      i18next.changeLanguage("en");
+    }
+  }, []);
+  const handleLanguageChange = (e) => {
+    i18n.changeLanguage(e.target.value);
+  };
 
   useEffect(() => {
     const imageUrl =
@@ -59,6 +71,7 @@ const Navbar2 = ({
       <div className="navbar-container" style={navbarStyle}>
         <div className="navbar">
           <div className="app-name" onClick={goHome}>
+            {t("app-name")}
             <Text
               label={"Career"}
               weight={"medium800"}
@@ -73,6 +86,12 @@ const Navbar2 = ({
               size={"s20"}
               color={"purple"}
             />
+          </div>
+          <div className="language-dropdown">
+            <select onChange={handleLanguageChange} value={i18n.language}>
+              <option value="en">English</option>
+              <option value="sq">Shqip</option>
+            </select>
           </div>
           <div>
             {authenticated ? (

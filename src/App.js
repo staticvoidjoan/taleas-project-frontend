@@ -13,6 +13,8 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Hub } from "aws-amplify";
 
+// import { useTranslation } from "react-i18next";
+
 //User Services
 import LoginPage from "./service/authentication/user/userSignIn";
 import UserSignUp from "./service/authentication/user/userSignUp";
@@ -51,7 +53,7 @@ import ListOfMatches from "./components/applicants/ListOfMatches";
 import Loader from "./components/Loader/Loader";
 import ListUserMessages from "./components/userMessages/userMessages";
 import ScrollToTop from "./components/scrollToTop/scrollToTop";
-import OfflinePage from "./components/offline/offlinePage"
+import OfflinePage from "./components/offline/offlinePage";
 
 //Error Handlers
 import NotFound from "./pages/Error/notFound";
@@ -73,6 +75,8 @@ function App() {
   const [isEmployeeLoaded, setIsEmployeeLoaded] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const location = useLocation();
+
+  // const { t, i18n } = useTranslation();
 
   // Configure Amplify
   Amplify.configure(awsExports);
@@ -233,8 +237,32 @@ function App() {
     return <Loader />;
   }
 
+  // const locales = {
+  //   en: { tittle: "English" },
+  //   sq: { tittle: "Shqip" },
+  // };
+
   return (
     <div className="App">
+      {/* <div style={{ marginTop: "150px" }}>
+        <ul>
+          {Object.keys(locales).map((locale) => (
+            <li key={locale}>
+              <button
+                style={{
+                  fontWeight:
+                    i18n.resolvedLanguage === locale ? "bold" : "normal",
+                }}
+                type="submit"
+                onClick={() => i18n.changeLanguage(locale)}
+              >
+                {locales[locale].tittle}
+              </button>
+            </li>
+          ))}
+        </ul>
+        <h1 style={{ marginTop: "150px" }}>{t("main.header")}</h1>
+      </div> */}
       {hideComplete ? null : isLoading ? (
         <>
           <NavBar
@@ -369,7 +397,7 @@ function App() {
           <Route
             exact
             path="/viewjobpost/:id/:index"
-            element={<EmployeeJobView  employeeid ={employee._id}/>}
+            element={<EmployeeJobView employeeid={employee._id} />}
           />
           {/* --------------------------------------------------------------------------------------------------------------- */}
 
@@ -470,12 +498,10 @@ function App() {
                 ) : (
                   <EmployerHome creatorId={employer._id} />
                 )
+              ) : navigator.onLine ? (
+                <NotFound />
               ) : (
-                navigator.onLine ? (
-                  <NotFound />
-                ) : (
-                  <OfflinePage/>
-                )
+                <OfflinePage />
               )
             }
           />
