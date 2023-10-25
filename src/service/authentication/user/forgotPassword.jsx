@@ -7,7 +7,9 @@ import { Amplify } from "aws-amplify";
 import { Link, useNavigate } from "react-router-dom";
 import Text from "../../../components/text/text";
 import ForgotPsw from "../../../assets/icons/Forgot Password.svg";
+import { useTranslation } from "react-i18next";
 const ForgotPassword = () => {
+  const { t } = useTranslation(["Translate"]);
   Amplify.configure(awsExports);
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -57,23 +59,22 @@ const ForgotPassword = () => {
         )}
       </div>
       <div className="users-forms">
-      <div className="user-register-title-forgot">
+        <div className="user-register-title-forgot">
           <div style={{ marginBottom: "16px" }}>
             <Text
-              label={"Reset your password"}
+              label={t("user-forgot.header")}
               size={"s20"}
               weight={"medium700"}
               color={"white"}
             />
           </div>
           <Text
-            label={"Lost your password? No worries set a new one"}
+            label={t("user-forgot.subHead")}
             size={"s14"}
             weight={"regular"}
             color={"white"}
           />
-        </div>
-        {" "}
+        </div>{" "}
         {emailsent ? (
           <div className="form-box-register">
             <form
@@ -83,7 +84,7 @@ const ForgotPassword = () => {
             >
               <div style={{ marginTop: "10px", marginBottom: "10px" }}>
                 <Text
-                  label={"Enter code and set new password "}
+                  label={t("user-forgot.enter_head")}
                   size={"s18"}
                   weight={"medium"}
                 />
@@ -95,12 +96,12 @@ const ForgotPassword = () => {
                   value={code}
                   onChange={(e) => setCode(e.target.value)}
                   required
-                  placeholder="Code"
+                  placeholder={t("user-forgot.code")}
                 />
               </div>
               <div class="inputbox-register">
                 <input
-                  placeholder="Password"
+                  placeholder={t("user-forgot.new_psw")}
                   type="password"
                   className="register-input"
                   value={password}
@@ -111,7 +112,7 @@ const ForgotPassword = () => {
               <div class="inputbox-register">
                 <input
                   className="register-input"
-                  placeholder="Repeat password"
+                  placeholder={t("user-forgot.confirm_psw")}
                   type="password"
                   value={repeatpass}
                   onChange={(e) => setRepeatPass(e.target.value)}
@@ -125,7 +126,7 @@ const ForgotPassword = () => {
                 style={{ background: isResettingPassword ?? "gray" }}
               >
                 <Text
-                  label={"Change Password"}
+                  label={t("user-forgot.change_psw")}
                   weight={"regular"}
                   color={"white"}
                   size={"s16"}
@@ -144,7 +145,7 @@ const ForgotPassword = () => {
                 }}
               >
                 <Text
-                  label={"Enter your email address"}
+                  label={t("user-forgot.email")}
                   size={"s20"}
                   weight={"medium"}
                 />
@@ -163,7 +164,7 @@ const ForgotPassword = () => {
                 <button className="register-btn-2">
                   {" "}
                   <Text
-                    label={"Send Email"}
+                    label={t("user-forgot.send_email")}
                     weight={"regular"}
                     color={"white"}
                     size={"s16"}
@@ -186,7 +187,6 @@ const ForgotPassword = () => {
           </div>
         )}
         {/* TODO ADD ALERTS FOR SUCCES AND ERROR  */}
-        
       </div>
     </div>
   );

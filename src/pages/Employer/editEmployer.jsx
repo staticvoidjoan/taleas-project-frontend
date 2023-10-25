@@ -8,8 +8,10 @@ import Swal from "sweetalert2";
 import Animate from "../../animateTransition/AnimateY";
 import Trash from "../../assets/icons/TrashCan.svg";
 import Loader from "../../components/Loader/Loader";
+import { useTranslation } from "react-i18next";
 
 const EditEmployer = ({ employerData }) => {
+  const {t}= useTranslation(["Translate"])
   const { id } = useParams();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -48,7 +50,7 @@ const EditEmployer = ({ employerData }) => {
     }
 
     Swal.fire({
-      title: "Do you want to save the changes?",
+      title: t("change"),
       showDenyButton: true,
       confirmButtonText: "Post",
       denyButtonText: "Not Yet",
@@ -63,7 +65,7 @@ const EditEmployer = ({ employerData }) => {
 
   const onSubmit = async () => {
     if (!address || !industry || !description) {
-      alert("Please fill in all required fields.");
+      alert(t("fillFields"));
       return;
     }
 
@@ -85,7 +87,7 @@ const EditEmployer = ({ employerData }) => {
         Swal.fire({
           icon: "error",
           title: "Attention",
-          text: "Your content contains inappropriate language.!",
+          text: t("inappropriate"),
           footer:
             "Please keep it respectful, and follow our community guidelines",
         });
@@ -160,7 +162,7 @@ const EditEmployer = ({ employerData }) => {
                 name="industry"
                 value={industry}
                 onChange={onInputChange}
-                placeholder="Industry"
+                placeholder={t("user-register.industry")}
                 className="register-input"
                 required
               />
@@ -172,7 +174,7 @@ const EditEmployer = ({ employerData }) => {
                 name="address"
                 value={address}
                 onChange={onInputChange}
-                placeholder="Address"
+                placeholder={t("user-register.address")}
                 className="register-input"
                 required
               />

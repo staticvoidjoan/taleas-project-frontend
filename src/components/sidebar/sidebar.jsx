@@ -8,7 +8,10 @@ import ChatApp from "../../chat/Chat";
 import ListOfMatches from "../applicants/ListOfMatches";
 import ListUserMessages from "../userMessages/userMessages";
 import Text from "../text/text";
+import { useTranslation } from "react-i18next";
+
 const Sidebar = ({userRole, employee, employer}) => {
+  const {t} = useTranslation(["Translate"])
   const navigate = useNavigate();
 
   const handleHomeNavigate = () => {
@@ -34,7 +37,7 @@ const Sidebar = ({userRole, employee, employer}) => {
         )}
         </div>
       <div className="sidebar-info">
-       <Text label={"Support at: careercrushapp@gmail.com"} size={"s12"}/>
+       <Text label={t("support")} size={"s12"}/>
       </div>
       </div>
   );

@@ -24,5 +24,70 @@
 
     "messages": "Mesazhet",
     "Message": "Mesazhi",
-    "Send": "Dergo"
+    "Send": "Dergo",
+
+    "user-register": {
+        "header": "Regjistrohu",
+        "subEmployer": "Gjeni punonjës për kompaninë tuaj!",
+        "subEmployee": "Gjeni punën tuaj të ëndrrave!",
+        "fullname": "Emri Plotë",
+        "birthday": "Ditëlindja",
+        "password": "Fjalëkalimi",
+        "company": "Emri Kompanisë",
+        "industry": "Industria",
+        "address": "Adresa",
+        "accept": "I pranoj",
+        "terms_condition": "Terms & Conditions",
+        "login": "Kycu",
+        "register": "Regjistrohu",
+        "haveAcc": "A keni tashmë një llogari?"
+      },
+
+    "user-login": {
+    "header": "Lidhni endrrat me talentin",
+    "subHead": "Find Your Dream Job, Find Your Employees!",
+    "password": "Fjalkalimi",
+    "forgot_password": "Keni harruar fjalekalimin?",
+
+    "login": "Kycu",
+    "login_error": "Kredencialet e hyrjes nuk janë të sakta, ose llogaria nuk është verifikuar.",
+    "click_here": "Kliko ketu",
+    "not_acc": "Nuk keni ende një llogari?  &nbsp",
+    "register":"Regjistrohu"
+    },
+
+    "user-forgot": {
+        "header": "Rivendosni fjalëkalimin tuaj",
+        "subHead": "Ke humbur fjalëkalimin? Mos u shqetëso, vendos një të ri",
+        "email": "Vendosni adresën tuaj të emailit ",
+        "send_email": "Degoni Email",
+        "enter_head": "Futni kodin dhe vendosni fjalëkalimin e ri",
+        "code": "Kodi",
+        "new_psw": "Vendosni fjalëkalimin e ri",
+        "confirm_psw": "Konfirmo fjalëkalimin ",
+        "change_psw": "Ndrysho fjalëkalimin"
+      },
+
+      "user-confirm":{
+        "header":"Konfirmoni Llogarine",
+        "enter_code":"Vendosni kodin e dërguar në emailin tuaj",
+        "cofirm_btn":"Konfirmo"
+    },
+    
+      "footer-home": {
+        "start": "Fillo tani ",
+        "start-register": "Regjistrohu",
+        "start-login": "Kycu",
+        "start-or": "ose"
+      },
+
+      "offline":"Nuk je i lidhur me internet",
+      "noPosts":"Nuk ka me postime",
+      "support":"Kontakto ne: careercrushapp@gmail.com",
+      "formSent": "Kerkesa juaj u dergua",
+      "getInTouch": "Kontakto me ne",
+      "formMessage": "Ne do te na pelqente te afroheshim. A deshiron te kontaktosh? Ploteso formen me poshte, dhe ne do t'ju pergjigjemi sa me shpejt.",
+      "fillFields": "Te lutem mbush te gjitha fushat",
+      "change": "Deshiron t'i ruash ndryshimet?",
+      "inappropriate":"Teksti juaj ka permbajtje te papranueshme!"
 }
