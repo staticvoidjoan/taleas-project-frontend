@@ -1,0 +1,33 @@
+{
+    "category1": "All",
+
+    "skills": "Skills",
+    "experiences": "Experiences",
+    "education": "Education",
+    "certifications": "Certifications",
+    "links": "Links to projects",
+    "languages": "Languages",
+
+    "addJob" : "Add job",
+    "myJobs": "My Jobs",
+    "jobDescription": "Job Description",
+    "postedOn" : "Posted On: ",
+    "requirements": "Requirements",
+    "applicants":"Applicants",
+    "deleteJob":"Delete job",
+    "select": "Select a category",
+    "loadingCategories": "Loading Categories...",
+    "position": "Position",
+    "description": "Description...",
+    "addReq": "Add Requirements",
+    "add": "Add",
+    "save": "Save",
+
+    "messages": "Messages",
+    
+    "Message": "Message",
+    "Send": "Send",
+
+    "validMessage": "Please enter a valid message!",
+    "Close": "Mbyll"
+}
