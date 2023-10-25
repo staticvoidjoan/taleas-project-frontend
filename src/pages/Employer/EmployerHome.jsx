@@ -13,6 +13,8 @@ import Sidebar from "../../components/sidebar/sidebar";
 import EmploterWebLoader from "../../components/Loader/EmployerWebLoader";
 import ContentLoader from "react-content-loader";
 import EmployerWebLoaderL from "../../components/Loader/EmployerWebLoaderL";
+import {useTranslation} from "react-i18next";
+
 const EmployerHome = ({ creatorId, employer }) => {
   const navigate = useNavigate();
   const [userposts, setuserPosts] = useState([]);
@@ -20,6 +22,8 @@ const EmployerHome = ({ creatorId, employer }) => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(10);
   const [loading, setLoading] = useState(false); // Track loading state
+
+  const {t}= useTranslation(["Translate"]);
 
   // Define the getAllPosts function
   const getAllPosts = async () => {
@@ -113,7 +117,7 @@ const EmployerHome = ({ creatorId, employer }) => {
           <div>
             <div className="add-job-btn-container">
               <button className="employer-btn" onClick={addNewPost}>
-                <Text label={"Add Job"} size={"s16"} weight={"regular"} />
+                <Text label={t("addJob")} size={"s16"} weight={"regular"} />
               </button>
             </div>
           </div>
@@ -126,7 +130,7 @@ const EmployerHome = ({ creatorId, employer }) => {
               <div className="company-container-on-web">
                 <div>
                   <Text
-                    label={`My Jobs: (${postCount})`}
+                    label={t("myJobs") + `(${postCount})`}
                     size={"s20"}
                     weight={"medium"}
                   />
@@ -142,7 +146,7 @@ const EmployerHome = ({ creatorId, employer }) => {
                 </div>
                 <div className="add-job-btn-container">
                   <button className="employer-btn" onClick={addNewPost}>
-                    <Text label={"Add Job"} size={"s16"} weight={"regular"} />
+                    <Text label={t("addJob")} size={"s16"} weight={"regular"} />
                   </button>
                 </div>
               </div>

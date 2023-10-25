@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import Animate from "../../animateTransition/AnimateY";
 import Trash from "../../assets/icons/TrashCan.svg";
 import Loader from "../../components/Loader/Loader";
+import {useTranslation} from "react-i18next";
 
 const PostJob = () => {
   const { id } = useParams();
@@ -20,6 +21,7 @@ const PostJob = () => {
     description: "",
   });
 
+  const {t}= useTranslation(["Translate"]);
   const [categories, setCategories] = useState({});
   const [newRequirement, setNewRequirement] = useState("");
   const [requirements, setRequirements] = useState([]);
@@ -169,7 +171,7 @@ const PostJob = () => {
       <div className="post-job-container">
         <div className="post-job-bar">
           <div className="post-job-bar-nav">
-            <Text label={"Add Job"} size={"s16"} weight={"medium"} />
+            <Text label={t("addJob")} size={"s16"} weight={"medium"} />
             <img src={X} alt="" onClick={goBack} />
           </div>
           <hr className="post-job-bar-div"></hr>
@@ -187,7 +189,7 @@ const PostJob = () => {
                   required
                 >
                   <option value="" disabled>
-                    Select a category
+                    {t("select")}
                   </option>
                   {categories.map((category) => (
                     <option key={category._id} value={category._id}>
@@ -196,7 +198,7 @@ const PostJob = () => {
                   ))}
                 </select>
               ) : (
-                <p>Loading categories...</p>
+                <p>{t("loadingCategories")}</p>
               )}
             </div>
             <div className="inputbox-register">
@@ -205,7 +207,7 @@ const PostJob = () => {
                 name="position"
                 value={position}
                 onChange={onInputChange}
-                placeholder="Position"
+                placeholder={t("position")}
                 className="register-input"
                 required
               />
@@ -215,7 +217,7 @@ const PostJob = () => {
                 name="description"
                 value={description}
                 onChange={onInputChange}
-                placeholder="Description..."
+                placeholder={t("description")}
                 className="register-input"
                 required
               />
@@ -224,7 +226,7 @@ const PostJob = () => {
               <div className="requirement-input">
                 <input
                   type="text"
-                  placeholder="   Add Requirement"
+                  placeholder={t("addReq")}
                   className="register-input"
                   value={newRequirement}
                   onChange={(e) => setNewRequirement(e.target.value)}
@@ -234,7 +236,7 @@ const PostJob = () => {
                   className="add-button"
                   onClick={onAddRequirement}
                 >
-                  <Text label={"Add"} size={"s14"} weight={"regular"} />
+                  <Text label={t("add")} size={"s14"} weight={"regular"} />
                 </button>
               </div>
             </div>
@@ -254,7 +256,7 @@ const PostJob = () => {
               </ul>
             </div>
             <button className="job-btn">
-              <Text label={"Save"} size={"s16"} weight={"regular"} />
+              <Text label={t("save")} size={"s16"} weight={"regular"} />
             </button>
           </form>
         </div>

@@ -71,16 +71,15 @@ const Navbar2 = ({
       <div className="navbar-container" style={navbarStyle}>
         <div className="navbar">
           <div className="app-name" onClick={goHome}>
-            {t("app-name")}
             <Text
-              label={"Career"}
+              label={t("app-name.part1")}
               weight={"medium800"}
               lineheight={"l24"}
               size={"s20"}
               color={isWhiteTextRoute ? "white" : "black"}
             />
             <Text
-              label={"Crush"}
+              label={t("app-name.part2")}
               weight={"medium800"}
               lineheight={"l24"}
               size={"s20"}

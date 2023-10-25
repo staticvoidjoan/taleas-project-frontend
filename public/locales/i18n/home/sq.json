@@ -1,4 +1,13 @@
 {
-    "home": "Karriera Fiksuese"
+  "main-tittle-home": {
+    "part1": "Rreshqit punen ",
+    "part2": "tende te endrrave"
+  },
+
+  "footer-home": {
+    "start": "Fillo tani ",
+    "start-register": "Regjistrohu",
+    "start-login": "Kycu",
+    "start-or": "ose"
   }
-  
+}

@@ -3,22 +3,23 @@ import { Link } from "react-router-dom";
 import "./home.css";
 import Text from "../../components/text/text";
 import ConnectImg from "../../assets/images/connectTeam.svg";
-
+import { useTranslation } from "react-i18next";
 const StartingPage = (props) => {
+  const { t } = useTranslation(["home"]);
   return (
     <>
       <div className="starting-home">
         <div className="content-home">
           <div className="main-tittle-home">
             <Text
-              label={"Swipe your way"}
+              label={t("main-tittle-home.part1")}
               weight={"medium700"}
               lineheight={"lnormal"}
               size={"s32"}
               color={"black"}
             />
             <Text
-              label={"to your dream job!"}
+              label={t("main-tittle-home.part2")}
               weight={"medium700"}
               lineheight={"lnormal"}
               size={"s32"}
@@ -33,7 +34,7 @@ const StartingPage = (props) => {
 
         <div className="footer-container-home">
           <Text
-            label={"Start Now"}
+            label={t("footer-home.start")}
             weight={"thin"}
             lineheight={"lnormal"}
             size={"s16"}
@@ -43,7 +44,7 @@ const StartingPage = (props) => {
             {" "}
             <button className="btn-register-home">
               <Text
-                label={"Register"}
+                label={t("footer-home.start-register")}
                 weight={"thin"}
                 lineheight={"lnormal"}
                 size={"s16"}
@@ -68,7 +69,7 @@ const StartingPage = (props) => {
             <button className="btn-login-home">
               {" "}
               <Text
-                label={"Login"}
+                label={t("footer-home.start-login")}
                 weight={"thin"}
                 lineheight={"lnormal"}
                 size={"s16"}
