@@ -6,6 +6,7 @@
   "footer-home": {
     "start": "Start Now",
     "start-register": "Register",
-    "start-login": "Login"
+    "start-login": "Login",
+    "start-or": "or"
   }
 }

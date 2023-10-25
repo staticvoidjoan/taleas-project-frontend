@@ -56,7 +56,7 @@ const StartingPage = (props) => {
           <div className="start-line-home">
             <hr className="line-home" />
             <Text
-              label={"or"}
+              label={t("footer-home.start-or")}
               weight={"thin"}
               lineheight={"lnormal"}
               size={"s16"}
