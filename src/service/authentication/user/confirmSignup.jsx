@@ -4,6 +4,7 @@ import "./user.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Text from "../../../components/text/text";
+import { useTranslation } from "react-i18next";
 
 const ConfirmSignup = ({
   username,
@@ -19,6 +20,7 @@ const ConfirmSignup = ({
   const [isButtonDisabled, setButtonDisabled] = useState(false); // Add state to disable the button
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { t } = useTranslation(["Translate"]);
 
   async function confirmSignUp(e) {
     e.preventDefault();
@@ -101,7 +103,11 @@ const ConfirmSignup = ({
           style={{ marginTop: "20px" }}
         >
           <div style={{ marginBottom: "20px", marginTop: "20px" }}>
-            <Text label={"Confirm Account"} size={"s20"} weight={"bold"} />
+            <Text
+              label={t("user-confirm.header")}
+              size={"s20"}
+              weight={"bold"}
+            />
           </div>
           <div className="inputbox-register">
             <input
@@ -109,7 +115,7 @@ const ConfirmSignup = ({
               type="text"
               value={code}
               onChange={(e) => setCode(e.target.value)}
-              placeholder="Enter the code sent to your email"
+              placeholder={t("user-confirm.enter_code")}
               required
             />
           </div>
@@ -121,7 +127,11 @@ const ConfirmSignup = ({
             disabled={isLoading} // Disable the button when isLoading is true
             style={{ background: isLoading ? "gray" : "" }} // Optionally set a gray background when disabled
           >
-            <Text label={"Confirm"} size={"s16"} weight={"medium17"} />
+            <Text
+              label={t("user-confirm.confirm_btn")}
+              size={"s16"}
+              weight={"medium17"}
+            />
           </button>
         </form>
       </div>

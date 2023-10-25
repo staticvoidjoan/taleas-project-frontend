@@ -4,8 +4,10 @@ import axios from "axios";
 import "./contact.css";
 import Swal from "sweetalert2";
 import About3 from "../../assets/images/about3.svg";
+import { useTranslation } from "react-i18next";
 
 const Contact = () => {
+  const {t} = useTranslation(["Translate"])
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -74,7 +76,7 @@ const Contact = () => {
       Swal.fire({
         position: "center",
         icon: "success",
-        title: "Your form has been send",
+        title: t("formSent"),
         showConfirmButton: false,
         timer: 1500,
       });
@@ -98,7 +100,7 @@ const Contact = () => {
         <div className="contact-stuff">
           <div className="contact-text">
             <Text
-              label={"Get In Touch"}
+              label={t("getInTouch")}
               weight={"bold"}
               lineheight={"lnormal"}
               size={"s24"}
@@ -106,9 +108,8 @@ const Contact = () => {
             />
             <hr />
             <Text
-              label={
-                "We would like to stay in touch. Want to connect yet ? Reach out through the form below , and we will get back to you within a day"
-              }
+              label={t(
+                formMessage )}
               weight={"thin"}
               lineheight={"lnormal"}
               size={"s16"}

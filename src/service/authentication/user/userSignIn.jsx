@@ -10,7 +10,9 @@ import Swal from "sweetalert2";
 import show from "../../../assets/icons/eye-regular.svg";
 import Login from "../../../assets/icons/LogIn.svg";
 import notShow from "../../../assets/icons/eye-slash-regular.svg";
+import { useTranslation } from "react-i18next";
 const LoginPage = () => {
+  const { t } = useTranslation(["Translate"]);
   Amplify.configure(awsExports);
   const [selectedCategory, setSelectedCategory] = useState("employer");
   const [username, setUsername] = useState("");
@@ -97,14 +99,14 @@ const LoginPage = () => {
         <div className="user-register-title">
           <div style={{ marginBottom: "16px" }}>
             <Text
-              label={"Connecting Dreams with Talent"}
+              label={t("user-login.header")}
               size={"s18"}
               weight={"medium700"}
               color={"white"}
             />
           </div>
           <Text
-            label={"Find Your Dream Job, Find Your Employees!"}
+            label={t("user-login.subHead")}
             size={"s14"}
             weight={"regular"}
             color={"white"}
@@ -119,7 +121,7 @@ const LoginPage = () => {
               onClick={() => setSelectedCategory("employer")}
             >
               <div style={{ marginBottom: "10px" }}>
-                <Text label={"Log In"} />
+                <Text label={t("user-login.login")} />
               </div>
             </div>
           </div>
@@ -146,7 +148,7 @@ const LoginPage = () => {
                 name="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
+                placeholder={t("user-login.password")}
                 className="register-input"
                 required
               />
@@ -165,7 +167,7 @@ const LoginPage = () => {
             <div className="forgot-password">
               <Link style={{ textDecoration: "none" }} to={"/passwordreset"}>
                 <Text
-                  label={"Forgot Password?"}
+                  label={t("user-login.forgot_password")}
                   weight={"medium700"}
                   color={"purple"}
                   size={"s16"}
@@ -174,7 +176,7 @@ const LoginPage = () => {
             </div>
             <button className="register-btn">
               <Text
-                label={"Log In"}
+                label={t("user-login.login")}
                 weight={"regular"}
                 color={"white"}
                 size={"s16"}
@@ -183,27 +185,23 @@ const LoginPage = () => {
 
             {confirmationError ? (
               <div className="login-error">
-                <Text
-                  label={
-                    "Log in credentials are not correct, or the account is not verified."
-                  }
-                />
+                <Text label={t("user-login.login_error")} />
                 <Link to={"/resendSignUp"}>
-                  <Text label={"Click here"} />
+                  <Text label={t("user-login.click_here")} />
                 </Link>
               </div>
             ) : null}
 
             <div className="goto-login">
               <Text
-                label={"Don't have an account yet?  &nbsp"}
+                label={t("user-login.not_acc")}
                 weight={"regular"}
                 color={"black"}
                 size={"s16"}
               />
               <Link style={{ textDecoration: "none" }} to={"/signup"}>
                 <Text
-                  label={"Register"}
+                  label={t("user-login.register")}
                   weight={"medium700"}
                   color={"purple"}
                   size={"s16"}

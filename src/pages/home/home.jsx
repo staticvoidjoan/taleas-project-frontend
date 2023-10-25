@@ -5,21 +5,21 @@ import Text from "../../components/text/text";
 import ConnectImg from "../../assets/images/connectTeam.svg";
 import { useTranslation } from "react-i18next";
 const StartingPage = (props) => {
-  const { t } = useTranslation(["home"]);
+  const { t } = useTranslation(["Translate"]);
   return (
     <>
       <div className="starting-home">
         <div className="content-home">
           <div className="main-tittle-home">
             <Text
-              label={t("main-tittle-home.part1")}
+              label={"Swipe your way"}
               weight={"medium700"}
               lineheight={"lnormal"}
               size={"s32"}
               color={"black"}
             />
             <Text
-              label={t("main-tittle-home.part2")}
+              label={"to your dreams"}
               weight={"medium700"}
               lineheight={"lnormal"}
               size={"s32"}
@@ -56,7 +56,7 @@ const StartingPage = (props) => {
           <div className="start-line-home">
             <hr className="line-home" />
             <Text
-              label={"or"}
+              label={t("footer-home.start-or")}
               weight={"thin"}
               lineheight={"lnormal"}
               size={"s16"}

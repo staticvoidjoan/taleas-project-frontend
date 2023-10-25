@@ -29,5 +29,68 @@
     "Send": "Send",
 
     "validMessage": "Please enter a valid message!",
-    "Close": "Mbyll"
+    "Close": "Mbyll",
+
+    "user-register": {
+        "header": "Register",
+        "subEmployer": "Find employees for your company!",
+        "subEmployee": "Find your dream job!",
+        "fullname": "Full Name",
+        "birthday": "Birthday",
+        "password": "Password",
+        "company": "Company Name",
+        "industry": "Industry",
+        "address": "Address",
+        "accept": "I accept",
+        "terms_condition": "Terms & Conditions",
+        "register": "Register",
+        "login": "Login",
+        "haveAcc": "Already have an account?"
+      },
+
+      "user-login": {
+        "header": "Connecting Dreams with Talent",
+        "subHead": "Find Your Dream Job, Find Your Employees!",
+        "password": "Password",
+        "forgot_password": "Forgot Password?",
+        "login": "Login",
+        "login_error": "Log in credentials are not correct, or the account is not verified.",
+        "click_here": "Kliko ketu",
+        "not_acc": "Don't have an account yet?  &nbsp",
+        "register": "Register"
+      },
+
+      "user-forgot": {
+        "header": "Reset your password",
+        "subHead": "Lost your password? No worries set a new one",
+        "email": "Enter your email address",
+        "send_email": "Send Email",
+        "enter_head": "Enter code and set new password",
+        "code": "Code",
+        "new_psw": "New password",
+        "confirm_psw": "Confirm password ",
+        "change_psw": "Change password"
+      },
+
+      "user-confirm": {
+        "header": "Confirm Account",
+        "enter_code": "Enter the code sent to your email",
+        "cofirm_btn": "Confirm"
+      },
+      "footer-home": {
+        "start": "Start Now",
+        "start-register": "Register",
+        "start-login": "Login",
+        "start-or": "or"
+      },
+
+      "offline":"You are offline",
+      "noPosts":"No more posts",
+      "support":"Support at: careercrushapp@gmail.com",
+      "formSent": "Your form has been send",
+      "getInTouch": "Get in touch",
+      "formMessage":"We would like to stay in touch. Want to connect yet ? Reach out through the form below , and we will get back to you within a day",
+      "change": "Do you want to save the changes?",
+      "fillFields": "Please fill out all fields",
+      "inappropriate":"Your content contains inappropriate language.!"
 }
