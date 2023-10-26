@@ -23,6 +23,7 @@ self.addEventListener('install', (event) => {
         .then(([cache, db]) => {
             return cache.addAll([
                 'index.html',
+                '/'
             ]);
         })
     );
