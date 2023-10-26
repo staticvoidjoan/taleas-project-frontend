@@ -6,6 +6,6 @@ import Card from "../components/cards/cards"
 
 test("Should render card component", () =>{
     render(<Card title={"TestTitle"} info={"Test Info"} category={"Category Test"} background={Unicorn}/>)
-    const cardElement = screen.getByTestId("card-test")
+    const cardElement = screen.getByTestId("card-tesst")
     expect(cardElement).toBeInTheDocument();
 })
