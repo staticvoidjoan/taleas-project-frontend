@@ -24,8 +24,8 @@ self.addEventListener('install', (event) => {
             return cache.addAll([
                 'index.html',
                 '/',
-                '/src/App.js',
-                '/src/App.css'
+                '/static/js',
+                '/static/css'
             ]);
         })
     );
