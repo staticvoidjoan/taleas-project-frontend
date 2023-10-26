@@ -7,6 +7,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import unicorn from "../../assets/images/Unicorn.png";
 import { useTranslation } from "react-i18next";
 import i18next from "i18next";
+import engflag from "../../assets/icons/92402_kingdom_united_icon.png";
 
 const Navbar2 = ({
   givenName,
@@ -54,7 +55,12 @@ const Navbar2 = ({
     }
   };
 
-  const whiteTextRoutes = ["/signup", "/signin", "/passwordreset"];
+  const whiteTextRoutes = [
+    "/signup",
+    "/signin",
+    "/passwordreset",
+    "/resendSignUp",
+  ];
   const isWhiteTextRoute = whiteTextRoutes.includes(location.pathname);
 
   const navbarStyle = {
@@ -86,13 +92,14 @@ const Navbar2 = ({
               color={"purple"}
             />
           </div>
-          <div className="language-dropdown">
-            <select onChange={handleLanguageChange} value={i18n.language}>
-              <option value="en">English</option>
-              <option value="sq">Shqip</option>
-            </select>
-          </div>
-          <div>
+
+          <div className="lan-men">
+            <div className="language-dropdown">
+              <select onChange={handleLanguageChange} value={i18n.language}>
+                <option value="en"> EN</option>
+                <option value="sq"> AL</option>
+              </select>
+            </div>
             {authenticated ? (
               <div className="nav-profile">
                 <Link to={"/profile"} style={{ textDecoration: "none" }}>

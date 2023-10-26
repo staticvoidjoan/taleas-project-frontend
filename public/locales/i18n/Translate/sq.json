@@ -1,49 +1,49 @@
 {
-    "category1" : "Te gjitha",
+  "category1": "Te gjitha",
 
-    "skills": "Aftesite",
-    "experiences": "Eksperiencat",
-    "education": "Edukimi",
-    "certifications": "Certifikimet",
-    "links": "Linqe per projekte",
-    "languages": "Gjuhet",
-    
-    "myJobs": "Postimet e mia",
-    "jobDescription": "Pershkrimi i punes",
-    "postedOn" : "Postuar ne: ",
-    "requirements": "Kerkesat",
-    "applicants":"Aplikuesit",
-    "deleteJob":"Fshi postimin",
-    "select": "Selekto nje kategori",
-    "loadingCategories": "Duke shfaqur kategorite...",
-    "position": "Pozicioni",
-    "description": "Pershkrimi...",
-    "addReq": "Shto kerkessa",
-    "add": "Shto",
-    "save": "Ruaj",
+  "skills": "Aftesite",
+  "experiences": "Eksperiencat",
+  "education": "Edukimi",
+  "certifications": "Certifikimet",
+  "links": "Linqe per projekte",
+  "languages": "Gjuhet",
 
-    "messages": "Mesazhet",
-    "Message": "Mesazhi",
-    "Send": "Dergo",
+  "myJobs": "Postimet e mia",
+  "jobDescription": "Pershkrimi i punes",
+  "postedOn": "Postuar ne: ",
+  "requirements": "Kerkesat",
+  "applicants": "Aplikuesit",
+  "deleteJob": "Fshi postimin",
+  "select": "Selekto nje kategori",
+  "loadingCategories": "Duke shfaqur kategorite...",
+  "position": "Pozicioni",
+  "description": "Pershkrimi...",
+  "addReq": "Shto kerkessa",
+  "add": "Shto",
+  "save": "Ruaj",
 
-    "user-register": {
-        "header": "Regjistrohu",
-        "subEmployer": "Gjeni punonjës për kompaninë tuaj!",
-        "subEmployee": "Gjeni punën tuaj të ëndrrave!",
-        "fullname": "Emri Plotë",
-        "birthday": "Ditëlindja",
-        "password": "Fjalëkalimi",
-        "company": "Emri Kompanisë",
-        "industry": "Industria",
-        "address": "Adresa",
-        "accept": "I pranoj",
-        "terms_condition": "Terms & Conditions",
-        "login": "Kycu",
-        "register": "Regjistrohu",
-        "haveAcc": "A keni tashmë një llogari?"
-      },
+  "messages": "Mesazhet",
+  "Message": "Mesazhi",
+  "Send": "Dergo",
 
-    "user-login": {
+  "user-register": {
+    "header": "Regjistrohu",
+    "subEmployer": "Gjeni punonjës për kompaninë tuaj!",
+    "subEmployee": "Gjeni punën tuaj të ëndrrave!",
+    "fullname": "Emri Plotë",
+    "birthday": "Ditëlindja",
+    "password": "Fjalëkalimi",
+    "company": "Emri Kompanisë",
+    "industry": "Industria",
+    "address": "Adresa",
+    "accept": "I pranoj",
+    "terms_condition": "Terms & Conditions",
+    "login": "Kycu",
+    "register": "Regjistrohu",
+    "haveAcc": "A keni tashmë një llogari?"
+  },
+
+  "user-login": {
     "header": "Lidhni endrrat me talentin",
     "subHead": "Find Your Dream Job, Find Your Employees!",
     "password": "Fjalkalimi",
@@ -53,41 +53,41 @@
     "login_error": "Kredencialet e hyrjes nuk janë të sakta, ose llogaria nuk është verifikuar.",
     "click_here": "Kliko ketu",
     "not_acc": "Nuk keni ende një llogari?  &nbsp",
-    "register":"Regjistrohu"
-    },
+    "register": "Regjistrohu"
+  },
 
-    "user-forgot": {
-        "header": "Rivendosni fjalëkalimin tuaj",
-        "subHead": "Ke humbur fjalëkalimin? Mos u shqetëso, vendos një të ri",
-        "email": "Vendosni adresën tuaj të emailit ",
-        "send_email": "Degoni Email",
-        "enter_head": "Futni kodin dhe vendosni fjalëkalimin e ri",
-        "code": "Kodi",
-        "new_psw": "Vendosni fjalëkalimin e ri",
-        "confirm_psw": "Konfirmo fjalëkalimin ",
-        "change_psw": "Ndrysho fjalëkalimin"
-      },
+  "user-forgot": {
+    "header": "Rivendosni fjalëkalimin tuaj",
+    "subHead": "Ke humbur fjalëkalimin? Mos u shqetëso, vendos një të ri",
+    "email": "Vendosni adresën tuaj të emailit ",
+    "send_email": "Degoni Email",
+    "enter_head": "Futni kodin dhe vendosni fjalëkalimin e ri",
+    "code": "Kodi",
+    "new_psw": "Vendosni fjalëkalimin e ri",
+    "confirm_psw": "Konfirmo fjalëkalimin ",
+    "change_psw": "Ndrysho fjalëkalimin"
+  },
 
-      "user-confirm":{
-        "header":"Konfirmoni Llogarine",
-        "enter_code":"Vendosni kodin e dërguar në emailin tuaj",
-        "cofirm_btn":"Konfirmo"
-    },
-    
-      "footer-home": {
-        "start": "Fillo tani ",
-        "start-register": "Regjistrohu",
-        "start-login": "Kycu",
-        "start-or": "ose"
-      },
+  "user-confirm": {
+    "header": "Konfirmoni Llogarine",
+    "enter_code": "Vendosni kodin e dërguar në emailin tuaj",
+    "confirm_btn": "Konfirmo"
+  },
 
-      "offline":"Nuk je i lidhur me internet",
-      "noPosts":"Nuk ka me postime",
-      "support":"Kontakto ne: careercrushapp@gmail.com",
-      "formSent": "Kerkesa juaj u dergua",
-      "getInTouch": "Kontakto me ne",
-      "formMessage": "Ne do te na pelqente te afroheshim. A deshiron te kontaktosh? Ploteso formen me poshte, dhe ne do t'ju pergjigjemi sa me shpejt.",
-      "fillFields": "Te lutem mbush te gjitha fushat",
-      "change": "Deshiron t'i ruash ndryshimet?",
-      "inappropriate":"Teksti juaj ka permbajtje te papranueshme!"
+  "footer-home": {
+    "start": "Fillo tani ",
+    "start-register": "Regjistrohu",
+    "start-login": "Kycu",
+    "start-or": "ose"
+  },
+
+  "offline": "Nuk je i lidhur me internet",
+  "noPosts": "Nuk ka me postime",
+  "support": "Kontakto ne: careercrushapp@gmail.com",
+  "formSent": "Kerkesa juaj u dergua",
+  "getInTouch": "Kontakto me ne",
+  "formMessage": "Ne do te na pelqente te afroheshim. A deshiron te kontaktosh? Ploteso formen me poshte, dhe ne do t'ju pergjigjemi sa me shpejt.",
+  "fillFields": "Te lutem mbush te gjitha fushat",
+  "change": "Deshiron t'i ruash ndryshimet?",
+  "inappropriate": "Teksti juaj ka permbajtje te papranueshme!"
 }

@@ -19,6 +19,20 @@
   /* border-bottom: 1px #dddddd solid; */
 }
 
+.lan-men {
+  display: flex;
+  width: 70px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.language-dropdown select {
+  border: none;
+  background-color: none;
+  background: none;
+  /* Additional styles if needed */
+}
+
 .app-name {
   display: flex;
   cursor: pointer;
@@ -38,5 +52,5 @@
   align-items: center;
   flex-direction: row;
   gap: 8px;
-  cursor: pointer;  
+  cursor: pointer;
 }
