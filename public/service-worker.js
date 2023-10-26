@@ -27,7 +27,7 @@ self.addEventListener('install', (event) => {
         })
     );
 });
-
+//testing
 self.addEventListener('fetch', (event) => {
     const { request } = event;
 
