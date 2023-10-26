@@ -6,11 +6,13 @@
     padding: 20px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    height: 100vh;
-    overflow-y: hidden; 
+    gap: 20px; 
     justify-content: space-between;
+    max-height: 100vh; /* Set a maximum height */
+    overflow-y: hidden;
   }
+
+
 .sidebar-info{
     display: flex;
     flex-direction: row;

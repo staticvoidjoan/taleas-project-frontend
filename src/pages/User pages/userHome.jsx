@@ -12,7 +12,7 @@ import ContLoader from "../../components/Loader/ContLoader";
 import axios from "axios";
 import { useMediaQuery } from "@mui/material";
 import Sidebar from "../../components/sidebar/sidebar";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 
 const UserHome = ({ userId, employee }) => {
   const [posts, setPosts] = useState([]);
@@ -28,7 +28,7 @@ const UserHome = ({ userId, employee }) => {
 
   const isLargerScreen = useMediaQuery("(min-width: 768px)");
 
-  const {t} = useTranslation(["Translate"]);
+  const { t } = useTranslation(["Translate"]);
 
   // State to control sidebar visibility
   const [isSidebarVisible, setSidebarVisible] = useState(isLargerScreen);
@@ -186,66 +186,66 @@ const UserHome = ({ userId, employee }) => {
   };
 
   return (
-    <div className="abc two-column-layout">
-      {isSidebarVisible && <Sidebar className="sidebar" userRole="employee" employee={employee} />}
-      <div className="main-content">
+    <div className="main-content">
+      <div>
+        <div className="button-row">
+          <Tabs
+            buttonName={t("category1")}
+            selected={selectedButton === "All"}
+            onClick={() => filter("All")}
+          />
+          {categories.map((buttonName, index) => (
+            <Tabs
+              buttonName={buttonName.name}
+              key={index}
+              selected={selectedButton === buttonName.name}
+              onClick={() => filter(buttonName.name, buttonName._id)}
+            />
+          ))}
+        </div>
+        {loading ? (
           <div>
-            <div className="button-row">
-              <Tabs
-                buttonName={t("category1")}
-                selected={selectedButton === "All"}
-                onClick={() => filter("All")}
-              />
-              {categories.map((buttonName, index) => (
-                <Tabs
-                  buttonName={buttonName.name}
-                  key={index}
-                  selected={selectedButton === buttonName.name}
-                  onClick={() => filter(buttonName.name, buttonName._id)}
-                />
-              ))}
-            </div>
-            {loading ? (
-              <div>
-                <ContLoader />
-              </div>
-            ) : postlength === 0 ? (
-              <div className="post-alert">
-                <Text label={"No more posts. Check back soon!"} />
-              </div>
-            ) : (
-              <div>
-                <Animate>
-                  <div
-                    className={`card-component ${animate ? "animate" : ""}`}
-                    onClick={() => handleJobCardClick(currentPost._id)}
-                  >
-                    <Card
-                      id={currentPost._id}
-                      category={currentPost.category?.name}
-                      title={currentPost.position}
-                      info={currentPost.creatorId?.companyName}
-                      background={currentPost.creatorId?.profilePhoto}
-                    />
-                  </div>
-                </Animate>
-                <div className="card-buttons">
-                  <button className="left-button" onClick={previous}>
-                    <img src={back} alt="back" />
-                  </button>
-                  <button className="cancel" onClick={() => handleAction("dislike")}>
-                    <img src={x} alt="x" />
-                  </button>
-                  <button className="like" onClick={() => handleAction("like")}>
-                    <img src={heart} alt="heart" />
-                  </button>
-                  <button className="right-button" onClick={next}>
-                    <img src={back} className="right" alt="back" />
-                  </button>
-                </div>
-              </div>
-            )}
+            <ContLoader />
           </div>
+        ) : postlength === 0 ? (
+          <div className="post-alert">
+            <Text label={"No more posts. Check back soon!"} />
+          </div>
+        ) : (
+          <div>
+            <Animate>
+              <div
+                className={`card-component ${animate ? "animate" : ""}`}
+                onClick={() => handleJobCardClick(currentPost._id)}
+              >
+                <Card
+                  id={currentPost._id}
+                  category={currentPost.category?.name}
+                  title={currentPost.position}
+                  info={currentPost.creatorId?.companyName}
+                  background={currentPost.creatorId?.profilePhoto}
+                />
+              </div>
+            </Animate>
+            <div className="card-buttons">
+              <button className="left-button" onClick={previous}>
+                <img src={back} alt="back" />
+              </button>
+              <button
+                className="cancel"
+                onClick={() => handleAction("dislike")}
+              >
+                <img src={x} alt="x" />
+              </button>
+              <button className="like" onClick={() => handleAction("like")}>
+                <img src={heart} alt="heart" />
+              </button>
+              <button className="right-button" onClick={next}>
+                <img src={back} className="right" alt="back" />
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

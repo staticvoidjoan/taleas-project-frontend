@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import Text from "../../../components/text/text";
 import { useTranslation } from "react-i18next";
 const ForgotPassword = () => {
-  const { t } = useTranslation(["resend"]);
+  const { t } = useTranslation(["Translate"]);
   Amplify.configure(awsExports);
   const [code, setCode] = useState("");
   const [username, setUsername] = useState("");

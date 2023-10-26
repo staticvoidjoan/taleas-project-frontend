@@ -5,9 +5,9 @@ import Text from "../text/text";
 import unicorn from "../../assets/images/Unicorn.png";
 import chatIcon from "../../assets/icons/chat.svg";
 import moreIcon from "../../assets/icons/more.png";
-import { confirmAlert } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css'; // Import the CSS
-import {useTranslation} from "react-i18next";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css"; // Import the CSS
+import { useTranslation } from "react-i18next";
 
 import "./listOfMatches.css"; // Make sure to include the appropriate CSS file
 import {
@@ -24,15 +24,18 @@ import { set } from "date-fns";
 import Spinner from "../Loader/spinner";
 
 function ListOfMatches({ employer }) {
+  if (!employer) {
+    return <div>Employer data is not available.</div>;
+  }
   const creatorId = employer._id;
+  console.log(employer._id);
   const [acceptedApplicants, setAcceptedApplicants] = useState([]);
   const navigate = useNavigate();
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   const [messageCount, setMessageCount] = useState(0);
   const [unreadMessages, setUnreadMessages] = useState({});
   const [showUnmatchOption, setShowUnmatchOption] = useState(false);
-  const {t} = useTranslation(["Translate"]);
-
+  const { t } = useTranslation(["Translate"]);
 
   useEffect(() => {
     loadAcceptedApplicants();
@@ -158,16 +161,16 @@ function ListOfMatches({ employer }) {
 
   const handleMoreClick = (applicantId) => {
     confirmAlert({
-      title: 'Unmatch user',
-      message: 'Are you sure you want to unmatch this user?',
+      title: "Unmatch user",
+      message: "Are you sure you want to unmatch this user?",
       buttons: [
         {
-          label: 'Yes',
+          label: "Yes",
           onClick: () => handleUnmatch(applicantId),
         },
         {
-          label: 'No',
-          onClick: () => console.log('No clicked'), // Handle the "No" action if needed
+          label: "No",
+          onClick: () => console.log("No clicked"), // Handle the "No" action if needed
         },
       ],
     });
@@ -176,9 +179,11 @@ function ListOfMatches({ employer }) {
     // Implement your unmatching logic here
     // This function will be called when the user confirms the action
     // You can use this function to send a request to the server or perform any other necessary actions.
-    console.log(creatorId)
-    console.log(applicantId)
-    const response = await axios.put(`https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/unmatch-employee?employeerId=${creatorId}&employeeId=${applicantId}`);
+    console.log(creatorId);
+    console.log(applicantId);
+    const response = await axios.put(
+      `https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/unmatch-employee?employeerId=${creatorId}&employeeId=${applicantId}`
+    );
     if (response.data) {
       console.log(response.data);
       loadAcceptedApplicants();
@@ -187,7 +192,12 @@ function ListOfMatches({ employer }) {
 
   return (
     <div>
-      <Text label={t("messages") + ` (${messageCount})`} size={"s16"} weight={"medium"} color={"black"} />
+      <Text
+        label={t("messages") + ` (${messageCount})`}
+        size={"s16"}
+        weight={"medium"}
+        color={"black"}
+      />
       {!isDataLoaded ? (
         <Spinner />
       ) : (
@@ -232,26 +242,28 @@ function ListOfMatches({ employer }) {
             </div>
 
             <div className="uwu">
-            <div
-              className="newMessage"
-              onClick={() => chat(acceptedApplicant._id)}
-            >
-              <img src={chatIcon} alt="Chat Icon" />
-              {acceptedApplicant.lastMessage &&
-              acceptedApplicant.lastMessage.uid === acceptedApplicant._id ? (
-                <div className="redCircle"></div>
-              ) : null}
-             
-            </div>
-            <div></div>
+              <div
+                className="newMessage"
+                onClick={() => chat(acceptedApplicant._id)}
+              >
+                <img src={chatIcon} alt="Chat Icon" />
+                {acceptedApplicant.lastMessage &&
+                acceptedApplicant.lastMessage.uid === acceptedApplicant._id ? (
+                  <div className="redCircle"></div>
+                ) : null}
+              </div>
+              <div></div>
 
-            <div className="more">
-              <img src={moreIcon} alt="More Icon"  onClick={()=>{
-              handleMoreClick(acceptedApplicant._id)
-            }}/>
+              <div className="more">
+                <img
+                  src={moreIcon}
+                  alt="More Icon"
+                  onClick={() => {
+                    handleMoreClick(acceptedApplicant._id);
+                  }}
+                />
+              </div>
             </div>
-            </div>
-            
           </div>
         ))
       )}

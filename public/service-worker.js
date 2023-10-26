@@ -35,7 +35,7 @@ self.addEventListener('fetch', (event) => {
     const { request } = event;
 
     if (request.url.includes('/prod')) {
-        event.respondWith(getCachedOrNetworkApiResponse(request));
+        event.respondWith(networkThenCache(request));
     } else {
         event.respondWith(
             caches.match(request).then((response) => {
@@ -47,7 +47,6 @@ self.addEventListener('fetch', (event) => {
 
 const createIndexedDB = ({ name, version, stores }) => {
   const request = self.indexedDB.open(name, version);
-
   return new Promise((resolve, reject) => {
       request.onupgradeneeded = (e) => {
           const db = e.target.result;
@@ -80,13 +79,13 @@ const cacheApiRequest = async (request) => {
   };
 
   const requestStore = await openStore(IDBConfig.stores[0], 'readwrite');
-  requestStore.add(serialized);
+  return requestStore.add(serialized);
 };
 
-const cacheApiResponse = async (response) => {
+const cacheApiResponse = async ({ url, json }) => {
   try {
       const store = await openStore(IDBConfig.stores[1], 'readwrite');
-      store.add(response);
+      return store.add({ url, json });
   } catch (error) {
       console.log('IDB error', error);
   }
@@ -111,6 +110,7 @@ const getStoreFactory = (dbName, version) => ({ name }, mode = 'readonly') => {
 const openStore = getStoreFactory(IDBConfig.name, IDBConfig.version);
 
 const networkThenCache = async (request) => {
+  console.log(request)
   const { method, url } = request;
   const requestClone = request.clone();
 
@@ -124,26 +124,22 @@ const networkThenCache = async (request) => {
 
       return response;
   } catch (e) {
-      return method === 'POST' ? cacheApiRequest(requestClone) : new Response(JSON.stringify({ message: 'no response' }));
+      if(method === 'POST' || method === 'PUT') { // Added PUT method here
+          await cacheApiRequest(requestClone); // Cache the failed request
+          return new Response(JSON.stringify({ message: 'Request cached' }));
+      } else {
+          return new Response(JSON.stringify({ message: 'no response', request: request}));
+      }
   }
 };
 
-const getCachedApiResponse = (request) => {
-  return new Promise((resolve, reject) => {
-      openStore(IDBConfig.stores[1])
-          .then((store) => {
-              const cachedRequest = store.get(request.url);
+const getCachedApiResponse = async (request) => { // Modified to async function
+    const store = await openStore(IDBConfig.stores[1]);
+    const cachedRequest = await store.get(request.url);
 
-              cachedRequest.onsuccess = (e) => {
-                  return cachedRequest.result === undefined ? resolve(null) : resolve(new Response(JSON.stringify(cachedRequest.result.json)));
-              };
-
-              cachedRequest.onerror = (e) => {
-                  console.log('Cached response error', e, cachedRequest.error);
-                  return reject(cachedRequest.error);
-              };
-          });
-  });
+    if(cachedRequest !== undefined){
+        return new Response(JSON.stringify(cachedRequest.json));
+    } else{
+        return null;
+    }
 };
-
-const getCachedOrNetworkApiResponse = async (request) => await getCachedApiResponse(request) || networkThenCache(request);
