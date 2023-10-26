@@ -7,7 +7,7 @@ import About3 from "../../assets/images/about3.svg";
 import { useTranslation } from "react-i18next";
 
 const Contact = () => {
-  const {t} = useTranslation(["Translate"])
+  const { t } = useTranslation(["Translate"]);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -108,8 +108,7 @@ const Contact = () => {
             />
             <hr />
             <Text
-              label={t(
-                formMessage )}
+              label={t("formMessage")}
               weight={"thin"}
               lineheight={"lnormal"}
               size={"s16"}
