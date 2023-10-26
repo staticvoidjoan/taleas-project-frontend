@@ -75,6 +75,20 @@ const EmployerProfile = ({ employerData, employeeCheck }) => {
             window.location.reload();
           }
         });
+      } else if (
+        response.data.textDetectionResponse.TextDetections &&
+        response.data.textDetectionResponse.TextDetections.length > 0
+      ) {
+        Swal.fire({
+          icon: "error",
+          title: "Attention",
+          text: "That picture must not use text!",
+          confirmButtonText: "Ok",
+        }).then(async (result) => {
+          if (result.isConfirmed) {
+            window.location.reload();
+          }
+        });
       } else {
         editEmployer();
       }
@@ -100,7 +114,7 @@ const EmployerProfile = ({ employerData, employeeCheck }) => {
             description: employerData.description,
           }
         );
-        window.location.reload();
+        window.location.reload(true);
       } catch (error) {
         console.error(error);
       } finally {
@@ -108,6 +122,7 @@ const EmployerProfile = ({ employerData, employeeCheck }) => {
       }
     }
   };
+  
 
   const cardStyle = {
     backgroundImage: `url(${employerData.profilePhoto || unicorn})`,
