@@ -186,8 +186,6 @@ const UserHome = ({ userId, employee }) => {
   };
 
   return (
-    <div className="abc two-column-layout">
-      {isSidebarVisible && <Sidebar className="sidebar" userRole="employee" employee={employee} />}
       <div className="main-content">
           <div>
             <div className="button-row">
@@ -247,7 +245,6 @@ const UserHome = ({ userId, employee }) => {
             )}
           </div>
       </div>
-    </div>
   );
 };
 

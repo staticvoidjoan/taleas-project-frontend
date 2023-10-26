@@ -10,7 +10,7 @@ import ListUserMessages from "../userMessages/userMessages";
 import Text from "../text/text";
 import { useTranslation } from "react-i18next";
 
-const Sidebar = ({userRole, employee, employer}) => {
+const Sidebar = ({userRole, employeeData, employerData}) => {
   const {t} = useTranslation(["Translate"])
   const navigate = useNavigate();
 
@@ -29,9 +29,9 @@ const Sidebar = ({userRole, employee, employer}) => {
     <div className="sidebar-component">
       <div className="sidebar-messages">
         {userRole === "employee" ? (
-      <ListUserMessages user={employee} />
+      <ListUserMessages user={employeeData} />
         ) : userRole === "employer" ? (
-        <ListOfMatches employer={employer} />
+        <ListOfMatches employer={employerData} />
         ) : (
         <div>Invalid user role</div>
         )}

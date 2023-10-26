@@ -225,6 +225,19 @@ function App() {
     "/resendSignUp",
   ];
   const hideFooter = pathsToHideFooter.includes(location.pathname);
+   const hideSidebar = [
+    location.pathname.startsWith("/signup") ||
+    location.pathname.startsWith("/signin") ||
+    location.pathname.startsWith("/userInfo") ||
+    location.pathname.startsWith("/passwordreset") ||
+    location.pathname.startsWith("/completeprofile") ||
+    location.pathname.startsWith("/resendSignUp") ||
+    location.pathname.startsWith("/profile") ||
+    location.pathname.startsWith("/viewjobpost") ||
+    location.pathname.startsWith("/passwordreset") ||
+    location.pathname.startsWith("/menu") ||
+    location.pathname.startsWith("/contact")
+  ];
   const hideComplete =
     location.pathname.startsWith("/completeprofile") ||
     location.pathname.startsWith("/edit");
@@ -237,10 +250,6 @@ function App() {
     return <Loader />;
   }
 
-  // const locales = {
-  //   en: { tittle: "English" },
-  //   sq: { tittle: "Shqip" },
-  // };
 
   return (
     <div className="App">
@@ -296,224 +305,244 @@ function App() {
             userRole={userRole}
           />
           {location.pathname.startsWith("/postjob") ||
-          windowWidth > 756 ? null : (
+          windowWidth > 768 ? null : (
             <div style={{ clear: "both", height: "90px" }}></div>
           )}
-          {!(windowWidth < 756 || location.pathname.startsWith("/postjob")) ? (
+          {!(windowWidth < 768 || location.pathname.startsWith("/postjob")) ? (
             <div style={{ clear: "both", height: "70px" }}></div>
           ) : null}
         </>
         //Test
       )}
-      <ScrollToTop>
-        <Routes>
-          {/* ----------------------------------  Home routes ------------------------------------------------------- */}
-
-          <Route exact path={"/aboutus"} element={<About />} />
-          <Route exact path={"/terms"} element={<Privacy />} />
-          <Route exact path={"/contact"} element={<Contact />} />
-          <Route
-            exact
-            path="/menu"
-            element={authenticated ? <NotFound /> : <Menu />}
+      <div
+        className={ authenticated ? (
+            hideSidebar
+            ? ""
+            : "abc two-column-layout") : ""
+        }
+      >
+        {location.pathname.startsWith("/profile") ||
+          location.pathname.startsWith("/viewjobpost") || location.pathname.startsWith("/") ? null : windowWidth > 756 ? (
+          <Sidebar
+            employeeData={employee}
+            employerData={employer}
+            userRole={userRole}
           />
-          <Route
-            exact
-            path="/"
-            element={
-              authenticated ? (
-                userRole === "employee" ? (
-                  isLoading ? (
+        ) : null}
+
+        <ScrollToTop>
+          <Routes>
+            {/* ----------------------------------  Home routes ------------------------------------------------------- */}
+
+            <Route exact path={"/aboutus"} element={<About />} />
+            <Route exact path={"/terms"} element={<Privacy />} />
+            <Route exact path={"/contact"} element={<Contact />} />
+            <Route
+              exact
+              path="/menu"
+              element={authenticated ? <NotFound /> : <Menu />}
+            />
+            <Route
+              exact
+              path="/"
+              element={
+                authenticated ? (
+                  userRole === "employee" ? (
+                    isLoading ? (
+                      <Loader />
+                    ) : (
+                      <UserHome userId={employee._id} employee={employee} />
+                    )
+                  ) : isLoading ? (
                     <Loader />
                   ) : (
-                    <UserHome userId={employee._id} employee={employee} />
+                    <EmployerHome
+                      creatorId={employer._id}
+                      employer={employer}
+                    />
                   )
-                ) : isLoading ? (
-                  <Loader />
                 ) : (
-                  <EmployerHome creatorId={employer._id} employer={employer} />
+                  <Home />
                 )
-              ) : (
-                <Home />
-              )
-            }
-          />
+              }
+            />
 
-          <Route
-            exact
-            path={`/profile`}
-            element={
-              isLoading ? (
-                <Loader />
-              ) : userRole === "employer" ? (
-                <EmployerProfile
-                  employeeData={employee}
-                  employerData={employer}
-                  employeeCheck={checkEmployee}
-                />
-              ) : (
-                <UserInfo userId={employee._id} />
-              )
-            }
-          />
+            <Route
+              exact
+              path={`/profile`}
+              element={
+                isLoading ? (
+                  <Loader />
+                ) : userRole === "employer" ? (
+                  <EmployerProfile
+                    employeeData={employee}
+                    employerData={employer}
+                    employeeCheck={checkEmployee}
+                  />
+                ) : (
+                  <UserInfo userId={employee._id} />
+                )
+              }
+            />
 
-          {/* ----------------------------------------------------------------------------------------------------------------- */}
+            {/* ----------------------------------------------------------------------------------------------------------------- */}
 
-          {/* ----------------------------------  Auhentication routes ------------------------------------------------------- */}
-          <Route
-            exact
-            path={authenticated ? "/" : "/signin"}
-            element={<LoginPage />}
-          />
-          <Route
-            exact
-            path={authenticated ? "/" : "/signup"}
-            element={<UserSignUp />}
-          />
-          <Route
-            exact
-            path={authenticated ? "/" : "/passwordreset"}
-            element={<ForgotPassword />}
-          />
-          <Route exact path="/resendSignUp" element={<ResendSignup />} />
+            {/* ----------------------------------  Auhentication routes ------------------------------------------------------- */}
+            <Route
+              exact
+              path={authenticated ? "/" : "/signin"}
+              element={<LoginPage />}
+            />
+            <Route
+              exact
+              path={authenticated ? "/" : "/signup"}
+              element={<UserSignUp />}
+            />
+            <Route
+              exact
+              path={authenticated ? "/" : "/passwordreset"}
+              element={<ForgotPassword />}
+            />
+            <Route exact path="/resendSignUp" element={<ResendSignup />} />
 
-          {/* ------------------------------------------------------------------------------------------------------------------ */}
+            {/* ------------------------------------------------------------------------------------------------------------------ */}
 
-          {/* ----------------------------------  Employeee routes ------------------------------------------------------- */}
-          <Route
-            exact
-            path="/completeprofile"
-            element={
-              isLoading ? (
-                <Loader />
-              ) : userRole === "employee" ? (
-                <ProfileForm userId={employee._id} />
-              ) : (
-                <NotFound />
-              )
-            }
-          />
-          <Route exact path="/userInfo/:id" element={<UserInfo />} />
-          <Route
-            exact
-            path="/viewjobpost/:id/:index"
-            element={<EmployeeJobView employeeid={employee._id} />}
-          />
-          {/* --------------------------------------------------------------------------------------------------------------- */}
+            {/* ----------------------------------  Employeee routes ------------------------------------------------------- */}
+            <Route
+              exact
+              path="/completeprofile"
+              element={
+                isLoading ? (
+                  <Loader />
+                ) : userRole === "employee" ? (
+                  <ProfileForm userId={employee._id} />
+                ) : (
+                  <NotFound />
+                )
+              }
+            />
+            <Route exact path="/userInfo/:id" element={<UserInfo />} />
+            <Route
+              exact
+              path="/viewjobpost/:id/:index"
+              element={<EmployeeJobView employeeid={employee._id} />}
+            />
+            {/* --------------------------------------------------------------------------------------------------------------- */}
 
-          {/* ----------------------------------  Employer routes ------------------------------------------------------- */}
-          <Route
-            exact
-            path="/postjob/:id"
-            element={
-              userRole === "employer" && authenticated ? (
-                <PostJob />
-              ) : (
-                <NotFound />
-              )
-            }
-          />
-          <Route
-            exact
-            path="/edit"
-            element={
-              userRole === "employer" && authenticated ? (
-                <EditEmployer employerData={employer} />
-              ) : (
-                <NotFound />
-              )
-            }
-          />
-          <Route
-            exact
-            path="/jobview/:id"
-            element={
-              userRole === "employer" && authenticated ? (
-                <JobView />
-              ) : (
-                <NotFound />
-              )
-            }
-          />
+            {/* ----------------------------------  Employer routes ------------------------------------------------------- */}
+            <Route
+              exact
+              path="/postjob/:id"
+              element={
+                userRole === "employer" && authenticated ? (
+                  <PostJob />
+                ) : (
+                  <NotFound />
+                )
+              }
+            />
+            <Route
+              exact
+              path="/edit"
+              element={
+                userRole === "employer" && authenticated ? (
+                  <EditEmployer employerData={employer} />
+                ) : (
+                  <NotFound />
+                )
+              }
+            />
+            <Route
+              exact
+              path="/jobview/:id"
+              element={
+                userRole === "employer" && authenticated ? (
+                  <JobView />
+                ) : (
+                  <NotFound />
+                )
+              }
+            />
 
-          <Route
-            exact
-            path="/applicant/:id"
-            element={
-              isLoading ? (
-                <Loader />
-              ) : userRole === "employer" && authenticated ? (
-                <ViewApplicant employerid={employer} />
-              ) : (
-                <NotFound />
-              )
-            }
-          />
+            <Route
+              exact
+              path="/applicant/:id"
+              element={
+                isLoading ? (
+                  <Loader />
+                ) : userRole === "employer" && authenticated ? (
+                  <ViewApplicant employerid={employer} />
+                ) : (
+                  <NotFound />
+                )
+              }
+            />
 
-          {/* ---------------------------------------------------------------------------------------------------- */}
-          {/* ----------------------------------  Other routes ------------------------------------------------------- */}
-          <Route
-            path="/chat/:chatId"
-            element={
-              isLoading ? (
-                <div>Loading...</div>
-              ) : (
-                <ChatApp
-                  loggedInUser={userRole === "employee" ? employee : employer}
-                  userRole={userRole}
-                />
-              )
-            }
-          />
-          {/* <Route path="/matches/:id" element={<ListOfMatches />} /> */}
-          <Route
-            path="/messages"
-            element={
-              windowWidth > 768 ? (
-                <NotFound />
-              ) : isLoading ? (
-                <div>Loading...</div>
-              ) : (
-                <MessageRoute
-                  userRole={userRole}
-                  employee={employee}
-                  employer={employer}
-                />
-              )
-            }
-          />
+            {/* ---------------------------------------------------------------------------------------------------- */}
+            {/* ----------------------------------  Other routes ------------------------------------------------------- */}
+            <Route
+              path="/chat/:chatId"
+              element={
+                isLoading ? (
+                  <div>Loading...</div>
+                ) : (
+                  <ChatApp
+                    loggedInUser={userRole === "employee" ? employee : employer}
+                    userRole={userRole}
+                  />
+                )
+              }
+            />
+            {/* <Route path="/matches/:id" element={<ListOfMatches />} /> */}
+            <Route
+              path="/messages"
+              element={
+                windowWidth > 768 ? (
+                  <NotFound />
+                ) : isLoading ? (
+                  <div>Loading...</div>
+                ) : (
+                  <MessageRoute
+                    userRole={userRole}
+                    employee={employee}
+                    employer={employer}
+                  />
+                )
+              }
+            />
 
-          <Route
-            path="*"
-            element={
-              authenticated ? (
-                userRole === "employee" ? (
-                  isLoading ? (
+            <Route
+              path="*"
+              element={
+                authenticated ? (
+                  userRole === "employee" ? (
+                    isLoading ? (
+                      <Loader />
+                    ) : (
+                      <UserHome userId={employee._id} />
+                    )
+                  ) : isLoading ? (
                     <Loader />
                   ) : (
-                    <UserHome userId={employee._id} />
+                    <EmployerHome creatorId={employer._id} />
                   )
-                ) : isLoading ? (
-                  <Loader />
+                ) : navigator.onLine ? (
+                  <NotFound />
                 ) : (
-                  <EmployerHome creatorId={employer._id} />
+                  <OfflinePage />
                 )
-              ) : navigator.onLine ? (
-                <NotFound />
-              ) : (
-                <OfflinePage />
-              )
-            }
-          />
-        </Routes>
-      </ScrollToTop>
-      {!authenticated ? null : windowWidth > 756 ? null : (
-        <div style={{ clear: "both", height: "90px" }}></div>
-      )}
+              }
+            />
+          </Routes>
+        </ScrollToTop>
+        {!authenticated ? null : windowWidth > 756 ? null : (
+          <div style={{ clear: "both", height: "90px" }}></div>
+        )}
 
-      {authenticated && !hideFooter && windowWidth < 756 ? (
-        <Footer userRole={userRole} />
-      ) : null}
+        {authenticated && !hideFooter && windowWidth < 768 ? (
+          <Footer userRole={userRole} />
+        ) : null}
+      </div>
     </div>
   );
 }

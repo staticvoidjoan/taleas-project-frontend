@@ -4,7 +4,7 @@ import "./privacy.css";
 import { useTranslation } from "react-i18next";
 
 const Privacy = (props) => {
-  const { t } = useTranslation(["privacy"]);
+  const { t } = useTranslation(["Translate"]);
   return (
     <>
       <div className="terms-container">
