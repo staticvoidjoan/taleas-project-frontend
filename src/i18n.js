@@ -14,7 +14,8 @@ i18n
     debug: false,
     ns: [
       "aboutus",
-      "Translate"
+      "Translate",
+      "privacy"
     ],
     fallbackLng: "en",
     interpolation: {
