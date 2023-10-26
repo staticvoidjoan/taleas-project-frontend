@@ -5,21 +5,23 @@ import { Link } from "react-router-dom";
 import About1 from "../../assets/images/aboutus1.svg";
 import About2 from "../../assets/images/about2.svg";
 import About3 from "../../assets/images/about3.svg";
+import { useTranslation } from "react-i18next";
 
 const About = (props) => {
+  const { t } = useTranslation(["aboutus"]);
   return (
     <>
       <div className="about-container">
         <div className="welcome-about">
           <Text
-            label={"Welcome to Career"}
+            label={t("about.header")}
             weight={"bold"}
             lineheight={"lnormal"}
             size={"s24"}
             color={"black"}
           />
           <Text
-            label={"Crush"}
+            label={t("about.header2")}
             weight={"bold"}
             lineheight={"lnormal"}
             size={"s24"}
@@ -28,9 +30,7 @@ const About = (props) => {
         </div>
         <div className="welcome-text">
           <Text
-            label={
-              "At CareerCrush, we've created a platform that connects companies and workers, simplifying the job searching and hiring process. Our mission is to make it easier for employers to find the right candidates and for job seekers to discover exciting employment opportunities."
-            }
+            label={t("about.welcome_text")}
             weight={"thin"}
             lineheight={"lnormal"}
             size={"s18"}
@@ -50,16 +50,15 @@ const About = (props) => {
         <div className="vision-content">
           <div className="vision-text">
             <Text
-              label={"Our Vision"}
+              label={t("about.vision_head")}
               weight={"bold"}
               lineheight={"lnormal"}
               size={"s24"}
               color={"purple"}
             />
+            {""}
             <Text
-              label={
-                "We believe that the world of work should be more transparent, efficient, and user-friendly. That's why we've built CareerCrush to provide a seamless experience for both companies and workers."
-              }
+              label={t("about.vision_text")}
               weight={"thin"}
               lineheight={"lnormal"}
               size={"s18"}
@@ -72,25 +71,21 @@ const About = (props) => {
         <div className="offer-content">
           <div className="offer-text">
             <Text
-              label={"What We Offer"}
+              label={t("about.offer_head")}
               weight={"bold"}
               lineheight={"lnormal"}
               size={"s24"}
               color={"purple"}
             />
             <Text
-              label={
-                "Our platform allows employers to post job listings, interact with potential candidates, and streamline the hiring process. You can see who's interested in your job postings and engage with them through our private chat feature."
-              }
+              label={t("about.offer_text")}
               weight={"thin"}
               lineheight={"lnormal"}
               size={"s18"}
               color={"lightgray"}
             />
             <Text
-              label={
-                "Job seekers can explore a wide range of job listings, express their interest through likes and connect with employers directly via private chat. We're here to help you find the perfect job match."
-              }
+              label={t("about.offer_text2")}
               weight={"thin"}
               lineheight={"lnormal"}
               size={"s18"}
@@ -103,14 +98,14 @@ const About = (props) => {
           <img src={About3} alt="" className="photo-contact" />
           <div className="contact-text">
             <Text
-              label={"ARE YOU READY FOR THE NEXT STEP ?"}
+              label={t("about.contact_head")}
               weight={"bold"}
               lineheight={"lnormal"}
               size={"s24"}
               color={"purple"}
             />{" "}
             <Text
-              label={"Contact us to guide you."}
+              label={t("about.contact_text")}
               weight={"thin"}
               lineheight={"lnormal"}
               size={"s18"}
@@ -120,7 +115,7 @@ const About = (props) => {
               <button className="btn-register-contact">
                 {" "}
                 <Text
-                  label={"Contact us"}
+                  label={t("about.contact_btn")}
                   weight={"thin"}
                   lineheight={"lnormal"}
                   size={"s18"}
