@@ -19,7 +19,7 @@ import { useTranslation } from "react-i18next";
 
 function RegistrationForm() {
   Amplify.configure(awsExports);
-  const { t } = useTranslation(["userSignUp"]);
+  const { t } = useTranslation(["Translate"]);
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState("employer");
   const [isSubmitting, setIsSubmitting] = useState(false);

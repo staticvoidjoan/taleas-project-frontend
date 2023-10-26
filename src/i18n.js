@@ -11,20 +11,10 @@ i18n
     backend: {
       loadPath: "/locales/i18n/{{ns}}/{{lng}}.json",
     },
-    //disable in production
     debug: false,
-    //can have multiple namespaces , in case  you want to devide a huge
-    // translation into smaller pieces  and load  them  on demand
     ns: [
-      "home",
       "aboutus",
-      "privacy",
-      "navbar",
-      "Translate",
-      "userSignUp",
-      "userSingIn",
-      "forgotPassword",
-      "confirmSignUp",
+      "Translate"
     ],
     fallbackLng: "en",
     interpolation: {

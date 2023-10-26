@@ -21,7 +21,7 @@ const Navbar2 = ({
 
   const [imageUrl, setImageUrl] = useState("");
 
-  const { i18n, t } = useTranslation(["navbar"]);
+  const { i18n, t } = useTranslation(["Translate"]);
   useEffect(() => {
     if (localStorage.getItem("i18nextLng")?.length > 2) {
       i18next.changeLanguage("en");
@@ -72,14 +72,14 @@ const Navbar2 = ({
         <div className="navbar">
           <div className="app-name" onClick={goHome}>
             <Text
-              label={t("app-name.part1")}
+              label={"Career"}
               weight={"medium800"}
               lineheight={"l24"}
               size={"s20"}
               color={isWhiteTextRoute ? "white" : "black"}
             />
             <Text
-              label={t("app-name.part2")}
+              label={"Crush"}
               weight={"medium800"}
               lineheight={"l24"}
               size={"s20"}

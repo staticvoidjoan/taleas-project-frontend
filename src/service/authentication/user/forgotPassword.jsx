@@ -9,7 +9,7 @@ import Text from "../../../components/text/text";
 import ForgotPsw from "../../../assets/icons/Forgot Password.svg";
 import { useTranslation } from "react-i18next";
 const ForgotPassword = () => {
-  const { t } = useTranslation(["forgotPassword"]);
+  const { t } = useTranslation(["Translate"]);
   Amplify.configure(awsExports);
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);

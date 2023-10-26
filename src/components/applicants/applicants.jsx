@@ -6,9 +6,6 @@ import { useNavigate } from "react-router-dom";
 const Applicants = ({userid, postId, name, lastname, role, profilePhoto }) => {
   const navigate = useNavigate();
 
-
- 
-
   const viewApplicant = () =>{
     navigate(`/applicant/${userid}`)
   }

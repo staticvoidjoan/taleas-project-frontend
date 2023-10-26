@@ -20,7 +20,7 @@ const ConfirmSignup = ({
   const [isButtonDisabled, setButtonDisabled] = useState(false); // Add state to disable the button
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { t } = useTranslation(["confirmSignUp"]);
+  const { t } = useTranslation(["Translate"]);
 
   async function confirmSignUp(e) {
     e.preventDefault();

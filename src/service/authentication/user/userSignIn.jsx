@@ -12,7 +12,7 @@ import Login from "../../../assets/icons/LogIn.svg";
 import notShow from "../../../assets/icons/eye-slash-regular.svg";
 import { useTranslation } from "react-i18next";
 const LoginPage = () => {
-  const { t } = useTranslation(["userSignIn"]);
+  const { t } = useTranslation(["Translate"]);
   Amplify.configure(awsExports);
   const [selectedCategory, setSelectedCategory] = useState("employer");
   const [username, setUsername] = useState("");
