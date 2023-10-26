@@ -315,14 +315,11 @@ function App() {
         //Test
       )}
       <div
-        className={ authenticated ? (
-            hideSidebar
-            ? ""
-            : "abc two-column-layout") : ""
-        }
+        className={ authenticated ? "abc two-column-layout" : ""
+}
       >
         {location.pathname.startsWith("/profile") ||
-          location.pathname.startsWith("/viewjobpost") || location.pathname.startsWith("/") ? null : windowWidth > 756 ? (
+          location.pathname.startsWith("/viewjobpost") ? null : windowWidth > 756 ? (
           <Sidebar
             employeeData={employee}
             employerData={employer}
