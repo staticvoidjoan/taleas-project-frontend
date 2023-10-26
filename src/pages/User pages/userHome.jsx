@@ -187,7 +187,7 @@ const UserHome = ({ userId, employee }) => {
 
   return (
     <div className="main-content">
-      <div>
+
         <div className="button-row">
           <Tabs
             buttonName={t("category1")}
@@ -247,7 +247,6 @@ const UserHome = ({ userId, employee }) => {
           </div>
         )}
       </div>
-    </div>
   );
 };
 
