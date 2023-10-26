@@ -1,0 +1,10 @@
+{
+  "menu": {
+    "home": "Home",
+    "about": "About Us",
+    "contact": "Contact Us",
+    "terms": "Terms and Conditions",
+    "reg_btn": "Register",
+    "log_btn": "Login"
+  }
+}

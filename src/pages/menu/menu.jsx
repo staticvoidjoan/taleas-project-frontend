@@ -3,7 +3,9 @@ import "./menu.css";
 import { Link, useNavigate } from "react-router-dom";
 import Text from "../../components/text/text";
 import Animate from "../../animateTransition/AnimateY";
+import { useTranslation } from "react-i18next";
 const Menu = (props) => {
+  const { t } = useTranslation(["menu"]);
   return (
     <Animate>
       <div style={{ clear: "both", height: "70px" }}></div>
@@ -14,7 +16,7 @@ const Menu = (props) => {
             <Link to={"/"}>
               <li>
                 <Text
-                  label={"Home"}
+                  label={t("menu.home")}
                   weight={"thin"}
                   lineheight={"lnormal"}
                   size={"s18"}
@@ -26,7 +28,7 @@ const Menu = (props) => {
             <li>
               <Link to={"/aboutus"}>
                 <Text
-                  label={"About Us"}
+                  label={t("menu.about")}
                   weight={"thin"}
                   lineheight={"lnormal"}
                   size={"s18"}
@@ -39,7 +41,7 @@ const Menu = (props) => {
               <li>
                 {" "}
                 <Text
-                  label={"Contacts"}
+                  label={t("menu.contact")}
                   weight={"thin"}
                   lineheight={"lnormal"}
                   size={"s18"}
@@ -52,7 +54,7 @@ const Menu = (props) => {
               <li>
                 {" "}
                 <Text
-                  label={"Terms & Conditions"}
+                  label={t("menu.terms")}
                   weight={"thin"}
                   lineheight={"lnormal"}
                   size={"s18"}
@@ -68,7 +70,7 @@ const Menu = (props) => {
             {" "}
             <button className="btn-register-menu">
               <Text
-                label={"Register"}
+                label={t("menu.reg_btn")}
                 weight={"thin"}
                 lineheight={"lnormal"}
                 size={"s16"}
@@ -93,7 +95,7 @@ const Menu = (props) => {
             <button className="btn-login-menu">
               {" "}
               <Text
-                label={"Login"}
+                label={t("menu.log_btn")}
                 weight={"thin"}
                 lineheight={"lnormal"}
                 size={"s16"}
