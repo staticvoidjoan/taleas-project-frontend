@@ -209,6 +209,9 @@ const EmployerProfile = ({ employerData, employeeCheck }) => {
                 </div>
               </div>
             </div>
+            <div className="edit-profile-web" onClick={gotoedit}>
+              <button className="edit-profile-web-button">Edit Profile</button>
+            </div>
           </div>
           <SignOut />
         </div>

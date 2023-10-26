@@ -225,19 +225,6 @@ function App() {
     "/resendSignUp",
   ];
   const hideFooter = pathsToHideFooter.includes(location.pathname);
-  const hideSidebar = [
-    location.pathname.startsWith("/signup") ||
-      location.pathname.startsWith("/signin") ||
-      location.pathname.startsWith("/userInfo") ||
-      location.pathname.startsWith("/passwordreset") ||
-      location.pathname.startsWith("/completeprofile") ||
-      location.pathname.startsWith("/resendSignUp") ||
-      location.pathname.startsWith("/profile") ||
-      location.pathname.startsWith("/viewjobpost") ||
-      location.pathname.startsWith("/passwordreset") ||
-      location.pathname.startsWith("/menu") ||
-      location.pathname.startsWith("/contact"),
-  ];
   const hideComplete =
     location.pathname.startsWith("/completeprofile") ||
     location.pathname.startsWith("/edit");
@@ -252,25 +239,6 @@ function App() {
 
   return (
     <div className="App">
-      {/* <div style={{ marginTop: "150px" }}>
-        <ul>
-          {Object.keys(locales).map((locale) => (
-            <li key={locale}>
-              <button
-                style={{
-                  fontWeight:
-                    i18n.resolvedLanguage === locale ? "bold" : "normal",
-                }}
-                type="submit"
-                onClick={() => i18n.changeLanguage(locale)}
-              >
-                {locales[locale].tittle}
-              </button>
-            </li>
-          ))}
-        </ul>
-        <h1 style={{ marginTop: "150px" }}>{t("main.header")}</h1>
-      </div> */}
       {hideComplete ? null : isLoading ? (
         <>
           <NavBar
@@ -319,7 +287,9 @@ function App() {
           location.pathname.startsWith("/profile") ||
           location.pathname.startsWith("/viewjobpost") ||
           location.pathname.startsWith("/postjob") ||
-          location.pathname.startsWith("/jobview")
+          location.pathname.startsWith("/jobview") ||
+          location.pathname.startsWith("/edit")  ||
+          location.pathname.startsWith("/completeprofile")
             ? null
             : "abc two-column-layout"
         }
@@ -328,7 +298,9 @@ function App() {
           location.pathname.startsWith("/profile") ||
           location.pathname.startsWith("/viewjobpost") ||
           location.pathname.startsWith("/postjob") ||
-          location.pathname.startsWith("/jobview") ? null : windowWidth >
+          location.pathname.startsWith("/jobview") || 
+          location.pathname.startsWith("/edit") ||
+          location.pathname.startsWith("/completeprofile") ? null : windowWidth >
             768 ? (
             <Sidebar
               employeeData={employee}

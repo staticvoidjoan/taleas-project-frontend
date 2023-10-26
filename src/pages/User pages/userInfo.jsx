@@ -94,6 +94,9 @@ const UserInfo = ({ userId }) => {
     ) : (
         <Animate>
           <div className="userInfo-container">
+            <div className="edit-profile-web" onClick={editNav}>
+              <button className="edit-profile-web-button">Edit Profile</button>
+            </div>
             <div className="user-image">
               <div className="user-photo" style={cardStyle}>
                 <div className="gradient-overlay"></div>

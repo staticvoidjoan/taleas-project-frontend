@@ -8,6 +8,8 @@
   "links": "Linqe per projekte",
   "languages": "Gjuhet",
 
+  
+  "addJob" : "Posto pune",
   "myJobs": "Postimet e mia",
   "jobDescription": "Pershkrimi i punes",
   "postedOn": "Postuar ne: ",
@@ -44,7 +46,7 @@
   },
 
   "user-login": {
-    "header": "Lidhni endrrat me talentin",
+    "header": "Connecting Dreams with Talent",
     "subHead": "Find Your Dream Job, Find Your Employees!",
     "password": "Fjalkalimi",
     "forgot_password": "Keni harruar fjalekalimin?",

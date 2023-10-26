@@ -24,9 +24,6 @@ import { set } from "date-fns";
 import Spinner from "../Loader/spinner";
 
 function ListOfMatches({ employer }) {
-  if (!employer) {
-    return <div>Employer data is not available.</div>;
-  }
   const creatorId = employer._id;
   console.log(employer._id);
   const [acceptedApplicants, setAcceptedApplicants] = useState([]);

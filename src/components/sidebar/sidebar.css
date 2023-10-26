@@ -6,10 +6,9 @@
     padding: 20px;
     display: flex;
     flex-direction: column;
-    gap: 20px; 
     justify-content: space-between;
-    max-height: 100vh; /* Set a maximum height */
     overflow-y: hidden;
+    height: 100vh;
   }
 
 
