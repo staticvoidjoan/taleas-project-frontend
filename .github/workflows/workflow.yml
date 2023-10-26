@@ -23,13 +23,15 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+
       - name: Test Applicant (Will test more later)
         run: npm test
+
       - name: Build
         run: npm run build
+
       # Upload to S3 if the "build" directory exists
       - name: Upload to S3
-        if: ${{ success() }}
         uses: jakejarvis/s3-sync-action@master
         with:
           args: --acl public-read --follow-symlinks --delete
@@ -44,16 +46,18 @@ jobs:
       - name: Invalidate CloudFront
         uses: chetan/invalidate-cloudfront-action@v2
         env:
-          DISTRIBUTION: ${{ secrets.DISTRIBUTION }}
+          DISTRIBUTION: ${{ secrets.DISTRIBUTATION }}
           PATHS: "/*"
           AWS_REGION: "eu-west-3"
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
+      # Notify Slack Channel on both success and failure
       - name: Notify Slack Channel
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_ICON: https://lh3.googleusercontent.com/MA_1MIjGTMjmLolDEWGQqR-vy-oSNamjeMR3LTLRcmL13KSiKYgRoP3G6NUjnMZDdvbc3ULBs-VWnIrWLHM4T71Q3Kw6sw_Nie_J=h200-rw
           SLACK_USERNAME: Joan's Mighty Frontend Deployment Bot
-          SLACK_TITLE: Building and uploading project (+Clearing Cache)
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_COLOR: ${{ job.status }}
+        if: always() 
