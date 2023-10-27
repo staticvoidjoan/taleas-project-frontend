@@ -85,6 +85,7 @@ const ConfirmSignup = ({
               "https://userprofilephotobucket.s3.eu-west-3.amazonaws.com/folder/1696198483421.jpg",
             address: address,
             industry: industry,
+            description: ""
           }
         );
       }

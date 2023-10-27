@@ -201,6 +201,22 @@
 .link-tab{
     text-decoration: none;
 }
+.edit-profile-web{
+    display: none;
+}
+.edit-profile-web-button{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-right: 10px;
+    height: 27px;
+    flex-shrink: 0;
+    border-radius: 24px;
+    border: 1px solid #222222;
+    padding: 8px;
+    
+}
 
 @media (min-width: 768px){
     .user-photo{
@@ -215,5 +231,13 @@
     margin-top: 40px;
     padding: 40px;
     width: calc(100% - 280px);
+    }
+    .edit-profile{
+        display: none;
+    }
+    .edit-profile-web{
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 10px;
     }
 }

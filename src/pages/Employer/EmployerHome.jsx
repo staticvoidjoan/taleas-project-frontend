@@ -13,7 +13,7 @@ import Sidebar from "../../components/sidebar/sidebar";
 import EmploterWebLoader from "../../components/Loader/EmployerWebLoader";
 import ContentLoader from "react-content-loader";
 import EmployerWebLoaderL from "../../components/Loader/EmployerWebLoaderL";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 
 const EmployerHome = ({ creatorId, employer }) => {
   const navigate = useNavigate();
@@ -23,13 +23,13 @@ const EmployerHome = ({ creatorId, employer }) => {
   const [totalPages, setTotalPages] = useState(10);
   const [loading, setLoading] = useState(false); // Track loading state
 
-  const {t}= useTranslation(["Translate"]);
+  const { t } = useTranslation(["Translate"]);
 
   // Define the getAllPosts function
   const getAllPosts = async () => {
-    let limit = 4
-    if (window.innerWidth >= 1200){
-      limit = 8
+    let limit = 4;
+    if (window.innerWidth >= 1200) {
+      limit = 8;
     }
     try {
       setLoading(true); // Set loading to true while fetching data
@@ -105,14 +105,7 @@ const EmployerHome = ({ creatorId, employer }) => {
 
   return (
     <Animate>
-      <div className="two-column-layout empl-home">
-        {isSidebarVisible && (
-          <Sidebar
-            className="sidebar"
-            userRole="employer"
-            employer={employer}
-          />
-        )}
+      <div className="empl-home">
         {isSidebarVisible ? null : (
           <div>
             <div className="add-job-btn-container">

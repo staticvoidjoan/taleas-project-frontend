@@ -21,16 +21,15 @@
 
 .lan-men {
   display: flex;
-  width: 150px;
   align-items: center;
   justify-content: space-between;
+  gap: 10px;
 }
 
 .language-dropdown select {
   border: none;
   background-color: none;
   background: none;
-  /* Additional styles if needed */
 }
 
 .app-name {

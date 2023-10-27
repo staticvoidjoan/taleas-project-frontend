@@ -23,7 +23,7 @@
   }
   
 
-@media screen and (min-width: 800px) {
+@media (min-width: 768px) {
 
     .main{
       margin-bottom: 100px;
@@ -37,9 +37,10 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        height: 100%;
-        padding: 10px 140px 10px 140px;
-        
+        max-height: 82vh;
+        margin-left: 50px;
+      margin-right: 50px;
+
     }
   
 }

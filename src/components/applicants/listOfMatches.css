@@ -88,6 +88,19 @@
   z-index: 1;
 }
 
+@media (min-width: 768px){
+  .info{
+    display: none;
+  }
+  
+}
+@media (min-width: 1000px){
+  .info{
+    display: flex;
+  }
+  
+}
+
 @media (min-width: 1200px){
   .chat-container {
     display: flex;

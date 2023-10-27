@@ -6,11 +6,12 @@
     padding: 20px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    height: 100vh;
-    overflow-y: hidden; 
     justify-content: space-between;
+    overflow-y: hidden;
+    height: 100vh;
   }
+
+
 .sidebar-info{
     display: flex;
     flex-direction: row;

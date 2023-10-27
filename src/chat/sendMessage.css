@@ -41,8 +41,7 @@
 @media (min-width: 768px){
   .sendMessage-form{
     bottom: 0px;
-    margin-left: 140px;
-    margin-right: 140px;
+    left: 245px;
   }
 }
 

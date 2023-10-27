@@ -5,7 +5,7 @@ import Text from "../../components/text/text";
 import Animate from "../../animateTransition/AnimateY";
 import { useTranslation } from "react-i18next";
 const Menu = (props) => {
-  const { t } = useTranslation(["menu"]);
+  const { t } = useTranslation(["Translate"]);
   return (
     <Animate>
       <div style={{ clear: "both", height: "70px" }}></div>

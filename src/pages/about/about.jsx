@@ -8,7 +8,7 @@ import About3 from "../../assets/images/about3.svg";
 import { useTranslation } from "react-i18next";
 
 const About = (props) => {
-  const { t } = useTranslation(["aboutus"]);
+  const { t } = useTranslation(["Translate"]);
   return (
     <>
       <div className="about-container">

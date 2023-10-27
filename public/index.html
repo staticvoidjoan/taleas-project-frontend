@@ -21,6 +21,11 @@
           console.log("😥 Service worker registration failed: ", err);
         }
       }
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.ready.then(function (registration) {
+          return registration.sync.register("sync-put-requests");
+        });
+      }
     </script>
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -42,6 +47,5 @@
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-    <scripts src="../src/App.js" />
   </body>
 </html>
