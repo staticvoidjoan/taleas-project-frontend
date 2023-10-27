@@ -29,11 +29,10 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <React.StrictMode>
-    <Suspense fallback={"Loading..."}>
+    <Suspense fallback={null}>
       <Router>
         <App />
       </Router>
     </Suspense>
   </React.StrictMode>
 );
-
