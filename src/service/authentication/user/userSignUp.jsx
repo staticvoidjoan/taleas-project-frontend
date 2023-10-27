@@ -211,9 +211,38 @@ function RegistrationForm() {
 
   return (
     <div className="user-register-page">
-      {window.innerWidth > 901 && (
-        <img src={LoginPhoto} alt="Contact" className="login-photo-page" />
-      )}
+      <div style={{ marginTop: "100px" }}>
+        {window.innerWidth > 901 && (
+          <>
+            <div className="user-register-title">
+              <div style={{ marginBottom: "16px" }}>
+                <Text
+                  label={t("user-register.header")}
+                  size={"s20"}
+                  weight={"medium700"}
+                  color={"white"}
+                />
+              </div>
+              <Text
+                label={
+                  selectedCategory === "employee"
+                    ? t("user-register.subEmployee")
+                    : t("user-register.subEmployer")
+                }
+                size={"s16"}
+                weight={"regular"}
+                color={"white"}
+              />
+            </div>
+            <img
+              src={LoginPhoto}
+              alt="Contact"
+              className="register-photo-page"
+            />
+          </>
+        )}
+      </div>
+
       <div className="forms-users">
         {" "}
         {!registrationSuccess ? (
@@ -291,7 +320,7 @@ function RegistrationForm() {
                       id="outlined-basic"
                       variant="outlined"
                       type="date"
-                      name={t("user-register.birthday")}
+                      name="birthday"
                       value={formData.birthday}
                       onChange={handleInputChange}
                       className="register-input"
@@ -319,9 +348,9 @@ function RegistrationForm() {
                       }}
                     >
                       {showPassword ? (
-                        <img src={notShow} />
-                      ) : (
                         <img src={show} />
+                      ) : (
+                        <img src={notShow} />
                       )}
                     </div>
                   </div>
@@ -454,7 +483,7 @@ function RegistrationForm() {
                       required
                     />
                     <div
-                      onClick={handleShowPassword}
+                      onClick={togglePassword}
                       style={{
                         width: "20px",
                         position: "inherit",
@@ -463,9 +492,9 @@ function RegistrationForm() {
                       }}
                     >
                       {showPasswordEmployer ? (
-                        <img src={notShow} />
-                      ) : (
                         <img src={show} />
+                      ) : (
+                        <img src={notShow} />
                       )}
                     </div>
                   </div>
@@ -529,27 +558,29 @@ function RegistrationForm() {
             <div style={{ clear: "both", height: "90px" }}></div>
           </>
         )}
-        <div className="user-register-title">
-          <div style={{ marginBottom: "16px" }}>
+        {window.innerWidth < 901 && (
+          <div className="user-register-title">
+            <div style={{ marginBottom: "16px" }}>
+              <Text
+                label={t("user-register.header")}
+                size={"s20"}
+                weight={"medium700"}
+                color={"white"}
+              />
+            </div>
             <Text
-              label={t("user-register.header")}
-              size={"s20"}
-              weight={"medium700"}
+              label={
+                selectedCategory === "employee"
+                  ? t("user-register.subEmployee")
+                  : t("user-register.subEmployer")
+              }
+              size={"s16"}
+              weight={"regular"}
               color={"white"}
             />
           </div>
-          <Text
-            label={
-              selectedCategory === "employee"
-                ? t("user-register.subEmployee")
-                : t("user-register.subEmployer")
-            }
-            size={"s16"}
-            weight={"regular"}
-            color={"white"}
-          />
-        </div>
-        <div style={{ clear: "both", height: "50px" }}></div>
+        )}
+        <div style={{ clear: "both", height: "150px" }}></div>
       </div>
     </div>
   );

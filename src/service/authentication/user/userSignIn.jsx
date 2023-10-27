@@ -91,27 +91,50 @@ const LoginPage = () => {
     <div className="user-register-page-login">
       <div>
         {window.innerWidth > 901 && (
-          <img src={Login} alt="Contact" className="login-photo-page" />
+          <>
+            <div className="user-register-title">
+              <div style={{ marginBottom: "16px" }}>
+                <Text
+                  label={t("user-login.header")}
+                  size={"s18"}
+                  weight={"medium700"}
+                  color={"white"}
+                />
+              </div>
+              <Text
+                label={t("user-login.subHead")}
+                size={"s14"}
+                weight={"regular"}
+                color={"white"}
+              />
+            </div>
+            <img src={Login} alt="Contact" className="login-photo-page" />
+          </>
         )}
       </div>
 
       <div className="users-forms">
-        <div className="user-register-title">
-          <div style={{ marginBottom: "16px" }}>
-            <Text
-              label={t("user-login.header")}
-              size={"s18"}
-              weight={"medium700"}
-              color={"white"}
-            />
-          </div>
-          <Text
-            label={t("user-login.subHead")}
-            size={"s14"}
-            weight={"regular"}
-            color={"white"}
-          />
-        </div>
+        {window.innerWidth < 900 && (
+          <>
+            <div className="user-register-title">
+              <div style={{ marginBottom: "16px" }}>
+                <Text
+                  label={t("user-login.header")}
+                  size={"s18"}
+                  weight={"medium700"}
+                  color={"white"}
+                />
+              </div>
+              <Text
+                label={t("user-login.subHead")}
+                size={"s14"}
+                weight={"regular"}
+                color={"white"}
+              />
+            </div>
+          </>
+        )}
+
         <div className="form-box-register-login">
           <div className="form-category">
             <div
@@ -161,7 +184,7 @@ const LoginPage = () => {
                   left: "-16px",
                 }}
               >
-                {showPassword ? <img src={notShow} /> : <img src={show} />}
+                {showPassword ? <img src={show} /> : <img src={notShow} />}
               </div>
             </div>
             <div className="forgot-password">
