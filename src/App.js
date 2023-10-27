@@ -77,7 +77,7 @@ function App() {
   const location = useLocation();
 
   // const { t, i18n } = useTranslation();
-
+  
   // Configure Amplify
   Amplify.configure(awsExports);
 
