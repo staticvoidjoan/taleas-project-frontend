@@ -40,66 +40,6 @@ function openIDBDatabase() {
   });
 }
 
-
-// Function to save a PUT request in IndexedDB
-function savePutRequest(request) {
-  // Clone the request to ensure it's safe to read when adding to the Queue.
-  var clonedRequest = request.clone();
-  return clonedRequest.text().then(function(body) {
-    openIDBDatabase().then(function(db) {
-      var transaction = db.transaction([IDB_STORE_NAME], 'readwrite');
-      var objectStore = transaction.objectStore(IDB_STORE_NAME);
-
-      objectStore.add({
-        method: 'PUT',
-        url: request.url,
-        body: body,
-        headers: Array.from(clonedRequest.headers.entries()),
-        timestamp: Date.now()
-      });
-    });
-  });
-}
-
-// Function to replay PUT requests
-function replayPutRequests() {
-  openIDBDatabase().then(function(db) {
-    var transaction = db.transaction([IDB_STORE_NAME], 'readwrite');
-    var objectStore = transaction.objectStore(IDB_STORE_NAME);
-
-    var cursorRequest = objectStore.openCursor();
-    cursorRequest.onsuccess = function(event) {
-      var cursor = event.target.result;
-      if (cursor) {
-        var storedRequest = cursor.value;
-        if (storedRequest.method === 'PUT') {
-          // Skip PUT requests for now
-          cursor.delete();
-        } else {
-          var queueTime = Date.now() - storedRequest.timestamp;
-          if (queueTime > STOP_RETRYING_AFTER) {
-            cursor.delete();
-            console.log('PUT request skipped: Request has been queued for %d milliseconds.', queueTime);
-          } else {
-            var requestUrl = storedRequest.url + '&qt=' + queueTime;
-            console.log('Replaying', requestUrl);
-
-            fetch(requestUrl).then(function(response) {
-              if (response.status < 400) {
-                cursor.delete();
-                console.log('Replaying succeeded.');
-              }
-            }).catch(function(error) {
-              console.error('Replaying failed:', error);
-            });
-          }
-        }
-        cursor.continue();
-      }
-    };
-  });
-}
-
 self.addEventListener('sync', function(event) {
   if (event.tag === 'sync-put-requests') {
     event.waitUntil(replayPutRequests());
@@ -118,30 +58,44 @@ self.addEventListener('fetch', function(event) {
         }
 
         console.log('No response for %s found in cache. About to fetch from the network...', event.request.url);
+        if (event.request.method === 'PUT' && navigator.onLine) {
+          console.log('inside if')
+          // If the user is online, fetch the PUT request directly
+          return fetch(event.request.clone())
+            .then(function(response) {
+              console.log('Response for %s from the network is: %O', event.request.url, response);
 
-        if (event.request.method === 'PUT') {
-          console.log('Storing PUT request in IndexedDB to be replayed later.');
-          savePutRequest(event.request);
-        }
+              if (response.status < 400) {
+                cache.put(event.request, response.clone());
+              } else if (response.status >= 500) {
+                checkForAnalyticsRequest(event.request.url);
+              }
 
-        return fetch(event.request.clone()).then(function(response) {
-          console.log('Response for %s from the network is: %O', event.request.url, response);
-
-          if (response.status < 400) {
-            cache.put(event.request, response.clone());
-          } else if (response.status >= 500) {
-            checkForAnalyticsRequest(event.request.url);
+              return response;
+            })
+            .catch(function(error) {
+              console.error('Fetch failed:', error);
+              // Log the error and handle it gracefully.
+              // You can consider retrying the request or showing an error message to the user.
+            });
+        } else {
+          // If the user is offline or it's a PUT request, store it in IndexedDB for later replay
+          if (event.request.method === 'PUT') {
+            console.log(' iam here ')
+            console.log('Storing PUT request in IndexedDB to be replayed later.');
+            savePutRequest(event.request);
           }
 
-          return response;
-        }).catch(function(error) {
-          console.error('Fetch failed:', error);
-        });
+          // Return a response indicating that the request has been stored for later replay
+          return new Response(null, {
+            status: 202,
+            statusText: 'Accepted'
+          });
+        }
       });
     })
   );
 });
-
 
 // Function to save a PUT request in IndexedDB
 function savePutRequest(request) {
