@@ -8,34 +8,24 @@ var IDB_STORE_NAME = 'put-requests'; // Name of the object store for PUT request
 var STOP_RETRYING_AFTER = 86400000; // One day, in milliseconds
 
 // Function to open the IndexedDB database
-// Function to open the IndexedDB database
 function openIDBDatabase() {
   return new Promise(function(resolve, reject) {
-    // Delete the existing database
-    var deleteRequest = indexedDB.deleteDatabase(IDB_DATABASE_NAME);
+    // Open the database
+    var indexedDBOpenRequest = indexedDB.open(IDB_DATABASE_NAME, CACHE_VERSION);
 
-    deleteRequest.onerror = function(error) {
-      console.error('Failed to delete database:', error);
+    indexedDBOpenRequest.onerror = function(error) {
+      reject(error);
     };
 
-    deleteRequest.onsuccess = function() {
-      // Open the database
-      var indexedDBOpenRequest = indexedDB.open(IDB_DATABASE_NAME, CACHE_VERSION);
+    indexedDBOpenRequest.onupgradeneeded = function(event) {
+      var db = event.target.result;
+      if (!db.objectStoreNames.contains(IDB_STORE_NAME)) {
+        db.createObjectStore(IDB_STORE_NAME, { keyPath: 'id', autoIncrement: true });
+      }
+    };
 
-      indexedDBOpenRequest.onerror = function(error) {
-        reject(error);
-      };
-
-      indexedDBOpenRequest.onupgradeneeded = function(event) {
-        var db = event.target.result;
-        if (!db.objectStoreNames.contains(IDB_STORE_NAME)) {
-          db.createObjectStore(IDB_STORE_NAME, { keyPath: 'id', autoIncrement: true });
-        }
-      };
-
-      indexedDBOpenRequest.onsuccess = function(event) {
-        resolve(event.target.result);
-      };
+    indexedDBOpenRequest.onsuccess = function(event) {
+      resolve(event.target.result);
     };
   });
 }
@@ -51,48 +41,37 @@ self.addEventListener('fetch', function(event) {
 
   event.respondWith(
     caches.open(CURRENT_CACHES['offline-analytics']).then(function(cache) {
-      return cache.match(event.request).then(function(response) {
-        if (response) {
-          console.log('Found response in cache:', response);
-          return response;
-        }
-
-        console.log('No response for %s found in cache. About to fetch from the network...', event.request.url);
-        if (event.request.method === 'PUT' && navigator.onLine) {
-          console.log('inside if')
-          // If the user is online, fetch the PUT request directly
-          return fetch(event.request.clone())
-            .then(function(response) {
-              console.log('Response for %s from the network is: %O', event.request.url, response);
-
-              if (response.status < 400) {
-                cache.put(event.request, response.clone());
-              } else if (response.status >= 500) {
-                checkForAnalyticsRequest(event.request.url);
-              }
-
-              return response;
-            })
-            .catch(function(error) {
-              console.error('Fetch failed:', error);
-              // Log the error and handle it gracefully.
-              // You can consider retrying the request or showing an error message to the user.
-            });
-        } else {
-          // If the user is offline or it's a PUT request, store it in IndexedDB for later replay
-          if (event.request.method === 'PUT') {
-            console.log(' iam here ')
-            console.log('Storing PUT request in IndexedDB to be replayed later.');
-            savePutRequest(event.request);
-          }
+      if (navigator.onLine) {
+        // If the user is online, fetch directly from the network
+        return fetch(event.request.clone())
+          .then(function(response) {
+            console.log('Response for %s from the network is: %O', event.request.url, response);
+            if (response.status < 400) {
+              cache.put(event.request, response.clone());
+            }
+            return response;
+          })
+          .catch(function(error) {
+            console.error('Fetch failed:', error);
+            // Log the error and handle it gracefully.
+            // You can consider retrying the request or showing an error message to the user.
+          });
+      } else {
+        // If the user is offline, store PUT requests in IndexedDB for later replay
+        if (event.request.method === 'PUT') {
+          console.log('Storing PUT request in IndexedDB to be replayed later.');
+          savePutRequest(event.request);
 
           // Return a response indicating that the request has been stored for later replay
           return new Response(null, {
             status: 202,
             statusText: 'Accepted'
           });
+        } else {
+          // If not a PUT request and offline, try to serve from the cache
+          return cache.match(event.request);
         }
-      });
+      }
     })
   );
 });
@@ -105,80 +84,66 @@ function savePutRequest(request) {
     openIDBDatabase().then(function(db) {
       var transaction = db.transaction([IDB_STORE_NAME], 'readwrite');
       var objectStore = transaction.objectStore(IDB_STORE_NAME);
-
-      objectStore.add({
-        method: 'PUT',
+      var putRequest = objectStore.put({
         url: request.url,
+        method: request.method,
+        headers: Array.from(request.headers.entries()),
         body: body,
-        headers: Array.from(clonedRequest.headers.entries()),
         timestamp: Date.now()
       });
+
+      putRequest.onsuccess = function() {
+        console.log('PUT request saved in IndexedDB.');
+      };
+
+      putRequest.onerror = function(error) {
+        console.error('Failed to save PUT request in IndexedDB:', error);
+      };
     });
   });
 }
 
-
+// Function to replay PUT requests
 function replayPutRequests() {
-  openIDBDatabase().then(function(db) {
-    var transaction = db.transaction([IDB_STORE_NAME], 'readwrite');
+  return openIDBDatabase().then(function(db) {
+    var transaction = db.transaction([IDB_STORE_NAME], 'readonly');
     var objectStore = transaction.objectStore(IDB_STORE_NAME);
+    return objectStore.getAll();
+  }).then(function(storedRequests) {
+    var storedRequestPromises = storedRequests.map(function(storedRequest) {
+      var request = new Request(storedRequest.url, {
+        method: storedRequest.method,
+        headers: new Headers(storedRequest.headers),
+        body: storedRequest.body,
+        mode: 'no-cors'
+      });
 
-    var cursorRequest = objectStore.openCursor();
-    cursorRequest.onsuccess = function(event) {
-      var cursor = event.target.result;
-      if (cursor) {
-        var storedRequest = cursor.value;
-        if (storedRequest.method === 'PUT') {
-          // Skip PUT requests for now
-          cursor.delete();
-        } else {
-          var queueTime = Date.now() - storedRequest.timestamp;
-          if (queueTime > STOP_RETRYING_AFTER) {
-            cursor.delete();
-            console.log('PUT request skipped: Request has been queued for %d milliseconds.', queueTime);
-          } else {
-            var requestUrl = storedRequest.url + '&qt=' + queueTime;
-            console.log('Replaying', requestUrl);
+      console.log('Sending PUT request:', request); // Log when a request is being sent
 
-            fetch(requestUrl).then(function(response) {
-              if (response.status < 400) {
-                cursor.delete();
-                console.log('Replaying succeeded.');
-              }
-            }).catch(function(error) {
-              console.error('Replaying failed:', error);
-            });
-          }
+      return fetch(request).then(function(response) {
+        console.log('Received response for PUT request:', response); // Log when a response is received
+
+        if (response.status < 400) {
+          // If sending the PUT request was successful, then remove it from the IndexedDB.
+          openIDBDatabase().then(function(db) {
+            var transaction = db.transaction([IDB_STORE_NAME], 'readwrite');
+            var objectStore = transaction.objectStore(IDB_STORE_NAME);
+            objectStore.delete(storedRequest.id);
+          });
         }
-        cursor.continue();
-      }
-    };
-  });
-}
+      });
+    });
 
-function checkForAnalyticsRequest(requestUrl) {
-  var url = new URL(requestUrl);
-
-  if ((url.hostname === 'www.google-analytics.com' || url.hostname === 'ssl.google-analytics.com') && url.pathname === '/collect') {
-    saveAnalyticsRequest(requestUrl);
-  }
-}
-
-function saveAnalyticsRequest(requestUrl) {
-  openIDBDatabase().then(function(db) {
-    var transaction = db.transaction([IDB_STORE_NAME], 'readwrite');
-    var objectStore = transaction.objectStore(IDB_STORE_NAME);
-
-    objectStore.add({
-      method: 'ANALYTICS',
-      url: requestUrl,
-      timestamp: Date.now()
+    return Promise.all(storedRequestPromises).catch(function(error) {
+      console.error('Failed to send PUT:', error);
+      throw error;
     });
   });
 }
 
-
-
+self.addEventListener('online', function(event) {
+  self.registration.sync.register('sync-put-requests');
+});
 
 
 // var CACHE = {
