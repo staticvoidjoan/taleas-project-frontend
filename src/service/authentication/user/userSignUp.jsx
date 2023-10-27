@@ -211,7 +211,7 @@ function RegistrationForm() {
 
   return (
     <div className="user-register-page">
-      <div>
+      <div style={{ marginTop: "100px" }}>
         {window.innerWidth > 901 && (
           <>
             <div className="user-register-title">
@@ -234,7 +234,11 @@ function RegistrationForm() {
                 color={"white"}
               />
             </div>
-            <img src={LoginPhoto} alt="Contact" className="register-photo-page" />
+            <img
+              src={LoginPhoto}
+              alt="Contact"
+              className="register-photo-page"
+            />
           </>
         )}
       </div>
