@@ -320,7 +320,7 @@ function RegistrationForm() {
                       id="outlined-basic"
                       variant="outlined"
                       type="date"
-                      name={t("user-register.birthday")}
+                      name="birthday"
                       value={formData.birthday}
                       onChange={handleInputChange}
                       className="register-input"
