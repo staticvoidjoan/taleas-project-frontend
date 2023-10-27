@@ -204,7 +204,7 @@ const UserHome = ({ userId, employee }) => {
           ))}
         </div>
         {loading ? (
-          <div>
+          <div className="loader">
             <ContLoader />
           </div>
         ) : postlength === 0 ? (
