@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import UserInfoLoader from "../../components/Loader/UserInfoLoader";
 import Loader from "../../components/Loader/Loader";
 import {useTranslation} from "react-i18next";
+import { Button, Modal, Box, Typography, TextField } from "@mui/material";
 
 
 const UserInfo = ({ userId }) => {
@@ -31,6 +32,7 @@ const UserInfo = ({ userId }) => {
   const [languages, setLanguages] = useState([])
   const [loading, setLoading] = useState();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [reportReason, setReportReason] = useState("");
   
   const {t} = useTranslation(["Translate"])
 
@@ -75,9 +77,74 @@ const UserInfo = ({ userId }) => {
     }
   };
 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    console.log(company._id);
+    console.log(employeeid);
+    console.log(reportReason);
+    try {
+      const response = await axios.post(
+        "https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/report-something",
+        {
+          reportedBy: employeeid,
+          userBeingReported: company._id,
+          reportReason: reportReason,
+        }
+      );
+
+      console.log(response);
+      setOpen(false);
+      Swal.fire({
+        icon: "success",
+        title: "Report Submitted Successfully",
+        text: "Thank you for taking the time to report. Your contribution helps improve the community.",
+      });
+      setTimeout(() => {
+        navigate(`/`);
+        window.location.reload(true);
+      }, 1500);
+    } catch (error) {
+      setOpen(false);
+
+      console.log("error response", error.response?.data);
+
+      if (error.response && error.response.data) {
+        if (reportReason === "") {
+          Swal.fire({
+            icon: "error",
+            title: `You need a report reason!`,
+          });
+        } else if (
+          error.response.data.message ===
+          "You have already reported this employer"
+        ) {
+          Swal.fire({
+            icon: "info",
+            title: `You have already reported ${company.companyName}`,
+            text: "We have received your report and will investigate it accordingly. Thank you for helping maintain a safe environment.",
+          });
+        }
+      } else {
+        // Handle other unexpected errors
+        // Display a generic error message
+        console.error("An unexpected error occurred:", error);
+      }
+    }
+  };
+
   useEffect(() => {
     loadUser();
   }, []);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const [open, setOpen] = useState(false);
 
   const cardStyle = {
     backgroundImage: `url(${user.profilePhoto ?? unicorn})`,
@@ -93,6 +160,37 @@ const UserInfo = ({ userId }) => {
       )
     ) : (
         <Animate>
+          <div className="report-modal">
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box className="centered-modal">
+              <Typography id="modal-modal-title" variant="h6" component="h2">
+                <Text
+                  label={`Report ${user.name}`}
+                  size={"s18"}
+                  weight={"medium700"}
+                />
+              </Typography>
+              <form onSubmit={handleSubmit}>
+                <TextField
+                  label="Reason for the report"
+                  fullWidth
+                  style={{ marginBottom: "20px", marginTop: "20px" }}
+                  multiline
+                  rowsMax={4}
+                  value={reportReason}
+                  onChange={(e) => setReportReason(e.target.value)}
+                />
+
+                <Button type="submit">Submit</Button>
+              </form>
+            </Box>
+          </Modal>
+        </div>
           <div className="userInfo-container">
             <div className="edit-profile-web" onClick={editNav}>
               <button className="edit-profile-web-button">Edit Profile</button>
