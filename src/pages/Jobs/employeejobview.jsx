@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Text from "../../components/text/text";
 import "./employeejobview.css";
 import locationico from "../../assets/icons/location.svg";
@@ -16,6 +16,7 @@ const JobProfile = ({employeeid}) => {
   const [category, setCategory] = useState({});
   const [postDate, setPostDate] = useState("");
   const [reportReason, setReportReason] = useState("");
+  const navigate = useNavigate();
   const { id } = useParams();
   useEffect(() => {
     loadPost();
@@ -88,6 +89,10 @@ const JobProfile = ({employeeid}) => {
         title: "Report Submitted Successfully",
         text: "Thank you for taking the time to report. Your contribution helps improve the community.",
       });
+      setTimeout(() => {
+        navigate(`/`);
+        window.location.reload(true);
+      }, 1500);
     } catch (error) {
       setOpen(false);
 
