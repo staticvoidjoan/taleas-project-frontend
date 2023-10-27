@@ -84,6 +84,7 @@ body{
 
 
 
+
 @keyframes slideOutLeft {
   0% {
     transform: scale(1);
@@ -131,5 +132,4 @@ body{
     width: 55px;
     height: 55px;
    }
-
 }

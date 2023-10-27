@@ -25,5 +25,7 @@
     .careercrush-logo{
         width: 20%;
     }
-    
+    .loader-container{
+        height: 100vh;
+    }
 }

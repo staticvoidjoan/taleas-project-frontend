@@ -289,7 +289,8 @@ function App() {
           location.pathname.startsWith("/postjob") ||
           location.pathname.startsWith("/jobview") ||
           location.pathname.startsWith("/edit")  ||
-          location.pathname.startsWith("/completeprofile")
+          location.pathname.startsWith("/completeprofile")||
+          location.pathname.startsWith("/applicant")
             ? null
             : "abc two-column-layout"
         }
@@ -300,7 +301,8 @@ function App() {
           location.pathname.startsWith("/postjob") ||
           location.pathname.startsWith("/jobview") || 
           location.pathname.startsWith("/edit") ||
-          location.pathname.startsWith("/completeprofile") ? null : windowWidth >
+          location.pathname.startsWith("/completeprofile") ||
+          location.pathname.startsWith("/applicant") ? null : windowWidth >
             768 ? (
             <Sidebar
               employeeData={employee}
