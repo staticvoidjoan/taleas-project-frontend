@@ -21,7 +21,7 @@
 
 .lan-men {
   display: flex;
-  width: 70px;
+  width: 150px;
   align-items: center;
   justify-content: space-between;
 }

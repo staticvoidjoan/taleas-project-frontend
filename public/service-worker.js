@@ -23,14 +23,12 @@ self.addEventListener('install', (event) => {
         .then(([cache, db]) => {
             return cache.addAll([
                 'index.html',
-                '/',
-                '/src/App.js',
-                '/src/App.css'
+                '/'
             ]);
         })
     );
 });
-
+//testing
 self.addEventListener('fetch', (event) => {
     const { request } = event;
 

@@ -8,6 +8,9 @@ import { Link, useNavigate } from "react-router-dom";
 import Text from "../../../components/text/text";
 import ForgotPsw from "../../../assets/icons/Forgot Password.svg";
 import { useTranslation } from "react-i18next";
+import show from "../../../assets/icons/eye-regular.svg";
+import notShow from "../../../assets/icons/eye-slash-regular.svg";
+
 const ForgotPassword = () => {
   const { t } = useTranslation(["Translate"]);
   Amplify.configure(awsExports);
@@ -20,7 +23,10 @@ const ForgotPassword = () => {
   const [emailsent, setEmailSent] = useState(false);
   const navigate = useNavigate();
   const [isResettingPassword, setIsResettingPassword] = useState(false);
-
+  const [showPassword, setShowPassword] = useState(false);
+  const handleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
   async function getEmail(e) {
     e.preventDefault();
     console.log(username);
@@ -55,26 +61,52 @@ const ForgotPassword = () => {
     <div className="user-register-page-forgot">
       <div>
         {window.innerWidth > 901 && (
-          <img src={ForgotPsw} alt="Contact" className="login-photo-page" />
+          <>
+            {" "}
+            <div className="user-register-title-forgot">
+              <div style={{ marginBottom: "16px" }}>
+                <Text
+                  label={t("user-forgot.header")}
+                  size={"s20"}
+                  weight={"medium700"}
+                  color={"white"}
+                />
+              </div>
+              <Text
+                label={t("user-forgot.subHead")}
+                size={"s14"}
+                weight={"regular"}
+                color={"white"}
+              />
+              <div style={{ marginBottom: "16px" }}></div>
+            </div>
+            <img src={ForgotPsw} alt="Contact" className="forgot-photo-page" />
+          </>
         )}
       </div>
       <div className="users-forms">
-        <div className="user-register-title-forgot">
-          <div style={{ marginBottom: "16px" }}>
-            <Text
-              label={t("user-forgot.header")}
-              size={"s20"}
-              weight={"medium700"}
-              color={"white"}
-            />
-          </div>
-          <Text
-            label={t("user-forgot.subHead")}
-            size={"s14"}
-            weight={"regular"}
-            color={"white"}
-          />
-        </div>{" "}
+        {window.innerWidth < 900 && (
+          <>
+            {" "}
+            <div className="user-register-title-forgot">
+              <div style={{ marginBottom: "16px" }}>
+                <Text
+                  label={t("user-forgot.header")}
+                  size={"s20"}
+                  weight={"medium700"}
+                  color={"white"}
+                />
+              </div>
+              <Text
+                label={t("user-forgot.subHead")}
+                size={"s14"}
+                weight={"regular"}
+                color={"white"}
+              />
+              <div style={{ marginBottom: "16px" }}></div>
+            </div>
+          </>
+        )}{" "}
         {emailsent ? (
           <div className="form-box-register">
             <form
@@ -102,22 +134,44 @@ const ForgotPassword = () => {
               <div class="inputbox-register">
                 <input
                   placeholder={t("user-forgot.new_psw")}
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   className="register-input"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />
+                <div
+                  onClick={handleShowPassword}
+                  style={{
+                    width: "20px",
+                    position: "inherit",
+                    top: "14.5px",
+                    left: "-16px",
+                  }}
+                >
+                  {showPassword ? <img src={show} /> : <img src={notShow} />}
+                </div>
               </div>
               <div class="inputbox-register">
                 <input
                   className="register-input"
                   placeholder={t("user-forgot.confirm_psw")}
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   value={repeatpass}
                   onChange={(e) => setRepeatPass(e.target.value)}
                   required
                 />
+                <div
+                  onClick={handleShowPassword}
+                  style={{
+                    width: "20px",
+                    position: "inherit",
+                    top: "14.5px",
+                    left: "-16px",
+                  }}
+                >
+                  {showPassword ? <img src={show} /> : <img src={notShow} />}
+                </div>
               </div>
 
               <button

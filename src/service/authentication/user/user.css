@@ -468,13 +468,14 @@ button {
     justify-content: center;
     max-height: 100vh; /* Adjust the height to your needs */
     padding-bottom: 100px;
-    padding-top: 100px;
+    padding-top: 200px;
   }
   .form-box-register {
     width: 550px;
     height: auto;
     display: flex;
     flex-direction: column;
+    border-radius: 10px;
     flex: 1 1 0;
   }
 
@@ -487,8 +488,8 @@ button {
     flex: 1 1 1;
   }
 
-  .login-photo-page {
-    max-width: 400px; /* Adjust the width as needed */
+  .register-photo-page {
+    max-width: 430px; /* Adjust the width as needed */
     height: auto;
     margin-right: 20px; /* Add some spacing between the photo and the form */
   }

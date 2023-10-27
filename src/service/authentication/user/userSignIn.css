@@ -16,6 +16,14 @@
   text-align: center;
   width: 100%;
 }
+
+@media screen and (max-width: 768px) {
+  .users-forms {
+    text-align: center;
+    width: 100%;
+    margin-top: 200px;
+  }
+}
 .form-box-register-login {
   background-color: #fff;
   width: 100%;
@@ -34,7 +42,13 @@
     justify-content: center;
   }
   .users-forms {
-    width: 600px;
+    width: 500px;
+    height: auto;
+  }
+  .login-photo-page {
+    max-width: 550px; /* Adjust the width as needed */
+    height: auto;
+    margin-right: 20px;
   }
   .form-box-register-login {
     background-color: #fff;

@@ -95,8 +95,12 @@ const Navbar2 = ({
 
           <div className="lan-men">
             <div className="language-dropdown">
-              <select onChange={handleLanguageChange} value={i18n.language}>
-                <option value="en"> EN</option>
+              <select
+                onChange={handleLanguageChange}
+                value={i18n.language}
+                color={isWhiteTextRoute ? "white" : "black"}
+              >
+                <option value="en">EN</option>
                 <option value="sq"> AL</option>
               </select>
             </div>
@@ -125,11 +129,11 @@ const Navbar2 = ({
           </div>
         </div>
       </div>
-      {isWhiteTextRoute ? (
+      {/* {isWhiteTextRoute ? (
         <div
           style={{ clear: "both", height: "80px", backgroundColor: "#212121" }}
         ></div>
-      ) : null}
+      ) : null} */}
     </>
   );
 };
