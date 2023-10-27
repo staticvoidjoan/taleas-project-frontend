@@ -24,6 +24,7 @@ const ForgotPassword = () => {
   const navigate = useNavigate();
   const [isResettingPassword, setIsResettingPassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [confirmationError, setConfirmationError] = useState(null);
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -49,6 +50,9 @@ const ForgotPassword = () => {
         console.log(data);
       } catch (err) {
         console.log(err);
+        setConfirmationError(
+          "Incorrect code  does not match. Please try again."
+        );
       } finally {
         setIsResettingPassword(false); // Clear the flag after the password reset attempt
       }
@@ -186,6 +190,9 @@ const ForgotPassword = () => {
                   size={"s16"}
                 />
               </button>
+              {confirmationError && (
+                <p className="error-message">{confirmationError}</p>
+              )}
             </form>
           </div>
         ) : (

@@ -71,7 +71,7 @@ const ForgotPassword = () => {
           </>
         )}
       </div>
-      <div className="users-form" style={{ marginTop: "250px" }}>
+      <div className="users-forms">
         {window.innerWidth < 900 && (
           <>
             <div className="user-register-title">
