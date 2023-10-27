@@ -16,6 +16,7 @@ const ForgotPassword = () => {
   Amplify.configure(awsExports);
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [passwordError, setPasswordError] = useState(null);
   const [code, setCode] = useState("");
   const [password, setPassword] = useState("");
   const [repeatpass, setRepeatPass] = useState("");
@@ -51,13 +52,13 @@ const ForgotPassword = () => {
       } catch (err) {
         console.log(err);
         setConfirmationError(
-          "Incorrect code  does not match. Please try again."
+          "Incorrect code , does not match. Please check the code again."
         );
       } finally {
         setIsResettingPassword(false); // Clear the flag after the password reset attempt
       }
     } else {
-      throw new Error("Passwords do not match");
+      setPasswordError("Passwords do not match. Please check the passwords.");
     }
   }
 
@@ -135,6 +136,9 @@ const ForgotPassword = () => {
                   placeholder={t("user-forgot.code")}
                 />
               </div>
+              {confirmationError && (
+                <p className="error-message">{confirmationError}</p>
+              )}
               <div class="inputbox-register">
                 <input
                   placeholder={t("user-forgot.new_psw")}
@@ -190,8 +194,8 @@ const ForgotPassword = () => {
                   size={"s16"}
                 />
               </button>
-              {confirmationError && (
-                <p className="error-message">{confirmationError}</p>
+              {passwordError && (
+                <p className="error-message">{passwordError}</p>
               )}
             </form>
           </div>
