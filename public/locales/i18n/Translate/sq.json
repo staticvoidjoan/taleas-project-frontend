@@ -38,12 +38,12 @@
     "company": "Emri Kompanisë",
     "industry": "Industria",
     "address": "Adresa",
-    "accept": "I pranoj",
-    "terms_condition": "Terms & Conditions",
     "login": "Kycu",
     "register": "Regjistrohu",
     "haveAcc": "A keni tashmë një llogari?"
   },
+  "accept": "I pranoj",
+  "terms": "Kushtet & Termat",
 
   "user-login": {
     "header": "Connecting Dreams with Talent",
@@ -143,5 +143,6 @@
     "terms": "Kushtet e perdorimit",
     "reg_btn":"Regjistrohu",
     "log_btn":"Kycu"
-  }
+  },
+  "backtoLoginin": "Kthehu ne Login"
 }

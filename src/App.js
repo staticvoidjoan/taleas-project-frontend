@@ -77,7 +77,7 @@ function App() {
   const location = useLocation();
 
   // const { t, i18n } = useTranslation();
-
+  
   // Configure Amplify
   Amplify.configure(awsExports);
 
@@ -292,7 +292,7 @@ function App() {
           location.pathname.startsWith("/completeprofile")||
           location.pathname.startsWith("/applicant")
             ? null
-            : "abc two-column-layout"
+            : "two-column-layout"
         }
       >
         {authenticated ? (

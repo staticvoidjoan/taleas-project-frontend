@@ -1,24 +1,18 @@
-/* Style your navigation bar as fixed at the top */
 .chatNavBar {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     z-index: 100;
-    background-color: #fff; /* Adjust background color as needed */
-    /* Add other styles as needed */
+    background-color: #fff; 
   }
-  
-  /* Style the chat content to be scrollable and adjust for the keyboard */
+ 
   .chat-content {
-    padding-top: 60px; /* Adjust this value to match your navigation bar's height */
+    padding-top: 60px; 
     overflow-y: scroll;
-    height: calc(100vh - 60px); /* Adjust for your navigation bar's height */
+    height: calc(100vh - 60px); 
     transition: all 0.3s ease;
   }
-  
-  /* Adjust the chat content when the keyboard is open */
   .chat-content.keyboard-open {
-    transform: translateY(-50%); /* or any other adjustment you need */
-  }
-  
+    transform: translateY(-50%); 
+}

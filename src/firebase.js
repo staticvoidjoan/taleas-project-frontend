@@ -4,16 +4,19 @@
   } from "firebase/firestore";
 
   
-
+  // Define the Firebase configuration object
   const firebaseConfig = {
-    apiKey: "AIzaSyBB6Y-QPo4ZdSrhqTW1lTmKEYzYSAwOi60",
-    authDomain: "careercrush-2b1aa.firebaseapp.com",
-    projectId: "careercrush-2b1aa",
-    storageBucket: "careercrush-2b1aa.appspot.com",
-    messagingSenderId: "254547065330",
-    appId: "1:254547065330:web:00d40269449df39eb7936b",
-    measurementId: "G-2BX04600C8"
+    apiKey: "AIzaSyCl7F9QpwtRokqU2NqYr3lrABZjWzdVfjA",
+    authDomain: "test-20622.firebaseapp.com",
+    projectId: "test-20622",
+    storageBucket: "test-20622.appspot.com",
+    messagingSenderId: "684340633344",
+    appId: "1:684340633344:web:a22f6397a245d153e15de5",
+    measurementId: "G-J1E5BTTK98"
   };
+  
+  // Now you can use the firebaseConfig object
+  console.log(firebaseConfig);
   
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);

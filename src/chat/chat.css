@@ -42,5 +42,10 @@
       margin-right: 50px;
 
     }
+
+    .chat-container-messages{
+      width: 100%;
+    }
+ 
   
 }
