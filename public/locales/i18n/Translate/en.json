@@ -41,12 +41,12 @@
         "company": "Company Name",
         "industry": "Industry",
         "address": "Address",
-        "accept": "I accept",
-        "terms_condition": "Terms & Conditions",
         "register": "Register",
         "login": "Login",
         "haveAcc": "Already have an account?"
       },
+      "accept": "I accept",
+      "terms": "Terms & Condtitions",
 
       "user-login": {
         "header": "Connecting Dreams with Talent",
