@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import Animate from "../../animateTransition/AnimateY";
 import Trash from "../../assets/icons/TrashCan.svg";
 import Loader from "../../components/Loader/Loader";
+import Tabs from "../../components/button/tabs";
 import {useTranslation} from "react-i18next";
 
 const PostJob = () => {
@@ -178,27 +179,18 @@ const PostJob = () => {
         </div>
         <div className="post-job-body">
           <form className="job-form" onSubmit={waitforSubmit}>
-            <div className="inputbox-register">
-              {categories.length > 0 ? (
-                <select
-                  name="category"
-                  value={category}
-                  onChange={onInputChange}
-                  className="register-input"
-                  placeholder="Select a Category"
-                  required
-                >
-                  <option value="" disabled>
-                    {t("select")}
-                  </option>
-                  {categories.map((category) => (
-                    <option key={category._id} value={category._id}>
-                      {category.name}
-                    </option>
-                  ))}
-                </select>
-              ) : (
-                <p>{t("loadingCategories")}</p>
+              <div className="button-row">
+                {categories.length > 0 ? (
+                  categories.map((category) => (
+                    <Tabs
+                      buttonName={category.name}
+                      key={category._id}
+                      selected={category._id === category}
+                      onClick={() => onInputChange(category)}
+                    />
+                  ))
+                ) : (
+                  <p>{t("loadingCategories")}</p>
               )}
             </div>
             <div className="inputbox-register">
