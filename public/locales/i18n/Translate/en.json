@@ -147,5 +147,7 @@
         "terms": "Terms and Conditions",
         "reg_btn": "Register",
         "log_btn": "Login"
-      }
+      },
+
+      "backtoLoginin": "Back to Login"
 }

@@ -143,5 +143,6 @@
     "terms": "Kushtet e perdorimit",
     "reg_btn":"Regjistrohu",
     "log_btn":"Kycu"
-  }
+  },
+  "backtoLoginin": "Kthehu ne Login"
 }

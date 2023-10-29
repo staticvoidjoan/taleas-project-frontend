@@ -116,7 +116,6 @@ body{
   .two-column-layout {
       display: flex;
       justify-content: flex-start;
-      gap: 100px;
   }
 
   .sidebar {
