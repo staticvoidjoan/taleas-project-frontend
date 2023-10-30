@@ -19,7 +19,11 @@
 .app-name-center {
   display: flex;
 }
-
+.turn-back{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .turn-back:hover {
   background-color: #ffffff;
   border-radius: 50%;

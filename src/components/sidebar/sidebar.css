@@ -8,7 +8,7 @@
     flex-direction: column;
     justify-content: space-between;
     overflow-y: hidden;
-    height: 100vh;
+    max-height: 100vh;
   }
 
 
