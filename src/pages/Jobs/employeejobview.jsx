@@ -74,7 +74,7 @@ const JobProfile = ({employeeid}) => {
     console.log(reportReason);
     try {
       const response = await axios.post(
-        "https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/report-something",
+        "https://fxb8z0anl0.execute-api.eu-west-3.amazonaws.com/prod/report-something/user-report",
         {
           reportedBy: employeeid,
           userBeingReported: company._id,
