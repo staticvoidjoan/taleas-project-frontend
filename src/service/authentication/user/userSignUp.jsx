@@ -367,12 +367,12 @@ function RegistrationForm() {
                     <div className="terms-text">
                       <div style={{ marginRight: "5px" }}>
                         <Text
-                          label={t("user-register.accept")}
+                          label={t("accept")}
                           weight={"thin"}
                         />
                       </div>
                       <Text
-                        label={t("user-register.terms_condition")}
+                        label={t("terms")}
                         weight={"bold"}
                       />
                     </div>
@@ -507,9 +507,9 @@ function RegistrationForm() {
                     />
                     <div className="terms-text">
                       <div style={{ marginRight: "5px" }}>
-                        <Text label={"I accept"} weight={"thin"} />
+                        <Text label={t("accept")} weight={"thin"} />
                       </div>
-                      <Text label={"Terms & Conditions"} weight={"bold"} />
+                      <Text label={t("terms")} weight={"bold"} />
                     </div>
                   </div>
                   <button

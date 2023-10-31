@@ -292,7 +292,7 @@ function App() {
           location.pathname.startsWith("/completeprofile")||
           location.pathname.startsWith("/applicant")
             ? null
-            : "abc two-column-layout"
+            : "two-column-layout"
         }
       >
         {authenticated ? (

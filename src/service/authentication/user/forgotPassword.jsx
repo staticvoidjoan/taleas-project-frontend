@@ -242,7 +242,7 @@ const ForgotPassword = () => {
                   style={{ textDecoration: "none", color: "#6e46f5" }}
                 >
                   <Text
-                    label={"Back to Login"}
+                    label={t("backtoLoginin")}
                     weight={"medium700"}
                     size={"s16"}
                   />

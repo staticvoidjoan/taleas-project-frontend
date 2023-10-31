@@ -116,7 +116,6 @@ body{
   .two-column-layout {
       display: flex;
       justify-content: flex-start;
-      gap: 100px;
   }
 
   .sidebar {
@@ -127,6 +126,7 @@ body{
   .main-content {
       width: 70%; 
       padding: 20px; 
+      max-height: 100vh;
   }
   .left-button, .right-button,.like,.cancel{
     width: 55px;

@@ -153,7 +153,7 @@ const UserInfo = ({ userId }) => {
   return (
     <>
       {loading ? (
-      windowWidth > 768 ? (
+      windowWidth > 400 ? (
          <Loader />
       ) : (
        <UserInfoLoader />

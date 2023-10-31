@@ -40,7 +40,7 @@ function ChatApp({ loggedInUser, userRole }) {
   }, [loggedInUser, chatId]);
 
   return (
-    <div>
+    <div className="chat-container-messages">
       {isLoading ? (
         <Loader />
       ) : (

@@ -283,7 +283,11 @@
 
 @media (min-width: 768){
   .complete-profile-main{
-    display: flex;
-    flex-direction: row;
+    box-shadow: 0 4px 4px 0 rgba(0,0,0,.25);
+    margin-left: 140px;
+    margin-right: 140px;
+    margin-top: 40px;
+    padding: 40px;
+    width: calc(100% - 280px);
   }
 }

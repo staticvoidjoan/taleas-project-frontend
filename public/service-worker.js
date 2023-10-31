@@ -9,68 +9,63 @@ var STOP_RETRYING_AFTER = 86400000; // One day, in milliseconds
 
 // Function to open the IndexedDB database
 function openIDBDatabase() {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     // Open the database
     var indexedDBOpenRequest = indexedDB.open(IDB_DATABASE_NAME, CACHE_VERSION);
 
-    indexedDBOpenRequest.onerror = function(error) {
+    indexedDBOpenRequest.onerror = function (error) {
       reject(error);
     };
 
-    indexedDBOpenRequest.onupgradeneeded = function(event) {
+    indexedDBOpenRequest.onupgradeneeded = function (event) {
       var db = event.target.result;
       if (!db.objectStoreNames.contains(IDB_STORE_NAME)) {
         db.createObjectStore(IDB_STORE_NAME, { keyPath: 'id', autoIncrement: true });
       }
     };
 
-    indexedDBOpenRequest.onsuccess = function(event) {
+    indexedDBOpenRequest.onsuccess = function (event) {
       resolve(event.target.result);
     };
   });
 }
 
-self.addEventListener('sync', function(event) {
-  if (event.tag === 'sync-put-requests') {
-    event.waitUntil(replayPutRequests());
-  }
-});
-
-self.addEventListener('fetch', function(event) {
+self.addEventListener('fetch', function (event) {
   console.log('Handling fetch event for', event.request.url);
 
   event.respondWith(
-    caches.open(CURRENT_CACHES['offline-analytics']).then(function(cache) {
+    caches.open(CURRENT_CACHES['offline-analytics']).then(function (cache) {
+      console.log(navigator)
+      if (!navigator.onLine && (event.request.method === 'PUT' || event.request.method === 'POST')) {
+        // Always store PUT requests in IndexedDB
+        console.log('Storing PUT or POST request in IndexedDB to be replayed later.');
+        savePutRequest(event.request);
+
+        // Return a response indicating that the request has been stored for later replay
+        return new Response(null, {
+          status: 202,
+          statusText: 'Accepted'
+        });
+      }
+
       if (navigator.onLine) {
-        // If the user is online, fetch directly from the network
+        // If the user is online, fetch directly from the network for non-PUT requests
         return fetch(event.request.clone())
-          .then(function(response) {
+          .then(function (response) {
             console.log('Response for %s from the network is: %O', event.request.url, response);
             if (response.status < 400) {
               cache.put(event.request, response.clone());
             }
             return response;
           })
-          .catch(function(error) {
+          .catch(function (error) {
             console.error('Fetch failed:', error);
             // Log the error and handle it gracefully.
             // You can consider retrying the request or showing an error message to the user.
           });
       } else {
-        // If the user is offline, store PUT requests in IndexedDB for later replay
-        if (event.request.method === 'PUT') {
-          console.log('Storing PUT request in IndexedDB to be replayed later.');
-          savePutRequest(event.request);
-
-          // Return a response indicating that the request has been stored for later replay
-          return new Response(null, {
-            status: 202,
-            statusText: 'Accepted'
-          });
-        } else {
-          // If not a PUT request and offline, try to serve from the cache
-          return cache.match(event.request);
-        }
+        // If the user is offline, try to serve from the cache for non-PUT requests
+        return cache.match(event.request);
       }
     })
   );
@@ -80,11 +75,11 @@ self.addEventListener('fetch', function(event) {
 function savePutRequest(request) {
   // Clone the request to ensure it's safe to read when adding to the Queue.
   var clonedRequest = request.clone();
-  return clonedRequest.text().then(function(body) {
-    openIDBDatabase().then(function(db) {
+  return clonedRequest.text().then(function (body) {
+    openIDBDatabase().then(function (db) {
       var transaction = db.transaction([IDB_STORE_NAME], 'readwrite');
       var objectStore = transaction.objectStore(IDB_STORE_NAME);
-      var putRequest = objectStore.put({
+      var putRequest = objectStore.add({
         url: request.url,
         method: request.method,
         headers: Array.from(request.headers.entries()),
@@ -92,58 +87,72 @@ function savePutRequest(request) {
         timestamp: Date.now()
       });
 
-      putRequest.onsuccess = function() {
+      putRequest.onsuccess = function () {
         console.log('PUT request saved in IndexedDB.');
       };
 
-      putRequest.onerror = function(error) {
+      putRequest.onerror = function (error) {
         console.error('Failed to save PUT request in IndexedDB:', error);
       };
     });
   });
 }
+// Listen for the 'online' event
+navigator.connection.onchange = (e) => {
+  if (navigator.onLine) {
+    console.log("You are online");
+    self.registration.sync.register('sync-put-requests');
+  }
+};
 
-// Function to replay PUT requests
+// Listen for the 'sync' event
+self.addEventListener('sync', function(event) {
+  console.log('Inside sync' , event)
+  if (event.tag === 'sync-put-requests') {
+    // Call a function to replay the requests
+    event.waitUntil(replayPutRequests());
+  }
+});
+
+// Function to replay the requests
 function replayPutRequests() {
-  return openIDBDatabase().then(function(db) {
+  // Open the IndexedDB database and get all stored requests
+  openIDBDatabase().then(function(db) {
     var transaction = db.transaction([IDB_STORE_NAME], 'readonly');
     var objectStore = transaction.objectStore(IDB_STORE_NAME);
-    return objectStore.getAll();
-  }).then(function(storedRequests) {
-    var storedRequestPromises = storedRequests.map(function(storedRequest) {
-      var request = new Request(storedRequest.url, {
-        method: storedRequest.method,
-        headers: new Headers(storedRequest.headers),
-        body: storedRequest.body,
-        mode: 'no-cors'
+    var getAllRequest = objectStore.getAll();
+
+    getAllRequest.onsuccess = function() {
+      var storedRequests = getAllRequest.result;
+      storedRequests.forEach(function(storedRequest) {
+        // Create a new request and fetch it
+        var request = new Request(storedRequest.url, {
+          method: storedRequest.method,
+          headers: new Headers(storedRequest.headers),
+          body: storedRequest.body,
+        });
+
+        fetch(request).then(function(response) {
+          if (response.status < 400) {
+            // If the request was successful, delete it from IndexedDB
+            openIDBDatabase().then(function(db) {
+              var transaction = db.transaction([IDB_STORE_NAME], 'readwrite');
+              var objectStore = transaction.objectStore(IDB_STORE_NAME);
+              objectStore.delete(storedRequest.id);
+            });
+          }
+        }).catch(function(error) {
+          console.log('Fetch failed:', error);
+        });
       });
+    };
 
-      console.log('Sending PUT request:', request); // Log when a request is being sent
-
-      return fetch(request).then(function(response) {
-        console.log('Received response for PUT request:', response); // Log when a response is received
-
-        if (response.status < 400) {
-          // If sending the PUT request was successful, then remove it from the IndexedDB.
-          openIDBDatabase().then(function(db) {
-            var transaction = db.transaction([IDB_STORE_NAME], 'readwrite');
-            var objectStore = transaction.objectStore(IDB_STORE_NAME);
-            objectStore.delete(storedRequest.id);
-          });
-        }
-      });
-    });
-
-    return Promise.all(storedRequestPromises).catch(function(error) {
-      console.error('Failed to send PUT:', error);
-      throw error;
-    });
+    getAllRequest.onerror = function(event) {
+      console.log('Error in getAllRequest:', event.target.errorCode);
+    };
   });
 }
 
-self.addEventListener('online', function(event) {
-  self.registration.sync.register('sync-put-requests');
-});
 
 
 // var CACHE = {

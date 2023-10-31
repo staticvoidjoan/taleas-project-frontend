@@ -13,10 +13,7 @@ i18n
     },
     debug: false,
     ns: [
-      "aboutus",
-      "Translate",
-      "privacy",
-      "resend"
+      "Translate"
     ],
     fallbackLng: "en",
     interpolation: {
